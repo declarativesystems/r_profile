@@ -50,6 +50,7 @@ class r_profile::puppet::master (
   class { "hiera":
     hierarchy => [
       "nodes/%{clientcert}",
+      "roles/%{role}",
       "app_tier/%{app_tier}",
       "env/%{environment}",
       "common",
@@ -163,7 +164,7 @@ class r_profile::puppet::master (
   }
 
   # patch the puppetserver gem command
-  if $pe_server_version == "2015.2.0" or $pe_server_version == "2015.2.1" {
+  if $pe_server_version == "2015.2.0" or $pe_server_version == "2015.2.1" or $pe_server_version == "2015.2.2"{
     $file_to_patch = "/opt/puppetlabs/server/apps/puppetserver/cli/apps/gem"
     $patch_pe_gem = true
   } elsif $puppetversion =~ /3.8.* \(Puppet Enterprise/ {
@@ -184,4 +185,6 @@ class r_profile::puppet::master (
       line   => $line,
     }
   }
+
+  include r_profile::puppet::agent_installers 
 }
