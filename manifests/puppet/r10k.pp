@@ -37,7 +37,7 @@ class r_profile::puppet::r10k (
   $mco_user               = hiera("r_profile::puppet::r10k::mco_user", false),
   $mco_service            = $r_profile::puppet::params::mco_service,
   $generate_r10k_mco_cert = hiera("r_profile::puppet::r10k::generate_mco_cert", $::generate_r10k_mco_cert)
-) inherits ::profiles::puppet::params {
+) inherits r_profile::puppet::params {
 
   if $remote == undef {
     fail("You must define r_profile::puppet::r10k::remote in hiera or pass $remote to class r_profile::puppet:r10k")
