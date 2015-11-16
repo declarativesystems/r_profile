@@ -1,0 +1,14 @@
+{
+  "name": "geoffwilliams-r_profile",
+  "version": "0.1.0",
+  "author": "geoffwilliams",
+  "summary": "Ready to use Puppet Profile classes",
+  "license": "Apache-2.0",
+  "source": "https://github.com/GeoffWilliams/r_profile",
+  "project_page": "https://github.com/GeoffWilliams/r_profile",
+  "issues_url": "https://github.com/GeoffWilliams/r_profile/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+
