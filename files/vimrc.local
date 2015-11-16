@@ -1,0 +1,6 @@
+set tabstop=4
+set shiftwidth=4
+set expandtab
+autocmd Filetype puppet setlocal ts=2 sw=2 expandtab
+autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
+
