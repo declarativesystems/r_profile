@@ -39,7 +39,7 @@ class r_profile::apt(
 
       $os = downcase($operatingsystem)
       $location = hiera(
-        "profiles::apt::${os}::location", 
+        "r_profile::apt::${os}::location", 
         $default_location
       )
 
