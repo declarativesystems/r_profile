@@ -71,8 +71,8 @@ class r_profile::apt(
     if $auto_update { 
       cron { "apt_auto_update":
         ensure      => present,
-        command     => "apt-get update && apt-get upgrade -y"
-        user        => "root"
+        command     => "apt-get update && apt-get upgrade -y",
+        user        => "root",
         environment => "PATH=/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin",
         hour        => $update_hour,
         minute      => $update_minute,
