@@ -1,8 +1,8 @@
 class r_profile::apt(
     $include_src      = true,
     $auto_update      = true,
-    $update_hour      = fqdn(23),
-    $update_minute    = fqdn(59),
+    $update_hour      = fqdn_rand(23),
+    $update_minute    = fqdn_rand(59),
     $update_month     = "*",
     $update_monthday  = "*",
     $update_weekday   = "*",
