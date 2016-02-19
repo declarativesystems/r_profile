@@ -65,4 +65,12 @@ class r_profile::puppet::params {
   $db_backup_month        = "*"
   $db_backup_monthday     = "*"
   $db_backup_weekday      = "*"
+
+  $hierarchy_default      = [
+    "nodes/%{clientcert}",
+    "roles/%{role}",
+    "app_tier/%{app_tier}",
+    "env/%{environment}",
+    "common",
+  ]
 }

@@ -26,6 +26,7 @@ class r_profile::puppet::master (
     $environmentpath              = $r_profile::puppet::params::environmentpath,
     $puppetconf                   = $r_profile::puppet::params::puppetconf,
     $export_variable              = $r_profile::puppet::params::export_variable,
+    $hierarchy                    = $r_profile::puppet::params::hierarchy_default,
 ) inherits r_profile::puppet::params {
 
   validate_bool($hiera_eyaml)
@@ -48,13 +49,7 @@ class r_profile::puppet::master (
   }
 
   class { "hiera":
-    hierarchy => [
-      "nodes/%{clientcert}",
-      "roles/%{role}",
-      "app_tier/%{app_tier}",
-      "env/%{environment}",
-      "common",
-    ],
+    hierarchy       => $hierarchy,
     datadir         => $r_profile::puppet::params::hieradir,
     backends        => $backends,
     eyaml           => $hiera_eyaml,
