@@ -1,5 +1,11 @@
 class r_profile::apt(
-    $include_src = true,
+    $include_src      = true,
+    $auto_update      = true,
+    $update_hour      = fqdn_rand(23),
+    $update_minute    = fqdn_rand(59),
+    $update_month     = "*",
+    $update_monthday  = "*",
+    $update_weekday   = "*",
 ) {
   if $os["family"] == "Debian" {
     class { "apt":
@@ -39,7 +45,7 @@ class r_profile::apt(
 
       $os = downcase($operatingsystem)
       $location = hiera(
-        "profiles::apt::${os}::location", 
+        "r_profile::apt::${os}::location", 
         $default_location
       )
 
@@ -61,6 +67,21 @@ class r_profile::apt(
         include_src => $include_src,
       }
     }
+
+    if $auto_update { 
+      cron { "apt_auto_update":
+        ensure      => present,
+        command     => "apt-get update && apt-get upgrade -y",
+        user        => "root",
+        environment => "PATH=/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin",
+        hour        => $update_hour,
+        minute      => $update_minute,
+        month       => $update_month,
+        monthday    => $update_monthday,
+        weekday     => $update_weekday,
+      }
+    }
+  
   }
 }
 

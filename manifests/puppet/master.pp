@@ -83,15 +83,6 @@ class r_profile::puppet::master (
     Service["pe-puppetserver"],
   ]
 
-  # git revision in catalogue
-  file { "/usr/local/bin/puppet_git_revision.sh":
-    ensure  => file,
-    owner   => "root",
-    group   => "root",
-    mode    => "0755",
-    content => template("${module_name}/puppet_git_revision.sh.erb"),
-  }
-
   # data binding terminus explicit
   ini_setting { "puppet.conf data_binding_terminus":
     ensure  => present,
