@@ -150,14 +150,14 @@ class r_profile::puppet::master (
   }
 
   # patch the puppetserver gem command
-  if $pe_server_version == "2015.2.0" or $pe_server_version == "2015.2.1" or $pe_server_version == "2015.2.2"{
+  if $pe_server_version =~ /2015/ or $pe_server_version =~ /2016.[01]/ {
     $file_to_patch = "/opt/puppetlabs/server/apps/puppetserver/cli/apps/gem"
     $patch_pe_gem = true
   } elsif $puppetversion =~ /3.8.* \(Puppet Enterprise/ {
     $file_to_patch = "/opt/puppet/share/puppetserver/cli/apps/gem"
     $patch_pe_gem = true
   } else {
-    notify { "this version of Puppet Enterprise might not need puppetserver gem to be patched, please check for a newer version of this module at https://github.com/GeoffWilliams/r10k-control/ and raise an issue if there isn't one": }
+    notify { "this version of Puppet Enterprise might not need puppetserver gem to be patched, please check for a newer version of this module at https://github.com/GeoffWilliams/r_profile/ and raise an issue if there isn't one": }
     $patch_pe_gem = false
   }
   $line = "-Dhttps.proxyHost=${proxy_host} -Dhttp.proxyHost=${proxy_host} -Dhttp.proxyPort=${proxy_port} -Dhttps.proxyPort=${proxy_port} \\"
