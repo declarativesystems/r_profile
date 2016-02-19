@@ -27,6 +27,7 @@ class r_profile::puppet::master (
     $puppetconf                   = $r_profile::puppet::params::puppetconf,
     $export_variable              = $r_profile::puppet::params::export_variable,
     $hierarchy                    = $r_profile::puppet::params::hierarchy_default,
+    $hieradir                     = $r_profile::puppet::params::hieradir,
 ) inherits r_profile::puppet::params {
 
   validate_bool($hiera_eyaml)
@@ -50,7 +51,7 @@ class r_profile::puppet::master (
 
   class { "hiera":
     hierarchy       => $hierarchy,
-    datadir         => $r_profile::puppet::params::hieradir,
+    datadir         => $hieradir,
     backends        => $backends,
     eyaml           => $hiera_eyaml,
     owner           => "pe-puppet",
