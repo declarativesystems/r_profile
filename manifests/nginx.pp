@@ -18,7 +18,8 @@ class r_profile::nginx {
   } 
 
   file { $www_root:
-    ensure => directory,
+    ensure  => directory,
+    require => Class["::nginx"],
   }
 
   #  nginx::resource::upstream { 'lsdserver':
