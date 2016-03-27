@@ -1,7 +1,7 @@
 class r_profile::nginx {
   class { "::nginx": }
 
-  $www_root = "/var/www/nginx-default"
+  $www_root = "/var/nginx/nginx-default"
 
   #
   # Default virtual host
