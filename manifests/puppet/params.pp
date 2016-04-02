@@ -83,7 +83,7 @@ class r_profile::puppet::params {
     # repo that will inadvertantly change or remove settings we need to exist
     #
     # final file location: /etc/puppetlabs/code/system.yaml
-    $hierarchy_default = concat($hierarchy_base, "../../../system.yaml")
+    $hierarchy_default = concat($hierarchy_base, "../../../system")
 
   } else {
     $hierarchy_default = $hierarchy_base
