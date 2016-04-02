@@ -51,6 +51,7 @@ class r_profile::puppet::master (
 
   class { "hiera":
     hierarchy       => $hierarchy,
+    confdir         => "/etc/puppetlabs/code",
     datadir         => $hieradir,
     backends        => $backends,
     eyaml           => $hiera_eyaml,
