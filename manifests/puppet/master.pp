@@ -98,6 +98,7 @@ class r_profile::puppet::master (
   # Proxy server monkey patching
   #
   if $proxy {
+    $proxy_ensure = present
     $regexp = 'https?://(.*?@)?([^:]+):(\d+)'
     $proxy_host = regsubst($proxy, $regexp, '\2')
     $proxy_port = regsubst($proxy, $regexp, '\3')
@@ -110,6 +111,7 @@ class r_profile::puppet::master (
       $https_proxy_var  = "https_proxy=${proxy}"
     }
   } else {
+    $proxy_ensure = absent
     # nasty hack - we MUST have two different space permuations here or 
     # file_line will only remove a single entry as it has already matched 
     $http_proxy_var  = " "
