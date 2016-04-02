@@ -56,7 +56,7 @@ class r_profile::puppet::master (
     eyaml           => $hiera_eyaml,
     owner           => "pe-puppet",
     group           => "pe-puppet",
-    provider        => "pe_puppetserver_gem",
+    provider        => "puppetserver_gem",
     eyaml_extension => "yaml",
     notify          => Service["pe-puppetserver"],
   }
