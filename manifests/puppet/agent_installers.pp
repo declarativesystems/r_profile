@@ -17,8 +17,6 @@ class r_profile::puppet::agent_installers(
       include pe_repo::platform::solaris_11_i386
       include pe_repo::platform::solaris_11_sparc
     }
-    include pe_repo::platform::debian_6_amd64
-    include pe_repo::platform::debian_6_i386
     include pe_repo::platform::debian_7_amd64
     include pe_repo::platform::debian_7_i386
     include pe_repo::platform::debian_8_amd64
@@ -28,11 +26,10 @@ class r_profile::puppet::agent_installers(
     include pe_repo::platform::el_6_i386
     include pe_repo::platform::el_6_x86_64
     include pe_repo::platform::el_7_x86_64
-    include pe_repo::platform::fedora_21_i386
-    include pe_repo::platform::fedora_21_x86_64
-    # Fedora 22 doesn't seem to exist yet
-    #include pe_repo::platform::fedora_22_i386
-    #include pe_repo::platform::fedora_22_x86_64
+    include pe_repo::platform::fedora_22_i386
+    include pe_repo::platform::fedora_22_x86_64
+    include pe_repo::platform::fedora_23_i386
+    include pe_repo::platform::fedora_23_x86_64
     include pe_repo::platform::osx_1010_x86_64
     include pe_repo::platform::osx_109_x86_64
     include pe_repo::platform::sles_10_i386
@@ -46,8 +43,10 @@ class r_profile::puppet::agent_installers(
     include pe_repo::platform::ubuntu_1204_i386
     include pe_repo::platform::ubuntu_1404_amd64
     include pe_repo::platform::ubuntu_1404_i386
-    include pe_repo::platform::ubuntu_1504_amd64
-    include pe_repo::platform::ubuntu_1504_i386
+    include pe_repo::platform::ubuntu_1510_amd64
+    include pe_repo::platform::ubuntu_1510_i386
+    include pe_repo::platform::ubuntu_1604_amd64
+    include pe_repo::platform::ubuntu_1604_i386
     include pe_repo::platform::windows_i386
     include pe_repo::platform::windows_x86_64
   }

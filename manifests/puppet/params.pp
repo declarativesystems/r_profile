@@ -50,7 +50,7 @@ class r_profile::puppet::params {
 
   $sysconf_puppetserver   = "${sysconf_dir}/pe-puppetserver"
   $sysconf_puppet         = "${sysconf_dir}/${puppet_agent_service}"
-  $hieradir               = "${_codedir}/environments/%{::environment}/hieradata"
+  $hieradir               = "${_codedir}/environments/%{environment}/hieradata"
   $basemodulepath         = "${::settings::confdir}/modules:/opt/puppetlabs/puppet/modules"
   $environmentpath        = "${_codedir}/environments"
   $git_config_file        = "/root/.gitconfig"
