@@ -6,12 +6,13 @@
 # *inline_template*
 #   string to be processed as an inline template for the MOTD
 class r_profile::motd(
-    $template         = hiera("r_profile::motd::template", undef),
-    $inline_template  = hiera("r_profile::motd::inline_template", ""),
+    $template = hiera("r_profile::motd::template", undef),
+    $content  = hiera("r_profile::motd::content", undef),
 ) {
 
   class { "::motd": 
-    template        => $template,
-    inline_template => $inline_template,
+    template      => $template,
+    content       => $content,
+    dynamic_motd  => true,
   }
 }
