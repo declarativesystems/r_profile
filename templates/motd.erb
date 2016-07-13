@@ -8,4 +8,4 @@ Processor: <%= @processorcount %>x <%= @processor0 %>
 Kernel:    <%= @kernelrelease %>
 Memory:    <%= @memorysize %>
 Uptime:    <%= @system_uptime["uptime"] %>
-Load Avg:  <%= @load_averages["1m"] @load_averages["5m"] @load_averages["15m"] %>
+Load Avg:  <%= @load_averages["1m"] %> <%= @load_averages["5m"] %> <%= @load_averages["15m"] %>
