@@ -1,7 +1,7 @@
 class r_profile::iis(
-  $website_owner  = hiera('profile::iis::website_owner', "IUSR_${hostname}"),
-  $website_group  = hiera('profile::iis::website_group', 'Administrators'),
-  $website_hash   = hiera('profile::web_services::iis::website_hash')
+  $website_owner  = hiera('r_profile::iis::website_owner', "IUSR_${hostname}"),
+  $website_group  = hiera('r_profile::iis::website_group', 'Administrators'),
+  $website_hash   = hiera('r_profile::iis::website_hash', {})
 ) {
 
   File {
