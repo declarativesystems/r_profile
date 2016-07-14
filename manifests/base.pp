@@ -8,5 +8,5 @@ class r_profile::base {
   include r_profile::sudo
   include r_profile::apt
   include r_profile::ntp
-  include "r_profile::base_${downcase(kernel}"
+  include "r_profile::base_${downcase($kernel)}"
 }
