@@ -22,11 +22,17 @@ class r_profile::puppet::agent(
       mode   => "0644",
     }
 
-    # restart agent service if any file_line resources change it
-    File_line <| path == $sysconf_puppet |> ~>  [ 
-      Exec["systemctl_daemon_reload"],
-      Service[$puppet_agent_service],
-    ]
+    # restart agent service if any file_line resources change it.  On linux
+    # systems we also need to tell systemctl to reload itself
+    if $kernel == "windows" {
+      $puppet_agent_notifications = Service[$puppet_agent_service]
+    } else {
+      $puppet_agent_notifications = [
+        Exec["systemctl_daemon_reload"],
+        Service[$puppet_agent_service],
+      ]
+    }
+    File_line <| path == $sysconf_puppet |> ~> $puppet_agent_notifications
 
     #
     # Proxy server monkey patching
