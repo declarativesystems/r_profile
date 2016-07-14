@@ -30,6 +30,9 @@ class r_profile::puppet::params {
       $sysconf_dir      = "/lib/svc/method"
       $export_variable  = true
     }
+    "windows": {
+      # no action needed
+    }
     default: {
       notify { "Unsupported osfamily ${::osfamily} in profiles::puppet::params": }
     }
