@@ -23,20 +23,24 @@ class r_profile::users(
         mode   => "0700",
       }
 
-      # Add the user to sudo and adm groups if required
-      $groups.each | $group | {
-        augeas { "${user}_${group}_groups":
-          context => "/files/etc/group/${group}",
-          changes => "set user[last()] ${user}",
-          onlyif  => "match user not_include ${user}",
+      if $kernel != "windows" {
+        # Add the user to sudo and adm groups if required
+        $groups.each | $group | {
+          augeas { "${user}_${group}_groups":
+            context => "/files/etc/group/${group}",
+            changes => "set user[last()] ${user}",
+            onlyif  => "match user not_include ${user}",
+          }
         }
-      }
 
-      # copy in skeleton files, setup nice prompt, etc
-      bash_user_skel { $user: }
+        # copy in skeleton files, setup nice prompt, etc
+        bash_user_skel { $user: }
+      }
     }
   }
 
-  # standardise the root user's login environment
-  bash_user_skel { "root": }
+  # standardise the root user's login environment on non-windows systems
+  if $kernel != "windows" {
+    bash_user_skel { "root": }
+  }
 }
