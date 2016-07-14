@@ -1,4 +1,4 @@
-class profile::iis(
+class r_profile::iis(
   $website_owner  = hiera('profile::iis::website_owner', "IUSR_${hostname}"),
   $website_group  = hiera('profile::iis::website_group', 'Administrators'),
   $website_hash   = hiera('profile::web_services::iis::website_hash')
