@@ -22,14 +22,14 @@ class r_profile::puppet::agent(
         ensure => $proxy,
         type   => "string",
         data   => $proxy,
-        key    => 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\http_proxy',
+        name   => 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\http_proxy',
       }
       
       registry_value { 'https_proxy':
         ensure => $proxy,
         type   => "string",
         data   => $proxy,
-        key    => 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\https_proxy',
+        name   => 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\https_proxy',
       }
       
       reboot { "after_proxy_set":
