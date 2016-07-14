@@ -8,6 +8,12 @@ class r_profile::puppet::agent(
 
   # Docker containers should not ordinarily run puppet
   if $virtual != "docker" {
+    $proxy_ensure = $proxy ? {
+      true  => present,
+      false => absent,
+    }
+
+
     # register the service so we can restart it if needed
     # PE-11353 means we may not need this forever
     service { $puppet_agent_service:
@@ -19,14 +25,14 @@ class r_profile::puppet::agent(
       $puppet_agent_notifications = Service[$puppet_agent_service]
  
       registry_value { 'http_proxy':
-        ensure => $proxy,
+        ensure => $proxy_ensure,
         type   => "string",
         data   => $proxy,
         name   => 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\http_proxy',
       }
       
       registry_value { 'https_proxy':
-        ensure => $proxy,
+        ensure => $proxy_ensure,
         type   => "string",
         data   => $proxy,
         name   => 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\https_proxy',
