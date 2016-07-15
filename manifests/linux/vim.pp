@@ -1,5 +1,5 @@
 # Setup a nice version of vim
-class r_profile::vim {
+class r_profile::linux::vim {
   class { 'vim': }
 
   # install extra bells and whistles for debian
