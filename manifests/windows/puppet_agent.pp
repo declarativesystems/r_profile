@@ -1,8 +1,8 @@
 class r_profile::windows::puppet_agent(
     $puppet_path          = hiera("r_profile::windows::puppet_agent::puppet_path", 'c:/Program Files/PuppetLabs/puppet/bin'),
     $proxy                = hiera("r_profile::puppet::proxy", false),
-    $puppet_agent_service = $::r_profile::puppet::params::puppet_agent_service,
-) inherits $::r_profile::puppet::params {
+    $puppet_agent_service = $r_profile::puppet::params::puppet_agent_service,
+) inherits r_profile::puppet::params {
   #package { "ConEmu":
   #  ensure => present,
   #}
