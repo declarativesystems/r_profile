@@ -1,4 +1,4 @@
-class r_profile::notepad_plus_plus {
+class r_profile::windows::notepad_plus_plus {
   package { "notepadplusplus":
     ensure => present,
   }
