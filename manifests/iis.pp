@@ -28,6 +28,11 @@ class r_profile::iis(
   ]
   include ::iis
 
+  Iis::Manage_app_pool {
+    enable_32_bit           => true,
+    managed_runtime_version => 'v4.0',
+  }
+
   # disable default website
   iis::manage_site { 'Default Web Site':
     ensure    => $ensure_default,
@@ -43,8 +48,7 @@ class r_profile::iis(
     $_docroot = "C:\\inetpub\\wwwroot\\${website['docroot']}"
 
     iis::manage_app_pool { $site_name:
-      enable_32_bit           => true,
-      managed_runtime_version => 'v4.0',
+      ensure => present,
     }
 
     iis::manage_site { $site_name:
