@@ -11,8 +11,8 @@ class r_profile::iis(
   }
 
   dsc_windowsfeature {'featureexample':
-    dsc_ensure  => 'present'
-    dsc_name    => 'Web-Server'
+    dsc_ensure  => present,
+    dsc_name    => 'Web-Server',
   }
 
   $default_acl = [
