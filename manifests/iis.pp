@@ -10,9 +10,48 @@ class r_profile::iis(
     group => $website_group,    
   }
 
-  dsc_windowsfeature {'featureexample':
+case $::kernelmajversion {
+  '6.0','6.1': {
+    $feature_name = [
+      'Web-Server',
+      'Web-WebServer',
+      'Web-Asp-Net',
+      'Web-ISAPI-Ext',
+      'Web-ISAPI-Filter',
+      'NET-Framework',
+      'WAS-NET-Environment',
+      'Web-Http-Redirect',
+      'Web-Filtering',
+      'Web-Mgmt-Console',
+      'Web-Mgmt-Tools'
+    ]
+  }
+  '6.2.','6.3': {
+    $feature_name = [
+      'Web-Server',
+      'Web-WebServer',
+      'Web-Common-Http',
+      'Web-Asp',
+      'Web-Asp-Net45',
+      'Web-ISAPI-Ext',
+      'Web-ISAPI-Filter',
+      'Web-Http-Redirect',
+      'Web-Health',
+      'Web-Http-Logging',
+      'Web-Filtering',
+      'Web-Mgmt-Console',
+      'Web-Mgmt-Tools'
+      ]
+  }
+  default: {
+    fail("You must be running a 19th centery version of Windows")
+  }
+}
+
+
+  dsc_windowsfeature {'iis_windows_features':
     dsc_ensure  => present,
-    dsc_name    => 'Web-Server',
+    dsc_name    => $feature_name,
   }
 
   $default_acl = [
