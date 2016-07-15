@@ -1,7 +1,7 @@
-lass r_profile::iis(
+class r_profile::iis(
   $website_owner  = hiera('r_profile::iis::website_owner', "IUSR_${hostname}"),
   $website_group  = hiera('r_profile::iis::website_group', 'Administrators'),
-  $website_hash   = hiera('r_profile::iis::website_hash', {})
+  $website_hash   = hiera('r_profile::iis::website_hash', {}),
 ) {
 
   File {
