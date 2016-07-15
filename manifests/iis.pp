@@ -49,7 +49,7 @@ case $::kernelmajversion {
 }
 
 
-  dsc_windowsfeature { $feature_name
+  dsc_windowsfeature { $feature_name:
     dsc_ensure  => present,
 #    dsc_name    => $feature_name,
   }
