@@ -6,7 +6,19 @@ class r_profile::windows::puppet_agent(
   #package { "ConEmu":
   #  ensure => present,
   #}
-    
+
+  if $proxy {
+    $proxy_ensure = present
+  } else {
+    $proxy_ensure = absent
+  }
+   
+  if $puppet_path {
+    $puppet_path_ensure = present
+  } else {
+    $puppet_path_ensure = absent
+  }
+
   service { $puppet_agent_service:
     ensure => running,
     enable => true,
@@ -14,10 +26,11 @@ class r_profile::windows::puppet_agent(
 
   # puppet binaries in path
   windows_env { 'puppet_path':
-    ensure    => $puppet_path,
+    ensure    => $puppet_path_ensure,
     value     => $puppet_path,
     mergemode => insert,
     variable  => "Path",
+    notify    => Reboot["puppet_reboot"],
   }
 
 
@@ -25,17 +38,12 @@ class r_profile::windows::puppet_agent(
   # proxy support
   # 
   windows_env { [ 'http_proxy', 'https_proxy' ]:
-    ensure    => $proxy,
+    ensure    => $proxy_ensure,
     value     => $proxy,
     mergemode => clobber,
+    notify    => Reboot["puppet_reboot"],
   }
 
   # reboot instance for all code to use
-  reboot { "puppet_reboot":
-    subscribe => [
-      Windows_env["http_proxy"],
-      Windows_env["https_proxy"],
-      Windows_env["puppet_path"],
-    ],
-  }
+  reboot { "puppet_reboot": }
 }

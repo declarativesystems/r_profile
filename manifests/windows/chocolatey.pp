@@ -6,12 +6,16 @@ class r_profile::windows::chocolatey(
     $chocolatey_path  = hiera("r_profile::windows::chocolatey::path", "c:/ProgramData/chocolatey") 
 ) {
 
+  if $chocolatey_path {
+    $chocolatey_path_ensure = present
+  } else {
+    $chocolatey_path_ensure = absent
+  }
+
+
   # puppet binaries in path
   windows_env { 'chocolatey_path':
-    ensure    => $chocolatey_path ? {
-      true  => present,
-      false => absent,
-    },
+    ensure    => $chocolatey_path_ensure,
     value     => $chocolatey_path,
     mergemode => insert,
     variable  => "Path",
