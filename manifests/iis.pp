@@ -49,9 +49,9 @@ case $::kernelmajversion {
 }
 
 
-  dsc_windowsfeature {'iis_windows_features':
+  dsc_windowsfeature { $feature_name
     dsc_ensure  => present,
-    dsc_name    => $feature_name,
+#    dsc_name    => $feature_name,
   }
 
   $default_acl = [
