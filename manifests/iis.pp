@@ -2,6 +2,7 @@ class r_profile::iis(
   $website_owner  = hiera('r_profile::iis::website_owner', "IUSR_${hostname}"),
   $website_group  = hiera('r_profile::iis::website_group', 'Administrators'),
   $website_hash   = hiera('r_profile::iis::website_hash', {}),
+  $ensure_default = hiera('r_profile::iss::ensure_default', present),
 ) {
 
   File {
@@ -29,13 +30,13 @@ class r_profile::iis(
 
   # disable default website
   iis::manage_site { 'Default Web Site':
-    ensure    => absent,
+    ensure    => $ensure_default,
     site_path => 'C:\inetpub\wwwroot',
     app_pool  => 'Default Web Site',
   }
 
   iis::manage_app_pool { 'Default Web Site':
-    ensure => absent,
+    ensure => $ensure_default,
   }
 
   $website_hash.each |String $site_name, Hash $website| {
