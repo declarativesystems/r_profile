@@ -8,7 +8,10 @@ class r_profile::windows::chocolatey(
 
   # puppet binaries in path
   windows_env { 'chocolatey_path':
-    ensure    => $chocolatey_path,
+    ensure    => $chocolatey_path ? {
+      true  => present,
+      false => absent,
+    },
     value     => $chocolatey_path,
     mergemode => insert,
     variable  => "Path",
