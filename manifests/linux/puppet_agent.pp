@@ -1,5 +1,5 @@
 # setup a puppet agent (currently just fixes proxy settings...)
-class r_profile::puppet::puppet_agent(
+class r_profile::linux::puppet_agent(
     $proxy                        = hiera("r_profile::puppet::proxy", false),
     $sysconf_puppet               = $::r_profile::puppet::params::sysconf_puppet,
     $export_variable              = $::r_profile::puppet::params::export_variable,
