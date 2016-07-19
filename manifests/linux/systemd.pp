@@ -1,4 +1,4 @@
-class r_profile::systemd {
+class r_profile::linux::systemd {
 
   # Provide a graph node that we can notify to get systemd to reload itself.  
   # If this is not a systemd controlled system, we simply run the true command

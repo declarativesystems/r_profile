@@ -1,4 +1,4 @@
-class r_profile::sudo {
+class r_profile::linux::sudo {
   class { 'sudo': }
 
   group { ["sudo", "admins"]:
