@@ -50,7 +50,11 @@ class r_profile::linux::puppet_agent(
         $http_proxy_var   = "http_proxy=${proxy}"
         $https_proxy_var  = "https_proxy=${proxy}"
       }
-    }
+    } else {
+      # remove any existing proxy info
+      $http_proxy_var   = "http_proxy="
+      $https_proxy_var  = "https_proxy="
+    } 
 
     file_line { "puppet agent http_proxy":
       ensure => $proxy_ensure,
