@@ -8,11 +8,11 @@ class r_profile::linux::puppet_agent(
 
   # Docker containers should not ordinarily run puppet
   if $virtual != "docker" {
-    $proxy_ensure = $proxy ? {
-      true  => present,
-      false => absent,
+    if $proxy {
+      $proxy_ensure = present
+    } else {
+      $proxy_ensure = absent
     }
-
 
     # register the service so we can restart it if needed
     # PE-11353 means we may not need this forever
@@ -53,14 +53,14 @@ class r_profile::linux::puppet_agent(
     }
 
     file_line { "puppet agent http_proxy":
-      ensure => $proxy,
+      ensure => $proxy_ensure,
       path   => $sysconf_puppet,
       line   => $http_proxy_var,
       match  => "http_proxy=",
     }
 
     file_line { "puppet agent https_proxy":
-      ensure => $proxy,
+      ensure => $proxy_ensure,
       path   => $sysconf_puppet,
       line   => $https_proxy_var,
       match  => "https_proxy=",
