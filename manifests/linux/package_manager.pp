@@ -6,8 +6,8 @@ class r_profile::linux::package_manager {
     "Debian": {
       include r_profile::linux::apt
     }
-    default {
-      notify { "No support for setting up package manager on ${osfamily}"
+    default: {
+      notify { "No support for setting up package manager on ${osfamily}": }
     }
   }
 
