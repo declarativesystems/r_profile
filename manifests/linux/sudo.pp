@@ -10,6 +10,11 @@ class r_profile::linux::sudo {
       priority => 10,
       content  => "%vagrant ALL=(ALL) NOPASSWD: ALL",
     }
+
+    user { "vagrant":
+      ensure => present,
+      groups => "vagrant",
+    }
   }
 
   sudo::conf { 'admins':
