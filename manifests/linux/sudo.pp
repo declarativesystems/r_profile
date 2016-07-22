@@ -12,8 +12,9 @@ class r_profile::linux::sudo {
     }
 
     user { "vagrant":
-      ensure => present,
-      groups => "vagrant",
+      ensure      => present,
+      gid         => "vagrant",
+      membership  => inclusive,
     }
   }
 
