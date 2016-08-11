@@ -30,6 +30,9 @@ class r_profile::puppet::agent_installers(
     include pe_repo::platform::fedora_22_x86_64
     include pe_repo::platform::fedora_23_i386
     include pe_repo::platform::fedora_23_x86_64
+    include pe_repo::platform::fedora_24_i386
+    include pe_repo::platform::fedora_24_x86_64
+    include pe_repo::platform::osx_1011_x86_64
     include pe_repo::platform::osx_1010_x86_64
     include pe_repo::platform::osx_109_x86_64
     include pe_repo::platform::sles_10_i386
@@ -43,8 +46,6 @@ class r_profile::puppet::agent_installers(
     include pe_repo::platform::ubuntu_1204_i386
     include pe_repo::platform::ubuntu_1404_amd64
     include pe_repo::platform::ubuntu_1404_i386
-    include pe_repo::platform::ubuntu_1510_amd64
-    include pe_repo::platform::ubuntu_1510_i386
     include pe_repo::platform::ubuntu_1604_amd64
     include pe_repo::platform::ubuntu_1604_i386
     include pe_repo::platform::windows_i386
