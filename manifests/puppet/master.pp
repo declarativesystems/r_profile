@@ -153,8 +153,8 @@ class r_profile::puppet::master (
     match  => "https_proxy=",
   }
 
-  # patch the puppetserver gem command
-  if $pe_server_version =~ /2015/ or $pe_server_version =~ /2016.[01]/ {
+  # patch the puppetserver gem command for SERVER-377
+  if $pe_server_version =~ /2015/ or $pe_server_version =~ /2016.[0124]/ {
     $file_to_patch = "/opt/puppetlabs/server/apps/puppetserver/cli/apps/gem"
     $patch_pe_gem = true
   } elsif $puppetversion =~ /3.8.* \(Puppet Enterprise/ {
