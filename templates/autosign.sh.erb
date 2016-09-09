@@ -8,7 +8,8 @@ CERT_NAME=$1
 # feed STDIN (file descriptor 0) to the openssl command and pipe
 # the output to grep to get the sharedSecret supplied by the agent
 # capturing the value in a variable called AGENT_SECRET
-AGENT_SECRET=$(openssl req -noout -text <&0 | awk -F ":" '/challenge_password/ { gsub(/\n$/, "", $2) ; print $2 }')
+# See https://docs.puppet.com/puppet/latest/reference/ssl_attributes_extensions.html#recommended-oids-for-attributes
+AGENT_SECRET=$(openssl req -noout -text <&0 | awk -F ":" '/challengePassword/ { gsub(/\n$/, "", $2) ; print $2 }')
 
 if [ "$AGENT_SECRET" == "$SHARED_SECRET" ] ; then
     STATUS=0
