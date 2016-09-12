@@ -87,7 +87,7 @@ class r_profile::geoserver(
 
   # initial copy into GEOSERVER_DATA_DIR if needed
   exec { "geoserver_data_initial":
-    command     => "cp ${install_path}/data/* ${data_dir} -r && chown ${user}.${group} ${install_path} -R",
+    command     => "cp ${install_path}/data/* ${data_dir} -r && chown ${user}.${group} ${data_dir} -R",
     notify      => Tomcat::Service[$r_profile::tomcat::service],
     path        => [ '/usr/bin', '/bin'],
     creates     => "${data_dir}/global.xml",
