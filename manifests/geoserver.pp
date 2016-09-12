@@ -14,11 +14,12 @@ class r_profile::geoserver(
   $war_file       = 'geoserver.war'
   $war_path       = "${unpack_dir}/${war_file}"
   $geoserver_dir  = '/var/lib/geoserver'
+  $war_installed  = "${install_path}/META-INF/MANIFEST.MF"
   $data_dir       = "${geoserver_dir}/data"
   $gwc_dir        = "${geoserver_dir}/gwc"
   $user           = $r_profile::tomcat::user
   $group          = $r_profile::tomcat::group
-
+  
 
   file { [ $install_path, $archive_dir, $unpack_dir ]:
     ensure  => directory,
@@ -52,7 +53,7 @@ class r_profile::geoserver(
     path         => $war_path,
     extract      => true,
     extract_path => $install_path,
-    creates      => "${install_path}/META-INF/MANIFEST.MF",
+    creates      => $war_installed,
     cleanup      => false,
     notify       => Tomcat::Service[$r_profile::tomcat::service],
   }
@@ -60,8 +61,8 @@ class r_profile::geoserver(
   # Delete any existing deployed geoserver
   exec { 'redeploy_geoserver':
     refreshonly => true,
-    command     => "rm -rf ${install_path}",
-    onlyif      => "test -d ${install_path}",
+    command     => "rm -rf ${install_path}/*",
+    onlyif      => "test -f $war_installed",
     path        => ['/usr/bin','/bin'],
     before      => Archive[$war_file],
   }
