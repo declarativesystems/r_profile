@@ -21,10 +21,11 @@ class r_profile::geoserver(
 
 
   file { [ $install_path, $archive_dir, $unpack_dir ]:
-    ensure => directory,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    require => Tomcat::Install[$r_profile::tomcat::catalina_home],
   }
 
   file { [ $geoserver_dir, $data_dir, $gwc_dir ]:
