@@ -1,4 +1,4 @@
-class profile::haproxy(
+class r_profile::haproxy(
   $listeners        = hiera('r_profile::haproxy::listeners',undef),
   $enable_firewall  = hiera('r_profile::haproxy::enable_firewall', false),
   $frontends        = hiera('r_profile::haproxy::frontends',undef),
