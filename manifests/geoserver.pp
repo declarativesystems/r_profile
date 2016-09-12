@@ -79,6 +79,7 @@ class r_profile::geoserver(
     lens    => 'Xml.lns',
     incl    => "${install_path}/WEB-INF/web.xml",
     changes => $changes,
+    require => Archive[$war_file],
     onlyif  => 'values web-app//context-param/param-name/#text not_include GEOSERVER_DATA_DIR'
   }   
 
@@ -89,5 +90,6 @@ class r_profile::geoserver(
     notify      => Tomcat::Service[$r_profile::tomcat::service],
     path        => [ '/usr/bin', '/bin'],
     creates     => "${data_dir}/global.xml",
+    require     => Archive[$war_file],
   }
 }
