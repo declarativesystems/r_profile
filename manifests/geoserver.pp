@@ -1,6 +1,8 @@
 class r_profile::geoserver(
-  $version = '2.9.1',
-  $download_base = 'http://sourceforge.net/projects/geoserver/files/GeoServer',
+  $version        = '2.9.1',
+  $download_base  = 'http://sourceforge.net/projects/geoserver/files/GeoServer',
+  $lb             = true,
+  $service_name   = 'geoserver',
 ) {
 
   # tomcat
@@ -93,4 +95,36 @@ class r_profile::geoserver(
     creates     => "${data_dir}/global.xml",
     require     => Archive[$war_file],
   }
+
+  if $lb {
+
+    # setup the FACT that will tell us what IP address to use (run n)
+    if is_string($lb) {
+      $lb_address = $lb
+    } else {
+      # attempt to lookup which nodes are classified as Haproxies and use first
+      $lb_addresses = query_nodes('Class[R_profile::Haproxy]')
+      if is_array($lb_addresses) {
+        $lb_address = $lb_addresses[0]
+      } else {
+        $lb_address = 'none'
+      }
+    }
+
+    class { 'source_ipaddress':
+      target => $lb_address,
+    }
+
+    # export the IP address (run n+1)
+    @@haproxy::balancermember { "${service_name}-${::fqdn}":
+      listening_service => $service_name,
+      server_names      => $::fqdn,
+      ipaddresses       => $source_ipaddress,
+      ports             => 8080,
+      options           => 'check',
+    }
+
+    # runs will be collected on the loadbalancer next time it runs puppet
+  }
+
 }
