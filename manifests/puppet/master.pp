@@ -1,5 +1,6 @@
 class r_profile::puppet::master (
     $hiera_eyaml                  = true,
+    $git_server                   = true,
     $autosign_ensure              = absent,
     $db_backup_ensure             = hiera("r_profile::puppet::master::db_backup_ensure", absent),
     $db_backup_dir                = hiera("r_profile::puppet::master::db_backup_dir",
@@ -64,6 +65,10 @@ class r_profile::puppet::master (
 
   include r_profile::puppet::policy_based_autosign
   include r_profile::puppet::db_backup
+  if $git_server {
+    include psquared::git
+  }
+
 
   file { "autosign":
     ensure  => $autosign_ensure,
