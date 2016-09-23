@@ -15,10 +15,7 @@ class r_profile::haproxy(
   if $listeners {
     $listeners.each |String $listener,Hash $listener_values| {
       haproxy::listen { $listener:
-        collect_exported => $listener_values['collect_exported'],
-        ipaddress        => $listener_values['ipaddress'],
-        ports            => $listener_values['ports'],
-        options          => $listener_values['options'],
+        * => $listener_values,
       }
 
       if $enable_firewall {
@@ -34,7 +31,7 @@ class r_profile::haproxy(
   if $frontends {
     $frontends.each |String $frontend, Hash $frontend_values| {
       haproxy::frontend { $frontend:
-        * => $frontend_values,;
+        * => $frontend_values,
       }
 
       if $enable_firewall {
