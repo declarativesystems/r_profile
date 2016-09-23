@@ -52,7 +52,7 @@ class r_profile::puppet::master (
 
   class { "hiera":
     hierarchy       => $hierarchy,
-    hiera_yaml      => "/etc/puppetlabs/code/hiera.yaml",
+    hiera_yaml      => "/etc/puppetlabs/puppet/hiera.yaml",
     datadir         => $hieradir,
     backends        => $backends,
     eyaml           => $hiera_eyaml,
