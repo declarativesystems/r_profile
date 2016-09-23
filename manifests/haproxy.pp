@@ -3,6 +3,7 @@ class r_profile::haproxy(
   $enable_firewall  = hiera('r_profile::haproxy::enable_firewall', false),
   $frontends        = hiera('r_profile::haproxy::frontends',undef),
   $backends         = hiera('r_profile::haproxy::backends',undef),
+  $stats            = hiera('r_profile::haproxy::stats', true),
 ) {
 
   #Firewall {
@@ -10,7 +11,9 @@ class r_profile::haproxy(
   #  require => Class['profile::fw::pre'],
   #}
 
-  include ::haproxy
+  class { "haproxy":
+    stats => $stats,
+  }
 
   if $listeners {
     $listeners.each |String $listener,Hash $listener_values| {
