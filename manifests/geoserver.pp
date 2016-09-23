@@ -122,7 +122,6 @@ class r_profile::geoserver(
       ipaddresses       => $source_ipaddress,
       ports             => 8080,
       options           => 'check',
-      mode              => 'http',
     }
 
     # runs will be collected on the loadbalancer next time it runs puppet
