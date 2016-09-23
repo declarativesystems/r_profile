@@ -1,4 +1,6 @@
 class r_profile::nagios_monitored {
-  @@nagios_host { $fqdn: }
+  @@nagios_host { $fqdn: 
+    ensure => present,
+  }
 
 }
