@@ -107,19 +107,22 @@ class r_profile::geoserver(
       if is_array($lb_addresses) {
         $lb_address = $lb_addresses[0]
       } else {
-        $lb_address = 'none'
+        $lb_address = false
       }
     }
 
-    class { 'source_ipaddress':
-      target => $lb_address,
+    if $lb_address {
+      source_ipaddress{ $lb_address: }
+      $source_ip = $source_ipaddress[$lb_address]
+    } else {
+      $source_ip = undef
     }
 
     # export the IP address (run n+1)
     @@haproxy::balancermember { "${service_name}-${::fqdn}":
       listening_service => $service_name,
       server_names      => $::fqdn,
-      ipaddresses       => $source_ipaddress,
+      ipaddresses       => $source_ip,
       ports             => 8080,
       options           => 'check',
     }
