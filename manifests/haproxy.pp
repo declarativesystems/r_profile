@@ -3,7 +3,7 @@ class r_profile::haproxy(
   $enable_firewall  = hiera('r_profile::haproxy::enable_firewall', false),
   $frontends        = hiera('r_profile::haproxy::frontends',undef),
   $backends         = hiera('r_profile::haproxy::backends',undef),
-  $stats            = hiera('r_profile::haproxy::stats', true),
+  $admin_stats      = hiera('r_profile::haproxy::admin_stats', true),
 ) {
 
   #Firewall {
@@ -11,8 +11,16 @@ class r_profile::haproxy(
   #  require => Class['profile::fw::pre'],
   #}
 
-  class { "haproxy":
-    stats => $stats,
+  include haproxy
+  if $admin_stats { 
+    haproxy::listen { 'stats':
+      ipaddress => $::ipaddress,
+      ports     => '9090',
+      options   => {
+        'mode'  => 'http',
+        'stats' => ['uri /', 'auth puppet:puppet'],
+        },
+    }
   }
 
   if $listeners {
