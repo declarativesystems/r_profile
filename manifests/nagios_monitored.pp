@@ -1,4 +1,6 @@
-class r_profile::nagios_monitored($nagios_server = false) {
+class r_profile::nagios_monitored(
+  $nagios_server = hiera('r_profile::nagios_monitored::nagios_server', false),
+) {
 
   # sometimes we might need to determine the incoming ethernet adaptor to use for 
   # checks in multi-honed environments to allow PING or simulate dns  
