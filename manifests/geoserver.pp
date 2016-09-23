@@ -111,7 +111,7 @@ class r_profile::geoserver(
       }
     }
 
-    if $lb_address {
+    if $lb_address and is_string($lb) {
       source_ipaddress{ $lb_address: }
       $source_ip = $source_ipaddress[$lb_address]
     } else {
