@@ -14,7 +14,7 @@ class r_profile::haproxy(
   include haproxy
   if $admin_stats { 
     haproxy::listen { 'stats':
-      ipaddress => $::ipaddress,
+      ipaddress => '0.0.0.0',
       ports     => '9090',
       options   => {
         'mode'  => 'http',
