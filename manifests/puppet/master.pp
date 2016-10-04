@@ -198,15 +198,22 @@ class r_profile::puppet::master (
   }
 
   if $nagios_monitored {
-    nagios::nagios_service_http { 'PE puppetserver':
+    nagios::nagios_service_tcp { 'PE puppetserver':
       port => 8140,
     }
 
-    nagios::nagios_service_http { 'PE console':
+    nagios::nagios_service_tcp { 'PE console':
       port => 443,
     }
 
-    # fixme - raw tcp monitor for mco and pcp
+    nagios::nagios_service_tcp { 'PE MCollective':
+      port => 61613,
+    }
+
+    nagios::nagios_service_tcp { 'PE PCP/PXP':
+      port => 8142,
+    }
+
   }
 
 }
