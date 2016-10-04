@@ -15,7 +15,6 @@ class r_profile::nagios_monitored(
 
   class { 'nagios':
     local_ip      => $local_ip,
-    nagios_server => $nagios_server,
   }
 
   @@nagios_host { $fqdn: 
