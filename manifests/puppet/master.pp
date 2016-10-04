@@ -182,4 +182,17 @@ class r_profile::puppet::master (
   }
 
   include r_profile::puppet::agent_installers 
+
+  if $enable_firewall {
+    [8140, 61613, 443, 8142].each | $port | {
+      if !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
+        firewall { "100 ${::fqdn} HTTP ${port}":
+          dport   => $port,
+          proto   => 'tcp',
+          action  => 'accept',
+        }
+      }
+    }
+  }
+
 }
