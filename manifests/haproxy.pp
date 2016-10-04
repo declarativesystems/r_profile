@@ -30,6 +30,14 @@ class r_profile::haproxy(
         port => $stats_port,
       }
     }
+
+    if $enable_firewall {
+      firewall { "100 nagios_stats":
+        dport  => $stats_port,
+        proto  => 'tcp',
+        action => 'accept',
+      }
+    }
   }
 
   if $listeners {
