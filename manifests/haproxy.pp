@@ -1,3 +1,4 @@
+# https://tickets.puppetlabs.com/browse/MODULES-3932
 class r_profile::haproxy(
   $listeners        = hiera('r_profile::haproxy::listeners',undef),
   $enable_firewall  = hiera('r_profile::haproxy::enable_firewall', true),
