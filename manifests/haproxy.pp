@@ -9,10 +9,6 @@ class r_profile::haproxy(
   $stats_port       = hiera('r_profile::haproxy::stats_port', '9090'),
 ) {
 
-  #Firewall {
-  #  before  => Class['profile::fw::post'],
-  #  require => Class['profile::fw::pre'],
-  #}
 
   include haproxy
   if $admin_stats { 
