@@ -16,6 +16,7 @@ class r_profile::nagios_monitored(
   @@nagios_host { $fqdn: 
     ensure  => present,
     address => $local_ip,
+    use     => 'generic-host',
   }
 
 }
