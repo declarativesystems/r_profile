@@ -16,8 +16,13 @@ class r_profile::fw::pre {
   }                                                       ->
   firewall { '002 accept related established rules':
     proto   => 'all',
-    state => ['RELATED', 'ESTABLISHED'],
+    state   => ['RELATED', 'ESTABLISHED'],
     action  => 'accept',
+  }                                                       ->
+  firewall { '003 allow SSH':
+    proto  => 'tcp',
+    dport  => 22,
+    action => 'accept',
   }
 
 }
