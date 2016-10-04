@@ -5,7 +5,7 @@ class r_profile::haproxy(
   $backends         = hiera('r_profile::haproxy::backends',undef),
   $admin_stats      = hiera('r_profile::haproxy::admin_stats', true),
   $nagios_monitored = hiera('r_profile::haproxy::nagios_monitored', true),
-  $stats_port       = hiera('r_profile::haproxy::stats_port', 9090),
+  $stats_port       = hiera('r_profile::haproxy::stats_port', '9090'),
 ) {
 
   #Firewall {
