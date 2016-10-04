@@ -19,4 +19,9 @@ class r_profile::nagios_monitored(
     use     => "${downcase($kernel)}-server",
   }
 
+  Nagios::Nagios_service_http {
+    $local_ip       => $local_ip,
+    $nagios_server  => $nagios_server,
+  }
+
 }

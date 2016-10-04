@@ -1,8 +1,9 @@
 class r_profile::geoserver(
-  $version        = '2.9.1',
-  $download_base  = 'http://sourceforge.net/projects/geoserver/files/GeoServer',
-  $lb             = true,
-  $service_name   = 'geoserver',
+  $version          = '2.9.1',
+  $download_base    = 'http://sourceforge.net/projects/geoserver/files/GeoServer',
+  $lb               = true,
+  $service_name     = 'geoserver',
+  $nagios_monitored = true,
 ) {
 
   # tomcat
@@ -128,6 +129,13 @@ class r_profile::geoserver(
     }
 
     # runs will be collected on the loadbalancer next time it runs puppet
+  }
+
+  if $nagios_monitored {
+    nagios::nagios_service_http { 'geoserver':
+      port => 8080,
+      url  => '/geoserver/web',
+    }
   }
 
 }
