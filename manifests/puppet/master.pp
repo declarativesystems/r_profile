@@ -29,6 +29,7 @@ class r_profile::puppet::master (
     $export_variable              = $r_profile::puppet::params::export_variable,
     $hierarchy                    = $r_profile::puppet::params::hierarchy_default,
     $hieradir                     = $r_profile::puppet::params::hieradir,
+    $enable_firewall              = true,
 ) inherits r_profile::puppet::params {
 
   validate_bool($hiera_eyaml)
