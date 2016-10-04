@@ -140,7 +140,7 @@ class r_profile::geoserver(
     }
   }
 
-  if $enable_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${website_port}"]) {
+  if $enable_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
     firewall { "100 ${::fqdn} HTTP ${port}":
       dport   => $port,
       proto   => 'tcp',
