@@ -24,7 +24,7 @@ class r_profile::haproxy(
     }
   
     if $nagios_monitored {
-      nagios::nagios_service_http { 'haproxy_stats':
+      nagios::nagios_service_tcp { 'haproxy_stats':
         port => $stats_port,
       }
     }
