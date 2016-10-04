@@ -30,6 +30,7 @@ class r_profile::puppet::master (
     $hierarchy                    = $r_profile::puppet::params::hierarchy_default,
     $hieradir                     = $r_profile::puppet::params::hieradir,
     $enable_firewall              = true,
+    $nagios_monitored             = true,
 ) inherits r_profile::puppet::params {
 
   validate_bool($hiera_eyaml)
@@ -194,6 +195,18 @@ class r_profile::puppet::master (
         }
       }
     }
+  }
+
+  if $nagios_monitored {
+    nagios::nagios_service_http { 'PE puppetserver':
+      port => 8140,
+    }
+
+    nagios::nagios_service_http { 'PE console':
+      port => 443,
+    }
+
+    # fixme - raw tcp monitor for mco and pcp
   }
 
 }
