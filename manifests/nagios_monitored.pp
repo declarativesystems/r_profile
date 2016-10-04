@@ -20,8 +20,8 @@ class r_profile::nagios_monitored(
   }
 
   Nagios::Nagios_service_http {
-    $local_ip       => $local_ip,
-    $nagios_server  => $nagios_server,
+    local_ip       => $local_ip,
+    nagios_server  => $nagios_server,
   }
 
 }
