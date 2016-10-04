@@ -13,15 +13,15 @@ class r_profile::nagios_monitored(
     $local_ip = undef
   }
 
+  class { 'nagios':
+    local_ip      => $local_ip,
+    nagios_server => $nagios_server,
+  }
+
   @@nagios_host { $fqdn: 
     ensure  => present,
     address => $local_ip,
     use     => "${downcase($kernel)}-server",
-  }
-
-  Nagios::Nagios_service_http {
-    local_ip       => $local_ip,
-    nagios_server  => $nagios_server,
   }
 
 }

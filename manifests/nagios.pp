@@ -4,4 +4,6 @@ class r_profile::nagios(
   class { "nagios":
     password => $password,
   }
+  include nagios::server
+
 }
