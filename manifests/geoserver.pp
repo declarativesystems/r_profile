@@ -4,6 +4,8 @@ class r_profile::geoserver(
   $lb               = true,
   $service_name     = 'geoserver',
   $nagios_monitored = true,
+  $enable_firewall  = true,
+  $port             = 8080,
 ) {
 
   # tomcat
@@ -133,9 +135,16 @@ class r_profile::geoserver(
 
   if $nagios_monitored {
     nagios::nagios_service_http { 'geoserver':
-      port => 8080,
+      port => $port,
       url  => '/geoserver/web',
     }
   }
 
+  if $enable_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${website_port}"]) {
+    firewall { "100 ${::fqdn} HTTP ${port}":
+      dport   => $port,
+      proto   => 'tcp',
+      action  => 'accept',
+    }
+  }
 }
