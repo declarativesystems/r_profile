@@ -51,13 +51,6 @@ class r_profile::haproxy(
         }
       } 
 
-      if $enable_firewall {
-        firewall { "100 ${listener}":
-          dport  => [$listener_values['ports']],
-          proto  => 'tcp',
-          action => 'accept',
-        }
-      }
     }
   }
 
