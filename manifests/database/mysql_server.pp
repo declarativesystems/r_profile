@@ -1,5 +1,5 @@
 class r_profile::database::mysql_server(
-    $root_password,
+    $root_password    = hiera("r_profile::database::mysql_server::root_password", 'changeme'),
     $override_options = undef,
     $db               = hiera("r_profile::database::mysql_server::db", {}),
     $db_default       = hiera("r_profile::database::mysql_server::db_default", {}),
