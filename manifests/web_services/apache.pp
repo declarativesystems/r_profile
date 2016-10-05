@@ -4,7 +4,7 @@ class r_profile::web_services::apache(
     $lb                 = hiera('r_profile::web_services::apache::lb',true),
     $disable_php        = hiera('r_profile::web_services::apache::disable_php', false),
     $nagios_monitored   = hiera('r_profile::web_services::apache::nagios_monitored', true),
- {
+) {
 
   # port is always 80, you would have to changed listeners, etc to support 
   # different/multiple ports
