@@ -1,14 +1,14 @@
 # https://tickets.puppetlabs.com/browse/MODULES-3932
-class r_profile::haproxy(
-  $listeners        = hiera('r_profile::haproxy::listeners',undef),
-  $enable_firewall  = hiera('r_profile::haproxy::enable_firewall', true),
-  $frontends        = hiera('r_profile::haproxy::frontends',undef),
-  $backends         = hiera('r_profile::haproxy::backends',undef),
-  $admin_stats      = hiera('r_profile::haproxy::admin_stats', true),
-  $nagios_monitored = hiera('r_profile::haproxy::nagios_monitored', true),
-  $stats_port       = hiera('r_profile::haproxy::stats_port', '9090'),
-  $stats_username   = hiera('r_profile::haproxy::stats_username', 'puppet'),
-  $stats_password   = hiera('r_profile::haproxy::stats_password', 'puppet'),
+class r_profile::lb::haproxy(
+  $listeners        = hiera('r_profile::lb::haproxy::listeners',undef),
+  $enable_firewall  = hiera('r_profile::lb::haproxy::enable_firewall', true),
+  $frontends        = hiera('r_profile::lb::haproxy::frontends',undef),
+  $backends         = hiera('r_profile::lb::haproxy::backends',undef),
+  $admin_stats      = hiera('r_profile::lb::haproxy::admin_stats', true),
+  $nagios_monitored = hiera('r_profile::lb::haproxy::nagios_monitored', true),
+  $stats_port       = hiera('r_profile::lb::haproxy::stats_port', '9090'),
+  $stats_username   = hiera('r_profile::lb::haproxy::stats_username', 'puppet'),
+  $stats_password   = hiera('r_profile::lb::haproxy::stats_password', 'puppet'),
 ) {
 
 
