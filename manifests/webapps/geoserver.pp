@@ -1,4 +1,4 @@
-class r_profile::geoserver(
+class r_profile::webapps::geoserver(
   $version          = '2.9.1',
   $download_base    = 'http://sourceforge.net/projects/geoserver/files/GeoServer',
   $lb               = true,
@@ -9,7 +9,7 @@ class r_profile::geoserver(
 ) {
 
   # tomcat
-  include r_profile::tomcat
+  include r_profile::web_services::tomcat
 
   $zip_filename   = "geoserver-${version}-war.zip"
   $download_url   = "${download_base}/${version}/${zip_filename}"

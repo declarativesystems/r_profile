@@ -1,4 +1,4 @@
-class r_profile::tomcat(
+class r_profile::web_services::tomcat(
   $source_url     = 'http://apache.mirror.digitalpacific.com.au/tomcat/tomcat-8/v8.5.5/bin/apache-tomcat-8.5.5.tar.gz',
   $catalina_home  = '/opt/tomcat',
   $service        = 'tomcat',
