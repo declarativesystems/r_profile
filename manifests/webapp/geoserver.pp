@@ -9,7 +9,7 @@ class r_profile::webapp::geoserver(
 ) {
 
   # tomcat
-  include r_profile::web_services::tomcat
+  include r_profile::web_service::tomcat
 
   $zip_filename   = "geoserver-${version}-war.zip"
   $download_url   = "${download_base}/${version}/${zip_filename}"
