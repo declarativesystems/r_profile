@@ -13,7 +13,7 @@ class r_profile::webapps::geoserver(
 
   $zip_filename   = "geoserver-${version}-war.zip"
   $download_url   = "${download_base}/${version}/${zip_filename}"
-  $install_path   = "${r_profile::tomcat::catalina_home}/webapps/geoserver"
+  $install_path   = "${r_profile::web_services::tomcat::catalina_home}/webapps/geoserver"
   $archive_dir    = "/var/cache/geoserver"
   $unpack_dir     = "${archive_dir}/geoserver-${version}"
   $war_file       = 'geoserver.war'
@@ -22,16 +22,17 @@ class r_profile::webapps::geoserver(
   $war_installed  = "${install_path}/META-INF/MANIFEST.MF"
   $data_dir       = "${geoserver_dir}/data"
   $gwc_dir        = "${geoserver_dir}/gwc"
-  $user           = $r_profile::tomcat::user
-  $group          = $r_profile::tomcat::group
-  
+  $user           = $r_profile::web_services::tomcat::user
+  $group          = $r_profile::web_services::tomcat::group
+  $catalina_home  = $r_profile::web_services::tomcat::catalina_home
+  $service        = $r_profile::tomcat::service
 
   file { [ $install_path, $archive_dir, $unpack_dir ]:
     ensure  => directory,
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-    require => Tomcat::Install[$r_profile::tomcat::catalina_home],
+    require => Tomcat::Install[$catalina_home],
   }
 
   file { [ $geoserver_dir, $data_dir, $gwc_dir ]:
@@ -60,7 +61,7 @@ class r_profile::webapps::geoserver(
     extract_path => $install_path,
     creates      => $war_installed,
     cleanup      => false,
-    notify       => Tomcat::Service[$r_profile::tomcat::service],
+    notify       => Tomcat::Service[$service],
   }
 
   # Delete any existing deployed geoserver
@@ -93,7 +94,7 @@ class r_profile::webapps::geoserver(
   # initial copy into GEOSERVER_DATA_DIR if needed
   exec { "geoserver_data_initial":
     command     => "cp ${install_path}/data/* ${data_dir} -r && chown ${user}.${group} ${data_dir} -R",
-    notify      => Tomcat::Service[$r_profile::tomcat::service],
+    notify      => Tomcat::Service[$service],
     path        => [ '/usr/bin', '/bin'],
     creates     => "${data_dir}/global.xml",
     require     => Archive[$war_file],
