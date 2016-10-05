@@ -3,6 +3,7 @@ class r_profile::web_service::apache(
     $enable_firewall    = hiera('r_profile::web_service::apache::enable_firewall', true),
     $lb                 = hiera('r_profile::web_service::apache::lb',true),
     $disable_php        = hiera('r_profile::web_service::apache::disable_php', false),
+    $disable_mysql      = hiera('r_profile::web_service::apache::disable_mysql', false),
     $nagios_monitored   = hiera('r_profile::web_service::apache::nagios_monitored', true),
 ) {
 
@@ -14,6 +15,12 @@ class r_profile::web_service::apache(
   if ! $disable_php {
     include ::apache::mod::php
   }  
+
+  if ! $disable_mysql {
+    class { 'mysql::bindings':
+      php_enable => true,
+    }
+  }
 
   include ::apache::mod::ssl
 
@@ -48,7 +55,7 @@ class r_profile::web_service::apache(
 
   if $lb {
     # export the IP address (run n+1)
-    @@haproxy::balancermember { "${site_name}-${::fqdn}":
+    @@haproxy::balancermember { $fqdn:
       listening_service => 'apache',
       server_names      => $fqdn,
       ipaddresses       => $source_ip,
