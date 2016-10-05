@@ -1,4 +1,4 @@
-class r_profile::webapps::geoserver(
+class r_profile::webapp::geoserver(
   $version          = '2.9.1',
   $download_base    = 'http://sourceforge.net/projects/geoserver/files/GeoServer',
   $lb               = true,

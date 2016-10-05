@@ -1,4 +1,4 @@
-class r_profile::webapps::wordpress(
+class r_profile::webapp::wordpress(
     $nagios_monitored = true,
     $enable_firewall  = true,
     $lb               = true,
@@ -10,7 +10,7 @@ class r_profile::webapps::wordpress(
     php_enable => true,
   }
 
-  include r_profile::web_services::apache
+  include r_profile::web_service::apache
   apache::vhost { $::fqdn:
     port     => '80',
     priority => '00',

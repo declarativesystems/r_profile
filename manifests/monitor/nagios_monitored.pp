@@ -1,5 +1,5 @@
-class r_profile::monitoring::nagios_monitored(
-  $nagios_server = hiera('r_profile::monitoring::nagios_monitored::nagios_server', false),
+class r_profile::monitor::nagios_monitored(
+  $nagios_server = hiera('r_profile::monitor::nagios_monitored::nagios_server', false),
 ) {
 
   # sometimes we might need to determine the incoming ethernet adaptor to use for 

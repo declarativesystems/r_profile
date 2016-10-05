@@ -1,8 +1,8 @@
-class r_profile::web_services::iis(
-  $website_owner  = hiera('r_profile::web_services::iis::website_owner', "IUSR_${hostname}"),
-  $website_group  = hiera('r_profile::web_services::iis::website_group', 'Administrators'),
-  $website_hash   = hiera('r_profile::web_services::iis::website_hash', {}),
-  $ensure_default = hiera('r_profile::web_services::iss::ensure_default', present),
+class r_profile::web_service::iis(
+  $website_owner  = hiera('r_profile::web_service::iis::website_owner', "IUSR_${hostname}"),
+  $website_group  = hiera('r_profile::web_service::iis::website_group', 'Administrators'),
+  $website_hash   = hiera('r_profile::web_service::iis::website_hash', {}),
+  $ensure_default = hiera('r_profile::web_service::iss::ensure_default', present),
 ) {
 
   File {
