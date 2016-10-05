@@ -4,6 +4,7 @@ class r_profile::webapp::geoserver(
   $lb               = true,
   $service_name     = 'geoserver',
   $nagios_monitored = true,
+  $monitor_port     = 8080,
 ) {
 
   # tomcat
@@ -100,7 +101,7 @@ class r_profile::webapp::geoserver(
 
   if $nagios_monitored {
     nagios::nagios_service_http { 'geoserver':
-      port => $port,
+      port => $monitor_port,
       url  => '/geoserver/web',
     }
   }
