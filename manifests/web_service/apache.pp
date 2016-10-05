@@ -27,6 +27,18 @@ class r_profile::web_service::apache(
   }
 
   # load balancer
+  # setup the FACT that will tell us what IP address to use (run n)
+  if is_string($lb) {
+    $lb_address = $lb
+  } else {
+    # attempt to lookup which nodes are classified as Haproxies and use first
+    $lb_addresses = query_nodes('Class[R_profile::Monitor::Haproxy]')
+    if is_array($lb_addresses) {
+      $lb_address = $lb_addresses[0]
+    } else {
+      $lb_address = false
+    }
+  }
   if $lb_address and is_string($lb) {
     source_ipaddress{ $lb_address: }
     $source_ip = $source_ipaddress[$lb_address]

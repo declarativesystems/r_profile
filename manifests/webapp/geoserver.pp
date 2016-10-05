@@ -107,7 +107,7 @@ class r_profile::webapp::geoserver(
       $lb_address = $lb
     } else {
       # attempt to lookup which nodes are classified as Haproxies and use first
-      $lb_addresses = query_nodes('Class[R_profile::Haproxy]')
+      $lb_addresses = query_nodes('Class[R_profile::Monitor::Haproxy]')
       if is_array($lb_addresses) {
         $lb_address = $lb_addresses[0]
       } else {
