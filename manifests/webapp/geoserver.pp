@@ -13,7 +13,7 @@ class r_profile::webapp::geoserver(
 
   $zip_filename   = "geoserver-${version}-war.zip"
   $download_url   = "${download_base}/${version}/${zip_filename}"
-  $install_path   = "${r_profile::web_services::tomcat::catalina_home}/webapps/geoserver"
+  $install_path   = "${r_profile::web_service::tomcat::catalina_home}/webapps/geoserver"
   $archive_dir    = "/var/cache/geoserver"
   $unpack_dir     = "${archive_dir}/geoserver-${version}"
   $war_file       = 'geoserver.war'
@@ -22,10 +22,10 @@ class r_profile::webapp::geoserver(
   $war_installed  = "${install_path}/META-INF/MANIFEST.MF"
   $data_dir       = "${geoserver_dir}/data"
   $gwc_dir        = "${geoserver_dir}/gwc"
-  $user           = $r_profile::web_services::tomcat::user
-  $group          = $r_profile::web_services::tomcat::group
-  $catalina_home  = $r_profile::web_services::tomcat::catalina_home
-  $service        = $r_profile::tomcat::service
+  $user           = $r_profile::web_service::tomcat::user
+  $group          = $r_profile::web_service::tomcat::group
+  $catalina_home  = $r_profile::web_service::tomcat::catalina_home
+  $service        = $r_profile::web_service::tomcat::service
 
   file { [ $install_path, $archive_dir, $unpack_dir ]:
     ensure  => directory,
