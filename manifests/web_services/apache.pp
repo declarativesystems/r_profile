@@ -1,11 +1,15 @@
 class r_profile::web_services::apache(
     $website_hash       = hiera('r_profile::web_services::apache::website_hash',undef),
-    $website_defaults   = hiera('r_profile::web_services::apache::website_defaults'),
-    $enable_firewall    = hiera('r_profile::web_services::apache::enable_firewall'),
+    $enable_firewall    = hiera('r_profile::web_services::apache::enable_firewall', true),
     $lb                 = hiera('r_profile::web_services::apache::lb',true),
     $disable_php        = hiera('r_profile::web_services::apache::disable_php', false),
     $nagios_monitored   = hiera('r_profile::web_services::apache::nagios_monitored', true),
-) {
+ {
+
+  # port is always 80, you would have to changed listeners, etc to support 
+  # different/multiple ports
+  $port = 80
+
   include ::apache
   if ! $disable_php {
     include ::apache::mod::php
@@ -13,13 +17,20 @@ class r_profile::web_services::apache(
 
   include ::apache::mod::ssl
 
+  # firewall
+  if $enable_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
+    firewall { "100 ${::fqdn} HTTP ${port}":
+      dport   => $port,
+      proto   => 'tcp',
+      action  => 'accept',
+    }
+  }
+
   if $website_hash {
     $website_hash.each |String $site_name, Hash $website| {
 
       if $_bypass or ($search_results != 0) {
         $_docroot = "/var/www/${website['docroot']}"
-
-        $port = pick($website['port'], 80)
 
         apache::vhost { $site_name:
           docroot        => $_docroot,
@@ -40,27 +51,18 @@ class r_profile::web_services::apache(
         if $lb {
           # export the IP address (run n+1)
           @@haproxy::balancermember { "${site_name}-${::fqdn}":
-            listening_service => 'wordpress',
+            listening_service => 'apache',
             server_names      => $site_name,
             ipaddresses       => $source_ip,
-            ports             => '80',
+            ports             => $port,
             options           => 'check',
-          }
-        }
-
-        # firewall
-        if $enable_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
-          firewall { "100 ${::fqdn} HTTP ${port}":
-            dport   => 80,
-            proto   => 'tcp',
-            action  => 'accept',
           }
         }
 
         # nagios
         if $nagios_monitored {
           nagios::nagios_service_http { $site_name:
-            port => 80,
+            port => $port,
           }
         }
       }
