@@ -26,44 +26,60 @@ class r_profile::web_service::apache(
     }
   }
 
+  # load balancer
+  if $lb_address and is_string($lb) {
+    source_ipaddress{ $lb_address: }
+    $source_ip = $source_ipaddress[$lb_address]
+  } else {
+    $source_ip = undef
+  }
+
+  if $lb {
+    # export the IP address (run n+1)
+    @@haproxy::balancermember { "${site_name}-${::fqdn}":
+      listening_service => 'apache',
+      server_names      => $fqdn,
+      ipaddresses       => $source_ip,
+      ports             => $port,
+      options           => 'check',
+    }
+  }
+
+  # nagios for main host
+  if $nagios_monitored {
+    nagios::nagios_service_http { $fqdn:
+      port => $port,
+    }
+  }
+
   if $website_hash {
     $website_hash.each |String $site_name, Hash $website| {
 
-      if $_bypass or ($search_results != 0) {
-        $_docroot = "/var/www/${website['docroot']}"
+      $_docroot = "/var/www/${website['docroot']}"
 
-        apache::vhost { $site_name:
-          docroot        => $_docroot,
-          manage_docroot => $website['manage_docroot'],
-          port           => $port,
-          priority       => $website['priority'],
+      apache::vhost { $site_name:
+        docroot        => $_docroot,
+        manage_docroot => $website['manage_docroot'],
+        port           => $port,
+        priority       => $website['priority'],
+      }
+
+      # Add to load balancer if enabled and we should use a different listener
+      if $lb and $website['lb_listener'] {
+        # export the IP address (run n+1)
+        @@haproxy::balancermember { "${site_name}-${::fqdn}":
+          listening_service => $website['lb_listener'],
+          server_names      => $site_name,
+          ipaddresses       => $source_ip,
+          ports             => $port,
+          options           => 'check',
         }
+      }
 
-        # Exported load balancer configuration if required
-        if $lb_address and is_string($lb) {
-          source_ipaddress{ $lb_address: }
-          $source_ip = $source_ipaddress[$lb_address]
-        } else {
-          $source_ip = undef
-        }
-
-        # load balancer
-        if $lb {
-          # export the IP address (run n+1)
-          @@haproxy::balancermember { "${site_name}-${::fqdn}":
-            listening_service => 'apache',
-            server_names      => $site_name,
-            ipaddresses       => $source_ip,
-            ports             => $port,
-            options           => 'check',
-          }
-        }
-
-        # nagios
-        if $nagios_monitored {
-          nagios::nagios_service_http { $site_name:
-            port => $port,
-          }
+      # nagios for VHOST
+      if $nagios_monitored {
+        nagios::nagios_service_http { $site_name:
+          port => $port,
         }
       }
     }
