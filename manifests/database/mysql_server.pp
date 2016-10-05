@@ -19,7 +19,7 @@ class r_profile::database::mysql_server(
   create_resources("mysql::db", $db, $db_default)
 
   if $nagios_monitored {
-    nagios::nagios_service_tcp { 'PE PCP/PXP':
+    nagios::nagios_service_tcp { 'MySQL':
       port => $port,
     }
   }
