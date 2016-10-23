@@ -1,5 +1,4 @@
 class r_profile::fw::post {
-
   Firewall {
     before => undef,
   }

@@ -1,4 +1,11 @@
 class r_profile::fw::pre {
+#  package { 'iptables':
+#    ensure => present,
+#  }
+
+  # make sure iptables installed before trying to do any firewall
+  # stuff
+#  Package['iptables'] -> Firewall<| |>
 
   Firewall {
     require => undef,

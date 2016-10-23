@@ -11,7 +11,10 @@ class r_profile::web_service::apache(
   # different/multiple ports
   $port = 80
 
-  include ::apache
+  class { 'apache':
+    default_vhost => false,
+  }
+
   if ! $disable_php {
     include ::apache::mod::php
   }  
@@ -38,10 +41,17 @@ class r_profile::web_service::apache(
   if is_string($lb) {
     $lb_address = $lb
   } else {
-    # attempt to lookup which nodes are classified as Haproxies and use first
-    $lb_addresses = query_nodes('Class[R_profile::Monitor::Haproxy]')
-    if is_array($lb_addresses) {
-      $lb_address = $lb_addresses[0]
+    if $pe_server_version {
+
+      # attempt to lookup which nodes are classified as Haproxies 
+      # and use first.  Only do this if being run in agent-master mode
+      $lb_addresses = query_nodes('Class[R_profile::Monitor::Haproxy]')
+      
+      if is_array($lb_addresses) {
+        $lb_address = $lb_addresses[0]
+      } else {
+        $lb_address = false
+      }
     } else {
       $lb_address = false
     }
@@ -71,6 +81,34 @@ class r_profile::web_service::apache(
     }
   }
 
+  # setup the default vhost here.  we always want one of these.  The main
+  # apache module sets one of these up but doesn't let us set the
+  # allow_overrides option (.htaccess) that basically every REST framework
+  # needs these days...
+  # Note we have to use a different title to avoid a name clash with the 
+  # module
+  $default_vhost_docroot = '/var/www/html'
+  apache::vhost { 'default-site':
+    ensure          => present,
+    docroot         => $default_vhost_docroot,
+    priority        => '15',
+    ip              => $ip,
+    port            => $port,
+    directories     => [
+      {
+        path           => $default_vhost_docroot,
+        allow_override => ['All'],
+      },
+    ],
+  }
+
+  file { '/var/www/html':
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+  }
+
   if $website_hash {
     $website_hash.each |String $site_name, Hash $website| {
 
@@ -81,6 +119,12 @@ class r_profile::web_service::apache(
         manage_docroot => $website['manage_docroot'],
         port           => $port,
         priority       => $website['priority'],
+        directories  => [
+          { 
+            path           => $_docroot,
+            allow_override => ['All'],
+          },
+        ],
       }
 
       # Add to load balancer if enabled and we should use a different listener
