@@ -2,7 +2,7 @@
 #
 # Params
 # ======
-# `site`
+# `sites`
 # Hash of checkout sources and destinations:
 # target_directory => {
 #   source    => 'url'   # git checkout url
