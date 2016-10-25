@@ -20,7 +20,7 @@ class r_profile::webapp::git_site(
       ensure    => 'latest',
       provider  => 'git',
       source    => $sites[$site]['source'],
-      revision  => $sites[$site]['revision'],
+      revision  => pick($sites[$site]['revision'], 'master'),
       owner     => $sites[$site]['owner'],
       group     => $sites[$site]['group'],
       notify    => $sites[$site]['notify'],
