@@ -41,7 +41,7 @@ class r_profile::webapp::php_config(
           ensure => present,
           path   => $config,
           line   => "define( '${def}', '${configs[$config]['defines'][$def]}' );",
-          match  => "define( '${def}'",
+          match  => "^define( '${def}'",
           notify => $_notify,
         }
       }
@@ -50,11 +50,13 @@ class r_profile::webapp::php_config(
     # variables
     if $configs[$config]['vars'] {
       $configs[$config]['vars'].keys.sort.each | $v | {
+        $match="^\\\$${v}\ \="
+
         file_line { "${config}_${v}":
           ensure => present,
           path   => $config,
           line   => "\$${v} = '${configs[$config]['vars'][$v]}';",
-          match  => "\$${v}\s*=",
+          match  => "^\\\$${v}\s*\=",
           notify => $_notify,
         }
       }
