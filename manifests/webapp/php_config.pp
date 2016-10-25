@@ -35,24 +35,28 @@ class r_profile::webapp::php_config(
     }
     
     # defined values
-    $configs[$config]['defines'].keys.sort.each | $def | {
-      file_line { "${config}_${def}":
-        ensure => present,
-        path   => $config,
-        line   => "define( '${def}', '${configs[$config][$def]}' );",
-        match  => "define( '${def}'",
-        notify => $_notify,
+    if $configs[$config]['defines'] {
+      $configs[$config]['defines'].keys.sort.each | $def | {
+        file_line { "${config}_${def}":
+          ensure => present,
+          path   => $config,
+          line   => "define( '${def}', '${configs[$config][$def]}' );",
+          match  => "define( '${def}'",
+          notify => $_notify,
+        }
       }
     }
 
     # variables
-    $configs[$config]['vars'].keys.sort.each | $v | {
-      file_line { "${config}_${v}":
-        ensure => present,
-        path   => $config,
-        line   => "\$${def} = '${configs[$config][$v]}';",
-        match  => "\$${def}\s*=",
-        notify => $_notify,
+    if $configs[$config]['vars'] {
+      $configs[$config]['vars'].keys.sort.each | $v | {
+        file_line { "${config}_${v}":
+          ensure => present,
+          path   => $config,
+          line   => "\$${def} = '${configs[$config][$v]}';",
+          match  => "\$${def}\s*=",
+          notify => $_notify,
+        }
       }
     }
   }
