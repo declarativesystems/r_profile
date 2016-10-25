@@ -35,7 +35,7 @@ class r_profile::webapp::php_config(
     }
     
     # defined values
-    $configs[$config]['defines'].sort.each | $def | {
+    $configs[$config]['defines'].keys.sort.each | $def | {
       file_line { "${config}_${def}":
         ensure => present,
         path   => $config,
@@ -46,7 +46,7 @@ class r_profile::webapp::php_config(
     }
 
     # variables
-    $configs[$config]['vars'].sort.each | $v | {
+    $configs[$config]['vars'].keys.sort.each | $v | {
       file_line { "${config}_${v}":
         ensure => present,
         path   => $config,
