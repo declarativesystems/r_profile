@@ -40,7 +40,7 @@ class r_profile::webapp::php_config(
         file_line { "${config}_${def}":
           ensure => present,
           path   => $config,
-          line   => "define( '${def}', '${configs[$config][$def]}' );",
+          line   => "define( '${def}', '${configs[$config]['defines'][$def]}' );",
           match  => "define( '${def}'",
           notify => $_notify,
         }
@@ -53,8 +53,8 @@ class r_profile::webapp::php_config(
         file_line { "${config}_${v}":
           ensure => present,
           path   => $config,
-          line   => "\$${def} = '${configs[$config][$v]}';",
-          match  => "\$${def}\s*=",
+          line   => "\$${v} = '${configs[$config]['vars'][$v]}';",
+          match  => "\$${v}\s*=",
           notify => $_notify,
         }
       }
