@@ -18,12 +18,20 @@ class r_profile::webapp::php_config(
 ) {
 
   $configs.keys.each | $config | {
+    $notify = pick($configs[$config]['notify'], false)
+    if $notify {
+      $_notify = $notify
+    } else {
+      $_notify = undef
+    }
+
+
     file { $config:
       ensure  => file,
       owner   => pick($configs[$config]['owner'], 'root'),
       group   => pick($configs[$config]['group'], 'root'),
       mode    => pick($configs[$config]['mode'], '0644'),
-      notify  => pick($configs[$config]['notify'], undef),
+      notify  => $_notify,
     }
     
     # defined values
@@ -33,7 +41,7 @@ class r_profile::webapp::php_config(
         path   => $config,
         line   => "define( '${def}', '${configs[$config][$def]}' );",
         match  => "define( '${def}'",
-        notify => pick($configs[$config]['notify'], undef),
+        notify => $_notify,
       }
     }
 
@@ -44,7 +52,7 @@ class r_profile::webapp::php_config(
         path   => $config,
         line   => "\$${def} = '${configs[$config][$v]}';",
         match  => "\$${def}\s*=",
-        notify => pick($configs[$config]['notify'], undef),
+        notify => $_notify,
       }
     }
   }
