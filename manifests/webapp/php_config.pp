@@ -17,7 +17,7 @@ class r_profile::webapp::php_config(
     $configs = hiera('r_profile::webapp::php_config', {}),
 ) {
 
-  $configs.each | $config | {
+  $configs.keys.each | $config | {
     file { $config:
       ensure  => file,
       owner   => pick($configs[$config]['owner'], 'root'),
