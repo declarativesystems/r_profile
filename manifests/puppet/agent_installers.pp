@@ -2,6 +2,12 @@ class r_profile::puppet::agent_installers(
     $install                = true,
     $install_pe_only_agents = false,
 ){
+
+  # prevent timeout errors
+  Pe_staging::File {
+    timeout => 1800, # 30 mins
+  }
+
   if $install {  
     # Just install everything - this list can be generated with the command:
     # fgrep class  /opt/puppetlabs/puppet/modules/pe_repo/manifests/platform/*.pp -h | sed 's/class/include/g' | sed 's/(//g'
