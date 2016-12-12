@@ -2,6 +2,9 @@ fixtures:
   forge_modules:
     stdlib:
       repo: "puppetlabs-stdlib"
-      ref: "4.7.0"
+      ref: "4.13.1"
+    ntp:
+      repo: "puppetlabs-ntp"
+      ref: "6.0.0"
   symlinks:
     r_profile: "#{source_dir}"
