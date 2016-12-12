@@ -4,3 +4,5 @@ language: ruby
 cache: bundler
 bundler_args: --without development
 script: "bundle exec rake spec SPEC_OPTS='--format documentation'"
+rvm:
+  - 2.1.9
