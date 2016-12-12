@@ -3,7 +3,6 @@ class r_profile::linux::ntp(
 ) {
   if $virtual != "docker" {
     class { "ntp":
-      disable_monitor => true,
       servers         => $servers,
     }
   }
