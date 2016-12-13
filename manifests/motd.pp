@@ -1,8 +1,12 @@
-# simple MOTD support for linux
+# R_profile::Motd
+#
+# Simple MOTD support for POSIX and Windows.
+#
+# Requires: puppetlabs-mysql
 #
 # [params]
 # *template*
-#   template FILE to use for the MOTD 
+#   template FILE to use for the MOTD
 # *inline_template*
 #   string to be processed as an inline template for the MOTD
 class r_profile::motd(
@@ -11,7 +15,7 @@ class r_profile::motd(
     $dynamic_motd = hiera("r_profile::motd::content",true),
 ) {
 
-  class { "::motd": 
+  class { "::motd":
     template      => $template,
     content       => $content,
     dynamic_motd  => $dynamic_motd,

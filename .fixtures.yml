@@ -6,5 +6,12 @@ fixtures:
     ntp:
       repo: "puppetlabs-ntp"
       ref: "6.0.0"
+    sysctl:
+      repo: "thias-sysctl"
+      ref: "1.0.6"
+    motd:
+      repo: "puppetlabs-motd"
+      ref: "1.4.0"
+
   symlinks:
     r_profile: "#{source_dir}"
