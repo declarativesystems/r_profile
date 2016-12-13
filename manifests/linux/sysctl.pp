@@ -36,7 +36,7 @@
 # @param settings Hash of settings to set
 class r_profile::linux::sysctl(
     Boolean $purge              = hiera('r_profile::linux::sysctl::purge', false),
-    Hash[String, Any] $settings = hiera('r_profile::linux::sysctl::settings'. {})
+    Hash[String, Any] $settings = hiera('r_profile::linux::sysctl::settings', {})
 ){
 
   # enable purging to work, if selected
