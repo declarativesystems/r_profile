@@ -2,18 +2,10 @@
 # /opt/puppetlabs/puppet/lib/ruby/vendor_ruby/puppet/settings.rb
 class r_profile::puppet::params {
 
-  if $pe_server_version or $aio_agent_version {
-    # PE 2015/AIO agent
-    $puppet_agent_service = "puppet"
-    $_codedir             = $::settings::codedir
-    $mco_service          = "mcollective"
-  } else {
-    # setup for PE 3.8x -- we don't support OSS puppet with this module anyway...
-    $puppet_agent_service = "pe-puppet"
-    $_codedir             = $::settings::confdir
-    $mco_service          = "pe-mcollective"
-  }
-
+  # PE 2015/AIO agent
+  $puppet_agent_service = "puppet"
+  $_codedir             = $::settings::codedir
+  $mco_service          = "mcollective"
 
   # os-specific settings
   case $::osfamily {
@@ -80,8 +72,8 @@ class r_profile::puppet::params {
   if $virtual == "docker" {
     # if running under docker or in dockerbuild, enable an additional level of
     # hierarchy to disable code manager and optionally tune memory usage down.
-    # This technique allows us to control these settings independently of the 
-    # r10k control repo, which is needed so that the docker image building 
+    # This technique allows us to control these settings independently of the
+    # r10k control repo, which is needed so that the docker image building
     # system has a hiera data file that it owns to avoid checking out a control
     # repo that will inadvertantly change or remove settings we need to exist
     #

@@ -2,7 +2,7 @@ fixtures:
   forge_modules:
     stdlib:
       repo: "puppetlabs-stdlib"
-      ref: "4.13.1"
+      ref: "4.14.0"
     ntp:
       repo: "puppetlabs-ntp"
       ref: "6.0.0"
@@ -12,6 +12,17 @@ fixtures:
     motd:
       repo: "puppetlabs-motd"
       ref: "1.4.0"
-
+    hiera:
+      repo: "puppet-hiera"
+      ref: "2.3.0"
+    inifile:
+      repo: 'puppetlabs-inifile'
+      ref: '1.6.0'
+    vcsrepo:
+      repo: 'puppetlabs-vcsrepo'
+      ref: '1.5.0'
+  repositories:
+    psquared: "https://github.com/geoffwilliams/psquared.git"
+    pe_repo: "https://github.com/GeoffWilliams/geoffwilliams-pe_repo"
   symlinks:
     r_profile: "#{source_dir}"
