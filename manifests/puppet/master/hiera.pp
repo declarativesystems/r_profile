@@ -6,7 +6,8 @@ class r_profile::puppet::master::hiera(
   if $eyaml {
     $backends = [ "eyaml" ]
   } else {
-    $backends = [ "hiera" ]
+    # [yaml]
+    $backends = undef
   }
 
   class { "hiera":

@@ -8,8 +8,20 @@ describe 'r_profile::puppet::master::hiera' do
       :is_pe                  => true,
       :pe_version             => '2016.4.2',
     }
-  end  
+  end
+
   context 'with default values for all parameters' do
+    it {
+      should contain_class('r_profile::puppet::master::hiera')
+    }
+  end
+
+  context 'with eyaml disabled' do
+    let :params do
+      {
+        :eyaml => false
+      }
+    end
     it {
       should contain_class('r_profile::puppet::master::hiera')
     }
