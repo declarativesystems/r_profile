@@ -65,6 +65,7 @@ class r_profile::puppet::params {
     "nodes/%{clientcert}",
     "roles/%{role}",
     "app_tier/%{app_tier}",
+    "datacenter/%{datacenter}",
     "env/%{environment}",
     "common",
   ]

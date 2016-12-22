@@ -1,5 +1,5 @@
 class r_profile::puppet::master::auto_sign(
-    Enum['policy', 'absent', 'accept_all'] $ensure = 
+    Enum['policy', 'absent', 'accept_all'] $ensure =
       hiera('r_profile::puppet::master::auto_sign::ensure', 'absent'),
     $template = hiera('r_profile::puppet::master::auto_sign::template', "${module_name}/autosign.sh.erb"),
     $secret   = hiera('r_profile::puppet::master::auto_sign::secret',undef),
@@ -7,7 +7,7 @@ class r_profile::puppet::master::auto_sign(
 
   $autosign_script = "/usr/local/bin/puppet_enterprise_autosign.sh"
 
-  if $ensure == 'policy' and ! $autosign_secret {
+  if $ensure == 'policy' and ! $secret {
     fail("Cannot enable policy based autosigning without a valid shared secret")
   }
 
@@ -22,7 +22,7 @@ class r_profile::puppet::master::auto_sign(
   }
 
 
-  file { "autosign":
+  file { "autosign_conf":
     ensure  => $autosign_all_ensure,
     content => "*",
     path    => "${::settings::confdir}/autosign.conf",
