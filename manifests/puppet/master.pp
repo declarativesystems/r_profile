@@ -1,5 +1,12 @@
+# r_profile::puppet::master
+#
+# Puppet Master general settings
+#
+# @param $data_binding_terminus enable/disable automatic hiera lookups
+# @param $open_firewall open ports in IPTables?
+# @param $nagios_monitored create nagios monitoring resources?
 class r_profile::puppet::master (
-    String $data_binding_terminus    = hiera("r_profile::puppet::master::data_binding_terminus", $r_profile::puppet::params::data_binding_terminus),
+    Enum['none', 'hiera'] $data_binding_terminus    = hiera("r_profile::puppet::master::data_binding_terminus", $r_profile::puppet::params::data_binding_terminus),
     Boolean $open_firewall    = hiera("r_profile::puppet::master::open_firewall", false),
     Boolean $nagios_monitored = hiera("r_profile::puppet::master::nagios_monitored", false),
 ) inherits r_profile::puppet::params {
