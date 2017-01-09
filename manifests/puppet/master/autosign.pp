@@ -1,8 +1,8 @@
-class r_profile::puppet::master::auto_sign(
+class r_profile::puppet::master::autosign(
     Enum['policy', 'absent', 'accept_all'] $ensure =
-      hiera('r_profile::puppet::master::auto_sign::ensure', 'absent'),
-    $template = hiera('r_profile::puppet::master::auto_sign::template', "${module_name}/autosign.sh.erb"),
-    $secret   = hiera('r_profile::puppet::master::auto_sign::secret',undef),
+      hiera('r_profile::puppet::master::autosign::ensure', 'absent'),
+    $template = hiera('r_profile::puppet::master::autosign::template', "${module_name}/autosign.sh.erb"),
+    $secret   = hiera('r_profile::puppet::master::autosign::secret',undef),
 ) {
 
   $autosign_script = "/usr/local/bin/puppet_enterprise_autosign.sh"
