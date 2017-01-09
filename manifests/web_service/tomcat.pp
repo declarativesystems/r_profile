@@ -1,5 +1,5 @@
 class r_profile::web_service::tomcat(
-    $source_url       = 'http://apache.mirror.digitalpacific.com.au/tomcat/tomcat-8/v8.5.5/bin/apache-tomcat-8.5.5.tar.gz',
+    $source_url       = 'http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.9/bin/apache-tomcat-8.5.9.tar.gz',
     $catalina_home    = '/opt/tomcat',
     $service          = 'tomcat',
     $user             = 'tomcat',
@@ -11,7 +11,7 @@ class r_profile::web_service::tomcat(
 ){
 
   include java
-  
+
   class { 'tomcat':
     catalina_home => $catalina_home,
     user          => $user,
@@ -22,7 +22,7 @@ class r_profile::web_service::tomcat(
     source_url => $source_url,
   }
 
-  tomcat::service { $service: 
+  tomcat::service { $service:
     require => Tomcat::Install[$catalina_home]
   }
 
