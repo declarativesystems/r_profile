@@ -1,8 +1,8 @@
 require 'spec_helper'
-describe 'r_profile::puppet::master::auto_sign' do
+describe 'r_profile::puppet::master::autosign' do
   context 'with default values for all parameters' do
     it {
-      should contain_class('r_profile::puppet::master::auto_sign')
+      should contain_class('r_profile::puppet::master::autosign')
     }
   end
   context 'autosign disabled removes autosigning' do
@@ -12,7 +12,7 @@ describe 'r_profile::puppet::master::auto_sign' do
       }
     end
     it {
-      should contain_class('r_profile::puppet::master::auto_sign')
+      should contain_class('r_profile::puppet::master::autosign')
       should contain_file("autosign_conf").with({
         'ensure' => 'absent',
       })
@@ -29,7 +29,7 @@ describe 'r_profile::puppet::master::auto_sign' do
       }
     end
     it {
-      should contain_class('r_profile::puppet::master::auto_sign')
+      should contain_class('r_profile::puppet::master::autosign')
       should contain_file("autosign_conf").with({
         'ensure' => 'present',
       })
@@ -47,7 +47,7 @@ describe 'r_profile::puppet::master::auto_sign' do
       }
     end
     it {
-      should contain_class('r_profile::puppet::master::auto_sign')
+      should contain_class('r_profile::puppet::master::autosign')
       should contain_file("autosign_conf").with({
         'ensure' => 'absent',
       })
