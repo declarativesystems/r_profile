@@ -4,9 +4,9 @@ class r_profile::database::mysql_server(
     $db               = hiera("r_profile::database::mysql_server::db", {}),
     $db_default       = hiera("r_profile::database::mysql_server::db_default", {}),
     $nagios_monitored = hiera("r_profile::database::mysql_server::nagios_monitored", true),
-    $enable_firewall  = hiera("r_profile::database::mysql_server::enable_firewall", true),
+    $open_firewall    = hiera("r_profile::database::mysql_server::open_firewall", false),
 ) {
- 
+
   # always 3306
   $port = 3306
 
@@ -24,7 +24,7 @@ class r_profile::database::mysql_server(
     }
   }
 
-  if $enable_firewall and !defined(Firewall["100 ${::fqdn} TCP ${port}"]) {
+  if $open_firewall and !defined(Firewall["100 ${::fqdn} TCP ${port}"]) {
     firewall { "100 ${::fqdn} TCP ${port}":
       dport   => $port,
       proto   => 'tcp',

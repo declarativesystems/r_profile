@@ -7,7 +7,7 @@ class r_profile::web_service::tomcat(
     $port             = 8080,
     $lb               = true,
     $nagios_monitored = true,
-    $enable_firewall  = true,
+    $open_firewall    = false,
 ){
 
   include java
@@ -67,7 +67,7 @@ class r_profile::web_service::tomcat(
     }
   }
 
-  if $enable_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
+  if $open_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
     firewall { "100 ${::fqdn} HTTP ${port}":
       dport   => $port,
       proto   => 'tcp',

@@ -1,13 +1,13 @@
 class r_profile::web_service::apache(
     $website_hash       = hiera('r_profile::web_service::apache::website_hash',undef),
-    $enable_firewall    = hiera('r_profile::web_service::apache::enable_firewall', true),
+    $open_firewall      = hiera('r_profile::web_service::apache::open_firewall', false),
     $lb                 = hiera('r_profile::web_service::apache::lb',true),
     $disable_php        = hiera('r_profile::web_service::apache::disable_php', false),
     $disable_mysql      = hiera('r_profile::web_service::apache::disable_mysql', false),
     $nagios_monitored   = hiera('r_profile::web_service::apache::nagios_monitored', true),
 ) {
 
-  # port is always 80, you would have to changed listeners, etc to support 
+  # port is always 80, you would have to changed listeners, etc to support
   # different/multiple ports
   $port = 80
 
@@ -17,7 +17,7 @@ class r_profile::web_service::apache(
 
   if ! $disable_php {
     include ::apache::mod::php
-  }  
+  }
 
   if ! $disable_mysql {
     class { 'mysql::bindings':
@@ -28,7 +28,7 @@ class r_profile::web_service::apache(
   include ::apache::mod::ssl
 
   # firewall
-  if $enable_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
+  if $open_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
     firewall { "100 ${::fqdn} HTTP ${port}":
       dport   => $port,
       proto   => 'tcp',
@@ -43,10 +43,10 @@ class r_profile::web_service::apache(
   } else {
     if $pe_server_version {
 
-      # attempt to lookup which nodes are classified as Haproxies 
+      # attempt to lookup which nodes are classified as Haproxies
       # and use first.  Only do this if being run in agent-master mode
       $lb_addresses = query_nodes('Class[R_profile::Monitor::Haproxy]')
-      
+
       if is_array($lb_addresses) {
         $lb_address = $lb_addresses[0]
       } else {
@@ -85,7 +85,7 @@ class r_profile::web_service::apache(
   # apache module sets one of these up but doesn't let us set the
   # allow_overrides option (.htaccess) that basically every REST framework
   # needs these days...
-  # Note we have to use a different title to avoid a name clash with the 
+  # Note we have to use a different title to avoid a name clash with the
   # module
   $default_vhost_docroot = '/var/www/html'
   apache::vhost { 'default-site':
@@ -120,7 +120,7 @@ class r_profile::web_service::apache(
         port           => $port,
         priority       => $website['priority'],
         directories  => [
-          { 
+          {
             path           => $_docroot,
             allow_override => ['All'],
           },
@@ -148,4 +148,3 @@ class r_profile::web_service::apache(
     }
   }
 }
-
