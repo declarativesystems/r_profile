@@ -42,7 +42,6 @@ class r_profile::web_service::tomcat(
     }
 
     if $lb_address and is_string($lb) {
-      source_ipaddress{ $lb_address: }
       $source_ip = $source_ipaddress[$lb_address]
     } else {
       $source_ip = undef
