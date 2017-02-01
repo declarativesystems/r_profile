@@ -1,3 +1,6 @@
+# R_profile::Database::Mysql_server
+#
+# Install the MySQL database server
 class r_profile::database::mysql_server(
     $root_password    = hiera("r_profile::database::mysql_server::root_password", 'changeme'),
     $override_options = hiera("r_profile::database::mysql_server::override_options", undef),
@@ -26,9 +29,9 @@ class r_profile::database::mysql_server(
 
   if $open_firewall and !defined(Firewall["100 ${::fqdn} TCP ${port}"]) {
     firewall { "100 ${::fqdn} TCP ${port}":
-      dport   => $port,
-      proto   => 'tcp',
-      action  => 'accept',
+      dport  => $port,
+      proto  => 'tcp',
+      action => 'accept',
     }
   }
 

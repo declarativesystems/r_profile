@@ -1,3 +1,6 @@
+# R_profile::Web_service::Tomcat
+#
+# Install and configure tomcat application server
 class r_profile::web_service::tomcat(
     $source_url       = 'http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.9/bin/apache-tomcat-8.5.9.tar.gz',
     $catalina_home    = '/opt/tomcat',
@@ -68,9 +71,9 @@ class r_profile::web_service::tomcat(
 
   if $open_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
     firewall { "100 ${::fqdn} HTTP ${port}":
-      dport   => $port,
-      proto   => 'tcp',
-      action  => 'accept',
+      dport  => $port,
+      proto  => 'tcp',
+      action => 'accept',
     }
   }
 }

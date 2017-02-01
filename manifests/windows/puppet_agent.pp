@@ -1,3 +1,6 @@
+# R_profile::Window::Puppet_agent
+#
+# Setup a puppet agent on Windows
 class r_profile::windows::puppet_agent(
     $puppet_path          = hiera("r_profile::windows::puppet_agent::puppet_path", 'c:/Program Files/PuppetLabs/puppet/bin'),
     $proxy                = hiera("r_profile::puppet::proxy", false),
@@ -12,7 +15,7 @@ class r_profile::windows::puppet_agent(
   } else {
     $proxy_ensure = absent
   }
-   
+
   if $puppet_path {
     $puppet_path_ensure = present
   } else {
@@ -36,7 +39,7 @@ class r_profile::windows::puppet_agent(
 
   #
   # proxy support
-  # 
+  #
   windows_env { [ 'http_proxy', 'https_proxy' ]:
     ensure    => $proxy_ensure,
     value     => $proxy,

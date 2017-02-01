@@ -1,10 +1,13 @@
+# R_profile::Linux::Sudo
+#
+# Configure sudo for linux
 class r_profile::linux::sudo {
   class { 'sudo': }
 
   group { ["sudo", "admins"]:
     ensure => present,
   }
-  
+
   if $vagrant {
     sudo::conf { "vagrant":
       priority => 10,
@@ -12,10 +15,10 @@ class r_profile::linux::sudo {
     }
 
     user { "vagrant":
-      ensure      => present,
-      gid         => "vagrant",
-      groups      => [],
-      membership  => inclusive,
+      ensure     => present,
+      gid        => "vagrant",
+      groups     => [],
+      membership => inclusive,
     }
   }
 

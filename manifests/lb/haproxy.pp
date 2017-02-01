@@ -1,3 +1,7 @@
+# R_profile::Lb::Haproxy
+#
+# A haproxy based load-balancer
+#
 # https://tickets.puppetlabs.com/browse/MODULES-3932
 class r_profile::lb::haproxy(
   $listeners        = hiera('r_profile::lb::haproxy::listeners',undef),

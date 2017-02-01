@@ -1,3 +1,5 @@
+# R_profile::Linux::Puppet_agen
+#
 # setup a puppet agent (currently just fixes proxy settings...)
 class r_profile::linux::puppet_agent(
     $proxy                        = hiera("r_profile::puppet::proxy", false),
@@ -32,7 +34,7 @@ class r_profile::linux::puppet_agent(
       Exec["systemctl_daemon_reload"],
       Service[$puppet_agent_service],
     ]
-   
+
     File_line <| path == $sysconf_puppet |> ~> $puppet_agent_notifications
 
     #
@@ -54,7 +56,7 @@ class r_profile::linux::puppet_agent(
       # remove any existing proxy info
       $http_proxy_var   = "http_proxy="
       $https_proxy_var  = "https_proxy="
-    } 
+    }
 
     file_line { "puppet agent http_proxy":
       ensure => $proxy_ensure,

@@ -14,16 +14,16 @@
 class r_profile::webapp::git_site(
     $sites = hiera('r_profile::webapp::git_site::sites', {}),
 ) {
-  
+
   $sites.keys.each | $site | {
     vcsrepo { $site:
-      ensure    => 'latest',
-      provider  => 'git',
-      source    => $sites[$site]['source'],
-      revision  => pick($sites[$site]['revision'], 'master'),
-      owner     => $sites[$site]['owner'],
-      group     => $sites[$site]['group'],
-      notify    => $sites[$site]['notify'],
+      ensure   => 'latest',
+      provider => 'git',
+      source   => $sites[$site]['source'],
+      revision => pick($sites[$site]['revision'], 'master'),
+      owner    => $sites[$site]['owner'],
+      group    => $sites[$site]['group'],
+      notify   => $sites[$site]['notify'],
     }
   }
 }

@@ -1,3 +1,6 @@
+# R_profile::Nginx
+#
+# Support for Nginx webserver
 class r_profile::nginx {
   class { "::nginx": }
 
@@ -7,15 +10,15 @@ class r_profile::nginx {
   # Default virtual host
   #
   nginx::resource::vhost { $fqdn:
-    listen_options  => "default_server",
-    www_root        => $www_root,
+    listen_options => "default_server",
+    www_root       => $www_root,
   }
 
   File {
     owner => "root",
     group => "root",
     mode  => "0755",
-  } 
+  }
 
   file { $www_root:
     ensure  => directory,

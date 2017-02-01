@@ -12,9 +12,9 @@ class r_profile::linux::ntp(
 ) {
   if $virtual != "docker" {
     class { "ntp":
-      servers         => $servers,
-      package_manage  => $package_manage,
-      service_manage  => $service_manage,
+      servers        => $servers,
+      package_manage => $package_manage,
+      service_manage => $service_manage,
     }
   }
 }

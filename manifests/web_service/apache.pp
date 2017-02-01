@@ -1,3 +1,6 @@
+# R_profile::Web_service::Apache
+#
+# Install and configure Apache webserver
 class r_profile::web_service::apache(
     $website_hash       = hiera('r_profile::web_service::apache::website_hash',undef),
     $open_firewall      = hiera('r_profile::web_service::apache::open_firewall', false),
@@ -30,9 +33,9 @@ class r_profile::web_service::apache(
   # firewall
   if $open_firewall and !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
     firewall { "100 ${::fqdn} HTTP ${port}":
-      dport   => $port,
-      proto   => 'tcp',
-      action  => 'accept',
+      dport  => $port,
+      proto  => 'tcp',
+      action => 'accept',
     }
   }
 
@@ -88,12 +91,12 @@ class r_profile::web_service::apache(
   # module
   $default_vhost_docroot = '/var/www/html'
   apache::vhost { 'default-site':
-    ensure          => present,
-    docroot         => $default_vhost_docroot,
-    priority        => '15',
-    ip              => $ip,
-    port            => $port,
-    directories     => [
+    ensure      => present,
+    docroot     => $default_vhost_docroot,
+    priority    => '15',
+    ip          => $ip,
+    port        => $port,
+    directories => [
       {
         path           => $default_vhost_docroot,
         allow_override => ['All'],
@@ -118,7 +121,7 @@ class r_profile::web_service::apache(
         manage_docroot => $website['manage_docroot'],
         port           => $port,
         priority       => $website['priority'],
-        directories  => [
+        directories    => [
           {
             path           => $_docroot,
             allow_override => ['All'],

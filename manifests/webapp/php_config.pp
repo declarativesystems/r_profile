@@ -1,3 +1,5 @@
+# R_profile::Webapp::Php_config
+#
 # write PHP configuration file settings
 #
 # Params
@@ -25,13 +27,13 @@ class r_profile::webapp::php_config(
       $_notify = undef
     }
 
-
+    $file_mode = pick($configs[$config]['mode'], '0644')
     file { $config:
-      ensure  => file,
-      owner   => pick($configs[$config]['owner'], 'root'),
-      group   => pick($configs[$config]['group'], 'root'),
-      mode    => pick($configs[$config]['mode'], '0644'),
-      notify  => $_notify,
+      ensure => file,
+      owner  => pick($configs[$config]['owner'], 'root'),
+      group  => pick($configs[$config]['group'], 'root'),
+      mode   => $file_mode,
+      notify => $_notify,
     }
 
     # defined values

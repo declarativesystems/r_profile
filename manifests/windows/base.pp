@@ -1,3 +1,6 @@
+# R_profile::Windows::Base
+#
+# Basic 'baselevel' class for Windows
 class r_profile::windows::base {
   include r_profile::windows::chocolatey
   include r_profile::windows::powershell

@@ -16,8 +16,8 @@ class r_profile::motd(
 ) {
 
   class { "::motd":
-    template      => $template,
-    content       => $content,
-    dynamic_motd  => $dynamic_motd,
+    template     => $template,
+    content      => $content,
+    dynamic_motd => $dynamic_motd,
   }
 }

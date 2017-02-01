@@ -1,3 +1,6 @@
+# R_profile::Linux::Base
+#
+# A basic Linux 'baseline' class
 class r_profile::linux::base {
   include r_profile::linux::firewall
   include r_profile::linux::vim

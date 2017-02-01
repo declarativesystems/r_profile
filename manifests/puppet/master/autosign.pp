@@ -1,3 +1,6 @@
+# R_profile::Puppet::Master::Autosign
+#
+# Configure puppet for autosigning client certificiates
 class r_profile::puppet::master::autosign(
     Enum['policy', 'absent', 'accept_all'] $ensure =
       hiera('r_profile::puppet::master::autosign::ensure', 'absent'),

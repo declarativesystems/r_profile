@@ -1,4 +1,4 @@
-# r_profile::puppet::master::db_backup
+# R_profile::Puppet::Master::Db_backup
 #
 # Install a cron job to backup PE postgres server
 class r_profile::puppet::master::db_backup(

@@ -1,4 +1,4 @@
-# r_profile::puppet::proxy
+# R_profile::Puppet::Proxy
 #
 # Enable a Puppet Enterprise Master to work with a proxy server
 #
@@ -42,10 +42,10 @@ class r_profile::puppet::master::proxy(
 
   # PMT (puppet.conf)
   ini_setting { "puppet.conf http_proxy_host":
-    path     => $puppetconf,
-    section  => "user",
-    setting  => "http_proxy_host",
-    value    => $proxy_host,
+    path    => $puppetconf,
+    section => "user",
+    setting => "http_proxy_host",
+    value   => $proxy_host,
   }
 
   ini_setting { "puppet.conf http_proxy_port":

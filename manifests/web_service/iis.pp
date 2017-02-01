@@ -1,3 +1,6 @@
+# R_profile::Web_service::Iis
+#
+# Install and configure IIS web server
 class r_profile::web_service::iis(
   $website_owner  = hiera('r_profile::web_service::iis::website_owner', "IUSR_${hostname}"),
   $website_group  = hiera('r_profile::web_service::iis::website_group', 'Administrators'),
@@ -7,7 +10,7 @@ class r_profile::web_service::iis(
 
   File {
     owner => $website_owner,
-    group => $website_group,    
+    group => $website_group,
   }
 
 case $::kernelmajversion {
@@ -110,8 +113,8 @@ case $::kernelmajversion {
     }
 
     file { $site_name:
-      ensure  => directory,
-      path    => $_docroot,
+      ensure => directory,
+      path   => $_docroot,
     }
 
     acl { $_docroot:
@@ -131,7 +134,6 @@ case $::kernelmajversion {
     file { "${_docroot}/Iisstart.htm ":
       ensure  => file,
       content => $site_name,
-    } 
+    }
   }
 }
-

@@ -29,8 +29,8 @@ class r_profile::lockdown::user(
     }
 
     user { $user:
-      password  => $_disable_password,
-      shell     => $_disable_shell,
+      password => $_disable_password,
+      shell    => $_disable_shell,
     }
   }
 

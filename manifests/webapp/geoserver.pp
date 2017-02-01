@@ -1,3 +1,6 @@
+# R_profile::Webapp::Geoserver
+#
+# Support for install GeoServer - A server-side Java GIS
 class r_profile::webapp::geoserver(
   $version          = '2.9.1',
   $download_base    = 'http://sourceforge.net/projects/geoserver/files/GeoServer',
@@ -45,13 +48,13 @@ class r_profile::webapp::geoserver(
   # and then to the webapps dir
 
   archive { $zip_filename:
-    path          => "/${archive_dir}/${zip_filename}",
-    source        => $download_url,
-    extract       => true,
-    extract_path  => $unpack_dir,
-    creates       => $war_path,
-    cleanup       => false,
-    notify        => Exec['redeploy_geoserver'],
+    path         => "/${archive_dir}/${zip_filename}",
+    source       => $download_url,
+    extract      => true,
+    extract_path => $unpack_dir,
+    creates      => $war_path,
+    cleanup      => false,
+    notify       => Exec['redeploy_geoserver'],
   }
 
   archive { $war_file:
@@ -67,11 +70,11 @@ class r_profile::webapp::geoserver(
   exec { 'redeploy_geoserver':
     refreshonly => true,
     command     => "rm -rf ${install_path}/*",
-    onlyif      => "test -f $war_installed",
+    onlyif      => "test -f ${war_installed}",
     path        => ['/usr/bin','/bin'],
     before      => Archive[$war_file],
   }
- 
+
   # geoserver should store data outside of webapps to prevent blowing it
   # away.  Take an initial copy from the extracted war file
   $changes = [
@@ -87,16 +90,16 @@ class r_profile::webapp::geoserver(
     changes => $changes,
     require => Archive[$war_file],
     onlyif  => 'values web-app//context-param/param-name/#text not_include GEOSERVER_DATA_DIR'
-  }   
+  }
 
 
   # initial copy into GEOSERVER_DATA_DIR if needed
   exec { "geoserver_data_initial":
-    command     => "cp ${install_path}/data/* ${data_dir} -r && chown ${user}.${group} ${data_dir} -R",
-    notify      => Tomcat::Service[$service],
-    path        => [ '/usr/bin', '/bin'],
-    creates     => "${data_dir}/global.xml",
-    require     => Archive[$war_file],
+    command => "cp ${install_path}/data/* ${data_dir} -r && chown ${user}.${group} ${data_dir} -R",
+    notify  => Tomcat::Service[$service],
+    path    => [ '/usr/bin', '/bin'],
+    creates => "${data_dir}/global.xml",
+    require => Archive[$war_file],
   }
 
   if $nagios_monitored {

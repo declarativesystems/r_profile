@@ -1,3 +1,6 @@
+# R_profile::Users
+#
+# Support for creating users and groups in bulk
 class r_profile::users(
     $user_hash = hiera("r_profile::users::user_hash", false),
     $home_dir  = "/home",
@@ -5,7 +8,7 @@ class r_profile::users(
 ) {
   if $user_hash {
     $users = keys($user_hash)
-    
+
     # create a group for each user
     group { $users:
       ensure => present,

@@ -1,3 +1,6 @@
+# R_profile::Monitor::Nagios_monitored
+#
+# Configure nagios to monitor something
 class r_profile::monitor::nagios_monitored(
   $nagios_server = hiera('r_profile::monitor::nagios_monitored::nagios_server', false),
 ) {

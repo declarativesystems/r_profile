@@ -1,3 +1,6 @@
+# R_profile::Puppet::Master::Hiera
+#
+# Configure hiera based on passed-in hierachy
 class r_profile::puppet::master::hiera(
     $eyaml      = hiera('r_profile::puppet::master::eyaml', true),
     $hierarchy  = hiera('r_profile::puppet::master::hierarchy', $r_profile::puppet::params::hierarchy_default),

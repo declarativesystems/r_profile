@@ -1,3 +1,6 @@
+# R_profile::Linux::Apt
+#
+# Setup of apt package manager
 class r_profile::linux::apt(
     $include_src      = true,
     $auto_update      = true,
@@ -8,10 +11,10 @@ class r_profile::linux::apt(
     $update_weekday   = "*",
 ) {
   class { "apt":
-    purge   =>  { 
+    purge  =>  {
       "sources.list"  => true,
     },
-    update  => {
+    update => {
       frequency       => 'daily',
     },
   }
@@ -43,11 +46,14 @@ class r_profile::linux::apt(
         $security_location = "http://security.debian.org/"
         $security_release  = "${::lsbdistcodename}/updates"
       }
+      default: {
+        fail("Class ${name} does not support ${operatingsystem}")
+      }
     }
 
     $os = downcase($operatingsystem)
     $location = hiera(
-      "r_profile::apt::${os}::location", 
+      "r_profile::apt::${os}::location",
       $default_location
     )
 
@@ -70,7 +76,7 @@ class r_profile::linux::apt(
     }
   }
 
-  if $auto_update { 
+  if $auto_update {
     cron { "apt_auto_update":
       ensure      => present,
       command     => "apt-get update && apt-get upgrade -y",
@@ -85,4 +91,3 @@ class r_profile::linux::apt(
   }
 
 }
-

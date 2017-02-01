@@ -1,3 +1,6 @@
+# R_profile::Aws
+#
+# Configure AWS with puppet
 class r_profile::aws(
   $aws_access_key_id          = hiera("r_profile::aws::aws_secret_key_id"),
   $aws_secret_access_key      = hiera("r_profile::aws::aws_secret_access_key"),

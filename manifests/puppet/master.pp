@@ -1,4 +1,4 @@
-# r_profile::puppet::master
+# R_profile::Puppet::Master
 #
 # Puppet Master general settings
 #
@@ -6,7 +6,8 @@
 # @param $open_firewall open ports in IPTables?
 # @param $nagios_monitored create nagios monitoring resources?
 class r_profile::puppet::master (
-    Enum['none', 'hiera'] $data_binding_terminus    = hiera("r_profile::puppet::master::data_binding_terminus", $r_profile::puppet::params::data_binding_terminus),
+    Enum['none', 'hiera'] $data_binding_terminus =
+      hiera("r_profile::puppet::master::data_binding_terminus", $r_profile::puppet::params::data_binding_terminus),
     Boolean $open_firewall    = hiera("r_profile::puppet::master::open_firewall", false),
     Boolean $nagios_monitored = hiera("r_profile::puppet::master::nagios_monitored", false),
 ) inherits r_profile::puppet::params {
@@ -40,9 +41,9 @@ class r_profile::puppet::master (
     [8140, 61613, 443, 8142].each | $port | {
       if !defined(Firewall["100 ${::fqdn} HTTP ${port}"]) {
         firewall { "100 ${::fqdn} HTTP ${port}":
-          dport   => $port,
-          proto   => 'tcp',
-          action  => 'accept',
+          dport  => $port,
+          proto  => 'tcp',
+          action => 'accept',
         }
       }
     }

@@ -1,3 +1,5 @@
+# R_profile::Linux::Vim
+#
 # Setup a nice version of vim
 class r_profile::linux::vim {
   class { 'vim': }
@@ -12,7 +14,7 @@ class r_profile::linux::vim {
     #  path    => ["/bin", "/usr/bin"],
     #  unless  => "vim-addons | grep -e 'puppet.*installed'",
     #}
-   
+
     file { [  "/var/lib/vim/addons/ftdetect",
               "/var/lib/vim/addons/ftplugin",
               "/var/lib/vim/addons/indent",

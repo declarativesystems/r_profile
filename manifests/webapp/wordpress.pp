@@ -1,3 +1,6 @@
+# R_profile::Webapp::Wordpress
+#
+# Install wordpress CMS
 class r_profile::webapp::wordpress(
     $nagios_monitored = true,
 ) {
@@ -6,7 +9,7 @@ class r_profile::webapp::wordpress(
     priority => '00',
     docroot  => '/opt/wordpress',
   }
-  
+
   include ::wordpress
   if $nagios_monitored {
     nagios::nagios_service_http { 'wordpress':
