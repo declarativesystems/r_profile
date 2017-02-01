@@ -1,3 +1,6 @@
 spec/fixtures
 pkg
 Gemfile.lock
+.tmp
+.librarian
+Puppetfile.lock

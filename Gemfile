@@ -1,10 +1,10 @@
 source ENV['GEM_SOURCE'] || 'https://rubygems.org'
-
-
-gem 'metadata-json-lint'
-gem 'puppet'
-gem 'puppetlabs_spec_helper'
-gem 'puppet-lint'
-gem 'facter'
-gem 'rspec-puppet'
-gem 'rspec-puppet-facts'
+case RUBY_PLATFORM
+when /darwin/
+  gem 'CFPropertyList'
+end
+gem 'puppet', '4.9.0'
+gem 'facter', '2.4.6'
+gem 'rubocop', '0.47.1'
+gem 'pdqtest', '0.1.5'
+gem 'rspec-puppet-facts', '1.7.0'
