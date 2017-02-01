@@ -4,7 +4,7 @@
 #
 # @param ensure true to enable lockdown of `at` otherwise false
 class r_profile::lockdown::at(
-  Boolean $ensure = hiera('r_profile::lockdown::at', false),
+  Boolean $ensure = hiera('r_profile::lockdown::at::ensure', false),
 ) {
 
   if $ensure {
