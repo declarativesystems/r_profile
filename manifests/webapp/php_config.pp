@@ -1,12 +1,12 @@
 # write PHP configuration file settings
-# 
+#
 # Params
 # ======
 # `configs`
 # Hash of configuration filenames and values to write:
 # config_filename => {
 #   owner => 'user',  # config file owner
-#   group => 'group', # config file group  
+#   group => 'group', # config file group
 #   mode  => '0640',  # config file permissions
 #   notify => RES,    # resources to notify on change
 #   defines   => {},  # PHP define KVPs to write in key=>value format
@@ -33,7 +33,7 @@ class r_profile::webapp::php_config(
       mode    => pick($configs[$config]['mode'], '0644'),
       notify  => $_notify,
     }
-    
+
     # defined values
     if $configs[$config]['defines'] {
       $configs[$config]['defines'].keys.sort.each | $def | {
@@ -50,13 +50,12 @@ class r_profile::webapp::php_config(
     # variables
     if $configs[$config]['vars'] {
       $configs[$config]['vars'].keys.sort.each | $v | {
-        $match="^\\\$${v}\ \="
 
         file_line { "${config}_${v}":
           ensure => present,
           path   => $config,
           line   => "\$${v} = '${configs[$config]['vars'][$v]}';",
-          match  => "^\\\$${v}\s*\=",
+          match  => "^\\\$${v}\s*=",
           notify => $_notify,
         }
       }
