@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-require 'spec_helper'
 describe 'r_profile::linux::sysctl' do
   on_supported_os.select { |_, f| (f[:os]['family'] != 'Solaris' and f[:os]['family'] != 'AIX') }.each do |os, f|
     context "on #{os}" do
