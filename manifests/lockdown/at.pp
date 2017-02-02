@@ -11,14 +11,17 @@ class r_profile::lockdown::at(
     "RedHat": {
       $at_deny  = '/etc/at.deny'
       $at_allow = '/etc/at.allow'
+      $add_root = false
     }
     "AIX": {
       $at_deny  = "/var/adm/cron/at.deny"
       $at_allow = "/var/adm/cron/at.allow"
+      $add_root = true
     }
     "Solaris": {
       $at_deny  = "/etc/cron.d/at.deny"
       $at_allow = "/etc/cron.d/at.allow"
+      $add_root = true
     }
     default:{
       fail("Class ${name} does not support ${facts['os']['family']} yet")
@@ -37,6 +40,14 @@ class r_profile::lockdown::at(
       owner  => 'root',
       group  => 'root',
       mode   => '0600',
+    }
+
+    if $add_root {
+      file_line { "${at_allow}_user_root":
+        ensure => present,
+        line   => "root",
+        path   => $at_allow,
+      }
     }
   }
 }

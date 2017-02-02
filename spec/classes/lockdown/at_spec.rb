@@ -42,6 +42,13 @@ describe 'r_profile::lockdown::at' do
     end
     it { should contain_file('/etc/cron.d/at.allow')}
     it { should contain_file('/etc/cron.d/at.deny')}
+    it { should contain_file_line('/etc/cron.d/at.allow_user_root').with(
+      {
+        :ensure => 'present',
+        :path   => '/etc/cron.d/at.allow',
+        :line   => 'root',
+      }
+    )}
   end
 
   context 'manages correct files on aix' do
@@ -59,6 +66,13 @@ describe 'r_profile::lockdown::at' do
     end
     it { should contain_file('/var/adm/cron/at.allow')}
     it { should contain_file('/var/adm/cron/at.deny')}
+    it { should contain_file_line('/var/adm/cron/at.allow_user_root').with(
+      {
+        :ensure => 'present',
+        :path   => '/var/adm/cron/at.allow',
+        :line   => 'root',
+      }
+    )}
   end
 
 end
