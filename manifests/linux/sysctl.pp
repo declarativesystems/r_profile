@@ -46,8 +46,13 @@ class r_profile::linux::sysctl(
 
   $settings.each |$key, $value| {
     sysctl { $key:
-      value => $value,
+      value  => $value,
+      notify => Exec["flush_routing_tables"],
     }
   }
 
+  exec { "flush_routing_tables":
+    command     => "/sbin/sysctl -w net.ipv4.route.flush=1",
+    refreshonly => true,
+  }
 }
