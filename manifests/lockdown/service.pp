@@ -1,11 +1,11 @@
 # R_profile::Lockdown::Service
 #
 # Stop and disable the passed in service list
-# @param $services List of services to stop and disable
+# @param $disable List of services to stop and disable
 class r_profile::lockdown::service(
-    Array[String]  $services = []
+    Array[String]  $disable = hiera("r_profile::lockdown::service::disable", []),
 ) {
-  service { $services:
+  service { $disable:
     ensure => stopped,
     enable => false,
   }

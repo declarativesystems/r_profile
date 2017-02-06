@@ -8,7 +8,7 @@ describe 'r_profile::lockdown::service' do
     service_titles = ['abcd', 'efgh']
     let :params do
       {
-        :services => ['abcd', 'efgh']
+        :disable => ['abcd', 'efgh']
       }
     end
     it { should contain_service(service_titles[0]).with(

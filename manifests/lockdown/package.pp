@@ -2,11 +2,11 @@
 #
 # Purge the passed-in packages from the system
 #
-# @param $packages List of packages to purge
+# @param $delete List of packages to purge
 class r_profile::lockdown::package(
-    Array[String] $packages = []
+    Array[String] $delete = hiera("r_profile::lockdown::package::delete", [])
 ) {
-  package { $packages:
+  package { $delete:
     ensure => purged,
   }
 }

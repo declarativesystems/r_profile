@@ -8,9 +8,9 @@
 #
 # @param disable_password
 class r_profile::lockdown::user(
-    Array[String] $disable_password = [],
-    Array[String] $disable_shell    = [],
-    Array[String] $delete           = [],
+    Array[String] $disable_password = hiera("r_profile::lockdown::user::disable_password", []),
+    Array[String] $disable_shell    = hiera("r_profile::lockdown::user::disable_shell", []),
+    Array[String] $delete           = hiera("r_profile::lockdown::user::delete", []),
 ) {
 
   # figure out what unique users we have across both passed in arrays and then

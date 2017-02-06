@@ -8,7 +8,7 @@ describe 'r_profile::lockdown::package' do
     package_titles = ['abcd', 'efgh']
     let :params do
       {
-        :packages => ['abcd', 'efgh']
+        :delete => ['abcd', 'efgh']
       }
     end
     it { should contain_package(package_titles[0]).with(
