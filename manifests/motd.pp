@@ -42,22 +42,6 @@ class r_profile::motd(
       mode  => '0644',
     }
 
-    # if $issue_content {
-    #   File["/etc/issue"] {
-    #     owner +> "root",
-    #     group +> "root",
-    #     mode  +> "0644",
-    #   }
-    # }
-    #
-    # if $issue_net_content {
-    #   File["/etc/issue.net"] {
-    #     owner +> "root",
-    #     group +> "root",
-    #     mode  +> "0644",
-    #   }
-    # }
-    #
   }
 
 }
