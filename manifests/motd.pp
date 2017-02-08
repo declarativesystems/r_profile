@@ -17,11 +17,47 @@ class r_profile::motd(
     $dynamic_motd       = hiera("r_profile::motd::dynamic_motd",true),
 ) {
 
-  class { "::motd":
-    template          => $template,
-    content           => $content,
-    dynamic_motd      => $dynamic_motd,
-    issue_content     => $issue_content,
-    issue_net_content => $issue_net_content,
+  if $kernel == "AIX" {
+    if $content {
+      file { "/etc/motd":
+        ensure  => file,
+        owner   => "bin",
+        group   => "bin",
+        mode    => "0644",
+        content => $content,
+      }
+    }
+  } else {
+    class { "::motd":
+      template          => $template,
+      content           => $content,
+      dynamic_motd      => $dynamic_motd,
+      issue_content     => $issue_content,
+      issue_net_content => $issue_net_content,
+    }
+
+    File <| title == '/etc/motd' or title == "/etc/issue" or title == "/etc/issue.net" |> {
+      owner => 'root',
+      group => 'root',
+      mode  => '0644',
+    }
+
+    # if $issue_content {
+    #   File["/etc/issue"] {
+    #     owner +> "root",
+    #     group +> "root",
+    #     mode  +> "0644",
+    #   }
+    # }
+    #
+    # if $issue_net_content {
+    #   File["/etc/issue.net"] {
+    #     owner +> "root",
+    #     group +> "root",
+    #     mode  +> "0644",
+    #   }
+    # }
+    #
   }
+
 }
