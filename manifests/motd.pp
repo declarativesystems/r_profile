@@ -14,24 +14,29 @@ class r_profile::motd(
     $content            = hiera("r_profile::motd::content", undef),
     $issue_content      = hiera("r_profile::motd::issue_content", undef),
     $issue_net_content  = hiera("r_profile::motd::issue_net_content", undef),
-    $dynamic_motd       = hiera("r_profile::motd::dynamic_motd",true),
 ) {
 
+  # content overrides template
+  if $content {
+    $_content = $content
+  } else {
+    $_content = template($template)
+  }
+
   if $kernel == "AIX" {
-    if $content {
+    if $_content {
       file { "/etc/motd":
         ensure  => file,
         owner   => "bin",
         group   => "bin",
         mode    => "0644",
-        content => $content,
+        content => $_content,
       }
     }
   } else {
     class { "::motd":
       template          => $template,
       content           => $content,
-      dynamic_motd      => $dynamic_motd,
       issue_content     => $issue_content,
       issue_net_content => $issue_net_content,
     }
