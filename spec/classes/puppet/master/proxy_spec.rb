@@ -10,6 +10,10 @@ describe 'r_profile::puppet::master::proxy' do
     }
   end
   describe 'disables proxy when unset' do
+    context "catalog compiles" do
+      it { should compile}
+    end
+
     it {
       should contain_class('r_profile::puppet::master::proxy')
       should contain_ini_setting("puppet.conf http_proxy_host").with({
@@ -29,6 +33,11 @@ describe 'r_profile::puppet::master::proxy' do
         :proxy => 'http://proxy.the.world:8080',
       }
     end
+
+    context "catalog compiles" do
+      it { should compile}
+    end
+    
     it {
       should contain_class('r_profile::puppet::master::proxy')
       should contain_ini_setting("puppet.conf http_proxy_host").with({

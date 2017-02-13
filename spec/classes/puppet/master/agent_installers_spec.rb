@@ -5,6 +5,11 @@ describe 'r_profile::puppet::master::agent_installers' do
   let :pre_condition do
     'define pe_staging::file($timeout=0) {}'
   end
+
+  context "catalog compiles" do
+    it { should compile}
+  end
+  
   context 'with default values for all parameters' do
     it {
       should contain_class('r_profile::puppet::master::agent_installers')

@@ -1,5 +1,8 @@
 require 'spec_helper'
 describe 'r_profile::puppet::master::hiera' do
+  let :pre_condition do
+    'service { "pe-puppetserver": }'
+  end
   let :facts do
     {
       :osfamily               => 'RedHat',
@@ -8,6 +11,10 @@ describe 'r_profile::puppet::master::hiera' do
       :is_pe                  => true,
       :pe_version             => '2016.4.2',
     }
+  end
+
+  context "catalog compiles" do
+    it { should compile}
   end
 
   context 'with default values for all parameters' do

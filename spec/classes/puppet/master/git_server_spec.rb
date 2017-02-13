@@ -17,6 +17,11 @@ describe 'r_profile::puppet::master::git_server' do
     define node_group($ensure, $classes, $environment, $override_environment, $parent){}
     '
   end
+  
+  context "catalog compiles" do
+    it { should compile}
+  end
+
   context 'with default values for all parameters' do
     it {
       should contain_class('r_profile::puppet::master::git_server')

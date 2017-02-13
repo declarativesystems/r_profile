@@ -1,5 +1,13 @@
 require 'spec_helper'
 describe 'r_profile::puppet::master::autosign' do
+  let :pre_condition do
+    'service { "pe-puppetserver": }'
+  end
+  
+  context "catalog compiles" do
+    it { should compile}
+  end
+
   context 'with default values for all parameters' do
     it {
       should contain_class('r_profile::puppet::master::autosign')
