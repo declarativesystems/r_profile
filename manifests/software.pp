@@ -2,14 +2,10 @@
 #
 # Params
 # [*packages*]
-#   Array of packages to install
+#   Hash of packages to install
 class r_profile::software(
-    $packages = hiera("r_profile::software::packages", []),
+    $packages = hiera("r_profile::software::packages", {}),
 ) {
 
-  if $packages {
-    package { $packages:
-      ensure => present,
-    }
-  }
+  ensure_packages($packages, {"ensure"=>"present"})
 }

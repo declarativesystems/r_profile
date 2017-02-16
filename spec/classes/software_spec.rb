@@ -8,4 +8,15 @@ describe 'r_profile::software' do
     it { should contain_class('r_profile::software') }
   end
 
+  context "packages specified" do
+    let :params do
+      {
+        :packages => {
+          "foo" => {}
+        }
+      }
+    end
+    it { should contain_package('foo') }
+  end
+
 end
