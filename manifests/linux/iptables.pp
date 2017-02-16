@@ -1,10 +1,10 @@
-# R_profile::Linux::Firewall
+# R_profile::Linux::Iptables
 #
 # Management of the IPtables Linux firewall
 #
 # @param ensure 'managed' take control of the IPtables firewall, 'disabled' turn IPtables off, 'unmanaged' do not change firewall settings
-class r_profile::linux::firewall(
-    Enum['managed', 'disabled', 'unmanaged'] $ensure = hiera('r_profile::linux::firewall::ensure', 'unmanaged'),
+class r_profile::linux::iptables(
+    Enum['managed', 'disabled', 'unmanaged'] $ensure = hiera('r_profile::linux::iptables::ensure', 'unmanaged'),
 ) {
   # Suggested global firewall defaults declared in r10k-control/manifests/site.pp
   #Firewall {
