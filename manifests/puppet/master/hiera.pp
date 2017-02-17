@@ -3,7 +3,6 @@
 # Configure hiera based on passed-in hierachy
 class r_profile::puppet::master::hiera(
     $eyaml      = hiera('r_profile::puppet::master::hiera::eyaml', true),
-    $hierarchy  = hiera('r_profile::puppet::master::hiera::hierarchy', $r_profile::puppet::params::hierarchy_default),
 ) inherits r_profile::puppet::params {
   $hieradir = $r_profile::puppet::params::hieradir
   if $eyaml {
@@ -12,6 +11,13 @@ class r_profile::puppet::master::hiera(
     # [yaml]
     $backends = undef
   }
+
+  # fixme - pick vs params
+  $h = file(
+    "/etc/puppetlabs/code/environments/production/hieradata/hierarchy.txt",
+    "/etc/puppetlabs/code/environments/production/modules/r_profile/files/default_hierarchy.txt",
+  )
+  $hierarchy = split($h, '\n')
 
   class { "hiera":
     hierarchy       => $hierarchy,
