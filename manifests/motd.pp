@@ -35,7 +35,6 @@ class r_profile::motd(
     }
   } else {
     class { "::motd":
-      template          => $template,
       content           => $content,
       issue_content     => $issue_content,
       issue_net_content => $issue_net_content,

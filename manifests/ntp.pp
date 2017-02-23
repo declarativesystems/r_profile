@@ -12,12 +12,14 @@ class r_profile::ntp(
     $servers                = hiera("r_profile::ntp::servers", undef),
     Boolean $package_manage = hiera("r_profile::ntp::package_manage", true),
     Boolean $service_manage = hiera("r_profile::ntp::service_manage", true),
+    $service_name           = hiera("r_profile::ntp::service_name", undef),
 ) {
   if $facts['virtual'] != "docker" {
     class { "ntp":
       servers        => $servers,
       package_manage => $package_manage,
       service_manage => $service_manage,
+      service_name   => $service_name,
     }
   }
 }

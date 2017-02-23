@@ -13,12 +13,15 @@ class r_profile::puppet::master::hiera(
   }
 
   # fixme - pick vs params
-  $h = file(
+  $hierarchy_raw = file(
     "/etc/puppetlabs/code/environments/production/hieradata/hierarchy.txt",
-    "/etc/puppetlabs/code/environments/production/modules/r_profile/files/default_hierarchy.txt",
+    "/dev/null"
   )
-  $hierarchy = split($h, '\n')
-
+  if $hierarchy_raw == "" {
+    $hierarchy = $hierarchy_default
+  } else {
+    $hierarchy = split($hierarchy_raw, '\n')
+  }
   class { "hiera":
     hierarchy       => $hierarchy,
     hiera_yaml      => "/etc/puppetlabs/puppet/hiera.yaml",
