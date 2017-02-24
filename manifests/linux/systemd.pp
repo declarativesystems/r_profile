@@ -1,7 +1,6 @@
 # R_profile::Linux::Systemd
 #
 # Configure systemd on linux
-
 class r_profile::linux::systemd {
 
   # Provide a graph node that we can notify to get systemd to reload itself.

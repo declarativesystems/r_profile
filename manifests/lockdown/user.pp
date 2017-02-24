@@ -6,7 +6,9 @@
 # the user still be present to update /etc/shadow and /etc/password.  This will
 # manifest as a duplicate declaration error if encountered in the field.
 #
-# @param disable_password
+# @param disable_password Array of usernames who should have their password locked
+# @param disable_shell Array of usernames who should have their shell disabled
+# @param delete Array of usernames who should be deleted from the system
 class r_profile::lockdown::user(
     Array[String] $disable_password = hiera("r_profile::lockdown::user::disable_password", []),
     Array[String] $disable_shell    = hiera("r_profile::lockdown::user::disable_shell", []),

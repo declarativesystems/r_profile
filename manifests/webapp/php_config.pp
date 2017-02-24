@@ -2,10 +2,8 @@
 #
 # write PHP configuration file settings
 #
-# Params
-# ======
-# `configs`
-# Hash of configuration filenames and values to write:
+# @param configs Hash of configuration filenames and values to write:
+# ```puppet
 # config_filename => {
 #   owner => 'user',  # config file owner
 #   group => 'group', # config file group
@@ -14,7 +12,7 @@
 #   defines   => {},  # PHP define KVPs to write in key=>value format
 #   vars      => {},  # PHP variable KVPs to write in key=>value format
 # }
-
+# ```
 class r_profile::webapp::php_config(
     $configs = hiera('r_profile::webapp::php_config', {}),
 ) {

@@ -1,3 +1,5 @@
+# R_profile::Ntp
+#
 # A more general-purpose NTP
 #
 # Supports:
@@ -8,6 +10,7 @@
 # @param servers Array of servers to ask for the time
 # @param package_manage True if we should install ntp otherwise false
 # @param service_manage True if we should control the ntpd service otherwise false
+# @param service_name Name of the service to manage if we are instructed to do so
 class r_profile::ntp(
     $servers                = hiera("r_profile::ntp::servers", undef),
     Boolean $package_manage = hiera("r_profile::ntp::package_manage", true),

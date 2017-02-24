@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Puppet Class: r_profile::motd
+  
+    &mdash; Documentation by YARD 0.9.8
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "puppet_classes::r_profile::motd";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (r)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Classes</span></span>
+     &raquo; 
+    <span class="title">r_profile::motd</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Class: r_profile::motd</h1>
+<div class="box_info">
+  
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      manifests/motd.pp
+    </dd>
+  </dl>
+</div>
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>R_profile::Motd</p>
+
+<p>Simple MOTD support for POSIX and Windows. To ensure file permissions are
+explicitly set, I had to use a resource collector against the files that
+the <code>puppetlabs-motd</code> module creates.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>template</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::motd::template&quot;, &quot;${module_name}/motd.erb&quot;)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Process this tempalate and pass the evaluated string to the
+<code>puppetlabs-motd</code> module</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>content</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::motd::content&quot;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Complete message as to insert into /etc/motd</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>issue_content</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::motd::issue_content&quot;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Complete message as to insert into /etc/issue</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>issue_net_content</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::motd::issue_net_content&quot;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Complete message as to insert into /etc/issue.net</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'manifests/motd.pp', line 12</span>
+
+class r_profile::motd(
+    $template           = hiera(&quot;r_profile::motd::template&quot;, &quot;${module_name}/motd.erb&quot;),
+    $content            = hiera(&quot;r_profile::motd::content&quot;, undef),
+    $issue_content      = hiera(&quot;r_profile::motd::issue_content&quot;, undef),
+    $issue_net_content  = hiera(&quot;r_profile::motd::issue_net_content&quot;, undef),
+) {
+
+  # content overrides template
+  if $content {
+    $_content = $content
+  } else {
+    $_content = template($template)
+  }
+
+  if $kernel == &quot;AIX&quot; {
+    if $_content {
+      file { &quot;/etc/motd&quot;:
+        ensure  =&gt; file,
+        owner   =&gt; &quot;bin&quot;,
+        group   =&gt; &quot;bin&quot;,
+        mode    =&gt; &quot;0644&quot;,
+        content =&gt; $_content,
+      }
+    }
+  } else {
+    class { &quot;::motd&quot;:
+      content           =&gt; $content,
+      issue_content     =&gt; $issue_content,
+      issue_net_content =&gt; $issue_net_content,
+    }
+
+    File &lt;| title == &#39;/etc/motd&#39; or title == &quot;/etc/issue&quot; or title == &quot;/etc/issue.net&quot; |&gt; {
+      owner =&gt; &#39;root&#39;,
+      group =&gt; &#39;root&#39;,
+      mode  =&gt; &#39;0644&#39;,
+    }
+
+  }
+
+}</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+  Generated on Sat Feb 25 04:20:00 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.8 (ruby-2.2.6).
+</div>
+
+    </div>
+  </body>
+</html>

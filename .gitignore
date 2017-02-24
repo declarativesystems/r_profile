@@ -5,3 +5,4 @@ Gemfile.lock
 .librarian
 Puppetfile.lock
 .DS_Store
+.yardoc

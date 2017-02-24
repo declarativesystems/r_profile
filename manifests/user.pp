@@ -2,8 +2,8 @@
 #
 # Support for creating users and groups in bulk
 #
-# @param users Hash of user resources to create
-# @param groups Hash of group resources to create
+# @param users Hash of user resources to create (suitable for ensure_resources)
+# @param groups Hash of group resources to create (suitable for ensure_resources)
 # @param deluxe Popuplate all user resources listed with a cool skeleton of files
 class r_profile::user(
     $users  = hiera("r_profile::user::users", false),

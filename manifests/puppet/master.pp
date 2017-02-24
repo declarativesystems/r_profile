@@ -2,7 +2,8 @@
 #
 # Puppet Master general settings
 #
-# @param $data_binding_terminus enable/disable automatic hiera lookups
+# @param $data_binding_terminus enable (`heira`)/disable (`none`) automatic
+#   hiera lookups
 # @param $open_firewall open ports in IPTables?
 # @param $nagios_monitored create nagios monitoring resources?
 class r_profile::puppet::master (

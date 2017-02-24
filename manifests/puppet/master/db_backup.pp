@@ -1,6 +1,15 @@
 # R_profile::Puppet::Master::Db_backup
 #
-# Install a cron job to backup PE postgres server
+# Install a cron job to backup the PE postgres server by taking a complete dump
+# of the database
+#
+# @param ensure `present` to create the cron job, `absent` to remove it
+# @param dir Directory to dump database to
+# @param hour Cron hour to commence database dump
+# @param minute Cron minute to commence database dump
+# @param month Cron month to commence database dump
+# @param monthday Cron monthday to commence database dump
+# @param weekday Cron weekday to commence database dump
 class r_profile::puppet::master::db_backup(
     $ensure   = hiera("r_profile::puppet::master::db_backup::ensure",   'present'),
     $dir      = hiera("r_profile::puppet::master::db_backup::dir",      $r_profile::puppet::params::db_backup_dir),

@@ -4,77 +4,91 @@
 #### Table of Contents
 
 1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with r_profile](#setup)
-    * [What r_profile affects](#what-r_profile-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with r_profile](#beginning-with-r_profile)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+1. [Usage - Configuration options and additional functionality](#usage)
+1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+1. [Limitations - OS compatibility, etc.](#limitations)
+1. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+The `r_profile` module contains the profile equivalent of ready meals for Puppet.  The idea is that by offering a small selection of ready-to-use profiles, they can be reused amongst the puppet community without the need to repeatedly develop boilerplate code for common tasks.  
 
-## Module Description
+The module itself contains many discrete profiles which become immediately available for use by installing the module.  Once installed, it is up to the user to select the appropriate classes to integrate into roles.  Think along the lines of picking out individual chocolates from a box rather then eating the whole thing and you've got the right idea.
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
-
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
-
-## Setup
-
-### What r_profile affects
-
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-### Beginning with r_profile
-
-The very basic steps needed for a user to get the module up and running.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+Most classes will need to be loaded using the `class` resource syntax in order to pass the appropriate class defaults, eg:
+
+```puppet
+class { "foo:bar":
+  param1 => "value1",
+  param2 => "value2",
+}
+```
+
+Parameters, where available, are documented inside the individual classes.  See [Reference section](#reference).
+
+### Hiera
+Since these are profile classes, we are at the appropriate level to perform [Hiera](https://docs.puppet.com/hiera/3.2/) lookups directly.  Hiera lookups in `r_profile` classes are coded as class parameters and use explicit lookups using the [`hiera()` function](https://docs.puppet.com/puppet/latest/function.html#hiera), like this:
+
+```puppet
+# R_profile::Timezone
+#
+# Select the active system timezone (requires reboot).  Currently supports Linux,
+# Solaris and AIX
+#
+# @param zone Timezone to set this node to, eg 'Asia/Hong_Kong'
+class r_profile::timezone(
+  $zone = hiera("r_profile::timezone::zone", undef),
+) {
+  ...
+}
+```
+
+This affords the following conveniences:
+* It's possible to assemble `r_profile` classes into `role` classes using the console to directly _include_ each class if desired
+* Class parameters will automatically resolve to the key specified in the `hiera()` function
+* If no suitable value can be found in hiera, the second argument to the `hiera()` function will be used as a default value (if present, otherwise an error will occur)
+* If using the console, values can be overridden directly, per `r_profile` class, per node group
+* All hiera keys are explicitly specified, while [Automatic parameter lookup](https://docs.puppet.com/hiera/3.3/puppet.html#automatic-parameter-lookup) could have been used instead, it appears somewhat _magical_ to casual users.  More importantly, hard coding the complete, correct hiera keys allows them to be pasted directly into your hiera `.yaml` files (or equivalent) without having to make sure you have concatenated the class and variable names with colons correctly
+
+Setting our local timezone using the `r_profile::timezone` class is as simple as ensuring that we have the following value set in Hiera and resolvable for the node we are interested in configuring:
+
+```json
+r_profile::timezone::zone: "America/Nassau"
+```
+
+Each `r_profile` class parameter in classes intended for use are documented within the class it is defined in See [Reference section](#reference) for more information.
+
 
 ## Reference
+Reference documentation is generated directly from source code using [puppet-strings](https://github.com/puppetlabs/puppet-strings).  You may regenerate the documentation by running:
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+```shell
+bundle exec puppet strings
+```
+
+Or you may view the current [generated documentation](https://rawgit.com/GeoffWilliams/r_profile/master/doc/index.html).
+
+The documentation is no substitute for reading and understanding the module source code, and all users should ensure they are familiar and comfortable with the operations this module performs before using it.
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+* Not supported by Puppet, Inc.
+* Limited OS support
+* Not all classes are fully functional!  Use only those with accompanying spec tests
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
+PRs accepted :)
 
-## Release Notes/Contributors/Etc **Optional**
+## Testing
+This module supports testing using [PDQTest](https://github.com/GeoffWilliams/pdqtest).
 
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+Test can be executed with:
+
+```
+bundle install
+bundle exec pdqtest all
+```

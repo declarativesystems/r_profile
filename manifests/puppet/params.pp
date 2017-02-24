@@ -1,5 +1,7 @@
 # R_profile::Puppet::Params
 #
+# Params pattern for puppet r_profile classes
+#
 # Settings class is a puppet built-in and is a ruby file found at:
 # /opt/puppetlabs/puppet/lib/ruby/vendor_ruby/puppet/settings.rb
 class r_profile::puppet::params {

@@ -1,14 +1,14 @@
 # R_profile::Motd
 #
-# Simple MOTD support for POSIX and Windows.
+# Simple MOTD support for POSIX and Windows.  To ensure file permissions are
+# explicitly set, I had to use a resource collector against the files that the
+# `puppetlabs-motd` module creates.
 #
-# Requires: puppetlabs-mysql
-#
-# [params]
-# *template*
-#   template FILE to use for the MOTD
-# *inline_template*
-#   string to be processed as an inline template for the MOTD
+# @param template Process this tempalate and pass the evaluated string to the
+#   `puppetlabs-motd` module
+# @param content Complete message as to insert into /etc/motd
+# @param issue_content Complete message as to insert into /etc/issue
+# @param issue_net_content Complete message as to insert into /etc/issue.net
 class r_profile::motd(
     $template           = hiera("r_profile::motd::template", "${module_name}/motd.erb"),
     $content            = hiera("r_profile::motd::content", undef),

@@ -1,6 +1,18 @@
 # R_profile::Puppet::Master::Autosign
 #
-# Configure puppet for autosigning client certificiates
+# Configure puppet for various autosigning techniques for client certificiates
+#
+# @param ensure Autosigning technique to use on this puppet master:
+#   * `policy` Policy based autosigning @see http://www.geoffwilliams.me.uk/Puppet/policy_based_autosigning
+#   * `accept_all` Automatically sign all certificate requests (not recommended for production use)
+#   * `absent` Disable all varieties of automatic certificate signing
+# @param template Template to use as a script to validate certificate requests
+#   when using policy based autosigning.  The default script allows new CSRs to
+#   be compared against a shared secret, set in the seperate `secret` parameter.
+#   In many cases, this is all thats required, however by supplying your own
+#   script, your able to do exotic checks such as validation against the AWS API
+# @param secret Shared secret to use when configuring policy based autosigning
+#   and using the built-in template as the validation script
 class r_profile::puppet::master::autosign(
     Enum['policy', 'absent', 'accept_all'] $ensure =
       hiera('r_profile::puppet::master::autosign::ensure', 'absent'),

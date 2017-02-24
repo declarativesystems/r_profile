@@ -33,7 +33,7 @@
 # Requires: thias/puppet-sysctl
 #
 # @param purge Purge unmanaged files from /etc/sysctl.d
-# @param settings Hash of settings to set
+# @param settings Hash of settings as key=>value pairs
 class r_profile::linux::sysctl(
     Boolean $purge              = hiera('r_profile::linux::sysctl::purge', false),
     Hash[String, Any] $settings = hiera('r_profile::linux::sysctl::settings', {})
