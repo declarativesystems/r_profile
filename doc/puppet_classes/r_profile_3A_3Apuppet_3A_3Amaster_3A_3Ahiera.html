@@ -138,6 +138,24 @@ href="https://github.com/TomPoulton/hiera-eyaml">github.com/TomPoulton/hiera-eya
       
     </li>
   
+    <li>
+      
+        <span class='name'>hieradir</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>$r_profile::puppet::params::hieradir</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optionally override the default hieradir directory</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -148,7 +166,6 @@ href="https://github.com/TomPoulton/hiera-eyaml">github.com/TomPoulton/hiera-eya
         <pre class="lines">
 
 
-37
 38
 39
 40
@@ -183,15 +200,16 @@ href="https://github.com/TomPoulton/hiera-eyaml">github.com/TomPoulton/hiera-eya
 69
 70
 71
-72</pre>
+72
+73</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera.pp', line 37</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera.pp', line 38</span>
 
 class r_profile::puppet::master::hiera(
     $eyaml      = hiera(&#39;r_profile::puppet::master::hiera::eyaml&#39;, true),
+    $hieradir   = $r_profile::puppet::params::hieradir,
 ) inherits r_profile::puppet::params {
-  $hieradir = $r_profile::puppet::params::hieradir
   if $eyaml {
     $backends = [ &quot;eyaml&quot; ]
   } else {
@@ -231,9 +249,9 @@ class r_profile::puppet::master::hiera(
 </div>
 
       <div id="footer">
-  Generated on Sat Feb 25 04:20:00 2017 by
+  Generated on Sat Mar 11 18:28:27 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.2.6).
+  0.9.8 (ruby-2.3.3).
 </div>
 
     </div>

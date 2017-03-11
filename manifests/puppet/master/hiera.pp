@@ -34,10 +34,11 @@
 #
 # @param eyaml True to attempt to install and configure hiera-eyaml, otherwise do
 #   nothing @see https://github.com/TomPoulton/hiera-eyaml
+# @param hieradir Optionally override the default hieradir directory
 class r_profile::puppet::master::hiera(
     $eyaml      = hiera('r_profile::puppet::master::hiera::eyaml', true),
+    $hieradir   = $r_profile::puppet::params::hieradir,
 ) inherits r_profile::puppet::params {
-  $hieradir = $r_profile::puppet::params::hieradir
   if $eyaml {
     $backends = [ "eyaml" ]
   } else {
