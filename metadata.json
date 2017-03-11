@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-r_profile",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "author": "geoffwilliams",
   "summary": "Ready to use Puppet Profile classes",
   "license": "Apache-2.0",
@@ -46,6 +46,14 @@
         "6.1",
         "7.1"
       ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "11.3",
+        "12.1"
+      ]
     }
+
   ]
 }

@@ -7,6 +7,7 @@ describe 'r_profile::puppet::master::proxy' do
       :virtual                => true,
       :is_pe                  => true,
       :pe_version             => '2016.4.2',
+      :kernel                 => 'Linux'
     }
   end
   describe 'disables proxy when unset' do

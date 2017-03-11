@@ -13,38 +13,36 @@ class r_profile::puppet::params {
 
   # os-specific settings
   case $::osfamily {
-    "debian": {
+    "Debian": {
       # fixme - check this!
       warning("debian is untested with profiles::puppet::params!")
       $sysconf_dir      = "/etc/default"
-      $export_variable  = true
     }
-    "redhat": {
+    "RedHat": {
       $sysconf_dir = "/etc/sysconfig"
     }
-    "solaris": {
+    "Solaris": {
       $sysconf_dir      = "/lib/svc/method"
       $export_variable  = true
+    }
+    "Suse": {
+      $sysconf_dir      = "/etc/sysconfig"
     }
     "windows": {
       # no action needed
     }
     default: {
-      notify { "Unsupported osfamily ${::osfamily} in profiles::puppet::params": }
+      fail("Unsupported osfamily ${::osfamily} in profiles::puppet::params")
     }
   }
 
 
   # systemd detection
-  if $::osfamily == 'RedHat' {
-    if $::operatingsystemrelease =~ /^7/ or $::operatingsystem == 'Fedora' {
-      # we are using systemd, we must NOT export a variable
-      $export_variable = false
-    } else {
-      $export_variable = true
-    }
+  if $::kernel == 'Linux' and dig($facts, 'systemd_active') == 'true' {
+    # we are using systemd, we must NOT export a variable
+    $export_variable = false
   } else {
-    warning ("systemd detection in profiles::puppet::params doesn't support non-redhat os")
+    $export_variable = true
   }
 
   $sysconf_puppetserver   = "${sysconf_dir}/pe-puppetserver"

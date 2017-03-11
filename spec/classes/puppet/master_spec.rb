@@ -12,6 +12,7 @@ describe 'r_profile::puppet::master' do
       :is_pe                  => true,
       :pe_version             => '2016.4.2',
       :fqdn                   => 'puppet.demo.internal',
+      :kernel                 => 'Linux',
     }
   end
 
