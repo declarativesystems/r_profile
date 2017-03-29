@@ -62,6 +62,7 @@ class r_profile::puppet::master::hiera(
       ensure   => present,
       name     => "hiera-eyaml",
       provider => puppetserver_gem,
+      notify   => Service['pe-puppetserver'],
     }
   } else {
     # [yaml]

@@ -224,7 +224,8 @@ href="https://github.com/TomPoulton/hiera-eyaml">github.com/TomPoulton/hiera-eya
 93
 94
 95
-96</pre>
+96
+97</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera.pp', line 38</span>
@@ -256,6 +257,7 @@ class r_profile::puppet::master::hiera(
       ensure   =&gt; present,
       name     =&gt; &quot;hiera-eyaml&quot;,
       provider =&gt; puppetserver_gem,
+      notify   =&gt; Service[&#39;pe-puppetserver&#39;],
     }
   } else {
     # [yaml]
