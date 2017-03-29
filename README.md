@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/GeoffWilliams/r_profile.svg?branch=master)](https://travis-ci.org/GeoffWilliams/r_profile)
+[![Build Status](https://travis-ci.org/declarativesystems/r_profile.svg?branch=master)](https://travis-ci.org/declarativesystems/r_profile)
 # r_profile
 
 #### Table of Contents
@@ -11,7 +11,7 @@
 
 ## Overview
 
-The `r_profile` module contains the profile equivalent of ready meals for Puppet.  The idea is that by offering a small selection of ready-to-use profiles, they can be reused amongst the puppet community without the need to repeatedly develop boilerplate code for common tasks.  
+The `r_profile` module contains the profile equivalent of ready meals for Puppet.  The idea is that by offering a small selection of ready-to-use profiles, they can be reused amongst the puppet community without the need to repeatedly develop boilerplate code for common tasks.
 
 The module itself contains many discrete profiles which become immediately available for use by installing the module.  Once installed, it is up to the user to select the appropriate classes to integrate into roles.  Think along the lines of picking out individual chocolates from a box rather then eating the whole thing and you've got the right idea.
 

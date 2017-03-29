@@ -8,5 +8,7 @@ gem 'facter', '2.4.6'
 gem 'rubocop', '0.47.1'
 gem 'pdqtest', '0.1.12'
 gem 'rspec-puppet-facts', '1.7.0'
-gem 'puppet-strings', :path => '/home/geoff/github/puppet-strings'
-gem 'metadatajson2puppetfile', :path => '/home/geoff/github/metadatajson2puppetfile'
+gem 'puppet-strings',
+  :git => 'https://github.com/declarativesystems/puppet-strings',
+  :ref => 'no_dates'
+gem 'metadatajson2puppetfile', '0.1.1'
