@@ -201,7 +201,31 @@ href="https://github.com/TomPoulton/hiera-eyaml">github.com/TomPoulton/hiera-eya
 70
 71
 72
-73</pre>
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera.pp', line 38</span>
@@ -228,6 +252,30 @@ class r_profile::puppet::master::hiera(
   } else {
     $hierarchy = split($hierarchy_raw, &#39;\n&#39;)
   }
+
+  # Hiera module will only install eyaml if the manage_package attribute is set,
+  # however, setting this also installs the hiera package itself, eg completly
+  # breaks puppet enterprise ;-) best thing to do here is install eyaml ourselves
+  # and then use the hiera module to finish setting up the hierarchy and eyaml
+  # keys.  Note that we have to do this twice - once for vendored ruby and once
+  # for vendored jruby.  This isn&#39;t need for installations created with
+  # puppetizer since it does all this for you...
+
+  # we need a composite namevar to allow this to succeed:
+  # http://www.craigdunn.org/2016/07/composite-namevars-in-puppet/
+  package { &quot;vendored ruby eyaml&quot;:
+    ensure   =&gt; present,
+    name     =&gt; &quot;eyaml&quot;,
+    provider =&gt; puppet_gem,
+  }
+
+  package { &quot;vendored jruby eyaml&quot;:
+    ensure   =&gt; present,
+    name     =&gt; &quot;eyaml&quot;,
+    provider =&gt; puppetserver_gem,
+  }
+
+
   class { &quot;hiera&quot;:
     hierarchy       =&gt; $hierarchy,
     hiera_yaml      =&gt; &quot;/etc/puppetlabs/puppet/hiera.yaml&quot;,
