@@ -224,8 +224,7 @@ href="https://github.com/TomPoulton/hiera-eyaml">github.com/TomPoulton/hiera-eya
 93
 94
 95
-96
-97</pre>
+96</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera.pp', line 38</span>
@@ -234,8 +233,30 @@ class r_profile::puppet::master::hiera(
     $eyaml      = hiera(&#39;r_profile::puppet::master::hiera::eyaml&#39;, true),
     $hieradir   = $r_profile::puppet::params::hieradir,
 ) inherits r_profile::puppet::params {
+
   if $eyaml {
     $backends = [ &quot;eyaml&quot; ]
+    # Hiera module will only install eyaml if the manage_package attribute is set,
+    # however, setting this also installs the hiera package itself, eg completly
+    # breaks puppet enterprise ;-) best thing to do here is install eyaml ourselves
+    # and then use the hiera module to finish setting up the hierarchy and eyaml
+    # keys.  Note that we have to do this twice - once for vendored ruby and once
+    # for vendored jruby.  This isn&#39;t need for installations created with
+    # puppetizer since it does all this for you...
+
+    # we need a composite namevar to allow this to succeed:
+    # http://www.craigdunn.org/2016/07/composite-namevars-in-puppet/
+    package { &quot;vendored ruby eyaml&quot;:
+      ensure   =&gt; present,
+      name     =&gt; &quot;hiera-eyaml&quot;,
+      provider =&gt; puppet_gem,
+    }
+
+    package { &quot;vendored jruby eyaml&quot;:
+      ensure   =&gt; present,
+      name     =&gt; &quot;hiera-eyaml&quot;,
+      provider =&gt; puppetserver_gem,
+    }
   } else {
     # [yaml]
     $backends = undef
@@ -252,29 +273,6 @@ class r_profile::puppet::master::hiera(
   } else {
     $hierarchy = split($hierarchy_raw, &#39;\n&#39;)
   }
-
-  # Hiera module will only install eyaml if the manage_package attribute is set,
-  # however, setting this also installs the hiera package itself, eg completly
-  # breaks puppet enterprise ;-) best thing to do here is install eyaml ourselves
-  # and then use the hiera module to finish setting up the hierarchy and eyaml
-  # keys.  Note that we have to do this twice - once for vendored ruby and once
-  # for vendored jruby.  This isn&#39;t need for installations created with
-  # puppetizer since it does all this for you...
-
-  # we need a composite namevar to allow this to succeed:
-  # http://www.craigdunn.org/2016/07/composite-namevars-in-puppet/
-  package { &quot;vendored ruby eyaml&quot;:
-    ensure   =&gt; present,
-    name     =&gt; &quot;eyaml&quot;,
-    provider =&gt; puppet_gem,
-  }
-
-  package { &quot;vendored jruby eyaml&quot;:
-    ensure   =&gt; present,
-    name     =&gt; &quot;eyaml&quot;,
-    provider =&gt; puppetserver_gem,
-  }
-
 
   class { &quot;hiera&quot;:
     hierarchy       =&gt; $hierarchy,
