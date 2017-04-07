@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-r_profile",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "author": "geoffwilliams",
   "summary": "Ready to use Puppet Profile classes",
   "license": "Apache-2.0",
@@ -21,7 +21,7 @@
     {"name":"geoffwilliams-pe_repo", "version_requirement":"0.1.2"},
     {"name":"puppet-selinux", "version_requirement":"0.8.0"},
     {"name":"geoffwilliams-resolv_conf", "version_requirement":"0.3.0"},
-    {"name":"geoffwilliams-name_service_switch", "version_requirement":"0.1.0"},
+    {"name":"geoffwilliams-name_service_switch", "version_requirement":"0.2.0"},
     {"name":"saz-limits", "version_requirement":"2.5.0"},
     {"name":"geoffwilliams-timezone", "version_requirement":"0.1.1"},
     {"name":"puppetlabs-puppetserver_gem", "version_requirement":"0.2.0"}
