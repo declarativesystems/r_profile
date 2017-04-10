@@ -157,6 +157,25 @@ Service Switch (/etc/nsswitch.conf and friends)</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>install_defaults</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::dns_client::install_defaults&quot;, false)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>True to install module default DNS/NSS settings if nothing found in hiera,
+otherwise dont&#39; reconfigure dns</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -176,8 +195,6 @@ Service Switch (/etc/nsswitch.conf and friends)</p>
         <pre class="lines">
 
 
-12
-13
 14
 15
 16
@@ -194,29 +211,39 @@ Service Switch (/etc/nsswitch.conf and friends)</p>
 27
 28
 29
-30</pre>
+30
+31
+32
+33
+34
+35
+36</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/dns_client.pp', line 12</span>
+        <pre class="code"><span class="info file"># File 'manifests/dns_client.pp', line 14</span>
 
 class r_profile::dns_client(
-    $search       = hiera(&quot;r_profile::dns_client::search&quot;, undef),
-    $nameservers  = hiera(&quot;r_profile::dns_client::nameservers&quot;, undef),
-    $options      = hiera(&quot;r_profile::dns_client::options&quot;, undef),
-    $nss_entries  = hiera(&quot;r_profile::dns_client::nss_entries&quot;, undef),
+    $search           = hiera(&quot;r_profile::dns_client::search&quot;, undef),
+    $nameservers      = hiera(&quot;r_profile::dns_client::nameservers&quot;, undef),
+    $options          = hiera(&quot;r_profile::dns_client::options&quot;, undef),
+    $nss_entries      = hiera(&quot;r_profile::dns_client::nss_entries&quot;, undef),
+    $install_defaults = hiera(&quot;r_profile::dns_client::install_defaults&quot;, false),
 ) {
 
   # setup /etc/resolve.conf
-  class { &quot;resolv_conf&quot;:
-    search      =&gt; $search,
-    nameservers =&gt; $nameservers,
-    options     =&gt; $options,
+  if $nameservers or $install_defaults {
+    class { &quot;resolv_conf&quot;:
+      search      =&gt; $search,
+      nameservers =&gt; any2array($nameservers),
+      options     =&gt; $options,
+    }
   }
 
-  class { &quot;name_service_switch&quot;:
-    entries =&gt; $nss_entries,
+  if $nss_entries or $install_defaults {
+    class { &quot;name_service_switch&quot;:
+      entries =&gt; $nss_entries,
+    }
   }
-
 }</pre>
       </td>
     </tr>
