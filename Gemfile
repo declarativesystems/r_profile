@@ -12,3 +12,4 @@ gem 'puppet-strings',
   :git => 'https://github.com/declarativesystems/puppet-strings',
   :ref => 'no_dates'
 gem 'metadatajson2puppetfile', '0.1.1'
+gem 'derelict', '0.6.2'
