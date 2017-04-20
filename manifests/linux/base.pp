@@ -2,7 +2,7 @@
 #
 # A basic Linux 'baseline' class
 class r_profile::linux::base {
-  include r_profile::linux::firewall
+  include r_profile::linux::iptables
   include r_profile::linux::vim
   include r_profile::linux::sudo
   include r_profile::linux::systemd

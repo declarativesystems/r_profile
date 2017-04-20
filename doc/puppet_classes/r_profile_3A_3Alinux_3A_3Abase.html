@@ -104,7 +104,7 @@
         <pre class="code"><span class="info file"># File 'manifests/linux/base.pp', line 4</span>
 
 class r_profile::linux::base {
-  include r_profile::linux::firewall
+  include r_profile::linux::iptables
   include r_profile::linux::vim
   include r_profile::linux::sudo
   include r_profile::linux::systemd

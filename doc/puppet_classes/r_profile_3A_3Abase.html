@@ -104,7 +104,7 @@
 class r_profile::base {
   include r_profile::motd
   include r_profile::software
-  include r_profile::users
+  include r_profile::user
   include &quot;r_profile::${downcase($kernel)}::base&quot;
   include r_profile::monitor::nagios_monitored
 }</pre>
