@@ -14,10 +14,9 @@ describe 'r_profile::puppet::master::git_server' do
     define sshkeys::install_keypair($ensure, $ssh_dir,){}
     define sshkeys::known_host($ssh_dir) {}
     define sshkeys::authorize($ensure, $authorized_keys, $ssh_dir){}
-    define node_group($ensure, $classes, $environment, $override_environment, $parent){}
     '
   end
-  
+
   context "catalog compiles" do
     it { should compile}
   end

@@ -8,9 +8,10 @@
   "project_page": "https://github.com/GeoffWilliams/r_profile",
   "issues_url": "https://github.com/GeoffWilliams/r_profile/issues",
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 4.15.0"},
+    {"name":"puppetlabs-stdlib","version_requirement":">= 4.16.0"},
+    {"name":"WhatsARanjit-node_manager", "version_requirement":"0.4.1"},
     {"name":"geoffwilliams-motd","version_requirement":"1.4.99"},
-    {"name":"puppetlabs-ntp","version_requirement":"6.0.0"},
+    {"name":"puppetlabs-ntp","version_requirement":"6.1.0"},
     {"name":"thias-sysctl","version_requirement":"1.0.6"},
     {"name":"puppet-hiera","version_requirement":"2.4.0"},
     {"name":"puppetlabs-inifile","version_requirement":"1.6.0"},
@@ -29,7 +30,6 @@
     {"name":"puppetlabs-puppetserver_gem", "version_requirement":"0.2.0"},
     {"name":"puppetlabs-mysql", "version_requirement":"3.10.0"},
     {"name":"puppetlabs-haproxy", "version_requirement":"1.5.0"},
-    {"name":"WhatsARanjit-node_manager", "version_requirement":"0.4.1"},
     {"name":"rtyler-jenkins", "version_requirement":"1.7.0"},
     {"name":"puppetlabs-java", "version_requirement":"1.6.0"},
     {"name":"puppet-virtualbox", "version_requirement":"1.8.0"}
