@@ -114,14 +114,7 @@
 25
 26
 27
-28
-29
-30
-31
-32
-33
-34
-35</pre>
+28</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/linux/sudo.pp', line 4</span>
@@ -133,17 +126,10 @@ class r_profile::linux::sudo {
     ensure =&gt; present,
   }
 
-  if $vagrant {
+  if dig($facts, &#39;vagrant&#39;) {
     sudo::conf { &quot;vagrant&quot;:
       priority =&gt; 10,
       content  =&gt; &quot;%vagrant ALL=(ALL) NOPASSWD: ALL&quot;,
-    }
-
-    user { &quot;vagrant&quot;:
-      ensure     =&gt; present,
-      gid        =&gt; &quot;vagrant&quot;,
-      groups     =&gt; [],
-      membership =&gt; inclusive,
     }
   }
 

@@ -8,7 +8,7 @@ class r_profile::linux::sudo {
     ensure => present,
   }
 
-  if $vagrant {
+  if dig($facts, 'vagrant') {
     sudo::conf { "vagrant":
       priority => 10,
       content  => "%vagrant ALL=(ALL) NOPASSWD: ALL",
