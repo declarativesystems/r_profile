@@ -239,7 +239,7 @@ class r_profile::motd(
     }
   } else {
     class { &quot;::motd&quot;:
-      content           =&gt; $content,
+      content           =&gt; $_content,
       issue_content     =&gt; $issue_content,
       issue_net_content =&gt; $issue_net_content,
     }
