@@ -2,7 +2,7 @@
 #
 # Install and configure tomcat application server
 class r_profile::web_service::tomcat(
-    $source_url       = 'http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.9/bin/apache-tomcat-8.5.9.tar.gz',
+    $source_url       = 'http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.14/bin/apache-tomcat-8.5.14.tar.gz',
     $catalina_home    = '/opt/tomcat',
     $service          = 'tomcat',
     $user             = 'tomcat',

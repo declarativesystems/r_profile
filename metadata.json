@@ -17,7 +17,7 @@
     {"name":"puppetlabs-inifile","version_requirement":"1.6.0"},
     {"name":"puppetlabs-firewall", "version_requirement":"1.8.2"},
     {"name":"geoffwilliams-nagios", "version_requirement": "0.1.1"},
-    {"name":"geoffwilliams-psquared", "version_requirement": "0.1.1"},
+    {"name":"geoffwilliams-psquared", "version_requirement": "0.2.0"},
     {"name":"puppetlabs-vcsrepo", "version_requirement":"1.5.0"},
     {"name":"geoffwilliams-pe_repo", "version_requirement":"0.1.2"},
     {"name":"puppet-selinux", "version_requirement":"0.8.0"},
