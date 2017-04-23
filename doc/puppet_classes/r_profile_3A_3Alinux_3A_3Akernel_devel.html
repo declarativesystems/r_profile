@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::virtual::virtual_box
+  Puppet Class: r_profile::linux::kernel_devel
   
     &mdash; Documentation by YARD 0.9.8
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::virtual::virtual_box";
+  pathId = "puppet_classes::r_profile::linux::kernel_devel";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::virtual::virtual_box</span>
+    <span class="title">r_profile::linux::kernel_devel</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::virtual::virtual_box</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::kernel_devel</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/virtual/virtual_box.pp
+      manifests/linux/kernel_devel.pp
     </dd>
   </dl>
 </div>
@@ -74,43 +74,14 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Virtual::Virtual_box</p>
+<p>R_profile::Linux::Kernel_devel</p>
 
-<p>Install Oracle VirtualBox using the voxpupuli virtualbox module.</p>
+<p>Configure a system for kernel compilation. Currently suported: * RedHat</p>
 
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
   
-    <li>
-      
-        <span class='name'>version</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::virtual::virtual_box&quot;, undef)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Version to install, installs latest if unspecified</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><a href="https://forge.puppet.com/puppet/virtualbox" target="_parent" title="https://forge.puppet.com/puppet/virtualbox">https://forge.puppet.com/puppet/virtualbox</a></li>
-    
-  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -119,28 +90,18 @@
         <pre class="lines">
 
 
+5
+6
 7
 8
-9
-10
-11
-12
-13
-14
-15
-16</pre>
+9</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/virtual/virtual_box.pp', line 7</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/kernel_devel.pp', line 5</span>
 
-class r_profile::virtual::virtual_box(
-  $version = hiera(&quot;r_profile::virtual::virtual_box&quot;, undef)
-) {
-
-  include r_profile::linux::kernel_devel
-
-  class { &quot;virtualbox&quot;:
-    version =&gt; $version,
+class r_profile::linux::kernel_devel {
+  package { &quot;kernel-devel-${kernelrelease}&quot;:
+    ensure =&gt; present,
   }
 }</pre>
       </td>

@@ -8,7 +8,7 @@ class r_profile::virtual::virtual_box(
   $version = hiera("r_profile::virtual::virtual_box", undef)
 ) {
 
-  ensure_packages("kernel-devel", {ensure=>present})
+  include r_profile::linux::kernel_devel
 
   class { "virtualbox":
     version => $version,
