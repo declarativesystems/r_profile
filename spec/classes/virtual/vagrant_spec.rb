@@ -29,20 +29,21 @@ describe 'r_profile::virtual::vagrant' do
 
   let :params do
     {
-      :puppet_master => "puppetmaster.megacorp.com",
-      :vms           => {
+      :vms => {
         "demo1" => {
-          "ip"  => "192.168.33.33",
+          "ip" => "192.168.33.33",
+
         },
         "demo2" => {
-          "ip"  => "192.168.33.66",
+          "ip" => "192.168.33.66",
         }
       },
-      :vm_default    => {
-        "ensure" => "running",
-        "box" => "declarativesystems/centos-7.3-x86_64",
-        "memory" => "512",
-        "cpu" => "1",
+      :vm_default => {
+        "ensure"        => "running",
+        "box"           => "bento/centos-7.3",
+        "memory"        => "512",
+        "cpu"           => "1",
+        "puppet_master" => "192.168.1.50",
       }
     }
   end

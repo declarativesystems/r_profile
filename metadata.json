@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-r_profile",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "geoffwilliams",
   "summary": "Ready to use Puppet Profile classes",
   "license": "Apache-2.0",
@@ -25,7 +25,7 @@
     {"name":"geoffwilliams-name_service_switch", "version_requirement":"0.2.0"},
     {"name":"saz-limits", "version_requirement":"2.5.0"},
     {"name":"geoffwilliams-timezone", "version_requirement":"0.1.1"},
-    {"name":"declarativesystems/puppet_vagrant", "version_requirement":"0.1.0"},
+    {"name":"declarativesystems/puppet_vagrant", "version_requirement":"0.4.1"},
     {"name":"saz-sudo", "version_requirement":"4.1.0"},
     {"name":"puppetlabs-puppetserver_gem", "version_requirement":"0.2.0"},
     {"name":"puppetlabs-mysql", "version_requirement":"3.10.0"},

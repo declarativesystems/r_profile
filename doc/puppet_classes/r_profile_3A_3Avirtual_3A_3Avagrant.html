@@ -89,10 +89,8 @@
         <span class='name'>puppet_master</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'></span>
       
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::virtual::vagrant::puppet_master&quot;, false)</tt>)</em>
       
       
         &mdash;
@@ -158,58 +156,18 @@ be installed</p>
 15
 16
 17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38</pre>
+18</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/virtual/vagrant.pp', line 11</span>
 
 class r_profile::virtual::vagrant(
-    $puppet_master  = hiera(&quot;r_profile::virtual::vagrant::puppet_master&quot;, false),
     $vms            = hiera(&quot;r_profile::virtual::vagrant::vms&quot;, {}),
     $vm_default     = hiera(&quot;r_profile::virtual::vagrant::vm_default&quot;, {}),
 ) {
 
   include puppet_vagrant::install
-
-  if $puppet_master {
-    $provision = &quot;curl -k https://${puppet_master}:8140/packages/current/install.bash | sudo bash&quot;
-  } else {
-    $provision = &quot;&quot;
-  }
-
-  $vms.each |$vm_title, $vm_params| {
-    vagrant_vm { $vm_title:
-      ensure    =&gt; pick($vm_params[&quot;ensure&quot;], $vm_default[&quot;ensure&quot;]),
-      box       =&gt; pick($vm_params[&quot;box&quot;], $vm_default[&quot;box&quot;]),
-      memory    =&gt; pick($vm_params[&quot;memory&quot;], $vm_default[&quot;memory&quot;], false),
-      cpu       =&gt; pick($vm_params[&quot;cpu&quot;], $vm_default[&quot;cpu&quot;], false),
-      provision =&gt; pick($vm_params[&quot;provision&quot;], $vm_default[&quot;provision&quot;], $provision),
-      ip        =&gt; pick($vm_params[&quot;ip&quot;], $vm_default[&quot;ip&quot;], false),
-      # not implemented yet user          =&gt; &quot;vagrant&quot;,
-    }
-  }
-
-
+  create_resources(&quot;vagrant_vm&quot;, $vms, $vm_default)
 }</pre>
       </td>
     </tr>
