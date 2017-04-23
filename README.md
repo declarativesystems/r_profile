@@ -77,7 +77,7 @@ The documentation is no substitute for reading and understanding the module sour
 
 * Not supported by Puppet, Inc.
 * Limited OS support
-* Not all classes are fully functional!  Evaluate your chosen useage against the existing functionality.
+* Not all classes are fully functional!  Evaluate your chosen usage against the existing functionality.
 
 ## Development
 
