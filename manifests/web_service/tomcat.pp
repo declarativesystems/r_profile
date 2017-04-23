@@ -13,6 +13,9 @@ class r_profile::web_service::tomcat(
     $open_firewall    = false,
 ){
 
+  # for processing .war files
+  ensure_packages('unzip', {'ensure' => 'present'})
+
   include java
 
   class { 'tomcat':

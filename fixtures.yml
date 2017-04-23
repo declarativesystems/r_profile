@@ -6,4 +6,8 @@ repositories:
 
   # workaround for https://tickets.puppetlabs.com/browse/MODULES-4760
   tomcat:
-    repo: https://github.com/puppetlabs/puppetlabs-tomcat
+    repo: "https://github.com/puppetlabs/puppetlabs-tomcat"
+
+  # just a mock
+  pe_repo:
+    repo: "https://github.com/GeoffWilliams/geoffwilliams-pe_repo"
