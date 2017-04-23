@@ -175,8 +175,8 @@ with the operations this module performs before using it.</p>
 </li><li>
 <p>Limited OS support</p>
 </li><li>
-<p>Not all classes are fully functional! Use only those with accompanying spec
-tests</p>
+<p>Not all classes are fully functional! Evaluate your chosen useage against
+the existing functionality.</p>
 </li></ul>
 
 <h2 id="label-Development">Development</h2>
@@ -187,6 +187,14 @@ tests</p>
 
 <p>This module supports testing using <a
 href="https://github.com/GeoffWilliams/pdqtest">PDQTest</a>.</p>
+<ul><li>
+<p>RSpec tests exist for most classes but <a
+href="https://tickets.puppetlabs.com/browse/MODULES-4287">tickets.puppetlabs.com/browse/MODULES-4287</a>
+makes this impossible for windows at present.</p>
+</li><li>
+<p>The vsphere profile is prestently untestable as the module is
+enterprise-only</p>
+</li></ul>
 
 <p>Test can be executed with:</p>
 

@@ -56,7 +56,10 @@ class r_profile::web_service::apache(
 
       # attempt to lookup which nodes are classified as Haproxies
       # and use first.  Only do this if being run in agent-master mode
-      $lb_addresses = query_nodes('Class[R_profile::Monitor::Haproxy]')
+      $lb_addresses = $::settings::storeconfigs ? {
+        true    => query_nodes('Class[R_profile::Monitor::Haproxy]'),
+        default => false,
+      }
 
       if is_array($lb_addresses) {
         $lb_address = $lb_addresses[0]

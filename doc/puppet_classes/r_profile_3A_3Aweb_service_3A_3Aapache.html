@@ -364,7 +364,10 @@ all interfaces</p>
 157
 158
 159
-160</pre>
+160
+161
+162
+163</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/web_service/apache.pp', line 13</span>
@@ -415,7 +418,10 @@ class r_profile::web_service::apache(
 
       # attempt to lookup which nodes are classified as Haproxies
       # and use first.  Only do this if being run in agent-master mode
-      $lb_addresses = query_nodes(&#39;Class[R_profile::Monitor::Haproxy]&#39;)
+      $lb_addresses = $::settings::storeconfigs ? {
+        true    =&gt; query_nodes(&#39;Class[R_profile::Monitor::Haproxy]&#39;),
+        default =&gt; false,
+      }
 
       if is_array($lb_addresses) {
         $lb_address = $lb_addresses[0]
