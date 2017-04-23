@@ -136,7 +136,7 @@ class r_profile::nginx {
   #
   # Default virtual host
   #
-  nginx::resource::vhost { $fqdn:
+  nginx::resource::server { $fqdn:
     listen_options =&gt; &quot;default_server&quot;,
     www_root       =&gt; $www_root,
   }

@@ -36,7 +36,11 @@ class r_profile::web_service::tomcat(
       $lb_address = $lb
     } else {
       # attempt to lookup which nodes are classified as Haproxies and use first
-      $lb_addresses = query_nodes('Class[R_profile::Monitor::Haproxy]')
+      # check storedconfigs to ensure we are not running under rspec/puppet apply
+      $lb_addresses = $::settings::storeconfigs ? {
+        true    => query_nodes('Class[R_profile::Monitor::Haproxy]'),
+        default => false,
+      }
       if is_array($lb_addresses) {
         $lb_address = $lb_addresses[0]
       } else {
@@ -51,7 +55,7 @@ class r_profile::web_service::tomcat(
     }
 
     # export the IP address (run n+1)
-    @@haproxy::balancermember { "${service_name}-${::fqdn}":
+    @@haproxy::balancermember { "${service}-${::fqdn}":
       listening_service => 'tomcat',
       server_names      => $::fqdn,
       ipaddresses       => $source_ip,

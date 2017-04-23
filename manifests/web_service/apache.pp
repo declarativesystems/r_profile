@@ -1,6 +1,15 @@
 # R_profile::Web_service::Apache
 #
 # Install and configure Apache webserver
+#
+# @param website_hash Hash of websites to create in a suitable for for create_resources
+#   and the apache::vhost resource
+# @param open_firewall True to alter IP tables to allow connection to apache
+# @param lb Export a resorce suitable for use with a load balancer
+# @param disable_php True to disable support for PHP otherwise it will be installed
+# @param nagios_monitored True to export a resource to nagios for monitoring
+# @param ip IP address or array of IP addresses to listen on.  Default is to listen
+#   on all interfaces
 class r_profile::web_service::apache(
     $website_hash       = hiera('r_profile::web_service::apache::website_hash',undef),
     $open_firewall      = hiera('r_profile::web_service::apache::open_firewall', false),
@@ -8,6 +17,7 @@ class r_profile::web_service::apache(
     $disable_php        = hiera('r_profile::web_service::apache::disable_php', false),
     $disable_mysql      = hiera('r_profile::web_service::apache::disable_mysql', false),
     $nagios_monitored   = hiera('r_profile::web_service::apache::nagios_monitored', true),
+    $ip                 = hiera('r_profile::web_service::apache::ip', undef),
 ) {
 
   # port is always 80, you would have to changed listeners, etc to support
@@ -20,9 +30,7 @@ class r_profile::web_service::apache(
 
   if ! $disable_php {
     include ::apache::mod::php
-  }
 
-  if ! $disable_mysql {
     class { 'mysql::bindings':
       php_enable => true,
     }
@@ -44,7 +52,7 @@ class r_profile::web_service::apache(
   if is_string($lb) {
     $lb_address = $lb
   } else {
-    if $pe_server_version {
+    if dig($facts, 'pe_server_version') {
 
       # attempt to lookup which nodes are classified as Haproxies
       # and use first.  Only do this if being run in agent-master mode

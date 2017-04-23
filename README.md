@@ -77,7 +77,7 @@ The documentation is no substitute for reading and understanding the module sour
 
 * Not supported by Puppet, Inc.
 * Limited OS support
-* Not all classes are fully functional!  Use only those with accompanying spec tests
+* Not all classes are fully functional!  Evaluate your chosen useage against the existing functionality.
 
 ## Development
 
@@ -85,6 +85,9 @@ PRs accepted :)
 
 ## Testing
 This module supports testing using [PDQTest](https://github.com/GeoffWilliams/pdqtest).
+
+* RSpec tests exist for most classes but https://tickets.puppetlabs.com/browse/MODULES-4287 makes this impossible for windows at present.
+* The vsphere profile is prestently untestable as the module is enterprise-only
 
 Test can be executed with:
 

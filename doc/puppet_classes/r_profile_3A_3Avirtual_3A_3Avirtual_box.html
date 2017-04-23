@@ -126,7 +126,9 @@
 11
 12
 13
-14</pre>
+14
+15
+16</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/virtual/virtual_box.pp', line 7</span>
@@ -134,6 +136,8 @@
 class r_profile::virtual::virtual_box(
   $version = hiera(&quot;r_profile::virtual::virtual_box&quot;, undef)
 ) {
+
+  ensure_packages(&quot;kernel-devel&quot;, {ensure=&gt;present})
 
   class { &quot;virtualbox&quot;:
     version =&gt; $version,

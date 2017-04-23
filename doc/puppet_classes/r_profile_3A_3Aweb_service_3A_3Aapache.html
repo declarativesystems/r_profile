@@ -95,6 +95,12 @@
         <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::website_hash&#39;,undef)</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Hash of websites to create in a suitable for for create_resources and the
+apache::vhost resource</p>
+</div>
+      
     </li>
   
     <li>
@@ -107,6 +113,11 @@
       
         <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::open_firewall&#39;, false)</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>True to alter IP tables to allow connection to apache</p>
+</div>
       
     </li>
   
@@ -121,6 +132,11 @@
         <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::lb&#39;,true)</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Export a resorce suitable for use with a load balancer</p>
+</div>
+      
     </li>
   
     <li>
@@ -133,6 +149,48 @@
       
         <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::disable_php&#39;, false)</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>True to disable support for PHP otherwise it will be installed</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nagios_monitored</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::nagios_monitored&#39;, true)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>True to export a resource to nagios for monitoring</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ip</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::ip&#39;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>IP address or array of IP addresses to listen on. Default is to listen on
+all interfaces</p>
+</div>
       
     </li>
   
@@ -149,19 +207,6 @@
       
     </li>
   
-    <li>
-      
-        <span class='name'>nagios_monitored</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::nagios_monitored&#39;, true)</tt>)</em>
-      
-      
-    </li>
-  
 </ul>
 
 
@@ -172,15 +217,6 @@
         <pre class="lines">
 
 
-4
-5
-6
-7
-8
-9
-10
-11
-12
 13
 14
 15
@@ -320,10 +356,18 @@
 149
 150
 151
-152</pre>
+152
+153
+154
+155
+156
+157
+158
+159
+160</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/web_service/apache.pp', line 4</span>
+        <pre class="code"><span class="info file"># File 'manifests/web_service/apache.pp', line 13</span>
 
 class r_profile::web_service::apache(
     $website_hash       = hiera(&#39;r_profile::web_service::apache::website_hash&#39;,undef),
@@ -332,6 +376,7 @@ class r_profile::web_service::apache(
     $disable_php        = hiera(&#39;r_profile::web_service::apache::disable_php&#39;, false),
     $disable_mysql      = hiera(&#39;r_profile::web_service::apache::disable_mysql&#39;, false),
     $nagios_monitored   = hiera(&#39;r_profile::web_service::apache::nagios_monitored&#39;, true),
+    $ip                 = hiera(&#39;r_profile::web_service::apache::ip&#39;, undef),
 ) {
 
   # port is always 80, you would have to changed listeners, etc to support
@@ -344,9 +389,7 @@ class r_profile::web_service::apache(
 
   if ! $disable_php {
     include ::apache::mod::php
-  }
 
-  if ! $disable_mysql {
     class { &#39;mysql::bindings&#39;:
       php_enable =&gt; true,
     }
@@ -368,7 +411,7 @@ class r_profile::web_service::apache(
   if is_string($lb) {
     $lb_address = $lb
   } else {
-    if $pe_server_version {
+    if dig($facts, &#39;pe_server_version&#39;) {
 
       # attempt to lookup which nodes are classified as Haproxies
       # and use first.  Only do this if being run in agent-master mode

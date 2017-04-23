@@ -286,7 +286,11 @@
 76
 77
 78
-79</pre>
+79
+80
+81
+82
+83</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/web_service/tomcat.pp', line 4</span>
@@ -326,7 +330,11 @@ class r_profile::web_service::tomcat(
       $lb_address = $lb
     } else {
       # attempt to lookup which nodes are classified as Haproxies and use first
-      $lb_addresses = query_nodes(&#39;Class[R_profile::Monitor::Haproxy]&#39;)
+      # check storedconfigs to ensure we are not running under rspec/puppet apply
+      $lb_addresses = $::settings::storeconfigs ? {
+        true    =&gt; query_nodes(&#39;Class[R_profile::Monitor::Haproxy]&#39;),
+        default =&gt; false,
+      }
       if is_array($lb_addresses) {
         $lb_address = $lb_addresses[0]
       } else {
@@ -341,7 +349,7 @@ class r_profile::web_service::tomcat(
     }
 
     # export the IP address (run n+1)
-    @@haproxy::balancermember { &quot;${service_name}-${::fqdn}&quot;:
+    @@haproxy::balancermember { &quot;${service}-${::fqdn}&quot;:
       listening_service =&gt; &#39;tomcat&#39;,
       server_names      =&gt; $::fqdn,
       ipaddresses       =&gt; $source_ip,

@@ -9,7 +9,7 @@ class r_profile::nginx {
   #
   # Default virtual host
   #
-  nginx::resource::vhost { $fqdn:
+  nginx::resource::server { $fqdn:
     listen_options => "default_server",
     www_root       => $www_root,
   }

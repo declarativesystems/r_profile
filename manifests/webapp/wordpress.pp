@@ -1,6 +1,6 @@
 # R_profile::Webapp::Wordpress
 #
-# Install wordpress CMS
+# Install wordpress CMS using `hunner-wordpress`
 class r_profile::webapp::wordpress(
     $nagios_monitored = true,
 ) {

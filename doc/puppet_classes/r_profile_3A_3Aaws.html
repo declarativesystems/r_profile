@@ -272,7 +272,7 @@ class r_profile::aws(
 
   file { &quot;/root/.aws/credentials&quot;:
     ensure  =&gt; file,
-    content =&gt; template(&quot;modules/r_profile/aws/credentials.erb&quot;),
+    content =&gt; template(&quot;${module_name}/aws/credentials.erb&quot;),
   }
 
   create_resources(&quot;ec2_instance&quot;, $ec2_instance, $ec2_instance_default)
