@@ -313,7 +313,7 @@ class r_profile::web_service::tomcat(
   # for processing .war files
   ensure_packages(&#39;unzip&#39;, {&#39;ensure&#39; =&gt; &#39;present&#39;})
 
-  include java
+  include r_profile::java
 
   class { &#39;tomcat&#39;:
     catalina_home =&gt; $catalina_home,

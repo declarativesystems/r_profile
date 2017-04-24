@@ -16,7 +16,7 @@ class r_profile::web_service::tomcat(
   # for processing .war files
   ensure_packages('unzip', {'ensure' => 'present'})
 
-  include java
+  include r_profile::java
 
   class { 'tomcat':
     catalina_home => $catalina_home,
