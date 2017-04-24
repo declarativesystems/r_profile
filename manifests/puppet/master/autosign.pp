@@ -33,7 +33,7 @@ class r_profile::puppet::master::autosign(
       $autosign_setting = false
     }
     default: {
-      fail("Unsupported ensure autosign setting in ${class_name} (${ensure})")
+      fail("Unsupported ensure autosign setting in ${name} (${ensure})")
     }
   }
 
