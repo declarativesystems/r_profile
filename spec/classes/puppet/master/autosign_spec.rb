@@ -3,7 +3,7 @@ describe 'r_profile::puppet::master::autosign' do
   let :pre_condition do
     'service { "pe-puppetserver": }'
   end
-  
+
   context "catalog compiles" do
     it { should compile}
   end
@@ -21,11 +21,8 @@ describe 'r_profile::puppet::master::autosign' do
     end
     it {
       should contain_class('r_profile::puppet::master::autosign')
-      should contain_file("autosign_conf").with({
-        'ensure' => 'absent',
-      })
       should contain_ini_setting("puppet_conf_autosign_script").with({
-        'ensure' => 'absent',
+        'value' => false,
       })
     }
   end
@@ -38,11 +35,8 @@ describe 'r_profile::puppet::master::autosign' do
     end
     it {
       should contain_class('r_profile::puppet::master::autosign')
-      should contain_file("autosign_conf").with({
-        'ensure' => 'present',
-      })
       should contain_ini_setting("puppet_conf_autosign_script").with({
-        'ensure' => 'absent',
+        'value' => true,
       })
     }
   end
@@ -60,7 +54,7 @@ describe 'r_profile::puppet::master::autosign' do
         'ensure' => 'absent',
       })
       should contain_ini_setting("puppet_conf_autosign_script").with({
-        'ensure' => 'present',
+        'value' => '/usr/local/bin/puppet_enterprise_autosign.sh',
       })
     }
   end

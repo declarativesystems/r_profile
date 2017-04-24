@@ -22,41 +22,44 @@ class r_profile::puppet::master::autosign(
 
   $autosign_script = "/usr/local/bin/puppet_enterprise_autosign.sh"
 
+  case $ensure {
+    "policy": {
+      $autosign_setting = $autosign_script
+    }
+    "accept_all": {
+      $autosign_setting = true
+    }
+    "absent": {
+      $autosign_setting = false
+    }
+    default: {
+      fail("Unsupported ensure autosign setting in ${class_name} (${ensure})")
+    }
+  }
+
   if $ensure == 'policy' and ! $secret {
     fail("Cannot enable policy based autosigning without a valid shared secret")
   }
 
-  $autosign_all_ensure = $ensure ? {
-    'accept_all'  => 'present',
-    default       => 'absent'
-  }
-
-  $autosign_policy_ensure = $ensure ? {
-    'policy'      => 'present',
-    default       => 'absent'
-  }
-
-
   file { "autosign_conf":
-    ensure  => $autosign_all_ensure,
-    content => "*",
-    path    => "${::settings::confdir}/autosign.conf",
-    notify  => Service["pe-puppetserver"]
+    ensure => absent,
+    path   => "${::settings::confdir}/autosign.conf",
+    notify => Service["pe-puppetserver"]
   }
 
   # enable/disable autosign script in puppet.conf
   ini_setting { "puppet_conf_autosign_script":
-    ensure  => $autosign_policy_ensure,
+    ensure  => present,
     path    => "${::settings::confdir}/puppet.conf",
     section => "master",
     setting => "autosign",
-    value   => $autosign_script,
+    value   => $autosign_setting,
     notify  => Service["pe-puppetserver"],
   }
 
   # the autosigning script
   file { $autosign_script:
-    ensure  => $autosign_policy_ensure,
+    ensure  => present,
     owner   => "root",
     group   => "pe-puppet",
     mode    => "0770",

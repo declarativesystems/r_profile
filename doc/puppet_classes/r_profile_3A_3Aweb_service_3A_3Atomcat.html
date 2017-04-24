@@ -92,7 +92,7 @@
         <span class='type'>(<tt>Any</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.9/bin/apache-tomcat-8.5.9.tar.gz&#39;</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.14/bin/apache-tomcat-8.5.14.tar.gz&#39;</tt>)</em>
       
       
     </li>
@@ -290,13 +290,16 @@
 80
 81
 82
-83</pre>
+83
+84
+85
+86</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/web_service/tomcat.pp', line 4</span>
 
 class r_profile::web_service::tomcat(
-    $source_url       = &#39;http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.9/bin/apache-tomcat-8.5.9.tar.gz&#39;,
+    $source_url       = &#39;http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.14/bin/apache-tomcat-8.5.14.tar.gz&#39;,
     $catalina_home    = &#39;/opt/tomcat&#39;,
     $service          = &#39;tomcat&#39;,
     $user             = &#39;tomcat&#39;,
@@ -306,6 +309,9 @@ class r_profile::web_service::tomcat(
     $nagios_monitored = true,
     $open_firewall    = false,
 ){
+
+  # for processing .war files
+  ensure_packages(&#39;unzip&#39;, {&#39;ensure&#39; =&gt; &#39;present&#39;})
 
   include java
 

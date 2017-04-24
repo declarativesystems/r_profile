@@ -209,7 +209,10 @@ the built-in template as the validation script</p>
 62
 63
 64
-65</pre>
+65
+66
+67
+68</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/puppet/master/autosign.pp', line 16</span>
@@ -223,41 +226,44 @@ class r_profile::puppet::master::autosign(
 
   $autosign_script = &quot;/usr/local/bin/puppet_enterprise_autosign.sh&quot;
 
+  case $ensure {
+    &quot;policy&quot;: {
+      $autosign_setting = $autosign_script
+    }
+    &quot;accept_all&quot;: {
+      $autosign_setting = true
+    }
+    &quot;absent&quot;: {
+      $autosign_setting = false
+    }
+    default: {
+      fail(&quot;Unsupported ensure autosign setting in ${class_name} (${ensure})&quot;)
+    }
+  }
+
   if $ensure == &#39;policy&#39; and ! $secret {
     fail(&quot;Cannot enable policy based autosigning without a valid shared secret&quot;)
   }
 
-  $autosign_all_ensure = $ensure ? {
-    &#39;accept_all&#39;  =&gt; &#39;present&#39;,
-    default       =&gt; &#39;absent&#39;
-  }
-
-  $autosign_policy_ensure = $ensure ? {
-    &#39;policy&#39;      =&gt; &#39;present&#39;,
-    default       =&gt; &#39;absent&#39;
-  }
-
-
   file { &quot;autosign_conf&quot;:
-    ensure  =&gt; $autosign_all_ensure,
-    content =&gt; &quot;*&quot;,
-    path    =&gt; &quot;${::settings::confdir}/autosign.conf&quot;,
-    notify  =&gt; Service[&quot;pe-puppetserver&quot;]
+    ensure =&gt; absent,
+    path   =&gt; &quot;${::settings::confdir}/autosign.conf&quot;,
+    notify =&gt; Service[&quot;pe-puppetserver&quot;]
   }
 
   # enable/disable autosign script in puppet.conf
   ini_setting { &quot;puppet_conf_autosign_script&quot;:
-    ensure  =&gt; $autosign_policy_ensure,
+    ensure  =&gt; present,
     path    =&gt; &quot;${::settings::confdir}/puppet.conf&quot;,
     section =&gt; &quot;master&quot;,
     setting =&gt; &quot;autosign&quot;,
-    value   =&gt; $autosign_script,
+    value   =&gt; $autosign_setting,
     notify  =&gt; Service[&quot;pe-puppetserver&quot;],
   }
 
   # the autosigning script
   file { $autosign_script:
-    ensure  =&gt; $autosign_policy_ensure,
+    ensure  =&gt; present,
     owner   =&gt; &quot;root&quot;,
     group   =&gt; &quot;pe-puppet&quot;,
     mode    =&gt; &quot;0770&quot;,
