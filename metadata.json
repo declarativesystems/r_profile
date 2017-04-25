@@ -33,7 +33,6 @@
     {"name":"puppetlabs-java", "version_requirement":"1.6.0"},
     {"name":"puppet-virtualbox", "version_requirement":"1.8.0"},
     {"name":"puppetlabs-reboot", "version_requirement":"1.2.1"},
-    {"name":"puppet-windows_env", "version_requirement":"2.3.0"},
     {"name":"hunner-wordpress", "version_requirement":"1.0.0"},
     {"name":"dalen-puppetdbquery", "version_requirement":"2.3.0"},
     {"name":"chocolatey-chocolatey", "version_requirement":"1.2.6"},
@@ -41,7 +40,8 @@
     {"name":"jamtur01-httpauth", "version_requirement":"0.0.3"},
     {"name":"puppet-nginx", "version_requirement":"0.6.0"},
     {"name":"puppetlabs-apache", "version_requirement":"1.11.0"},
-    {"name":"jdowning-rbenv", "version_requirement":"2.2.0"}
+    {"name":"jdowning-rbenv", "version_requirement":"2.2.0"},
+    {"name":"geoffwilliams-environment_variable", "version_requirement":"0.2.0"}
   ],
   "operatingsystem_support": [
     {
