@@ -12,11 +12,14 @@
 #   default
 # @param gems Hash of default gems to install in a form suitable for
 #   create_resources of the `rbenv::gem` type (not recommened - please use
-#   bundler) @see https://forge.puppet.com/jdowning/rbenv#full-example
+#   bundler for day-to-day gem installation).  IMPORTANT:  Bundler is
+#   already installed as part of rbenv::build, attempting installation
+#   here as well will cause duplicate resource error
+#   @see https://forge.puppet.com/jdowning/rbenv#full-example
 # @param rbenv_plugins Array of rbenv pluings to install (for building new rubies)
 class r_profile::ruby(
     $version        = hiera('r_profile::ruby::version', ['2.4.1', '2.3.4']),
-    $gems           = hiera('r_profile::ruby::gems', {"bundler"=>{}}),
+    $gems           = hiera('r_profile::ruby::gems', {}),
     $install_dir    = undef,
 ) {
 
@@ -62,10 +65,6 @@ class r_profile::ruby(
         install_dir => $install_dir,
       }
 
-      $gem_defaults = {
-        ruby_version => $version
-      }
-
       rbenv::plugin { [ 'rbenv/rbenv-vars', 'rbenv/ruby-build' ]: }
 
       any2array($version).each |$v| {
@@ -74,10 +73,11 @@ class r_profile::ruby(
         }
 
         $gems.each |$gem, $opts| {
-          rbenv::gem { "ruby_${v}_gem_${gem}":
-            gem          => $gem,
-            ruby_version => $v,
-            *            => $opts,
+          rbenv::gem {
+            "ruby_${v}_gem_${gem}":
+              gem          => $gem,
+              ruby_version => $v,
+              *            => $opts,
           }
         }
       }

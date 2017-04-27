@@ -36,7 +36,7 @@ describe 'r_profile::ruby' do
 
       let :params do
         {
-          :gems => {"bundler" => {"version"=>"1.14.6",}}
+          :gems => {"bongo" => {"version"=>"6.6.6",}}
         }
       end
 

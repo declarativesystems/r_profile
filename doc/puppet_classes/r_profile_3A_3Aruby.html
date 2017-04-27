@@ -117,14 +117,16 @@ default</p>
         <span class='type'>(<tt>Any</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::ruby::gems&#39;, {&quot;bundler&quot;=&gt;{}})</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::ruby::gems&#39;, {})</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
 <p>Hash of default gems to install in a form suitable for create_resources of
-the <code>rbenv::gem</code> type (not recommened - please use bundler) @see
-<a
+the <code>rbenv::gem</code> type (not recommened - please use bundler for
+day-to-day gem installation). IMPORTANT: Bundler is already installed as
+part of rbenv::build, attempting installation here as well will cause
+duplicate resource error @see <a
 href="https://forge.puppet.com/jdowning/rbenv#full-example">forge.puppet.com/jdowning/rbenv#full-example</a></p>
 </div>
       
@@ -169,9 +171,6 @@ href="https://forge.puppet.com/jdowning/rbenv#full-example">forge.puppet.com/jdo
         <pre class="lines">
 
 
-17
-18
-19
 20
 21
 22
@@ -248,11 +247,11 @@ href="https://forge.puppet.com/jdowning/rbenv#full-example">forge.puppet.com/jdo
 93</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/ruby.pp', line 17</span>
+        <pre class="code"><span class="info file"># File 'manifests/ruby.pp', line 20</span>
 
 class r_profile::ruby(
     $version        = hiera(&#39;r_profile::ruby::version&#39;, [&#39;2.4.1&#39;, &#39;2.3.4&#39;]),
-    $gems           = hiera(&#39;r_profile::ruby::gems&#39;, {&quot;bundler&quot;=&gt;{}}),
+    $gems           = hiera(&#39;r_profile::ruby::gems&#39;, {}),
     $install_dir    = undef,
 ) {
 
@@ -298,10 +297,6 @@ class r_profile::ruby(
         install_dir =&gt; $install_dir,
       }
 
-      $gem_defaults = {
-        ruby_version =&gt; $version
-      }
-
       rbenv::plugin { [ &#39;rbenv/rbenv-vars&#39;, &#39;rbenv/ruby-build&#39; ]: }
 
       any2array($version).each |$v| {
@@ -310,10 +305,11 @@ class r_profile::ruby(
         }
 
         $gems.each |$gem, $opts| {
-          rbenv::gem { &quot;ruby_${v}_gem_${gem}&quot;:
-            gem          =&gt; $gem,
-            ruby_version =&gt; $v,
-            *            =&gt; $opts,
+          rbenv::gem {
+            &quot;ruby_${v}_gem_${gem}&quot;:
+              gem          =&gt; $gem,
+              ruby_version =&gt; $v,
+              *            =&gt; $opts,
           }
         }
       }
