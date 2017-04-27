@@ -96,12 +96,15 @@ unable to run, leaving the system unmanaged</p>
         <span class='type'>(<tt>Any</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::ruby::version&#39;, &#39;2.4.1&#39;)</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::ruby::version&#39;, [&#39;2.4.1&#39;, &#39;2.3.4&#39;])</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Version of Ruby to install (required)</p>
+<p>Array of Ruby versions to install (linux). On windows, only a single
+version can be installed due to packaging so we will install the first
+listed version. On linux, the first listed version will be set as the
+default</p>
 </div>
       
     </li>
@@ -114,7 +117,7 @@ unable to run, leaving the system unmanaged</p>
         <span class='type'>(<tt>Any</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::ruby::gems&#39;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::ruby::gems&#39;, {&quot;bundler&quot;=&gt;{}})</tt>)</em>
       
       
         &mdash;
@@ -166,9 +169,6 @@ href="https://forge.puppet.com/jdowning/rbenv#full-example">forge.puppet.com/jdo
         <pre class="lines">
 
 
-14
-15
-16
 17
 18
 19
@@ -229,26 +229,42 @@ href="https://forge.puppet.com/jdowning/rbenv#full-example">forge.puppet.com/jdo
 74
 75
 76
-77</pre>
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/ruby.pp', line 14</span>
+        <pre class="code"><span class="info file"># File 'manifests/ruby.pp', line 17</span>
 
 class r_profile::ruby(
-    $version        = hiera(&#39;r_profile::ruby::version&#39;, &#39;2.4.1&#39;),
-    $gems           = hiera(&#39;r_profile::ruby::gems&#39;, {}),
+    $version        = hiera(&#39;r_profile::ruby::version&#39;, [&#39;2.4.1&#39;, &#39;2.3.4&#39;]),
+    $gems           = hiera(&#39;r_profile::ruby::gems&#39;, {&quot;bundler&quot;=&gt;{}}),
     $install_dir    = undef,
 ) {
 
-
   case $facts[&#39;os&#39;][&#39;family&#39;] {
     &#39;windows&#39;: {
+      $_version     = any2array($version)[0]
       $_install_dir = pick($install_dir, &#39;c:\tools&#39;)
-      $ruby_dir     = regsubst($version, &#39;(\d)\.(\d)\.(\d)\.?(\d+)?&#39;, &#39;ruby\1\2\3&#39;)
+      $ruby_dir     = regsubst($_version, &#39;(\d)\.(\d)\.(\d)\.?(\d+)?&#39;, &#39;ruby\1\2\3&#39;)
       $ruby_home    = &quot;${_install_dir}\\${ruby_dir}\\bin&quot;
 
       package { &#39;ruby&#39;:
-        ensure   =&gt; $version,
+        ensure   =&gt; $_version,
         provider =&gt; chocolatey,
       }
 
@@ -275,6 +291,9 @@ class r_profile::ruby(
     }
 
     &#39;RedHat&#39;, &#39;Suse&#39;: {
+      # pick the first defined ruby as the default version
+      $ruby_home    = &quot;${install_dir}/version/${version[0]}&quot;
+
       class { &#39;::rbenv&#39;:
         install_dir =&gt; $install_dir,
       }
@@ -284,19 +303,29 @@ class r_profile::ruby(
       }
 
       rbenv::plugin { [ &#39;rbenv/rbenv-vars&#39;, &#39;rbenv/ruby-build&#39; ]: }
-      rbenv::build { $version:
-        global =&gt; false,
+
+      any2array($version).each |$v| {
+        rbenv::build { $v:
+          global =&gt; false,
+        }
+
+        $gems.each |$gem, $opts| {
+          rbenv::gem { &quot;ruby_${v}_gem_${gem}&quot;:
+            gem          =&gt; $gem,
+            ruby_version =&gt; $v,
+            *            =&gt; $opts,
+          }
+        }
       }
 
-      if $gems {
-        create_resources(&quot;rbenv::gem&quot;, $gems, $gem_defaults)
-      }
     }
     default: {
       fail(&quot;#{name} does not support ${facts[&#39;os&#39;][&#39;family&#39;]}&quot;)
     }
   }
 
+  # set a global ruby_home variable
+  environment_variable::variable{ &quot;RUBY_HOME=${ruby_home}&quot;: }
 }</pre>
       </td>
     </tr>

@@ -120,6 +120,24 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>process_template</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::file::process_template&quot;, false)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>process the template() directive if found</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -130,7 +148,6 @@
         <pre class="lines">
 
 
-7
 8
 9
 10
@@ -145,21 +162,68 @@
 19
 20
 21
-22</pre>
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/file.pp', line 7</span>
+        <pre class="code"><span class="info file"># File 'manifests/file.pp', line 8</span>
 
 class r_profile::file(
-  $files        = hiera(&quot;r_profile::file::files&quot;, false),
-  $directories  = hiera(&quot;r_profile::file::directories&quot;, false),
+  $files             = hiera(&quot;r_profile::file::files&quot;, false),
+  $directories       = hiera(&quot;r_profile::file::directories&quot;, false),
+  $process_template = hiera(&quot;r_profile::file::process_template&quot;, false),
 ) {
 
   $default_directory  = { &quot;ensure&quot; =&gt; &quot;directory&quot;}
   $default_file       = { &quot;ensure&quot; =&gt; &quot;file&quot;}
 
   if $files {
-    create_resources(&quot;file&quot;, $files, $default_file)
+    $files.each |$title, $opts| {
+      if $process_template {
+        if dig($opts, &#39;content&#39;) and $opts[&#39;content&#39;] =~ /^template(.+)$/ {
+          # process the template and return the content
+          $template = regsubst($opts[&quot;content&quot;], &#39;^template\(([^)]+)\)$&#39;, &#39;\1&#39;)
+          $temp = {
+            &quot;content&quot; =&gt; template($template)
+          }
+          # merge the hashes, allowing parsed content to override
+          $_opts = merge($opts, $temp)
+        }
+      } else {
+        $_opts = $opts
+      }
+
+      file {
+        default:
+          * =&gt; $default_file,
+        ;
+        $title:
+          * =&gt; $_opts,
+      }
+    }
   }
 
   if $directories {

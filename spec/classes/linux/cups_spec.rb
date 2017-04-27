@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'puppet_factset'
-describe 'r_profile::ruby' do
+describe 'r_profile::linux::cups' do
   # Uncomment only the factset you would like to use for these tests
   # system_name = 'AIX-6.1-powerpc'
   # system_name = 'AIX-7.1-powerpc'
@@ -24,29 +24,15 @@ describe 'r_profile::ruby' do
   # system_name = 'Windows_Server-2012r2-64'
   # system_name = 'solaris-10_u9-sparc-64'
   # system_name = 'solaris-11.2-sparc-64'
+  let :facts do
+    PuppetFactset::factset_hash(system_name)
+  end
 
-  # cannot test windows!
-  platforms = ['CentOS-7.0-64', 'SLES-12.1-64']
-  platforms.each { |platform|
-    context platform do
+  context 'compiles ok' do
+    it { should compile }
+  end
 
-      let :facts do
-        PuppetFactset::factset_hash(platform)
-      end
-
-      let :params do
-        {
-          :gems => {"bundler" => {"version"=>"1.14.6",}}
-        }
-      end
-
-      context 'compiles ok' do
-        it { should compile }
-      end
-
-      context 'with default values for all parameters' do
-        it { should contain_class('r_profile::ruby') }
-      end
-    end
-  }
+  context 'with default values for all parameters' do
+    it { should contain_class('r_profile::linux::cups') }
+  end
 end
