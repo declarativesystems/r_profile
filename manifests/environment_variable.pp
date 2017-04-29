@@ -4,12 +4,12 @@
 #
 # @param variable Varliable to set in the form `variable=value`. Arrays accepted
 class r_profile::environment_variable(
-    $variable = hiera("r_profile::environment_variable::variable", []),
+    $variables = hiera("r_profile::environment_variable::variables", []),
 ) {
 
-  $_variable = any2array($variable)
-  $_variable.each |$v| {
-    environment_variable::variable { $v:
+  $_variables = any2array($variables)
+  $_variables.each |$variable| {
+    environment_variable::variable { $variable:
       ensure => present,
     }
   }

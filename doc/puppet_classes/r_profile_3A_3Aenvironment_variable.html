@@ -89,16 +89,27 @@
         <span class='name'>variable</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'></span>
       
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::environment_variable::variable&quot;, [])</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
 <p>Varliable to set in the form <code>variable=value</code>. Arrays accepted</p>
 </div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>variables</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::environment_variable::variables&quot;, [])</tt>)</em>
+      
       
     </li>
   
@@ -128,12 +139,12 @@
         <pre class="code"><span class="info file"># File 'manifests/environment_variable.pp', line 6</span>
 
 class r_profile::environment_variable(
-    $variable = hiera(&quot;r_profile::environment_variable::variable&quot;, []),
+    $variables = hiera(&quot;r_profile::environment_variable::variables&quot;, []),
 ) {
 
-  $_variable = any2array($variable)
-  $_variable.each |$v| {
-    environment_variable::variable { $v:
+  $_variables = any2array($variables)
+  $_variables.each |$variable| {
+    environment_variable::variable { $variable:
       ensure =&gt; present,
     }
   }

@@ -30,7 +30,7 @@ describe 'r_profile::environment_variable' do
 
   let :params do
     {
-      :variable => [
+      :variables => [
         "foo=/var/lib/foo",
         "bar=/var/lib/bar"
       ]

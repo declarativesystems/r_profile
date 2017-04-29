@@ -10,10 +10,13 @@ class r_profile::java(
 
   case $facts['os']['family'] {
     'windows': {
-      package { 'java.jdk':
+      package { 'jdk7':
         ensure   => pick($version, 'present'),
         provider => chocolatey,
       }
+
+      # unclear where chocolatey installs java on windows, however its install
+      # script seems to set its own `JAVA_HOME` so we won't duplicate here.
     }
     'suse', 'redhat': {
       class { "java":
@@ -21,19 +24,15 @@ class r_profile::java(
       }
 
       # custom fact inside puppetlabs-java supplies the java home
-      if $facts['java_default_home'] {
-
-        file { '/etc/profile.d/set_java_home.sh':
-          ensure  => file,
-          owner   => 'root',
-          group   => 'root',
-          mode    => '0644',
-          content => "export JAVA_HOME=${facts['java_default_home']}\nPATH=\$JAVA_HOME/bin:\$PATH"
-        }
-      }
+      $java_home = pick($facts['java_default_home'], false)
     }
     default: {
       fail("${class_name} doens't support ${facts['os']['family']}")
     }
+  }
+
+  if $java_home {
+    environment_variable::variable{"JAVA_HOME=${java_home}": }
+    environment_variable::path_element{"${java_home}}/bin": }
   }
 }

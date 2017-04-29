@@ -144,8 +144,7 @@
 35
 36
 37
-38
-39</pre>
+38</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/java.pp', line 6</span>
@@ -157,10 +156,13 @@ class r_profile::java(
 
   case $facts[&#39;os&#39;][&#39;family&#39;] {
     &#39;windows&#39;: {
-      package { &#39;java.jdk&#39;:
+      package { &#39;jdk7&#39;:
         ensure   =&gt; pick($version, &#39;present&#39;),
         provider =&gt; chocolatey,
       }
+
+      # unclear where chocolatey installs java on windows, however its install
+      # script seems to set its own `JAVA_HOME` so we won&#39;t duplicate here.
     }
     &#39;suse&#39;, &#39;redhat&#39;: {
       class { &quot;java&quot;:
@@ -168,20 +170,16 @@ class r_profile::java(
       }
 
       # custom fact inside puppetlabs-java supplies the java home
-      if $facts[&#39;java_default_home&#39;] {
-
-        file { &#39;/etc/profile.d/set_java_home.sh&#39;:
-          ensure  =&gt; file,
-          owner   =&gt; &#39;root&#39;,
-          group   =&gt; &#39;root&#39;,
-          mode    =&gt; &#39;0644&#39;,
-          content =&gt; &quot;export JAVA_HOME=${facts[&#39;java_default_home&#39;]}\nPATH=\$JAVA_HOME/bin:\$PATH&quot;
-        }
-      }
+      $java_home = pick($facts[&#39;java_default_home&#39;], false)
     }
     default: {
       fail(&quot;${class_name} doens&#39;t support ${facts[&#39;os&#39;][&#39;family&#39;]}&quot;)
     }
+  }
+
+  if $java_home {
+    environment_variable::variable{&quot;JAVA_HOME=${java_home}&quot;: }
+    environment_variable::path_element{&quot;${java_home}}/bin&quot;: }
   }
 }</pre>
       </td>
