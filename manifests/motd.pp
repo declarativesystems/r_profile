@@ -17,35 +17,12 @@ class r_profile::motd(
 ) {
 
   # content overrides template
-  if $content {
-    $_content = $content
-  } else {
-    $_content = template($template)
-  }
-
-  if $kernel == "AIX" {
-    if $_content {
-      file { "/etc/motd":
-        ensure  => file,
-        owner   => "bin",
-        group   => "bin",
-        mode    => "0644",
-        content => $_content,
-      }
-    }
-  } else {
-    class { "::motd":
+  $_content = pick($content, template($template))
+    class { "motd":
       content           => $_content,
       issue_content     => $issue_content,
       issue_net_content => $issue_net_content,
     }
-
-    File <| title == '/etc/motd' or title == "/etc/issue" or title == "/etc/issue.net" |> {
-      owner => 'root',
-      group => 'root',
-      mode  => '0644',
-    }
-
   }
 
 }
