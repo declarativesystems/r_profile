@@ -18,11 +18,9 @@ class r_profile::motd(
 
   # content overrides template
   $_content = pick($content, template($template))
-    class { "motd":
-      content           => $_content,
-      issue_content     => $issue_content,
-      issue_net_content => $issue_net_content,
-    }
+  class { "motd":
+    content           => $_content,
+    issue_content     => $issue_content,
+    issue_net_content => $issue_net_content,
   }
-
 }

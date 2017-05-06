@@ -1,11 +1,10 @@
 require 'spec_helper'
+require 'puppet_factset'
 
 describe 'r_profile::motd' do
-  let(:facts) do
-    {
-      :kernel   => "Linux",
-      :osfamily => "RedHat",
-    }
+
+  let :facts do
+    PuppetFactset::factset_hash('CentOS-7.0-64')
   end
 
   context "catalog compiles" do
@@ -24,7 +23,7 @@ describe 'r_profile::motd' do
         :issue_net_content => "hello, world",
       }
     end
-    it { should contain_file('/etc/motd').with(
+    it { should contain_concat('/etc/motd').with(
       {
         :owner => 'root',
         :group => 'root',
@@ -34,20 +33,17 @@ describe 'r_profile::motd' do
   end
 
   context 'correct permissions on AIX' do
+
     let :facts do
-      {
-        :kernel => "AIX",
-        :os => {
-          :family => "AIX"
-        }
-      }
+      PuppetFactset::factset_hash('AIX-7.1-powerpc')
     end
+
     let :params do
       {
         :content => "hello, world",
       }
     end
-    it { should contain_file('/etc/motd').with(
+    it { should contain_concat('/etc/motd').with(
       {
         :owner => 'bin',
         :group => 'bin',
