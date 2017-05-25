@@ -33,6 +33,6 @@ class r_profile::java(
 
   if $java_home {
     environment_variable::variable{"JAVA_HOME=${java_home}": }
-    environment_variable::path_element{"${java_home}}/bin": }
+    environment_variable::path_element{"${java_home}/bin": }
   }
 }

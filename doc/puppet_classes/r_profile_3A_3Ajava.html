@@ -179,7 +179,7 @@ class r_profile::java(
 
   if $java_home {
     environment_variable::variable{&quot;JAVA_HOME=${java_home}&quot;: }
-    environment_variable::path_element{&quot;${java_home}}/bin&quot;: }
+    environment_variable::path_element{&quot;${java_home}/bin&quot;: }
   }
 }</pre>
       </td>
