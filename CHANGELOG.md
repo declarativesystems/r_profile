@@ -1,3 +1,6 @@
+# 1.8.1 (2017-05-26)
+* Updated supported release of psquared
+
 # 1.8.0 (2017-05-25)
 * Support for Azure
 * Support for NodeJS

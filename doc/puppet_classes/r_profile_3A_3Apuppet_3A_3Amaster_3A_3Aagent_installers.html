@@ -102,24 +102,6 @@
       
     </li>
   
-    <li>
-      
-        <span class='name'>install_osx</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::puppet::master::agent_installers::install_osx&#39;, false)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>True to also install the OSX Puppet agent installers</p>
-</div>
-      
-    </li>
-  
 </ul>
 
 
@@ -130,28 +112,24 @@
         <pre class="lines">
 
 
+6
 7
 8
 9
 10
 11
 12
-13
-14
-15
-16</pre>
+13</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master/agent_installers.pp', line 7</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/agent_installers.pp', line 6</span>
 
 class r_profile::puppet::master::agent_installers(
     $install      = hiera(&#39;r_profile::puppet::master::agent_installers::install&#39;, true),
-    $install_osx  = hiera(&#39;r_profile::puppet::master::agent_installers::install_osx&#39;, false),
 ){
 
   class { &#39;psquared::agent_installers&#39;:
     install            =&gt; $install,
-    install_osx_agents =&gt; $install_osx,
   }
 }</pre>
       </td>
