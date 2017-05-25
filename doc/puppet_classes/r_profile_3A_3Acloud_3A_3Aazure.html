@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Puppet Class: r_profile::cloud::azure
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "puppet_classes::r_profile::cloud::azure";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (r)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Classes</span></span>
+     &raquo; 
+    <span class="title">r_profile::cloud::azure</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Class: r_profile::cloud::azure</h1>
+<div class="box_info">
+  
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      manifests/cloud/azure.pp
+    </dd>
+  </dl>
+</div>
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>puppet module install puppet-nodejs –version 2.3.0</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>subscription_id</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::subscription_id&#39;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The subsciption ID to provision ID to work with, obtainedfrom billing page
+in azure portal</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tenant_id</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::tenant_id&#39;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The active directory tennant ID to work with, see <a
+href="https://stackoverflow.com/a/41028320/3441106">stackoverflow.com/a/41028320/3441106</a></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>client_id</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::client_id&#39;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>This is the equivalent of a username and involves registering an
+application in the Azure AD instance. Once registered, the field to use
+here is <code>application_id</code>. We don&#39;t use
+<code>object_id</code> at all. Important: Once the user has been created,
+it needs to be given RBAC access to the Azure API which is done through the
+billing -&gt; subscriptions menu @see <a
+href="https://docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html">docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html</a></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>client_secret</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::client_secret&#39;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>This is the equivalent of a password for the above user and can be found by
+following the above tutorial</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>azure_vm</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::azure_vm&#39;, {})</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>azure_vm_default</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::azure_vm_default&#39;, {})</tt>)</em>
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 30</span>
+
+class r_profile::cloud::azure(
+  Optional[String]  $subscription_id  = hiera(&#39;r_profile::cloud::azure::subscription_id&#39;, undef),
+  Optional[String]  $tenant_id        = hiera(&#39;r_profile::cloud::azure::tenant_id&#39;, undef),
+  Optional[String]  $client_id        = hiera(&#39;r_profile::cloud::azure::client_id&#39;, undef),
+  Optional[String]  $client_secret    = hiera(&#39;r_profile::cloud::azure::client_secret&#39;, undef),
+  Hash              $azure_vm         = hiera(&#39;r_profile::cloud::azure::azure_vm&#39;, {}),
+  Hash              $azure_vm_default = hiera(&#39;r_profile::cloud::azure::azure_vm_default&#39;, {}),
+) {
+
+  include r_profile::nodejs
+
+
+  ensure_packages(
+    [
+      &#39;gcc&#39;,
+      &#39;libffi-devel&#39;,
+      &#39;python-devel&#39;,
+      &#39;openssl-devel&#39;,
+      &#39;perl-Digest-SHA&#39;
+    ],
+    {
+      ensure =&gt; present
+    }
+  )
+
+  package { &#39;azure-cli&#39;:
+    ensure   =&gt; &#39;present&#39;,
+    provider =&gt; &#39;npm&#39;,
+  }
+
+
+  # Azure module very picky about what rubygems to use so we pin exact versions.
+  # Using a gem that is too new will give ruby errors like this:
+  #   Error: Could not run: Puppet detected a problem with the information
+  #   returned from Azure when accessing azure_vm. The specific error was:
+  #   undefined method `value&#39; for #&lt;Array:0x000000057af3c8&gt;
+  package { &quot;hocon&quot;:
+    ensure   =&gt; &quot;1.1.3&quot;,
+    provider =&gt; &quot;puppet_gem&quot;,
+  }
+
+  package { &quot;retries&quot;:
+    ensure   =&gt; &quot;0.0.5&quot;,
+    provider =&gt; &quot;puppet_gem&quot;,
+  }
+
+  package { &quot;azure&quot;:
+    ensure   =&gt; &quot;0.7.9&quot;,
+    provider =&gt; &quot;puppet_gem&quot;,
+  }
+
+  package { [ &quot;azure_mgmt_compute&quot;, &quot;azure_mgmt_network&quot;, &quot;azure_mgmt_resources&quot;, &quot;azure_mgmt_storage&quot;]:
+    ensure   =&gt; &quot;0.3.1&quot;,
+    provider =&gt; &quot;puppet_gem&quot;,
+  }
+
+  # If all required authentication fields are present, manage the azure.conf
+  # file and its content, otherwise leave it alone.  This allows it to be
+  # populated by other methods if necessary
+  if $subscription_id and $tenant_id and $client_id and client_secret {
+
+    file { &quot;/etc/puppetlabs/puppet/azure.conf&quot;:
+      ensure  =&gt; file,
+      owner   =&gt; &#39;root&#39;,
+      group   =&gt; &#39;root&#39;,
+      mode    =&gt; &#39;0600&#39;,
+      content =&gt; epp(&quot;${module_name}/cloud/azure/azure.conf.epp&quot;, {
+          subscription_id =&gt; $subscription_id,
+          tenant_id       =&gt; $tenant_id,
+          client_id       =&gt; $client_id,
+          client_secret   =&gt; $client_secret,
+      }),
+    }
+  }
+
+  $azure_vm.each |$title, $opts| {
+    azure_vm {
+      default:
+        * =&gt; $azure_vm_default,
+      ;
+      $title:
+        * =&gt; $opts,
+    }
+  }
+}</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>

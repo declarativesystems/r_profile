@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-r_profile",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "author": "geoffwilliams",
   "summary": "Ready to use Puppet Profile classes",
   "license": "Apache-2.0",
@@ -42,7 +42,9 @@
     {"name":"puppetlabs-apache", "version_requirement":"1.11.0"},
     {"name":"jdowning-rbenv", "version_requirement":"2.2.0"},
     {"name":"mosen-cups", "version_requirement":"1.4.1"},
-    {"name":"geoffwilliams-environment_variable", "version_requirement":"0.2.0"}
+    {"name":"geoffwilliams-environment_variable", "version_requirement":"0.2.0"},
+    {"name":"puppetlabs-azure", "version_requirement":"1.1.1"},
+    {"name":"puppet-nodejs", "version_requirement":"2.3.0"}
   ],
   "operatingsystem_support": [
     {
