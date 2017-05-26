@@ -1,0 +1,12 @@
+<%- | String $vsphere_password,
+      String $vsphere_user,
+      String $vsphere_host,
+| -%>
+vcenter: {
+  host: "<%= $vsphere_host %>"
+  user: "<%= $vsphere_user %>"
+  password: "<%= $vsphere_password %>"
+  port: your-port
+  insecure: false
+  ssl: false
+}
