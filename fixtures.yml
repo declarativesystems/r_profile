@@ -3,7 +3,3 @@ repositories:
   vim:
     repo: 'https://github.com/GeoffWilliams/puppet-vim'
     ref: 'fix_missing_var_error'
-
-  # workaround for https://tickets.puppetlabs.com/browse/MODULES-4760
-  tomcat:
-    repo: "https://github.com/puppetlabs/puppetlabs-tomcat"
