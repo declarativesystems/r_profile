@@ -39,11 +39,11 @@ describe 'r_profile::virtual::vagrant' do
         }
       },
       :vm_default => {
-        "ensure"        => "running",
-        "box"           => "bento/centos-7.3",
-        "memory"        => "512",
-        "cpu"           => "1",
-        "puppet_master" => "192.168.1.50",
+        "ensure"           => "running",
+        "box"              => "bento/centos-7.3",
+        "memory"           => "512",
+        "cpu"              => "1",
+        "puppet_master_ip" => "192.168.1.50",
       }
     }
   end

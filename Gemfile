@@ -12,7 +12,7 @@ gem 'puppet-strings',
   :git => 'https://github.com/declarativesystems/puppet-strings',
   :ref => 'no_dates'
 gem 'metadatajson2puppetfile', '0.1.2'
-gem 'derelict', '0.6.2'
+gem 'vagrantomatic', '0.3.3'
 gem 'puppetclassify', '0.1.5'
 gem 'ruby-puppetdb', '2.3.0'
 
