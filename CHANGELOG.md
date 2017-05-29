@@ -1,3 +1,7 @@
+# 1.9.0 (2017-05-30)
+* Support for non-root puppet agent deployment (for cloud/proxying)
+* Support for VSphere (untested) - thanks @nelg
+
 # 1.8.1 (2017-05-26)
 * Updated supported release of psquared
 
