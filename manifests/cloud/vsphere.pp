@@ -29,9 +29,9 @@ class r_profile::cloud::vsphere(
     provider => "puppet_gem",
   }
   package { "rbvmomi":
-    ensure   => "present",
+    ensure          => "present",
     install_options => ['--no-ri','--no-rdoc'],
-    provider => "puppet_gem",
+    provider        => "puppet_gem",
   }
   # If all required authentication fields are present, manage the vsphere.conf
   # file and its content, otherwise leave it alone.  This allows it to be
@@ -43,9 +43,9 @@ class r_profile::cloud::vsphere(
       group   => 'root',
       mode    => '0600',
       content => epp("${module_name}/cloud/vsphere/vsphere.conf.epp", {
-          vsphere_user      => $vsphere_user,
-          vsphere_password  => $vsphere_password,
-          vsphere_host      => $vsphere_host
+          vsphere_user     => $vsphere_user,
+          vsphere_password => $vsphere_password,
+          vsphere_host     => $vsphere_host,
       }),
     }
   }

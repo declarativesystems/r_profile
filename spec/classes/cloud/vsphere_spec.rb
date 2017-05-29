@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'puppet_factset'
-describe 'r_profile::vsphere' do
+describe 'r_profile::cloud::vsphere' do
   # Uncomment only the factset you would like to use for these tests
   # system_name = 'AIX-6.1-powerpc'
   # system_name = 'AIX-7.1-powerpc'
@@ -14,12 +14,14 @@ describe 'r_profile::vsphere' do
   # system_name = 'Debian-6.0.10-64'
   # system_name = 'Debian-7.8-32'
   # system_name = 'Debian-7.8-64'
+  # system_name = 'Debian-8.7-64'
   # system_name = 'SLES-11.3-64'
   # system_name = 'SLES-12.1-64'
   # system_name = 'Ubuntu-12.04-32'
   # system_name = 'Ubuntu-12.04-64'
   # system_name = 'Ubuntu-14.04-32'
   # system_name = 'Ubuntu-14.04-64'
+  # system_name = 'Ubuntu-16.04-64'
   # system_name = 'Windows_Server-2008r2-64'
   # system_name = 'Windows_Server-2012r2-64'
   # system_name = 'solaris-10_u9-sparc-64'
@@ -28,13 +30,11 @@ describe 'r_profile::vsphere' do
     PuppetFactset::factset_hash(system_name)
   end
 
-  # Untestable because the vsphere module is enterprise only and no mocks exist
+  context 'compiles ok' do
+    it { should compile }
+  end
 
-  # context 'compiles ok' do
-  #   it { should compile }
-  # end
-  #
-  # context 'with default values for all parameters' do
-  #   it { should contain_class('r_profile::vsphere') }
-  # end
+  context 'with default values for all parameters' do
+    it { should contain_class('r_profile::cloud::vsphere') }
+  end
 end
