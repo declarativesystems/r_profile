@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-r_profile",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "author": "geoffwilliams",
   "summary": "Ready to use Puppet Profile classes",
   "license": "Apache-2.0",
@@ -46,7 +46,8 @@
     {"name":"puppetlabs-azure", "version_requirement":"1.1.1"},
     {"name":"puppet-nodejs", "version_requirement":"2.3.0"},
     {"name":"puppetlabs-tomcat", "version_requirement":"1.7.0"},
-    {"name":"geoffwilliams-puppet_nonroot", "version_requirement":"0.1.0"}
+    {"name":"geoffwilliams-puppet_nonroot", "version_requirement":"0.1.0"},
+    {"name":"trlinkin-domain_membership", "version_requirement":"1.1.2"}
   ],
   "operatingsystem_support": [
     {

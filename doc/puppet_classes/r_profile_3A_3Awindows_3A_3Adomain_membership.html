@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Puppet Class: r_profile::windows::domain_membership
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "puppet_classes::r_profile::windows::domain_membership";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (r)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Classes</span></span>
+     &raquo; 
+    <span class="title">r_profile::windows::domain_membership</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Class: r_profile::windows::domain_membership</h1>
+<div class="box_info">
+  
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      manifests/windows/domain_membership.pp
+    </dd>
+  </dl>
+</div>
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>R_profile::Windows::Domain_membership</p>
+
+<p>Join an Active Directory domain using Puppet and the
+trlinkin/domain_membership module using data from Hiera</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Join a domain</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_windows'>windows</span><span class='op'>::</span><span class='id identifier rubyid_domain_membership'>domain_membership</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>domain</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::windows::domain_membership::domain&quot;)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>AD domain which the node should be a member of.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>username</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::windows::domain_membership::username&quot;)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User with ability to join machines to a Domain.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>password</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::windows::domain_membership::password&quot;)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Password for domain joining user.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>machine_ou</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::windows::domain_membership::machine_ou&quot;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>OU in the directory for the machine account to be created in.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>resetpw</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::windows::domain_membership::resetpw&quot;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Whether or not to force machine password reset if it becomes out of sync
+with the domain.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>reboot</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::windows::domain_membership::reboot&quot;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Whether or not to reboot when the machine joins the domain.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>join_options</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::windows::domain_membership::join_options&quot;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A bit field for options to use when joining the domain. A value of
+&#39;1&#39; indicates default domain join (the default) @see <a
+href="http://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx">msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx</a></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>user_domain</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::windows::domain_membership::user_domain&quot;, undef)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Domain of user account used to join machine, if different from domain
+machine will be joined to. If not specified, the value passed to the domain
+parameter will be used.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'manifests/windows/domain_membership.pp', line 22</span>
+
+class r_profile::windows::domain_membership(
+  String            $domain       = hiera(&quot;r_profile::windows::domain_membership::domain&quot;),
+  String            $username     = hiera(&quot;r_profile::windows::domain_membership::username&quot;),
+  String            $password     = hiera(&quot;r_profile::windows::domain_membership::password&quot;),
+  Optional[String]  $join_options = hiera(&quot;r_profile::windows::domain_membership::join_options&quot;, undef),
+  Optional[String]  $machine_ou   = hiera(&quot;r_profile::windows::domain_membership::machine_ou&quot;, undef),
+  Optional[String]  $resetpw      = hiera(&quot;r_profile::windows::domain_membership::resetpw&quot;, undef),
+  Optional[String]  $reboot       = hiera(&quot;r_profile::windows::domain_membership::reboot&quot;, undef),
+  Optional[String]  $user_domain  = hiera(&quot;r_profile::windows::domain_membership::user_domain&quot;, undef),
+) {
+  class { &#39;domain_membership&#39;:
+    domain       =&gt; $domain,
+    username     =&gt; $username,
+    password     =&gt; $password,
+    join_options =&gt; $join_options,
+    machine_ou   =&gt; $machine_ou,
+    resetpw      =&gt; $resetpw,
+    reboot       =&gt; $reboot,
+    user_domain  =&gt; $user_domain,
+  }
+
+}</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>

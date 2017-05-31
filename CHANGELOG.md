@@ -1,3 +1,6 @@
+# 1.10.0 (2017-05-31)
+* Support for joining AD domains
+
 # 1.9.0 (2017-05-30)
 * Support for non-root puppet agent deployment (for cloud/proxying)
 * Support for VSphere (untested) - thanks @nelg
