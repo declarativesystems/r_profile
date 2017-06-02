@@ -1,3 +1,7 @@
+# 1.11.0 (2017-06-03)
+* Support for automatically installing a license.key file from puppet control repository
+* Support for setting the system hostname on linux (systemd)
+
 # 1.10.0 (2017-05-31)
 * Support for joining AD domains
 
