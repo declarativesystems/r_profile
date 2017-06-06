@@ -30,6 +30,13 @@ describe 'r_profile::puppet::master::license' do
     PuppetFactset::factset_hash(system_name)
   end
 
+  let :pre_condition do
+    '
+      class puppet_enterprise::license {}
+      include puppet_enterprise::license
+    '
+  end
+
   context 'compiles ok' do
     it { should compile }
   end

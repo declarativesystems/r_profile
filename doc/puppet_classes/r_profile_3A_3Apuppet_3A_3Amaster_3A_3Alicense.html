@@ -110,18 +110,56 @@ branch) and then deploy to the master as usual.</p>
 17
 18
 19
-20</pre>
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/puppet/master/license.pp', line 12</span>
 
 class r_profile::puppet::master::license {
-  file { &quot;/etc/puppetlabs/license.key&quot;:
-    ensure =&gt; link,
-    owner  =&gt; &quot;root&quot;,
-    group  =&gt; &quot;root&quot;,
-    mode   =&gt; &quot;0755&quot;,
-    target =&gt; &quot;/etc/puppetlabs/code/environments/production/license.key&quot;,
+
+  # puppet_enterprise module contains a resource to read and write the same file
+  # which leaves us with only exec or resource collectors to do what we need to:
+  # if !pe_empty($license_content) { # &lt;-- the content of the file to write
+  #                                        read previously using file(...)
+  #   file { $puppet_enterprise::params::dest_license_key_path: # &lt;-- same file
+  #     ensure  =&gt; present,
+  #     content =&gt; $license_content, # &lt;-- same content
+  #     mode    =&gt; &#39;0644&#39;,
+  #   }
+  # }
+  # This is of-course needed because the console might be on another system to
+  # the puppet master (split installs)
+
+  $license_source = &quot;/etc/puppetlabs/code/environments/production/license.key&quot;
+  $license_target = &quot;/etc/puppetlabs/license.key&quot;
+
+  # Copy in a licence file if diff says its non-existant or different.  We must
+  # run after the code above otherwise we will be stuck in a race condition
+  # where the file can never be updated
+  exec { &quot;copy pe license.key content&quot;:
+    command =&gt; &quot;cp ${license_source} ${license_target}&quot;,
+    unless  =&gt; &quot;diff ${license_source} ${license_target}&quot;,
+    path    =&gt; [&quot;/usr/bin&quot;, &quot;/bin&quot;],
+    require =&gt; Class[&quot;puppet_enterprise::license&quot;],
   }
 }</pre>
       </td>

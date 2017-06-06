@@ -1,3 +1,7 @@
+# 1.11.2 (2017-06-07)
+* yum group install development tools on RHEL to get gems to compile for azure
+* Fix licence key handling
+
 # 1.11.1 (2017-06-06)
 * Support for setting the versions of `azure` and `azure-mgmt-* gems` as parameters
 
