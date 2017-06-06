@@ -30,13 +30,33 @@ describe 'r_profile::cloud::azure' do
     PuppetFactset::factset_hash(system_name)
   end
 
+  # let :trusted do
+  #   {
+  #     :certname => "sandpit",
+  #   }
+  # end
+
   let :params do
     {
-      :subscription_id => 'the_subscription_id',
-      :tenant_id       => 'the_tenant_id',
-      :client_id       => 'the_client_id',
-      :client_secret   => 'the_client_secret',
-      :azure_vm        => {
+      :subscriptions => {
+        "sandpit" => {
+          "subscription_id"    => 'sp the_subscription_id',
+          "user"               => 'azure_sandpit',
+          "tenant_id"          => 'sp the_tenant_id',
+          "client_id"          => 'sp the_client_id',
+          "client_secret"      => 'sp the_client_secret',
+          "puppet_master_fqdn" => "sp_puppet.megacorp.com",
+        },
+        "production" => {
+          "subscription_id"    => 'pr the_subscription_id',
+          "user"               => 'azure_prod',
+          "tenant_id"          => 'pr the_tenant_id',
+          "client_id"          => 'pr the_client_id',
+          "client_secret"      => 'pr the_client_secret',
+          "puppet_master_fqdn" => "pr.puppet.megacorp.com",
+        },
+      },
+      :azure_vm => {
         'mycoolvm' => {
           'ensure'         => 'present',
           'location'       => 'centralus',

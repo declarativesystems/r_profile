@@ -84,81 +84,38 @@
   
     <li>
       
-        <span class='name'>subscription_id</span>
+        <span class='name'>subscriptions</span>
       
       
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::subscription_id&#39;, undef)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The subsciption ID to provision ID to work with, obtainedfrom billing page
-in azure portal</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>tenant_id</span>
-      
-      
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::tenant_id&#39;, undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::subscriptions&#39;, {})</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>The active directory tennant ID to work with, see <a
-href="https://stackoverflow.com/a/41028320/3441106">stackoverflow.com/a/41028320/3441106</a></p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>client_id</span>
-      
-      
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::client_id&#39;, undef)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>This is the equivalent of a username and involves registering an
-application in the Azure AD instance. Once registered, the field to use
+<p>Hash of subscriptions with the format: <code>   subscription_name = {    
+subscription_id    =&gt; &quot;the_subscription_id&quot;,     tenant_id    
+=&gt; &quot;the_tenant_id&quot;,     client_id          =&gt;
+&quot;the_client_id&quot;,     client_secret      =&gt;
+&quot;the_client_secret&quot;,     user               =&gt; &quot;local
+linux user to run as&quot;,     homedir            =&gt; &quot;home dir to
+install puppet agent&quot;,     puppet_master_fqdn =&gt;
+&quot;fqdn.of.puppetmaster&quot;,   } </code> * subscription_id The
+subsciption ID to provision ID to work with,  obtainedfrom billing page in
+azure portal * tenant_id The active directory tennant ID to work with, see 
+<a
+href="https://stackoverflow.com/a/41028320/3441106">stackoverflow.com/a/41028320/3441106</a>
+* client_id This is the equivalent of a username and involves registering 
+an application in the Azure AD instance. Once registered, the field to use 
 here is <code>application_id</code>. We don&#39;t use
-<code>object_id</code> at all. Important: Once the user has been created,
-it needs to be given RBAC access to the Azure API which is done through the
-billing -&gt; subscriptions menu @see <a
-href="https://docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html">docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html</a></p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>client_secret</span>
-      
-      
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::client_secret&#39;, undef)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>This is the equivalent of a password for the above user and can be found by
-following the above tutorial</p>
+<code>object_id</code> at all. Important:  Once the user has been created,
+it needs to be given RBAC access to the  Azure API which is done through
+the billing -&gt; subscriptions menu  @see <a
+href="https://docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html">docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html</a>
+* client_secret This is the equivalent of a password for the above user 
+and can be found by following the above tutorial</p>
 </div>
       
     </li>
@@ -239,19 +196,6 @@ the azure API - useful if you need to use a newer version of the
         <pre class="lines">
 
 
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
 49
 50
 51
@@ -332,21 +276,52 @@ the azure API - useful if you need to use a newer version of the
 126
 127
 128
-129</pre>
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 36</span>
+        <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 49</span>
 
 class r_profile::cloud::azure(
-  Optional[String]  $subscription_id        = hiera(&#39;r_profile::cloud::azure::subscription_id&#39;, undef),
-  Optional[String]  $tenant_id              = hiera(&#39;r_profile::cloud::azure::tenant_id&#39;, undef),
-  Optional[String]  $client_id              = hiera(&#39;r_profile::cloud::azure::client_id&#39;, undef),
-  Optional[String]  $client_secret          = hiera(&#39;r_profile::cloud::azure::client_secret&#39;, undef),
-  Hash              $azure_vm               = hiera(&#39;r_profile::cloud::azure::azure_vm&#39;, {}),
-  Hash              $azure_vm_default       = hiera(&#39;r_profile::cloud::azure::azure_vm_default&#39;, {}),
-  String            $azure_gem_version      = hiera(&#39;r_profile::cloud::azure::azure_gem_version&#39;,&quot;0.7.9&quot;),
-  String            $azure_mgmt_gem_version = hiera(&#39;r_profile::cloud::azure::azure_mgmt_gem_version&#39;, &quot;0.3.1&quot;)
+    Hash    $subscriptions          = hiera(&#39;r_profile::cloud::azure::subscriptions&#39;, {}),
+    Hash    $azure_vm               = hiera(&#39;r_profile::cloud::azure::azure_vm&#39;, {}),
+    Hash    $azure_vm_default       = hiera(&#39;r_profile::cloud::azure::azure_vm_default&#39;, {}),
+    String  $azure_gem_version      = hiera(&#39;r_profile::cloud::azure::azure_gem_version&#39;,&quot;0.7.9&quot;),
+    String  $azure_mgmt_gem_version = hiera(&#39;r_profile::cloud::azure::azure_mgmt_gem_version&#39;, &quot;0.3.1&quot;)
 ) {
+
+  $challenge_password = hiera(&#39;r_profile::puppet::master::autosign::secret&#39;,undef)
+
 
   # The gems need a bunch of development libraries to compile properly so use
   # the yum group install command
@@ -402,32 +377,50 @@ class r_profile::cloud::azure(
     provider =&gt; &quot;puppet_gem&quot;,
   }
 
-  # If all required authentication fields are present, manage the azure.conf
-  # file and its content, otherwise leave it alone.  This allows it to be
-  # populated by other methods if necessary
-  if $subscription_id and $tenant_id and $client_id and client_secret {
 
-    file { &quot;/etc/puppetlabs/puppet/azure.conf&quot;:
-      ensure  =&gt; file,
-      owner   =&gt; &#39;root&#39;,
-      group   =&gt; &#39;root&#39;,
-      mode    =&gt; &#39;0600&#39;,
-      content =&gt; epp(&quot;${module_name}/cloud/azure/azure.conf.epp&quot;, {
-          subscription_id =&gt; $subscription_id,
-          tenant_id       =&gt; $tenant_id,
-          client_id       =&gt; $client_id,
-          client_secret   =&gt; $client_secret,
-      }),
+
+  $subscriptions.each |$certname, $opts| {
+
+    # create a non-root puppet agent for each subscription ID
+    puppet_nonroot { $certname:
+      puppet_master_fqdn =&gt; $opts[&#39;puppet_master_fqdn&#39;],
+      user               =&gt; $opts[&#39;user&#39;],
+      homedir            =&gt; $opts[&#39;homedir&#39;],
+      challenge_password =&gt; $challenge_password,
+    }
+
+    # If all required authentication fields are present, manage the azure.conf
+    # file and its content, otherwise leave it alone.  This allows it to be
+    # populated by other methods if necessary
+    if $opts[&#39;subscription_id&#39;] and $opts[&#39;tenant_id&#39;] and $opts[&#39;client_id&#39;] and $opts[&#39;client_secret&#39;] {
+      $homedir = pick($opts[&#39;homedir&#39;], &quot;/home/${opts[&#39;user&#39;]}&quot;)
+
+      file { &quot;${homedir}./puppetlabs/puppet/azure.conf&quot;:
+        ensure  =&gt; file,
+        owner   =&gt; &#39;root&#39;,
+        group   =&gt; &#39;root&#39;,
+        mode    =&gt; &#39;0600&#39;,
+        content =&gt; epp(&quot;${module_name}/cloud/azure/azure.conf.epp&quot;, {
+            subscription_id =&gt; $opts[&#39;subscription_id&#39;],
+            tenant_id       =&gt; $opts[&#39;tenant_id&#39;],
+            client_id       =&gt; $opts[&#39;client_id&#39;],
+            client_secret   =&gt; $opts[&#39;client_secret&#39;],
+        }),
+      }
     }
   }
 
-  $azure_vm.each |$title, $opts| {
-    azure_vm {
-      default:
-        * =&gt; $azure_vm_default,
-      ;
-      $title:
-        * =&gt; $opts,
+
+  # if we are inside one of the non root agents, also create the azure VMs
+  if $trusted[&#39;clientcert&#39;] in $subscriptions.keys() {
+    $azure_vm.each |$title, $opts| {
+      azure_vm {
+        default:
+          * =&gt; $azure_vm_default,
+        ;
+        $title:
+          * =&gt; $opts,
+      }
     }
   }
 }</pre>
