@@ -129,10 +129,19 @@ class r_profile::cloud::azure(
     if $opts['subscription_id'] and $opts['tenant_id'] and $opts['client_id'] and $opts['client_secret'] {
       $homedir = pick($opts['homedir'], "/home/${opts['user']}")
 
-      file { "${homedir}./puppetlabs/puppet/azure.conf":
+      $puppet_conf_dir = "${homedir}/.puppetlabs/puppet"
+
+      file { $puppet_conf_dir:
+        ensure => directory,
+        owner  => $opts['user'],
+        group  => $opts['group'],
+        mode   => '0700',
+      }
+
+      file { "${puppet_conf_dir}/azure.conf":
         ensure  => file,
-        owner   => 'root',
-        group   => 'root',
+        owner   => $opts['user'],
+        group   => $opts['group'],
         mode    => '0600',
         content => epp("${module_name}/cloud/azure/azure.conf.epp", {
             subscription_id => $opts['subscription_id'],
