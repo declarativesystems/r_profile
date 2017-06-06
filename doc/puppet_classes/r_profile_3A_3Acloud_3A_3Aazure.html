@@ -325,7 +325,14 @@ the azure API - useful if you need to use a newer version of the
 119
 120
 121
-122</pre>
+122
+123
+124
+125
+126
+127
+128
+129</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 36</span>
@@ -340,6 +347,13 @@ class r_profile::cloud::azure(
   String            $azure_gem_version      = hiera(&#39;r_profile::cloud::azure::azure_gem_version&#39;,&quot;0.7.9&quot;),
   String            $azure_mgmt_gem_version = hiera(&#39;r_profile::cloud::azure::azure_mgmt_gem_version&#39;, &quot;0.3.1&quot;)
 ) {
+
+  # The gems need a bunch of development libraries to compile properly so use
+  # the yum group install command
+  package { &quot;Development Tools&quot;:
+    ensure   =&gt; present,
+    provider =&gt; yum_group,
+  }
 
   include r_profile::nodejs
 

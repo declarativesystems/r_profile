@@ -44,6 +44,13 @@ class r_profile::cloud::azure(
   String            $azure_mgmt_gem_version = hiera('r_profile::cloud::azure::azure_mgmt_gem_version', "0.3.1")
 ) {
 
+  # The gems need a bunch of development libraries to compile properly so use
+  # the yum group install command
+  package { "Development Tools":
+    ensure   => present,
+    provider => yum_group,
+  }
+
   include r_profile::nodejs
 
 

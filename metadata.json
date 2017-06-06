@@ -47,7 +47,8 @@
     {"name":"puppet-nodejs", "version_requirement":"2.3.0"},
     {"name":"puppetlabs-tomcat", "version_requirement":"1.7.0"},
     {"name":"geoffwilliams-puppet_nonroot", "version_requirement":"0.1.0"},
-    {"name":"trlinkin-domain_membership", "version_requirement":"1.1.2"}
+    {"name":"trlinkin-domain_membership", "version_requirement":"1.1.2"},
+    {"name":"geoffwilliams-package_yum_group", "version_requirement":"0.1.0"}
   ],
   "operatingsystem_support": [
     {
