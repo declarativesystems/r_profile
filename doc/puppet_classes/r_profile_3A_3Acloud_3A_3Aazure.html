@@ -165,6 +165,46 @@ following the above tutorial</p>
   
     <li>
       
+        <span class='name'>azure_gem_version</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::azure_gem_version&#39;,&quot;0.7.9&quot;)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Specify the version of the <code>azure</code> gem to use to talk to the
+azure API - useful if you need to use a newer version of the
+<code>puppetlabs-azure</code> module</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>azure_mgmt_gem_version</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::azure_mgmt_gem_version&#39;, &quot;0.3.1&quot;)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Specify the version of the <code>azure-mgmt-*</code> gems to use to talk to
+the azure API - useful if you need to use a newer version of the
+<code>puppetlabs-azure</code> module</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>azure_vm</span>
       
       
@@ -199,12 +239,6 @@ following the above tutorial</p>
         <pre class="lines">
 
 
-30
-31
-32
-33
-34
-35
 36
 37
 38
@@ -283,18 +317,28 @@ following the above tutorial</p>
 111
 112
 113
-114</pre>
+114
+115
+116
+117
+118
+119
+120
+121
+122</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 30</span>
+        <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 36</span>
 
 class r_profile::cloud::azure(
-  Optional[String]  $subscription_id  = hiera(&#39;r_profile::cloud::azure::subscription_id&#39;, undef),
-  Optional[String]  $tenant_id        = hiera(&#39;r_profile::cloud::azure::tenant_id&#39;, undef),
-  Optional[String]  $client_id        = hiera(&#39;r_profile::cloud::azure::client_id&#39;, undef),
-  Optional[String]  $client_secret    = hiera(&#39;r_profile::cloud::azure::client_secret&#39;, undef),
-  Hash              $azure_vm         = hiera(&#39;r_profile::cloud::azure::azure_vm&#39;, {}),
-  Hash              $azure_vm_default = hiera(&#39;r_profile::cloud::azure::azure_vm_default&#39;, {}),
+  Optional[String]  $subscription_id        = hiera(&#39;r_profile::cloud::azure::subscription_id&#39;, undef),
+  Optional[String]  $tenant_id              = hiera(&#39;r_profile::cloud::azure::tenant_id&#39;, undef),
+  Optional[String]  $client_id              = hiera(&#39;r_profile::cloud::azure::client_id&#39;, undef),
+  Optional[String]  $client_secret          = hiera(&#39;r_profile::cloud::azure::client_secret&#39;, undef),
+  Hash              $azure_vm               = hiera(&#39;r_profile::cloud::azure::azure_vm&#39;, {}),
+  Hash              $azure_vm_default       = hiera(&#39;r_profile::cloud::azure::azure_vm_default&#39;, {}),
+  String            $azure_gem_version      = hiera(&#39;r_profile::cloud::azure::azure_gem_version&#39;,&quot;0.7.9&quot;),
+  String            $azure_mgmt_gem_version = hiera(&#39;r_profile::cloud::azure::azure_mgmt_gem_version&#39;, &quot;0.3.1&quot;)
 ) {
 
   include r_profile::nodejs
@@ -335,12 +379,12 @@ class r_profile::cloud::azure(
   }
 
   package { &quot;azure&quot;:
-    ensure   =&gt; &quot;0.7.9&quot;,
+    ensure   =&gt; $azure_gem_version,
     provider =&gt; &quot;puppet_gem&quot;,
   }
 
   package { [ &quot;azure_mgmt_compute&quot;, &quot;azure_mgmt_network&quot;, &quot;azure_mgmt_resources&quot;, &quot;azure_mgmt_storage&quot;]:
-    ensure   =&gt; &quot;0.3.1&quot;,
+    ensure   =&gt; $azure_mgmt_gem_version,
     provider =&gt; &quot;puppet_gem&quot;,
   }
 

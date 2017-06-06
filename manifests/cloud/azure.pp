@@ -27,13 +27,21 @@
 #   @see https://docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html
 # @param client_secret This is the equivalent of a password for the above user
 #   and can be found by following the above tutorial
+# @param azure_gem_version Specify the version of the `azure` gem to use to talk
+#   to the azure API - useful if you need to use a newer version of the
+#   `puppetlabs-azure` module
+# @param azure_mgmt_gem_version Specify the version of the `azure-mgmt-*` gems to
+#   use to talk to the azure API - useful if you need to use a newer version of
+#   the `puppetlabs-azure` module
 class r_profile::cloud::azure(
-  Optional[String]  $subscription_id  = hiera('r_profile::cloud::azure::subscription_id', undef),
-  Optional[String]  $tenant_id        = hiera('r_profile::cloud::azure::tenant_id', undef),
-  Optional[String]  $client_id        = hiera('r_profile::cloud::azure::client_id', undef),
-  Optional[String]  $client_secret    = hiera('r_profile::cloud::azure::client_secret', undef),
-  Hash              $azure_vm         = hiera('r_profile::cloud::azure::azure_vm', {}),
-  Hash              $azure_vm_default = hiera('r_profile::cloud::azure::azure_vm_default', {}),
+  Optional[String]  $subscription_id        = hiera('r_profile::cloud::azure::subscription_id', undef),
+  Optional[String]  $tenant_id              = hiera('r_profile::cloud::azure::tenant_id', undef),
+  Optional[String]  $client_id              = hiera('r_profile::cloud::azure::client_id', undef),
+  Optional[String]  $client_secret          = hiera('r_profile::cloud::azure::client_secret', undef),
+  Hash              $azure_vm               = hiera('r_profile::cloud::azure::azure_vm', {}),
+  Hash              $azure_vm_default       = hiera('r_profile::cloud::azure::azure_vm_default', {}),
+  String            $azure_gem_version      = hiera('r_profile::cloud::azure::azure_gem_version',"0.7.9"),
+  String            $azure_mgmt_gem_version = hiera('r_profile::cloud::azure::azure_mgmt_gem_version', "0.3.1")
 ) {
 
   include r_profile::nodejs
@@ -74,12 +82,12 @@ class r_profile::cloud::azure(
   }
 
   package { "azure":
-    ensure   => "0.7.9",
+    ensure   => $azure_gem_version,
     provider => "puppet_gem",
   }
 
   package { [ "azure_mgmt_compute", "azure_mgmt_network", "azure_mgmt_resources", "azure_mgmt_storage"]:
-    ensure   => "0.3.1",
+    ensure   => $azure_mgmt_gem_version,
     provider => "puppet_gem",
   }
 

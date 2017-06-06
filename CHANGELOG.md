@@ -1,3 +1,6 @@
+# 1.11.1 (2017-06-06)
+* Support for setting the versions of `azure` and `azure-mgmt-* gems` as parameters
+
 # 1.11.0 (2017-06-03)
 * Support for automatically installing a license.key file from puppet control repository
 * Support for setting the system hostname on linux (systemd)
