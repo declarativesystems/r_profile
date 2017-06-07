@@ -129,14 +129,7 @@ class r_profile::cloud::azure(
     if $opts['subscription_id'] and $opts['tenant_id'] and $opts['client_id'] and $opts['client_secret'] {
       $homedir = pick($opts['homedir'], "/home/${opts['user']}")
 
-      $puppet_conf_dir = "${homedir}/.puppetlabs/puppet"
-
-      file { $puppet_conf_dir:
-        ensure => directory,
-        owner  => $opts['user'],
-        group  => $opts['group'],
-        mode   => '0700',
-      }
+      $puppet_conf_dir = "${homedir}/.puppetlabs/etc/puppet"
 
       file { "${puppet_conf_dir}/azure.conf":
         ensure  => file,

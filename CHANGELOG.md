@@ -1,3 +1,9 @@
+# 1.12.1 (2017-06-07)
+* Fixup path to azure.conf
+
+# 1.12.0 (2017-06-07)
+* Refacter azure module for nested subscriptions and non-root users
+
 # 1.11.2 (2017-06-07)
 * yum group install development tools on RHEL to get gems to compile for azure
 * Fix licence key handling
