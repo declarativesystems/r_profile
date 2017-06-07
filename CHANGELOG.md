@@ -1,3 +1,6 @@
+# 1.13.0 (2017-06-07)
+* Create an SSH account for azure non-root puppet agents when instructed
+
 # 1.12.1 (2017-06-07)
 * Fixup path to azure.conf
 

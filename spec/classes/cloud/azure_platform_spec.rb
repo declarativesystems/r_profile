@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'puppet_factset'
-describe 'r_profile::cloud::azure' do
+describe 'r_profile::cloud::azure_platform' do
   # Uncomment only the factset you would like to use for these tests
   # system_name = 'AIX-6.1-powerpc'
   # system_name = 'AIX-7.1-powerpc'
@@ -30,25 +30,28 @@ describe 'r_profile::cloud::azure' do
     PuppetFactset::factset_hash(system_name)
   end
 
-  # let :trusted do
-  #   {
-  #     :certname => "sandpit",
-  #   }
-  # end
-
   let :params do
     {
-      :azure_vm => {
-        'mycoolvm' => {
-          'ensure'                    => 'present',
-          'location'                  => 'centralus',
-          'image'                     => 'canonical:ubuntuserver:14.04.2-LTS:latest',
-          'user'                      => 'azureuser',
-          'password'                  => 'Password_!',
-          'size'                      => 'Standard_A0',
-          'resource_group'            => 'puppetvms',
-        }
-      }
+      :subscriptions => {
+        "sandpit" => {
+          "subscription_id"           => 'sp the_subscription_id',
+          "user"                      => 'azure_sandpit',
+          "tenant_id"                 => 'sp the_tenant_id',
+          "client_id"                 => 'sp the_client_id',
+          "client_secret"             => 'sp the_client_secret',
+          "puppet_master_fqdn"        => "sp_puppet.megacorp.com",
+          "run_puppet_ssh_public_key" => "blah",
+        },
+        "production" => {
+          "subscription_id"           => 'pr the_subscription_id',
+          "user"                      => 'azure_prod',
+          "tenant_id"                 => 'pr the_tenant_id',
+          "client_id"                 => 'pr the_client_id',
+          "client_secret"             => 'pr the_client_secret',
+          "puppet_master_fqdn"        => "pr.puppet.megacorp.com",
+          "run_puppet_ssh_public_key" => "blah",
+        },
+      },
     }
   end
 
@@ -57,6 +60,6 @@ describe 'r_profile::cloud::azure' do
   end
 
   context 'with default values for all parameters' do
-    it { should contain_class('r_profile::cloud::azure') }
+    it { should contain_class('r_profile::cloud::azure_platform') }
   end
 end
