@@ -3,9 +3,9 @@
 # Manage the azure VMs using the passed-in hash
 #
 class r_profile::cloud::azure(
-    Hash    $azure_vm               = hiera('r_profile::cloud::azure::azure_vm', {}),
-    Hash    $azure_vm_default       = hiera('r_profile::cloud::azure::azure_vm_default', {}),
-    Optional[String] $install_puppet_windows_cmd    = hiera('r_profile::cloud::azure::install_puppet_windows_cmd', undef),
+    Hash    $azure_vm                             = hiera('r_profile::cloud::azure::azure_vm', {}),
+    Hash    $azure_vm_default                     = hiera('r_profile::cloud::azure::azure_vm_default', {}),
+    Optional[String] $install_puppet_windows_cmd  = hiera('r_profile::cloud::azure::install_puppet_windows_cmd', undef),
     Optional[String] $install_puppet_linux_cmd    = hiera('r_profile::cloud::azure::install_puppet_linux_cmd', undef),
 ) {
 
