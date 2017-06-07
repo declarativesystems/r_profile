@@ -1,3 +1,6 @@
+# 1.14.0 (2017-06-07)
+* Split azure into platform and vms - execute both for a complete system
+
 # 1.13.0 (2017-06-07)
 * Create an SSH account for azure non-root puppet agents when instructed
 
