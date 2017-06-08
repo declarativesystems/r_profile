@@ -11,7 +11,7 @@ class r_profile::cloud::azure(
 ) {
 
   $challenge_password       = hiera('r_profile::puppet::master::autosign::secret',undef)
-  $puppet_agent_install_key = "puppet_agent_install_key"
+  $puppet_agent_install_key = "puppet_agent_install"
 
   $_install_puppet_windows_cmd  = pick(
     $install_puppet_windows_cmd,
@@ -75,7 +75,7 @@ class r_profile::cloud::azure(
       }
       # remove our puppet_agent_install key or azure_vm will choke on it
       $_opts = $opts.filter |$key, $value| {
-        $key == $puppet_agent_install_key
+        $key != $puppet_agent_install_key
       }
     } else {
       $_opts      = $opts
