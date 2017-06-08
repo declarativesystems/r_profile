@@ -136,6 +136,19 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>puppet_master_fqdn</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::puppet_master_fqdn&#39;, undef)</tt>)</em>
+      
+      
+    </li>
+  
 </ul>
 
 
@@ -223,26 +236,51 @@
 79
 80
 81
-82</pre>
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 5</span>
 
 class r_profile::cloud::azure(
-    Hash    $azure_vm               = hiera(&#39;r_profile::cloud::azure::azure_vm&#39;, {}),
-    Hash    $azure_vm_default       = hiera(&#39;r_profile::cloud::azure::azure_vm_default&#39;, {}),
-    Optional[String] $install_puppet_windows_cmd    = hiera(&#39;r_profile::cloud::azure::install_puppet_windows_cmd&#39;, undef),
+    Hash    $azure_vm                             = hiera(&#39;r_profile::cloud::azure::azure_vm&#39;, {}),
+    Hash    $azure_vm_default                     = hiera(&#39;r_profile::cloud::azure::azure_vm_default&#39;, {}),
+    Optional[String] $install_puppet_windows_cmd  = hiera(&#39;r_profile::cloud::azure::install_puppet_windows_cmd&#39;, undef),
     Optional[String] $install_puppet_linux_cmd    = hiera(&#39;r_profile::cloud::azure::install_puppet_linux_cmd&#39;, undef),
+    Optional[String] $puppet_master_fqdn          = hiera(&#39;r_profile::cloud::azure::puppet_master_fqdn&#39;, undef),
 ) {
 
   $challenge_password       = hiera(&#39;r_profile::puppet::master::autosign::secret&#39;,undef)
   $puppet_agent_install_key = &quot;puppet_agent_install_key&quot;
 
-  # if we are inside one of the non root agents, also create the azure VMs
+  $_install_puppet_windows_cmd  = pick(
+    $install_puppet_windows_cmd,
+    &quot;powershell -ExecutionPolicy Unrestricted -Command \&quot;[Net.ServicePointManager]::ServerCertificateValidationCallback = {\$true}; \$webClient = New-Object System.Net.WebClient; \$webClient.DownloadFile(&#39;https://${puppet_master_fqdn}:8140/packages/current/install.ps1&#39;, &#39;install.ps1&#39;); .\\install.ps1\&quot;&quot;
+  )
+  $_install_puppet_linux_cmd    = pick(
+    $install_puppet_linux_cmd,
+    &quot;curl -k https://${puppet_master_fqdn}:8140/packages/current/install.bash | sudo bash&quot;
+  )
+
+
   $azure_vm.each |$title, $opts| {
+    # if we are inside one of the non root agents, also create the azure VMs
     if has_key($opts, $puppet_agent_install_key) {
       case $opts[$puppet_agent_install_key] {
         &quot;windows&quot;: {
+          $cmd = &quot;${_puppet_install_windows_cmd} main:certname=${title} custom_attributes:challengePassword=${challenge_password}&quot;
           $extensions = {
             &quot;CustomScriptExtension&quot; =&gt; {
               &quot;auto_upgrade_minor_version&quot; =&gt; &quot;true&quot;,
@@ -254,7 +292,7 @@ class r_profile::cloud::azure(
                   # &quot;https://gepuppetstore.file.core.windows.net/installscripts/installpe.ps&quot;,
                 ],
                 &quot;protectedSettings&quot;          =&gt; {
-                  &quot;commandToExecute&quot;   =&gt; $puppet_install_windows_cmd,
+                  &quot;commandToExecute&quot;   =&gt; $cmd,
                   # &quot;storageAccountName&quot; =&gt; $storage_account_name,
                   # &quot;storageAccountKey&quot;  =&gt; $storage_account_key,
                 }
@@ -263,6 +301,7 @@ class r_profile::cloud::azure(
           }
         }
         &quot;linux&quot;: {
+          $cmd = &quot;${_puppet_install_linux_cmd} -s agent:certname=${title} custom_attributes:challengePassword=${challenge_password}&quot;
           $extensions = {
             &quot;CustomScriptForLinux&quot; =&gt; {
               &quot;auto_upgrade_minor_version&quot; =&gt; true,
@@ -274,7 +313,7 @@ class r_profile::cloud::azure(
                   # - &quot;https://gepuppetstore.file.core.windows.net/installscripts/installpe.sh&quot;
                 ],
                 &quot;protectedSettings&quot; =&gt; {
-                  &quot;commandToExecute&quot; =&gt; $puppet_install_linux_cmd,
+                  &quot;commandToExecute&quot; =&gt; $cmd,
                   # storageAccountName: &quot;gepuppetstore&quot;
                   # storageAccountKey: &quot;KEY...&quot;
                 }

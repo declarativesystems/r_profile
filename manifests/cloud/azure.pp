@@ -7,16 +7,28 @@ class r_profile::cloud::azure(
     Hash    $azure_vm_default                     = hiera('r_profile::cloud::azure::azure_vm_default', {}),
     Optional[String] $install_puppet_windows_cmd  = hiera('r_profile::cloud::azure::install_puppet_windows_cmd', undef),
     Optional[String] $install_puppet_linux_cmd    = hiera('r_profile::cloud::azure::install_puppet_linux_cmd', undef),
+    Optional[String] $puppet_master_fqdn          = hiera('r_profile::cloud::azure::puppet_master_fqdn', undef),
 ) {
 
   $challenge_password       = hiera('r_profile::puppet::master::autosign::secret',undef)
   $puppet_agent_install_key = "puppet_agent_install_key"
 
-  # if we are inside one of the non root agents, also create the azure VMs
+  $_install_puppet_windows_cmd  = pick(
+    $install_puppet_windows_cmd,
+    "powershell -ExecutionPolicy Unrestricted -Command \"[Net.ServicePointManager]::ServerCertificateValidationCallback = {\$true}; \$webClient = New-Object System.Net.WebClient; \$webClient.DownloadFile('https://${puppet_master_fqdn}:8140/packages/current/install.ps1', 'install.ps1'); .\\install.ps1\""
+  )
+  $_install_puppet_linux_cmd    = pick(
+    $install_puppet_linux_cmd,
+    "curl -k https://${puppet_master_fqdn}:8140/packages/current/install.bash | sudo bash"
+  )
+
+
   $azure_vm.each |$title, $opts| {
+    # if we are inside one of the non root agents, also create the azure VMs
     if has_key($opts, $puppet_agent_install_key) {
       case $opts[$puppet_agent_install_key] {
         "windows": {
+          $cmd = "${_puppet_install_windows_cmd} main:certname=${title} custom_attributes:challengePassword=${challenge_password}"
           $extensions = {
             "CustomScriptExtension" => {
               "auto_upgrade_minor_version" => "true",
@@ -28,7 +40,7 @@ class r_profile::cloud::azure(
                   # "https://gepuppetstore.file.core.windows.net/installscripts/installpe.ps",
                 ],
                 "protectedSettings"          => {
-                  "commandToExecute"   => $puppet_install_windows_cmd,
+                  "commandToExecute"   => $cmd,
                   # "storageAccountName" => $storage_account_name,
                   # "storageAccountKey"  => $storage_account_key,
                 }
@@ -37,6 +49,7 @@ class r_profile::cloud::azure(
           }
         }
         "linux": {
+          $cmd = "${_puppet_install_linux_cmd} -s agent:certname=${title} custom_attributes:challengePassword=${challenge_password}"
           $extensions = {
             "CustomScriptForLinux" => {
               "auto_upgrade_minor_version" => true,
@@ -48,7 +61,7 @@ class r_profile::cloud::azure(
                   # - "https://gepuppetstore.file.core.windows.net/installscripts/installpe.sh"
                 ],
                 "protectedSettings" => {
-                  "commandToExecute" => $puppet_install_linux_cmd,
+                  "commandToExecute" => $cmd,
                   # storageAccountName: "gepuppetstore"
                   # storageAccountKey: "KEY..."
                 }
