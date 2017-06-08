@@ -28,7 +28,7 @@ class r_profile::cloud::azure(
     if has_key($opts, $puppet_agent_install_key) {
       case $opts[$puppet_agent_install_key] {
         "windows": {
-          $cmd = "${_puppet_install_windows_cmd} main:certname=${title} custom_attributes:challengePassword=${challenge_password}"
+          $cmd = "${_install_puppet_windows_cmd} main:certname=${title} custom_attributes:challengePassword=${challenge_password}"
           $extensions = {
             "CustomScriptExtension" => {
               "auto_upgrade_minor_version" => "true",
@@ -49,7 +49,7 @@ class r_profile::cloud::azure(
           }
         }
         "linux": {
-          $cmd = "${_puppet_install_linux_cmd} -s agent:certname=${title} custom_attributes:challengePassword=${challenge_password}"
+          $cmd = "${_install_puppet_linux_cmd} -s agent:certname=${title} custom_attributes:challengePassword=${challenge_password}"
           $extensions = {
             "CustomScriptForLinux" => {
               "auto_upgrade_minor_version" => true,
@@ -60,11 +60,11 @@ class r_profile::cloud::azure(
                 "fileUris" => [
                   # - "https://gepuppetstore.file.core.windows.net/installscripts/installpe.sh"
                 ],
-                "protectedSettings" => {
-                  "commandToExecute" => $cmd,
+                # "protectedSettings" => {
+                "commandToExecute" => $cmd,
                   # storageAccountName: "gepuppetstore"
                   # storageAccountKey: "KEY..."
-                }
+                # }
               }
             }
           }
