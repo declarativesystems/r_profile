@@ -11,9 +11,11 @@ class r_profile::cloud::azure(
     Optional[String] $challenge_password          = hiera('r_profile::cloud::azure::challenge_password', undef),
 ) {
 
+  # pick the selected password from hiera or use an empty string
   $_challenge_password = pick(
     $challenge_password,
-    hiera('r_profile::puppet::master::autosign::secret',undef)
+    hiera('r_profile::puppet::master::autosign::secret',undef),
+    "changeme",
   )
   $puppet_agent_install_key = "puppet_agent_install"
 

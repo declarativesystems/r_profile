@@ -149,6 +149,19 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>challenge_password</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::challenge_password&#39;, undef)</tt>)</em>
+      
+      
+    </li>
+  
 </ul>
 
 
@@ -249,7 +262,13 @@
 92
 93
 94
-95</pre>
+95
+96
+97
+98
+99
+100
+101</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 5</span>
@@ -260,9 +279,15 @@ class r_profile::cloud::azure(
     Optional[String] $install_puppet_windows_cmd  = hiera(&#39;r_profile::cloud::azure::install_puppet_windows_cmd&#39;, undef),
     Optional[String] $install_puppet_linux_cmd    = hiera(&#39;r_profile::cloud::azure::install_puppet_linux_cmd&#39;, undef),
     Optional[String] $puppet_master_fqdn          = hiera(&#39;r_profile::cloud::azure::puppet_master_fqdn&#39;, undef),
+    Optional[String] $challenge_password          = hiera(&#39;r_profile::cloud::azure::challenge_password&#39;, undef),
 ) {
 
-  $challenge_password       = hiera(&#39;r_profile::puppet::master::autosign::secret&#39;,undef)
+  # pick the selected password from hiera or use an empty string
+  $_challenge_password = pick(
+    $challenge_password,
+    hiera(&#39;r_profile::puppet::master::autosign::secret&#39;,undef),
+    &quot;changeme&quot;,
+  )
   $puppet_agent_install_key = &quot;puppet_agent_install&quot;
 
   $_install_puppet_windows_cmd  = pick(
@@ -271,7 +296,7 @@ class r_profile::cloud::azure(
   )
   $_install_puppet_linux_cmd    = pick(
     $install_puppet_linux_cmd,
-    &quot;curl -k https://${puppet_master_fqdn}:8140/packages/current/install.bash | sudo bash&quot;
+    &quot;curl -k https://${puppet_master_fqdn}:8140/packages/current/install.bash | bash&quot;
   )
 
 
@@ -280,7 +305,7 @@ class r_profile::cloud::azure(
     if has_key($opts, $puppet_agent_install_key) {
       case $opts[$puppet_agent_install_key] {
         &quot;windows&quot;: {
-          $cmd = &quot;${_puppet_install_windows_cmd} main:certname=${title} custom_attributes:challengePassword=${challenge_password}&quot;
+          $cmd = &quot;${_install_puppet_windows_cmd} main:certname=${title} custom_attributes:challengePassword=${_challenge_password}&quot;
           $extensions = {
             &quot;CustomScriptExtension&quot; =&gt; {
               &quot;auto_upgrade_minor_version&quot; =&gt; &quot;true&quot;,
@@ -301,7 +326,7 @@ class r_profile::cloud::azure(
           }
         }
         &quot;linux&quot;: {
-          $cmd = &quot;${_puppet_install_linux_cmd} -s agent:certname=${title} custom_attributes:challengePassword=${challenge_password}&quot;
+          $cmd = &quot;${_install_puppet_linux_cmd} -s agent:certname=${title} custom_attributes:challengePassword=${_challenge_password}&quot;
           $extensions = {
             &quot;CustomScriptForLinux&quot; =&gt; {
               &quot;auto_upgrade_minor_version&quot; =&gt; true,
@@ -312,11 +337,11 @@ class r_profile::cloud::azure(
                 &quot;fileUris&quot; =&gt; [
                   # - &quot;https://gepuppetstore.file.core.windows.net/installscripts/installpe.sh&quot;
                 ],
-                &quot;protectedSettings&quot; =&gt; {
-                  &quot;commandToExecute&quot; =&gt; $cmd,
+                # &quot;protectedSettings&quot; =&gt; {
+                &quot;commandToExecute&quot; =&gt; $cmd,
                   # storageAccountName: &quot;gepuppetstore&quot;
                   # storageAccountKey: &quot;KEY...&quot;
-                }
+                # }
               }
             }
           }
