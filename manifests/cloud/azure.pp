@@ -8,9 +8,13 @@ class r_profile::cloud::azure(
     Optional[String] $install_puppet_windows_cmd  = hiera('r_profile::cloud::azure::install_puppet_windows_cmd', undef),
     Optional[String] $install_puppet_linux_cmd    = hiera('r_profile::cloud::azure::install_puppet_linux_cmd', undef),
     Optional[String] $puppet_master_fqdn          = hiera('r_profile::cloud::azure::puppet_master_fqdn', undef),
+    Optional[String] $challenge_password          = hiera('r_profile::cloud::azure::challenge_password', undef),
 ) {
 
-  $challenge_password       = hiera('r_profile::puppet::master::autosign::secret',undef)
+  $_challenge_password = pick(
+    $challenge_password,
+    hiera('r_profile::puppet::master::autosign::secret',undef)
+  )
   $puppet_agent_install_key = "puppet_agent_install"
 
   $_install_puppet_windows_cmd  = pick(
@@ -19,7 +23,7 @@ class r_profile::cloud::azure(
   )
   $_install_puppet_linux_cmd    = pick(
     $install_puppet_linux_cmd,
-    "curl -k https://${puppet_master_fqdn}:8140/packages/current/install.bash | sudo bash"
+    "curl -k https://${puppet_master_fqdn}:8140/packages/current/install.bash | bash"
   )
 
 
@@ -28,7 +32,7 @@ class r_profile::cloud::azure(
     if has_key($opts, $puppet_agent_install_key) {
       case $opts[$puppet_agent_install_key] {
         "windows": {
-          $cmd = "${_install_puppet_windows_cmd} main:certname=${title} custom_attributes:challengePassword=${challenge_password}"
+          $cmd = "${_install_puppet_windows_cmd} main:certname=${title} custom_attributes:challengePassword=${_challenge_password}"
           $extensions = {
             "CustomScriptExtension" => {
               "auto_upgrade_minor_version" => "true",
@@ -49,7 +53,7 @@ class r_profile::cloud::azure(
           }
         }
         "linux": {
-          $cmd = "${_install_puppet_linux_cmd} -s agent:certname=${title} custom_attributes:challengePassword=${challenge_password}"
+          $cmd = "${_install_puppet_linux_cmd} -s agent:certname=${title} custom_attributes:challengePassword=${_challenge_password}"
           $extensions = {
             "CustomScriptForLinux" => {
               "auto_upgrade_minor_version" => true,
