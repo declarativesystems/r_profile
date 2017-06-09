@@ -262,7 +262,11 @@
 91
 92
 93
-94</pre>
+94
+95
+96
+97
+98</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 5</span>
@@ -295,7 +299,11 @@ class r_profile::cloud::azure(
 
 
   $azure_vm.each |$title, $opts| {
-    $certname = pick($opts[&#39;certname&#39;], $title)
+    if has_key($opts, &#39;certname&#39;) {
+      $certname = $opts[&#39;certname&#39;]
+    } else {
+      $certname = $title
+    }
 
     # if we are inside one of the non root agents, also create the azure VMs
     if has_key($opts, $puppet_agent_install_key) {

@@ -30,7 +30,11 @@ class r_profile::cloud::azure(
 
 
   $azure_vm.each |$title, $opts| {
-    $certname = pick($opts['certname'], $title)
+    if has_key($opts, 'certname') {
+      $certname = $opts['certname']
+    } else {
+      $certname = $title
+    }
 
     # if we are inside one of the non root agents, also create the azure VMs
     if has_key($opts, $puppet_agent_install_key) {
