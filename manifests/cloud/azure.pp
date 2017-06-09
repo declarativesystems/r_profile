@@ -89,7 +89,7 @@ class r_profile::cloud::azure(
     azure_vm {
       default:
         *          => $azure_vm_default,
-        extensions => $extensions
+        extensions => $extensions,
       ;
       $title:
         * => $_opts,
