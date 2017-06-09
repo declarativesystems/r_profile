@@ -30,11 +30,13 @@ class r_profile::cloud::azure(
 
 
   $azure_vm.each |$title, $opts| {
+    $certname = pick($opts['certname'], $title)
+
     # if we are inside one of the non root agents, also create the azure VMs
     if has_key($opts, $puppet_agent_install_key) {
       case $opts[$puppet_agent_install_key] {
         "windows": {
-          $cmd = "${_install_puppet_windows_cmd} main:certname=${title} custom_attributes:challengePassword=${_challenge_password}"
+          $cmd = "${_install_puppet_windows_cmd} main:certname=${certname} custom_attributes:challengePassword=${_challenge_password}"
           $extensions = {
             "CustomScriptExtension" => {
               "auto_upgrade_minor_version" => "true",
@@ -51,7 +53,7 @@ class r_profile::cloud::azure(
           }
         }
         "linux": {
-          $cmd = "${_install_puppet_linux_cmd} -s agent:certname=${title} custom_attributes:challengePassword=${_challenge_password}"
+          $cmd = "${_install_puppet_linux_cmd} -s agent:certname=${certname} custom_attributes:challengePassword=${_challenge_password}"
           $extensions = {
             "CustomScriptForLinux" => {
               "auto_upgrade_minor_version" => true,
@@ -72,7 +74,7 @@ class r_profile::cloud::azure(
       }
       # remove our puppet_agent_install key or azure_vm will choke on it
       $_opts = $opts.filter |$key, $value| {
-        $key != $puppet_agent_install_key
+        $key != $puppet_agent_install_key and $key != "certname"
       }
     } else {
       $_opts      = $opts
