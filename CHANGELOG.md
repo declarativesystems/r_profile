@@ -1,3 +1,6 @@
+# 1.14.0 (2017-06-09)
+* Azure agent provisioning on Windows and Linux
+
 # 1.14.0 (2017-06-07)
 * Split azure into platform and vms - execute both for a complete system
 
