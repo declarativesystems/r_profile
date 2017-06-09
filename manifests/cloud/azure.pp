@@ -45,11 +45,7 @@ class r_profile::cloud::azure(
                 "fileUris" => [
                   # "https://gepuppetstore.file.core.windows.net/installscripts/installpe.ps",
                 ],
-                "protectedSettings"          => {
-                  "commandToExecute"   => $cmd,
-                  # "storageAccountName" => $storage_account_name,
-                  # "storageAccountKey"  => $storage_account_key,
-                }
+                "commandToExecute"   => $cmd,
               }
             }
           }
@@ -64,13 +60,8 @@ class r_profile::cloud::azure(
               "type_handler_version"       => '2.0',
               "settings"                   => {
                 "fileUris" => [
-                  # - "https://gepuppetstore.file.core.windows.net/installscripts/installpe.sh"
                 ],
-                # "protectedSettings" => {
                 "commandToExecute" => $cmd,
-                  # storageAccountName: "gepuppetstore"
-                  # storageAccountKey: "KEY..."
-                # }
               }
             }
           }
