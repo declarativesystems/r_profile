@@ -1,6 +1,9 @@
 # R_profile::Puppet::Proxy
 #
-# Enable a Puppet Enterprise Master to work with a proxy server
+# Enable a Puppet Enterprise Master to work with a proxy server.
+#
+# If using this class you must also declare r_profile::puppet::master in order
+# to manage and notify Service['puppet']
 #
 # @param proxy proxy server to use in the form http://user@pass:proxyhost:proxyport or false to not use a proxy server
 class r_profile::puppet::master::proxy(
@@ -46,6 +49,7 @@ class r_profile::puppet::master::proxy(
     section => "user",
     setting => "http_proxy_host",
     value   => $proxy_host,
+    notify  => Service['puppet'],
   }
 
   ini_setting { "puppet.conf http_proxy_port":
@@ -53,6 +57,7 @@ class r_profile::puppet::master::proxy(
     section => "user",
     setting => "http_proxy_port",
     value   => $proxy_port,
+    notify  => Service['puppet'],
   }
 
   # Enable pe-puppetserver to work with proxy
@@ -61,6 +66,7 @@ class r_profile::puppet::master::proxy(
     path   => $sysconf_puppetserver,
     line   => $http_proxy_var,
     match  => "http_proxy=",
+    notify => Service['pe-puppetserver'],
   }
 
   file_line { "pe-puppetserver https_proxy":
@@ -68,6 +74,49 @@ class r_profile::puppet::master::proxy(
     path   => $sysconf_puppetserver,
     line   => $https_proxy_var,
     match  => "https_proxy=",
+    notify => Service['pe-puppetserver'],
+  }
+
+  # Enable puppet master's puppet *agent* to work with proxy
+  file_line { "puppet agent http_proxy":
+    ensure => present,
+    path   => $sysconf_puppet,
+    line   => $http_proxy_var,
+    match  => "http_proxy=",
+    notify => Service['puppet'],
+  }
+
+  file_line { "puppet agent https_proxy":
+    ensure => present,
+    path   => $sysconf_puppet,
+    line   => $https_proxy_var,
+    match  => "https_proxy=",
+    notify => Service['puppet'],
+  }
+
+  # configure gem to work with system proxy - needed if using package{}
+  # resources since they squash the environments
+  $gemrc = "/root/.gemrc"
+
+  file { $gemrc:
+    ensure => file,
+    owner  => "root",
+    group  => "root",
+    mode   => "0644"
+  }
+
+  file_line { "root gemrc http_proxy":
+    ensure => present,
+    path   => $gemrc,
+    line   => "http_proxy: ${proxy}",
+    match  => "http_proxy:",
+  }
+
+  file_line { "root gemrc https_proxy":
+    ensure => present,
+    path   => $gemrc,
+    line   => "https_proxy: ${proxy}",
+    match  => "https_proxy:",
   }
 
 

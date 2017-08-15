@@ -10,6 +10,14 @@ describe 'r_profile::puppet::master::proxy' do
       :kernel                 => 'Linux'
     }
   end
+
+  let :pre_condition do
+    '
+      include r_profile::linux::systemd
+      service { "pe-puppetserver": }
+      include r_profile::puppet::master
+    '
+  end
   describe 'disables proxy when unset' do
     context "catalog compiles" do
       it { should compile}
@@ -38,7 +46,7 @@ describe 'r_profile::puppet::master::proxy' do
     context "catalog compiles" do
       it { should compile}
     end
-    
+
     it {
       should contain_class('r_profile::puppet::master::proxy')
       should contain_ini_setting("puppet.conf http_proxy_host").with({

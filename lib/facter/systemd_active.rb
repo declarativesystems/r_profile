@@ -4,6 +4,6 @@
 Facter.add(:systemd_active) do
   confine :kernel => "Linux"
   setcode do
-    Facter::Core::Execution.exec('ps 1|grep systemd && echo "true" || echo "false"')
+    Facter::Core::Execution.exec('ps 1|grep systemd > /dev/null 2>&1 && echo "true" || echo "false"')
   end
 end

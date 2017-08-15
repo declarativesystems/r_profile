@@ -141,6 +141,38 @@ lookups</p>
   
     <li>
       
+        <span class='name'>$agent_ensuretoensurethemasteragentisstopped,</span>
+      
+      
+        <span class='type'>(<tt>'stopped''running'</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>&#39;running&#39; to ensure running</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>$agent_enable</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true to start the master&#39;s puppet agent on boot, false to not start it</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>data_binding_terminus</span>
       
       
@@ -178,6 +210,32 @@ lookups</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>agent_ensure</span>
+      
+      
+        <span class='type'>(<tt>Enum['running', 'stopped']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::agent_ensure&quot;, &#39;running&#39;)</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>agent_enable</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::agent_enable&quot;, true)</tt>)</em>
+      
+      
+    </li>
+  
 </ul>
 
 
@@ -188,10 +246,6 @@ lookups</p>
         <pre class="lines">
 
 
-9
-10
-11
-12
 13
 14
 15
@@ -250,19 +304,39 @@ lookups</p>
 68
 69
 70
-71</pre>
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master.pp', line 9</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master.pp', line 13</span>
 
 class r_profile::puppet::master (
     Enum[&#39;none&#39;, &#39;hiera&#39;] $data_binding_terminus =
       hiera(&quot;r_profile::puppet::master::data_binding_terminus&quot;, $r_profile::puppet::params::data_binding_terminus),
     Boolean $open_firewall    = hiera(&quot;r_profile::puppet::master::open_firewall&quot;, false),
     Boolean $nagios_monitored = hiera(&quot;r_profile::puppet::master::nagios_monitored&quot;, false),
+    Enum[&#39;running&#39;, &#39;stopped&#39;] $agent_ensure =
+      hiera(&quot;r_profile::puppet::master::agent_ensure&quot;, &#39;running&#39;),
+    Boolean $agent_enable = hiera(&quot;r_profile::puppet::master::agent_enable&quot;, true),
 ) inherits r_profile::puppet::params {
 
   $puppetconf = $r_profile::puppet::params::puppetconf
+
+  service { &quot;puppet&quot;:
+    ensure =&gt; $agent_ensure,
+    enable =&gt; $agent_enable,
+  }
 
   file { $sysconf_puppetserver:
     ensure =&gt; file,

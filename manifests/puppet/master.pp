@@ -6,14 +6,26 @@
 #   hiera lookups
 # @param $open_firewall open ports in IPTables?
 # @param $nagios_monitored create nagios monitoring resources?
+# @param $agent_ensure 'stopped' to ensure the master's puppet agent is stopped,
+#   'running' to ensure running
+# @param $agent_enable true to start the master's puppet agent on boot, false
+#   to not start it
 class r_profile::puppet::master (
     Enum['none', 'hiera'] $data_binding_terminus =
       hiera("r_profile::puppet::master::data_binding_terminus", $r_profile::puppet::params::data_binding_terminus),
     Boolean $open_firewall    = hiera("r_profile::puppet::master::open_firewall", false),
     Boolean $nagios_monitored = hiera("r_profile::puppet::master::nagios_monitored", false),
+    Enum['running', 'stopped'] $agent_ensure =
+      hiera("r_profile::puppet::master::agent_ensure", 'running'),
+    Boolean $agent_enable = hiera("r_profile::puppet::master::agent_enable", true),
 ) inherits r_profile::puppet::params {
 
   $puppetconf = $r_profile::puppet::params::puppetconf
+
+  service { "puppet":
+    ensure => $agent_ensure,
+    enable => $agent_enable,
+  }
 
   file { $sysconf_puppetserver:
     ensure => file,
