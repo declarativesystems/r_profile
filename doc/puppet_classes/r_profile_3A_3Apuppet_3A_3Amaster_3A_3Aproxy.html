@@ -233,11 +233,7 @@ or false to not use a proxy server</p>
 116
 117
 118
-119
-120
-121
-122
-123</pre>
+119</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/puppet/master/proxy.pp', line 9</span>
@@ -279,6 +275,10 @@ class r_profile::puppet::master::proxy(
     ensure =&gt; $proxy_ensure,
   }
 
+  File_line {
+    ensure =&gt; $proxy_ensure,
+  }
+
   # PMT (puppet.conf)
   ini_setting { &quot;puppet.conf http_proxy_host&quot;:
     path    =&gt; $puppetconf,
@@ -298,7 +298,6 @@ class r_profile::puppet::master::proxy(
 
   # Enable pe-puppetserver to work with proxy
   file_line { &quot;pe-puppetserver http_proxy&quot;:
-    ensure =&gt; present,
     path   =&gt; $sysconf_puppetserver,
     line   =&gt; $http_proxy_var,
     match  =&gt; &quot;http_proxy=&quot;,
@@ -306,7 +305,6 @@ class r_profile::puppet::master::proxy(
   }
 
   file_line { &quot;pe-puppetserver https_proxy&quot;:
-    ensure =&gt; present,
     path   =&gt; $sysconf_puppetserver,
     line   =&gt; $https_proxy_var,
     match  =&gt; &quot;https_proxy=&quot;,
@@ -315,7 +313,6 @@ class r_profile::puppet::master::proxy(
 
   # Enable puppet master&#39;s puppet *agent* to work with proxy
   file_line { &quot;puppet agent http_proxy&quot;:
-    ensure =&gt; present,
     path   =&gt; $sysconf_puppet,
     line   =&gt; $http_proxy_var,
     match  =&gt; &quot;http_proxy=&quot;,
@@ -323,7 +320,6 @@ class r_profile::puppet::master::proxy(
   }
 
   file_line { &quot;puppet agent https_proxy&quot;:
-    ensure =&gt; present,
     path   =&gt; $sysconf_puppet,
     line   =&gt; $https_proxy_var,
     match  =&gt; &quot;https_proxy=&quot;,
@@ -342,20 +338,16 @@ class r_profile::puppet::master::proxy(
   }
 
   file_line { &quot;root gemrc http_proxy&quot;:
-    ensure =&gt; present,
-    path   =&gt; $gemrc,
-    line   =&gt; &quot;http_proxy: ${proxy}&quot;,
-    match  =&gt; &quot;http_proxy:&quot;,
+    path  =&gt; $gemrc,
+    line  =&gt; &quot;http_proxy: ${proxy}&quot;,
+    match =&gt; &quot;http_proxy:&quot;,
   }
 
   file_line { &quot;root gemrc https_proxy&quot;:
-    ensure =&gt; present,
-    path   =&gt; $gemrc,
-    line   =&gt; &quot;https_proxy: ${proxy}&quot;,
-    match  =&gt; &quot;https_proxy:&quot;,
+    path  =&gt; $gemrc,
+    line  =&gt; &quot;https_proxy: ${proxy}&quot;,
+    match =&gt; &quot;https_proxy:&quot;,
   }
-
-
 }</pre>
       </td>
     </tr>

@@ -43,6 +43,10 @@ class r_profile::puppet::master::proxy(
     ensure => $proxy_ensure,
   }
 
+  File_line {
+    ensure => $proxy_ensure,
+  }
+
   # PMT (puppet.conf)
   ini_setting { "puppet.conf http_proxy_host":
     path    => $puppetconf,
@@ -62,7 +66,6 @@ class r_profile::puppet::master::proxy(
 
   # Enable pe-puppetserver to work with proxy
   file_line { "pe-puppetserver http_proxy":
-    ensure => present,
     path   => $sysconf_puppetserver,
     line   => $http_proxy_var,
     match  => "http_proxy=",
@@ -70,7 +73,6 @@ class r_profile::puppet::master::proxy(
   }
 
   file_line { "pe-puppetserver https_proxy":
-    ensure => present,
     path   => $sysconf_puppetserver,
     line   => $https_proxy_var,
     match  => "https_proxy=",
@@ -79,7 +81,6 @@ class r_profile::puppet::master::proxy(
 
   # Enable puppet master's puppet *agent* to work with proxy
   file_line { "puppet agent http_proxy":
-    ensure => present,
     path   => $sysconf_puppet,
     line   => $http_proxy_var,
     match  => "http_proxy=",
@@ -87,7 +88,6 @@ class r_profile::puppet::master::proxy(
   }
 
   file_line { "puppet agent https_proxy":
-    ensure => present,
     path   => $sysconf_puppet,
     line   => $https_proxy_var,
     match  => "https_proxy=",
@@ -106,18 +106,14 @@ class r_profile::puppet::master::proxy(
   }
 
   file_line { "root gemrc http_proxy":
-    ensure => present,
-    path   => $gemrc,
-    line   => "http_proxy: ${proxy}",
-    match  => "http_proxy:",
+    path  => $gemrc,
+    line  => "http_proxy: ${proxy}",
+    match => "http_proxy:",
   }
 
   file_line { "root gemrc https_proxy":
-    ensure => present,
-    path   => $gemrc,
-    line   => "https_proxy: ${proxy}",
-    match  => "https_proxy:",
+    path  => $gemrc,
+    line  => "https_proxy: ${proxy}",
+    match => "https_proxy:",
   }
-
-
 }
