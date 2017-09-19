@@ -14,8 +14,6 @@ class r_profile::puppet::params {
   # os-specific settings
   case $::osfamily {
     "Debian": {
-      # fixme - check this!
-      warning("debian is untested with profiles::puppet::params!")
       $sysconf_dir      = "/etc/default"
     }
     "RedHat": {
@@ -62,29 +60,5 @@ class r_profile::puppet::params {
   $db_backup_month        = "*"
   $db_backup_monthday     = "*"
   $db_backup_weekday      = "*"
-
-  $hierarchy_base         = [
-    "nodes/%{clientcert}",
-    "roles/%{role}",
-    "app_tier/%{app_tier}",
-    "datacenter/%{datacenter}",
-    "env/%{environment}",
-    "common",
-  ]
-
-  if $virtual == "docker" {
-    # if running under docker or in dockerbuild, enable an additional level of
-    # hierarchy to disable code manager and optionally tune memory usage down.
-    # This technique allows us to control these settings independently of the
-    # r10k control repo, which is needed so that the docker image building
-    # system has a hiera data file that it owns to avoid checking out a control
-    # repo that will inadvertantly change or remove settings we need to exist
-    #
-    # final file location: /etc/puppetlabs/code/system.yaml
-    $hierarchy_default = concat($hierarchy_base, "../../../system")
-
-  } else {
-    $hierarchy_default = $hierarchy_base
-  }
 
 }
