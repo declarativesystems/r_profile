@@ -17,10 +17,12 @@ class r_profile::puppet::master::proxy(
   # Proxy server in settings file
   #
   if $proxy {
-    $proxy_ensure = present
-    $regexp = 'https?://(.*?@)?([^:]+):(\d+)'
-    $proxy_host = regsubst($proxy, $regexp, '\2')
-    $proxy_port = regsubst($proxy, $regexp, '\3')
+    $proxy_ensure           = present
+    $regexp                 = 'https?://(.*?@)?([^:]+):(\d+)'
+    $proxy_host             = regsubst($proxy, $regexp, '\2')
+    $proxy_port             = regsubst($proxy, $regexp, '\3')
+    $http_proxy_var_gemrc   = "http_proxy: ${proxy}"
+    $https_proxy_var_gemrc  = "https_proxy: ${proxy}"
     if $export_variable {
       # solaris needs a 2-step export
       $http_proxy_var   = "http_proxy=${proxy}; export http_proxy"
@@ -37,6 +39,8 @@ class r_profile::puppet::master::proxy(
     # file_line will only remove a single entry as it has already matched
     $http_proxy_var  = " "
     $https_proxy_var = "  "
+    $http_proxy_var_gemrc  = " "
+    $https_proxy_var_gemrc = "  "
   }
 
   Ini_setting {
@@ -107,13 +111,13 @@ class r_profile::puppet::master::proxy(
 
   file_line { "root gemrc http_proxy":
     path  => $gemrc,
-    line  => "http_proxy: ${proxy}",
+    line  => $http_proxy_var_gemrc,
     match => "http_proxy:",
   }
 
   file_line { "root gemrc https_proxy":
     path  => $gemrc,
-    line  => "https_proxy: ${proxy}",
+    line  => $https_proxy_var_gemrc,
     match => "https_proxy:",
   }
 }

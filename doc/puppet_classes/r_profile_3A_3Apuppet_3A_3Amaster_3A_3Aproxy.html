@@ -233,7 +233,11 @@ or false to not use a proxy server</p>
 116
 117
 118
-119</pre>
+119
+120
+121
+122
+123</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/puppet/master/proxy.pp', line 9</span>
@@ -249,10 +253,12 @@ class r_profile::puppet::master::proxy(
   # Proxy server in settings file
   #
   if $proxy {
-    $proxy_ensure = present
-    $regexp = &#39;https?://(.*?@)?([^:]+):(\d+)&#39;
-    $proxy_host = regsubst($proxy, $regexp, &#39;\2&#39;)
-    $proxy_port = regsubst($proxy, $regexp, &#39;\3&#39;)
+    $proxy_ensure           = present
+    $regexp                 = &#39;https?://(.*?@)?([^:]+):(\d+)&#39;
+    $proxy_host             = regsubst($proxy, $regexp, &#39;\2&#39;)
+    $proxy_port             = regsubst($proxy, $regexp, &#39;\3&#39;)
+    $http_proxy_var_gemrc   = &quot;http_proxy: ${proxy}&quot;
+    $https_proxy_var_gemrc  = &quot;https_proxy: ${proxy}&quot;
     if $export_variable {
       # solaris needs a 2-step export
       $http_proxy_var   = &quot;http_proxy=${proxy}; export http_proxy&quot;
@@ -269,6 +275,8 @@ class r_profile::puppet::master::proxy(
     # file_line will only remove a single entry as it has already matched
     $http_proxy_var  = &quot; &quot;
     $https_proxy_var = &quot;  &quot;
+    $http_proxy_var_gemrc  = &quot; &quot;
+    $https_proxy_var_gemrc = &quot;  &quot;
   }
 
   Ini_setting {
@@ -339,13 +347,13 @@ class r_profile::puppet::master::proxy(
 
   file_line { &quot;root gemrc http_proxy&quot;:
     path  =&gt; $gemrc,
-    line  =&gt; &quot;http_proxy: ${proxy}&quot;,
+    line  =&gt; $http_proxy_var_gemrc,
     match =&gt; &quot;http_proxy:&quot;,
   }
 
   file_line { &quot;root gemrc https_proxy&quot;:
     path  =&gt; $gemrc,
-    line  =&gt; &quot;https_proxy: ${proxy}&quot;,
+    line  =&gt; $https_proxy_var_gemrc,
     match =&gt; &quot;https_proxy:&quot;,
   }
 }</pre>

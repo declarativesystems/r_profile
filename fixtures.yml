@@ -1,5 +1,0 @@
-# Workaround for https://github.com/saz/puppet-vim/issues/13
-repositories:
-  vim:
-    repo: 'https://github.com/GeoffWilliams/puppet-vim'
-    ref: 'fix_missing_var_error'
