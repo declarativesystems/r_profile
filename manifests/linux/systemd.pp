@@ -6,8 +6,7 @@ class r_profile::linux::systemd {
   # Provide a graph node that we can notify to get systemd to reload itself.
   # If this is not a systemd controlled system, we simply run the true command
   # instead so that we can exit with status 0
-  if    $::osfamily == 'RedHat'
-        and ($::operatingsystemrelease =~ /^7/ or $::operatingsystem == 'Fedora') {
+  if $facts['systemd_active'] {
       $command = "systemctl daemon-reload"
   } else {
     $command = "true"

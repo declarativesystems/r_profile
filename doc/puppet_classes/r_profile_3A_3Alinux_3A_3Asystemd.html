@@ -107,8 +107,7 @@
 17
 18
 19
-20
-21</pre>
+20</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/linux/systemd.pp', line 4</span>
@@ -118,8 +117,7 @@ class r_profile::linux::systemd {
   # Provide a graph node that we can notify to get systemd to reload itself.
   # If this is not a systemd controlled system, we simply run the true command
   # instead so that we can exit with status 0
-  if    $::osfamily == &#39;RedHat&#39;
-        and ($::operatingsystemrelease =~ /^7/ or $::operatingsystem == &#39;Fedora&#39;) {
+  if $facts[&#39;systemd_active&#39;] {
       $command = &quot;systemctl daemon-reload&quot;
   } else {
     $command = &quot;true&quot;
