@@ -1,3 +1,7 @@
+# 2.0.0 (TBA)
+# * gem support for proxies
+# * rewrote hiera support for hiera v5 (breaking change, only manages eyaml now)
+
 # 1.14.0 (2017-06-09)
 * Azure agent provisioning on Windows and Linux
 

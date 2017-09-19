@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-r_profile",
-  "version": "1.15.0",
+  "version": "2.0.0",
   "author": "geoffwilliams",
   "summary": "Ready to use Puppet Profile classes",
   "license": "Apache-2.0",
@@ -13,7 +13,6 @@
     {"name":"geoffwilliams-motd","version_requirement":"2.1.1"},
     {"name":"puppetlabs-ntp","version_requirement":"6.1.0"},
     {"name":"thias-sysctl","version_requirement":"1.0.6"},
-    {"name":"puppet-hiera","version_requirement":"2.4.0"},
     {"name":"puppetlabs-inifile","version_requirement":"1.6.0"},
     {"name":"puppetlabs-firewall", "version_requirement":"1.8.2"},
     {"name":"geoffwilliams-nagios", "version_requirement": "0.1.1"},

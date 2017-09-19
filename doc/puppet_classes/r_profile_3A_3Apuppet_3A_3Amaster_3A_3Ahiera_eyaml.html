@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Puppet Class: r_profile::puppet::master::hiera_eyaml
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "puppet_classes::r_profile::puppet::master::hiera_eyaml";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (r)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Classes</span></span>
+     &raquo; 
+    <span class="title">r_profile::puppet::master::hiera_eyaml</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Class: r_profile::puppet::master::hiera_eyaml</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd><span class='object_link'><a href="r_profile_3A_3Apuppet_3A_3Aparams.html" title="puppet_classes::r_profile::puppet::params (puppet_class)">r_profile::puppet::params</a></span></dd>
+  </dl>
+  
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      manifests/puppet/master/hiera_eyaml.pp
+    </dd>
+  </dl>
+</div>
+
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>R_profile::Puppet::Master::Hiera_eyaml</p>
+
+<p>Configure hiera-eyaml</p>
+
+<p>Note that mangement of <code>hiera.yaml</code> files with puppet is no
+longer recommended since hiera v5 encourages users to write a seperate file
+for each branch of the control repository</p>
+
+<p>Once this has run on the puppet master with <code>create_keys</code> set
+true, you will need to add something along the lines of:</p>
+
+<pre class="code ruby"><code class="ruby">hierarchy:
+  - name: &quot;Per-datacenter secret data (encrypted)&quot;
+    lookup_key: eyaml_lookup_key
+    path: &quot;secrets/%{facts.whereami}.eyaml&quot;
+    options:
+      pkcs7_private_key: /etc/puppetlabs/puppet/keys/private_key.pkcs7.pem
+      pkcs7_public_key:  /etc/puppetlabs/puppet/keys/public_key.pkcs7.pem</code></pre>
+
+<p>To your <code>hiera.yaml</code> file for each environment.</p>
+
+<p>If you want more then one keypair per server, you should set create_keys
+false and make your own arrangements</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>gem_install</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::puppet::master::hiera::gem_install&#39;, true)</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>True to attempt to install and configure hiera-eyaml rubygem</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>create_keys,</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>True to create a system-wide eyaml keypair</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>create_keys</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::puppet::master::hiera::create_keys&#39;, true)</tt>)</em>
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera_eyaml.pp', line 28</span>
+
+class r_profile::puppet::master::hiera_eyaml(
+    $gem_install  = hiera(&#39;r_profile::puppet::master::hiera::gem_install&#39;, true),
+    $create_keys  = hiera(&#39;r_profile::puppet::master::hiera::create_keys&#39;, true),
+) inherits r_profile::puppet::params {
+
+  if $gem_install {
+    # Hiera module will only install eyaml if the manage_package attribute is set,
+    # however, setting this also installs the hiera package itself, eg completly
+    # breaks puppet enterprise ;-) best thing to do here is install eyaml ourselves
+    # and then use the hiera module to finish setting up the hierarchy and eyaml
+    # keys.  Note that we have to do this twice - once for vendored ruby and once
+    # for vendored jruby.  This isn&#39;t need for installations created with
+    # puppetizer since it does all this for you...
+
+    # we need a composite namevar to allow this to succeed:
+    # http://www.craigdunn.org/2016/07/composite-namevars-in-puppet/
+    package { &quot;vendored ruby eyaml&quot;:
+      ensure   =&gt; present,
+      name     =&gt; &quot;hiera-eyaml&quot;,
+      provider =&gt; puppet_gem,
+    }
+
+    package { &quot;vendored jruby eyaml&quot;:
+      ensure   =&gt; present,
+      name     =&gt; &quot;hiera-eyaml&quot;,
+      provider =&gt; puppetserver_gem,
+      notify   =&gt; Service[&#39;pe-puppetserver&#39;],
+    }
+  }
+
+  if $create_keys {
+    $keysdir = &quot;/etc/puppetlabs/puppet/keys&quot;
+
+    file { $keysdir:
+      ensure =&gt; directory,
+      owner  =&gt; &#39;pe_puppet&#39;,
+      group  =&gt; &#39;pe_puppet&#39;,
+      mode   =&gt; &#39;0600&#39;,
+    }
+
+    exec { &#39;createkeys&#39;:
+      user    =&gt; &#39;pe_puppet&#39;,
+      cwd     =&gt; $keysdir,
+      command =&gt; &#39;eyaml createkeys&#39;,
+      path    =&gt; [&#39;/opt/puppet/bin&#39;, &#39;/usr/bin&#39;, &#39;/usr/local/bin&#39;],
+      creates =&gt; &quot;${keysdir}/private_key.pkcs7.pem&quot;,
+      require =&gt; File[$keysdir],
+    }
+
+    file { &quot;${keysdir}/private_key.pkcs7.pem&quot;:
+      ensure  =&gt; file,
+      owner   =&gt; &#39;pe_puppet&#39;,
+      group   =&gt; &#39;pe_puppet&#39;,
+      mode    =&gt; &#39;0600&#39;,
+      require =&gt; Exec[&#39;createkeys&#39;],
+    }
+
+    file { &quot;${keysdir}/public_key.pkcs7.pem&quot;:
+      ensure  =&gt; file,
+      owner   =&gt; &#39;pe_puppet&#39;,
+      group   =&gt; &#39;pe_puppet&#39;,
+      mode    =&gt; &#39;0644&#39;,
+      require =&gt; Exec[&#39;createkeys&#39;],
+    }
+  }
+}</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>
