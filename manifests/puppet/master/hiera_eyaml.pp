@@ -60,13 +60,13 @@ class r_profile::puppet::master::hiera_eyaml(
 
     file { $keysdir:
       ensure => directory,
-      owner  => 'pe_puppet',
-      group  => 'pe_puppet',
+      owner  => 'pe-puppet',
+      group  => 'pe-puppet',
       mode   => '0600',
     }
 
     exec { 'createkeys':
-      user    => 'pe_puppet',
+      user    => 'pe-puppet',
       cwd     => $keysdir,
       command => 'eyaml createkeys',
       path    => ['/opt/puppet/bin', '/usr/bin', '/usr/local/bin'],
@@ -76,16 +76,16 @@ class r_profile::puppet::master::hiera_eyaml(
 
     file { "${keysdir}/private_key.pkcs7.pem":
       ensure  => file,
-      owner   => 'pe_puppet',
-      group   => 'pe_puppet',
+      owner   => 'pe-puppet',
+      group   => 'pe-puppet',
       mode    => '0600',
       require => Exec['createkeys'],
     }
 
     file { "${keysdir}/public_key.pkcs7.pem":
       ensure  => file,
-      owner   => 'pe_puppet',
-      group   => 'pe_puppet',
+      owner   => 'pe-puppet',
+      group   => 'pe-puppet',
       mode    => '0644',
       require => Exec['createkeys'],
     }
