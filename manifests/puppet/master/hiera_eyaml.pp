@@ -56,7 +56,7 @@ class r_profile::puppet::master::hiera_eyaml(
   }
 
   if $create_keys {
-    $keysdir = "/etc/puppetlabs/puppet/keys"
+    $keysdir = "${::settings::confdir}/keys"
 
     file { $keysdir:
       ensure => directory,
@@ -67,7 +67,7 @@ class r_profile::puppet::master::hiera_eyaml(
 
     exec { 'createkeys':
       user    => 'pe-puppet',
-      cwd     => $keysdir,
+      cwd     => $::settings::confdir,
       command => 'eyaml createkeys',
       path    => ['/opt/puppetlabs/puppet/bin', '/usr/bin', '/usr/local/bin'],
       creates => "${keysdir}/private_key.pkcs7.pem",
