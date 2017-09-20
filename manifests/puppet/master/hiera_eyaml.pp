@@ -69,7 +69,7 @@ class r_profile::puppet::master::hiera_eyaml(
       user    => 'pe-puppet',
       cwd     => $keysdir,
       command => 'eyaml createkeys',
-      path    => ['/opt/puppet/bin', '/usr/bin', '/usr/local/bin'],
+      path    => ['/opt/puppetlabs/puppet/bin', '/usr/bin', '/usr/local/bin'],
       creates => "${keysdir}/private_key.pkcs7.pem",
       require => File[$keysdir],
     }
