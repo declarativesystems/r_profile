@@ -6,7 +6,7 @@ end
 gem 'puppet', '4.10.8'
 gem 'facter', '2.5.1'
 gem 'rubocop', '0.50.0'
-gem 'pdqtest', '0.8.0'
+gem 'pdqtest', '0.9.0'
 gem 'rspec-puppet-facts', '1.7.0'
 gem 'puppet-strings', :git => 'https://github.com/puppetlabs/puppet-strings'
 gem 'metadatajson2puppetfile', '0.1.2'

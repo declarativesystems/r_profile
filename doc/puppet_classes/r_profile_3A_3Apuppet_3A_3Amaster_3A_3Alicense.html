@@ -157,7 +157,7 @@ class r_profile::puppet::master::license {
   # run after the code above otherwise we will be stuck in a race condition
   # where the file can never be updated
   exec { &quot;copy pe license.key content&quot;:
-    command =&gt; &quot;cp ${license_source} ${license_target}&quot;,
+    command =&gt; &quot;cp ${license_source} ${license_target} &amp;&amp; chmod +r ${license_target}&quot;,
     unless  =&gt; &quot;diff ${license_source} ${license_target}&quot;,
     path    =&gt; [&quot;/usr/bin&quot;, &quot;/bin&quot;],
     require =&gt; Class[&quot;puppet_enterprise::license&quot;],

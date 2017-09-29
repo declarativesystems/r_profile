@@ -268,36 +268,36 @@ class r_profile::puppet::master::hiera_eyaml(
   }
 
   if $create_keys {
-    $keysdir = &quot;/etc/puppetlabs/puppet/keys&quot;
+    $keysdir = &quot;${::settings::confdir}/keys&quot;
 
     file { $keysdir:
       ensure =&gt; directory,
-      owner  =&gt; &#39;pe_puppet&#39;,
-      group  =&gt; &#39;pe_puppet&#39;,
+      owner  =&gt; &#39;pe-puppet&#39;,
+      group  =&gt; &#39;pe-puppet&#39;,
       mode   =&gt; &#39;0600&#39;,
     }
 
     exec { &#39;createkeys&#39;:
-      user    =&gt; &#39;pe_puppet&#39;,
-      cwd     =&gt; $keysdir,
+      user    =&gt; &#39;pe-puppet&#39;,
+      cwd     =&gt; $::settings::confdir,
       command =&gt; &#39;eyaml createkeys&#39;,
-      path    =&gt; [&#39;/opt/puppet/bin&#39;, &#39;/usr/bin&#39;, &#39;/usr/local/bin&#39;],
+      path    =&gt; [&#39;/opt/puppetlabs/puppet/bin&#39;, &#39;/usr/bin&#39;, &#39;/usr/local/bin&#39;],
       creates =&gt; &quot;${keysdir}/private_key.pkcs7.pem&quot;,
       require =&gt; File[$keysdir],
     }
 
     file { &quot;${keysdir}/private_key.pkcs7.pem&quot;:
       ensure  =&gt; file,
-      owner   =&gt; &#39;pe_puppet&#39;,
-      group   =&gt; &#39;pe_puppet&#39;,
+      owner   =&gt; &#39;pe-puppet&#39;,
+      group   =&gt; &#39;pe-puppet&#39;,
       mode    =&gt; &#39;0600&#39;,
       require =&gt; Exec[&#39;createkeys&#39;],
     }
 
     file { &quot;${keysdir}/public_key.pkcs7.pem&quot;:
       ensure  =&gt; file,
-      owner   =&gt; &#39;pe_puppet&#39;,
-      group   =&gt; &#39;pe_puppet&#39;,
+      owner   =&gt; &#39;pe-puppet&#39;,
+      group   =&gt; &#39;pe-puppet&#39;,
       mode    =&gt; &#39;0644&#39;,
       require =&gt; Exec[&#39;createkeys&#39;],
     }
