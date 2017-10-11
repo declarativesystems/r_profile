@@ -5,7 +5,7 @@ services:
   - docker
 cache: bundler
 before_install:
-  - gem update bundler
+  - bundle exec pdqtest setup
 script: "make"
 rvm:
-  - 2.3.3
+  - 2.3.5
