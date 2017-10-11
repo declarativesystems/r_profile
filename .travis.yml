@@ -5,6 +5,7 @@ services:
   - docker
 cache: bundler
 before_install:
+  - bundle install
   - bundle exec pdqtest setup
 script: "make"
 rvm:
