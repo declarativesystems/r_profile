@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::linux::systemd
+  Puppet Class: r_profile::linux::grub2
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::linux::systemd";
+  pathId = "puppet_classes::r_profile::linux::grub2";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::linux::systemd</span>
+    <span class="title">r_profile::linux::grub2</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::linux::systemd</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::grub2</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/linux/systemd.pp
+      manifests/linux/grub2.pp
     </dd>
   </dl>
 </div>
@@ -75,11 +75,10 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Linux::Systemd</p>
+<p>R_profile::Grub2</p>
 
-<p>Provides:  * <code>Exec['systemctl_daemon_reload']</code> to scan for
-changed units when puppet changes them (invoke via notify)  * Enforcement
-of <code>sulogin</code> for rescue/emegency mode (this is the OS default)</p>
+<p>Secure the grub2 bootloader for RHEL7+  * Permissions on main config file 
+* Bootloader passwords set for physical nodes</p>
 
   </div>
 </div>
@@ -89,19 +88,22 @@ of <code>sulogin</code> for rescue/emegency mode (this is the OS default)</p>
   
     <li>
       
-        <span class='name'>enforce_sulogin</span>
+        <span class='name'>bootloader_users</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Variant[Boolean, Hash[String,String]]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p><code>true</code> to ensure <code>sulogin</code> used, false to leave files
-unaltered</p>
+<p>Hash of username -&gt; encrypted password to use for bootloader access on
+physical machines. Hashed passwords are generated using the
+<code>grub2-mkpasswd-pbkdf2</code> tool. Plaintext passwords are not
+allowed. To disable password protection, pass <code>false</code> here
+instead</p>
 </div>
       
     </li>
@@ -116,9 +118,6 @@ unaltered</p>
         <pre class="lines">
 
 
-8
-9
-10
 11
 12
 13
@@ -148,43 +147,58 @@ unaltered</p>
 37
 38
 39
-40</pre>
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/systemd.pp', line 8</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/grub2.pp', line 11</span>
 
-class r_profile::linux::systemd(
-    $enforce_sulogin = false,
+class r_profile::linux::grub2(
+    Variant[Boolean, Hash[String,String]] $bootloader_users = {},
 ) {
+  $config_file = &quot;/boot/grub2/grub.cfg&quot;
 
-  # Provide a graph node that we can notify to get systemd to reload itself.
-  # If this is not a systemd controlled system, we simply run the true command
-  # instead so that we can exit with status 0
-  if $facts[&#39;systemd_active&#39;] {
-      $command = &quot;systemctl daemon-reload&quot;
-  } else {
-    $command = &quot;true&quot;
+  file { $config_file:
+    ensure =&gt; file,
+    owner  =&gt; &quot;root&quot;,
+    group  =&gt; &quot;root&quot;,
+    mode   =&gt; &quot;0600&quot;,
   }
 
-  if $enforce_sulogin {
-    [
-      &quot;/usr/lib/systemd/system/rescue.service&quot;,
-      &quot;/usr/lib/systemd/system/emergency.service&quot;,
-    ].each |$unit| {
-      file_line { &quot;${unit} single_user_use_sulogin&quot;:
-        ensure =&gt; present,
-        path   =&gt; $unit,
-        match  =&gt; &#39;^ExecStart=&#39;,
-        line   =&gt; &#39;ExecStart=-/bin/sh -c &quot;/sbin/sulogin; /usr/bin/systemctl --fail --no-block default&#39;
-      }
+  # only set password on physical machines when parameter set
+  if $facts[&#39;virtual&#39;] == &#39;physical&#39; {
+    if $bootloader_users {
+      $users_content = epp(&quot;${module_name}/40_custom.epp&quot;, {bootloader_users=&gt;$bootloader_users})
+    } else {
+      $users_content = &quot;&quot;
+    }
+
+    # setting the superusers *must* go in 40_custom not 01_users or will get
+    # error: &quot;password_pbkdf2: command not found&quot;
+    file { &quot;/etc/grub.d/40_custom&quot;:
+      ensure  =&gt; file,
+      owner   =&gt; &quot;root&quot;,
+      group   =&gt; &quot;root&quot;,
+      mode    =&gt; &quot;0755&quot;,
+      content =&gt; $users_content,
+      notify  =&gt; Exec[&quot;rehash_grub2_config&quot;],
     }
   }
 
-  exec { &quot;systemctl_daemon_reload&quot;:
-    command     =&gt; $command,
+  exec { &quot;rehash_grub2_config&quot;:
     refreshonly =&gt; true,
-    path        =&gt; &quot;/bin:/usr/bin:/usr/local/bin&quot;
+    command     =&gt; &quot;grub2-mkconfig -o ${config_file}&quot;,
+    path        =&gt; [&quot;/sbin&quot;, &quot;/bin&quot;,&quot;/usr/sbin&quot;, &quot;/usr/bin&quot;],
   }
+
 }</pre>
       </td>
     </tr>

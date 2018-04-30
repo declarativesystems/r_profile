@@ -2,13 +2,13 @@
 #
 # Puppet Master general settings
 #
-# @param $data_binding_terminus enable (`heira`)/disable (`none`) automatic
+# @param data_binding_terminus enable (`heira`)/disable (`none`) automatic
 #   hiera lookups
-# @param $open_firewall open ports in IPTables?
-# @param $nagios_monitored create nagios monitoring resources?
-# @param $agent_ensure 'stopped' to ensure the master's puppet agent is stopped,
-#   'running' to ensure running
-# @param $agent_enable true to start the master's puppet agent on boot, false
+# @param open_firewall open ports in IPTables?
+# @param nagios_monitored create nagios monitoring resources?
+# @param agent_ensure `stopped` to ensure the master's puppet agent is stopped,
+#   `running` to ensure running
+# @param agent_enable true to start the master's puppet agent on boot, false
 #   to not start it
 class r_profile::puppet::master (
     Enum['none', 'hiera'] $data_binding_terminus =

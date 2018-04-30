@@ -92,11 +92,13 @@
   
     <li>
       
-        <span class='name'>$data_binding_terminus</span>
+        <span class='name'>data_binding_terminus</span>
       
       
-        <span class='type'></span>
+        <span class='type'>(<tt>Enum['none', 'hiera']</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::data_binding_terminus&quot;, $r_profile::puppet::params::data_binding_terminus)</tt>)</em>
       
       
         &mdash;
@@ -109,11 +111,13 @@ lookups</p>
   
     <li>
       
-        <span class='name'>$open_firewall</span>
+        <span class='name'>open_firewall</span>
       
       
-        <span class='type'></span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::open_firewall&quot;, false)</tt>)</em>
       
       
         &mdash;
@@ -125,11 +129,13 @@ lookups</p>
   
     <li>
       
-        <span class='name'>$nagios_monitored</span>
+        <span class='name'>nagios_monitored</span>
       
       
-        <span class='type'></span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::nagios_monitored&quot;, false)</tt>)</em>
       
       
         &mdash;
@@ -141,7 +147,7 @@ lookups</p>
   
     <li>
       
-        <span class='name'>$agent_ensuretoensurethemasteragentisstopped,</span>
+        <span class='name'>agent_ensuretoensurethemasteragentisstopped,</span>
       
       
         <span class='type'>(<tt>'stopped''running'</tt>)</span>
@@ -157,56 +163,19 @@ lookups</p>
   
     <li>
       
-        <span class='name'>$agent_enable</span>
+        <span class='name'>agent_enable</span>
       
       
-        <span class='type'></span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::agent_enable&quot;, true)</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
 <p>true to start the master&#39;s puppet agent on boot, false to not start it</p>
 </div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>data_binding_terminus</span>
-      
-      
-        <span class='type'>(<tt>Enum['none', 'hiera']</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::data_binding_terminus&quot;, $r_profile::puppet::params::data_binding_terminus)</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>open_firewall</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::open_firewall&quot;, false)</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>nagios_monitored</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::nagios_monitored&quot;, false)</tt>)</em>
-      
       
     </li>
   
@@ -219,19 +188,6 @@ lookups</p>
       
       
         <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::agent_ensure&quot;, &#39;running&#39;)</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>agent_enable</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::agent_enable&quot;, true)</tt>)</em>
       
       
     </li>

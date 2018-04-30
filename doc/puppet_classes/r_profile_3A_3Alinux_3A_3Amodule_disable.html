@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::linux::systemd
+  Puppet Class: r_profile::linux::module_disable
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::linux::systemd";
+  pathId = "puppet_classes::r_profile::linux::module_disable";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::linux::systemd</span>
+    <span class="title">r_profile::linux::module_disable</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::linux::systemd</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::module_disable</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/linux/systemd.pp
+      manifests/linux/module_disable.pp
     </dd>
   </dl>
 </div>
@@ -75,11 +75,10 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Linux::Systemd</p>
+<p>Redhat_tidy::Module_blacklist</p>
 
-<p>Provides:  * <code>Exec['systemctl_daemon_reload']</code> to scan for
-changed units when puppet changes them (invoke via notify)  * Enforcement
-of <code>sulogin</code> for rescue/emegency mode (this is the OS default)</p>
+<p>Blacklist/disable kernel modules by breaking them in
+/etc/modeprobe.d/blacklist.conf</p>
 
   </div>
 </div>
@@ -89,20 +88,27 @@ of <code>sulogin</code> for rescue/emegency mode (this is the OS default)</p>
   
     <li>
       
-        <span class='name'>enforce_sulogin</span>
+        <span class='name'>disable_modules</span>
+      
+      
+        <span class='type'>(<tt>Array[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>blacklist_file</span>
       
       
         <span class='type'>(<tt>Any</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;/etc/modprobe.d/blacklist.conf&quot;</tt>)</em>
       
-      
-        &mdash;
-        <div class='inline'>
-<p><code>true</code> to ensure <code>sulogin</code> used, false to leave files
-unaltered</p>
-</div>
       
     </li>
   
@@ -116,6 +122,8 @@ unaltered</p>
         <pre class="lines">
 
 
+6
+7
 8
 9
 10
@@ -136,55 +144,33 @@ unaltered</p>
 25
 26
 27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40</pre>
+28</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/systemd.pp', line 8</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/module_disable.pp', line 6</span>
 
-class r_profile::linux::systemd(
-    $enforce_sulogin = false,
+class r_profile::linux::module_disable(
+    Array[String] $disable_modules = [],
+    $blacklist_file       = &quot;/etc/modprobe.d/blacklist.conf&quot;,
 ) {
 
-  # Provide a graph node that we can notify to get systemd to reload itself.
-  # If this is not a systemd controlled system, we simply run the true command
-  # instead so that we can exit with status 0
-  if $facts[&#39;systemd_active&#39;] {
-      $command = &quot;systemctl daemon-reload&quot;
-  } else {
-    $command = &quot;true&quot;
+  file { $blacklist_file:
+    ensure =&gt; file,
+    owner  =&gt; &quot;root&quot;,
+    group  =&gt; &quot;root&quot;,
+    mode   =&gt; &quot;0644&quot;,
   }
 
-  if $enforce_sulogin {
-    [
-      &quot;/usr/lib/systemd/system/rescue.service&quot;,
-      &quot;/usr/lib/systemd/system/emergency.service&quot;,
-    ].each |$unit| {
-      file_line { &quot;${unit} single_user_use_sulogin&quot;:
-        ensure =&gt; present,
-        path   =&gt; $unit,
-        match  =&gt; &#39;^ExecStart=&#39;,
-        line   =&gt; &#39;ExecStart=-/bin/sh -c &quot;/sbin/sulogin; /usr/bin/systemctl --fail --no-block default&#39;
-      }
+  $disable_modules.each |$disable_module| {
+
+    file_line { &quot;${blacklist_file} disable_${disable_module}&quot;:
+      ensure =&gt; present,
+      path   =&gt; $blacklist_file,
+      match  =&gt; &quot;^install ${disable_module}&quot;,
+      line   =&gt; &quot;install ${disable_module} /bin/true&quot;,
     }
   }
 
-  exec { &quot;systemctl_daemon_reload&quot;:
-    command     =&gt; $command,
-    refreshonly =&gt; true,
-    path        =&gt; &quot;/bin:/usr/bin:/usr/local/bin&quot;
-  }
 }</pre>
       </td>
     </tr>

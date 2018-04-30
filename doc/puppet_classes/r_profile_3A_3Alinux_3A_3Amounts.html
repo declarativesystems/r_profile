@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::linux::yum
+  Puppet Class: r_profile::linux::mounts
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::linux::yum";
+  pathId = "puppet_classes::r_profile::linux::mounts";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::linux::yum</span>
+    <span class="title">r_profile::linux::mounts</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::linux::yum</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::mounts</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/linux/yum.pp
+      manifests/linux/mounts.pp
     </dd>
   </dl>
 </div>
@@ -75,55 +75,14 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>Redhat_tidy::Permissions</p>
+<p>Redhat_tidy::Mounts</p>
 
-<p>Common yum settings for RedHat</p>
+<p>Common mount good practices for RedHat</p>
 
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
   
-    <li>
-      
-        <span class='name'>gpgcheck</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>&#39;1&#39;</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>1 to enable gpg checks otherwise false</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>protected_multilib</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>&#39;1&#39;</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>1 to protect against installing &#39;multilib&#39; libraries (Libraries
-from architectural variants)</p>
-</div>
-      
-    </li>
-  
-</ul>
-
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -132,6 +91,10 @@ from architectural variants)</p>
         <pre class="lines">
 
 
+4
+5
+6
+7
 8
 9
 10
@@ -149,30 +112,32 @@ from architectural variants)</p>
 22
 23
 24
-25
-26</pre>
+25</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/yum.pp', line 8</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/mounts.pp', line 4</span>
 
-class r_profile::linux::yum(
-  $gpgcheck           = &#39;1&#39;,
-  $protected_multilib = &#39;1&#39;,
-) {
-
-  file_line { &quot;yum.conf gpgcheck&quot;:
-    ensure =&gt; present,
-    line   =&gt; &quot;gpgcheck=${gpgcheck}&quot;,
-    match  =&gt; &quot;gpgcheck=&quot;,
-    path   =&gt; &quot;/etc/yum.conf&quot;,
+class r_profile::linux::mounts {
+  if dig($facts, &#39;mountpoints&#39;, &#39;/tmp&#39;) {
+    mount { &#39;/tmp&#39;:
+      ensure  =&gt; mounted,
+      atboot  =&gt; true,
+      options =&gt; &#39;nosuid,noexec&#39;,
+      device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/tmp&#39;][&#39;device&#39;],
+      fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/tmp&#39;][&#39;filesystem&#39;],
+    }
   }
 
-  file_line { &quot;yum.conf protected_multilib&quot;:
-    ensure =&gt; present,
-    line   =&gt; &quot;protected_multilib=${protected_multilib}&quot;,
-    match  =&gt; &quot;protected_multilib=&quot;,
-    path   =&gt; &quot;/etc/yum.conf&quot;,
+  if dig($facts, &#39;mountpoints&#39;, &#39;/dev/shm&#39;) {
+    mount { &#39;/dev/shm&#39;:
+      ensure  =&gt; mounted,
+      atboot  =&gt; true,
+      options =&gt; &#39;nodev,nosuid,noexec&#39;,
+      device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/dev/shm&#39;][&#39;device&#39;],
+      fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/dev/shm&#39;][&#39;filesystem&#39;],
+    }
   }
+
 }</pre>
       </td>
     </tr>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::linux::yum
+  Puppet Class: r_profile::linux::fix_sticky_permissions
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::linux::yum";
+  pathId = "puppet_classes::r_profile::linux::fix_sticky_permissions";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::linux::yum</span>
+    <span class="title">r_profile::linux::fix_sticky_permissions</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::linux::yum</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::fix_sticky_permissions</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/linux/yum.pp
+      manifests/linux/fix_sticky_permissions.pp
     </dd>
   </dl>
 </div>
@@ -75,55 +75,21 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>Redhat_tidy::Permissions</p>
+<p>Redhat_tidy::Fix_sticky_permissions</p>
 
-<p>Common yum settings for RedHat</p>
+<p>Perform a system-wide find across local filesystems for world-writable
+directories and make sure that they all have the sticky bit set so that
+only the owning UID can delete them</p>
+
+<p>WARNING! This class will perform a system-wide find every puppet run! On a
+modest VM with a 10gb filesystem, this takes approximately 30 seconds,
+however it may much longer if you are running on a system with lots of
+local disk available</p>
 
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
   
-    <li>
-      
-        <span class='name'>gpgcheck</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>&#39;1&#39;</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>1 to enable gpg checks otherwise false</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>protected_multilib</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>&#39;1&#39;</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>1 to protect against installing &#39;multilib&#39; libraries (Libraries
-from architectural variants)</p>
-</div>
-      
-    </li>
-  
-</ul>
-
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -132,9 +98,6 @@ from architectural variants)</p>
         <pre class="lines">
 
 
-8
-9
-10
 11
 12
 13
@@ -150,29 +113,34 @@ from architectural variants)</p>
 23
 24
 25
-26</pre>
+26
+27
+28
+29
+30</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/yum.pp', line 8</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/fix_sticky_permissions.pp', line 11</span>
 
-class r_profile::linux::yum(
-  $gpgcheck           = &#39;1&#39;,
-  $protected_multilib = &#39;1&#39;,
-) {
+class r_profile::linux::fix_sticky_permissions {
 
-  file_line { &quot;yum.conf gpgcheck&quot;:
-    ensure =&gt; present,
-    line   =&gt; &quot;gpgcheck=${gpgcheck}&quot;,
-    match  =&gt; &quot;gpgcheck=&quot;,
-    path   =&gt; &quot;/etc/yum.conf&quot;,
+  # basic find command used to find the sticky files.  DF is used to make sure
+  # we aren&#39;t descending remote filesystems
+  $find_cmd = &quot;df --local -P | awk {&#39;if (NR!=1) print \$6&#39;} | xargs -I &#39;{}&#39; \
+find &#39;{}&#39; -xdev  \\( -type d -a -perm -0002 -a ! -perm -1000 \\) &quot;
+
+  # detect whether the find command matched anything
+  $test_cmd = &quot;test \$(${find_cmd} | wc -l) -gt 0&quot;
+
+  # re-run the find command and perform the permission fix
+  $fix_cmd = &quot;${find_cmd} | xargs chmod a+t&quot;
+
+  exec { &quot;find_world_writable_and_make_sticky&quot;:
+    command =&gt; $fix_cmd,
+    onlyif  =&gt; $test_cmd,
+    path    =&gt; [&#39;/usr/bin&#39;, &#39;/bin&#39;]
   }
 
-  file_line { &quot;yum.conf protected_multilib&quot;:
-    ensure =&gt; present,
-    line   =&gt; &quot;protected_multilib=${protected_multilib}&quot;,
-    match  =&gt; &quot;protected_multilib=&quot;,
-    path   =&gt; &quot;/etc/yum.conf&quot;,
-  }
 }</pre>
       </td>
     </tr>

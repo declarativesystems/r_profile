@@ -5,6 +5,7 @@
 #
 # The forge module uses some locally gems for Vsphere library in order
 # to talk to the Vsphere Cloud.
+#
 class r_profile::cloud::vsphere(
   Optional[String]  $vsphere_host        = hiera('r_profile::cloud::vsphere::host', undef),
   Optional[String]  $vsphere_user        = hiera('r_profile::cloud::vsphere::user', undef),

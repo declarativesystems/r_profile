@@ -3,7 +3,10 @@
 # For more info on BATS see https://github.com/sstephenson/bats
 
 # Tests are really easy! just the exit status of running a command...
-@test "addition using bc" {
-  result="$(ls /)"
-  [ "$?" -eq 0 ]
+@test "selinux in testcase" {
+  grep 'selinux=' /etc/grub.conf
+}
+
+@test "audit=0 present" {
+  grep 'audit=0' /etc/grub.conf
 }

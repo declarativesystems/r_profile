@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::linux::systemd
+  Puppet Class: r_profile::linux::inittab
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::linux::systemd";
+  pathId = "puppet_classes::r_profile::linux::inittab";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::linux::systemd</span>
+    <span class="title">r_profile::linux::inittab</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::linux::systemd</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::inittab</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/linux/systemd.pp
+      manifests/linux/inittab.pp
     </dd>
   </dl>
 </div>
@@ -75,11 +75,9 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Linux::Systemd</p>
+<p>Redhat_tidy::Inittab</p>
 
-<p>Provides:  * <code>Exec['systemctl_daemon_reload']</code> to scan for
-changed units when puppet changes them (invoke via notify)  * Enforcement
-of <code>sulogin</code> for rescue/emegency mode (this is the OS default)</p>
+<p>Set the system supported runlevels</p>
 
   </div>
 </div>
@@ -89,19 +87,18 @@ of <code>sulogin</code> for rescue/emegency mode (this is the OS default)</p>
   
     <li>
       
-        <span class='name'>enforce_sulogin</span>
+        <span class='name'>runlevels</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;3&quot;</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p><code>true</code> to ensure <code>sulogin</code> used, false to leave files
-unaltered</p>
+<p>String containing allowed runlevels</p>
 </div>
       
     </li>
@@ -116,6 +113,8 @@ unaltered</p>
         <pre class="lines">
 
 
+6
+7
 8
 9
 10
@@ -123,68 +122,20 @@ unaltered</p>
 12
 13
 14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40</pre>
+15</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/systemd.pp', line 8</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/inittab.pp', line 6</span>
 
-class r_profile::linux::systemd(
-    $enforce_sulogin = false,
+class r_profile::linux::inittab(
+    String $runlevels = &quot;3&quot;,
 ) {
 
-  # Provide a graph node that we can notify to get systemd to reload itself.
-  # If this is not a systemd controlled system, we simply run the true command
-  # instead so that we can exit with status 0
-  if $facts[&#39;systemd_active&#39;] {
-      $command = &quot;systemctl daemon-reload&quot;
-  } else {
-    $command = &quot;true&quot;
+  augeas{&quot;inittab runlevel&quot;:
+    context =&gt; &quot;/files/etc/inittab&quot;,
+    changes =&gt; &quot;set /files/etc/inittab/id/runlevels 3&quot;,
   }
 
-  if $enforce_sulogin {
-    [
-      &quot;/usr/lib/systemd/system/rescue.service&quot;,
-      &quot;/usr/lib/systemd/system/emergency.service&quot;,
-    ].each |$unit| {
-      file_line { &quot;${unit} single_user_use_sulogin&quot;:
-        ensure =&gt; present,
-        path   =&gt; $unit,
-        match  =&gt; &#39;^ExecStart=&#39;,
-        line   =&gt; &#39;ExecStart=-/bin/sh -c &quot;/sbin/sulogin; /usr/bin/systemctl --fail --no-block default&#39;
-      }
-    }
-  }
-
-  exec { &quot;systemctl_daemon_reload&quot;:
-    command     =&gt; $command,
-    refreshonly =&gt; true,
-    path        =&gt; &quot;/bin:/usr/bin:/usr/local/bin&quot;
-  }
 }</pre>
       </td>
     </tr>
