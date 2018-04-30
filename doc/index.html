@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -65,17 +65,17 @@ src="https://travis-ci.org/declarativesystems/r_profile.svg?branch=master"></a><
 
 <h4 id="label-Table+of+Contents">Table of Contents</h4>
 <ol><li>
-<p><a href="#overview">Overview</a></p>
+<p><a href="#label-Overview">Overview</a></p>
 </li><li>
-<p><a href="#usage">Usage - Configuration options and additional
+<p><a href="#label-Usage">Usage - Configuration options and additional
 functionality</a></p>
 </li><li>
-<p><a href="#reference">Reference - An under-the-hood peek at what the module
+<p><a href="#label-Reference">Reference - An under-the-hood peek at what the module
 is doing and how</a></p>
 </li><li>
-<p><a href="#limitations">Limitations - OS compatibility, etc.</a></p>
+<p><a href="#label-Limitations">Limitations - OS compatibility, etc.</a></p>
 </li><li>
-<p><a href="#development">Development - Guide for contributing to the
+<p><a href="#label-Development">Development - Guide for contributing to the
 module</a></p>
 </li></ol>
 
@@ -100,10 +100,11 @@ syntax in order to pass the appropriate class defaults, eg:</p>
 <pre class="code ruby"><code class="ruby">class { &quot;foo:bar&quot;:
   param1 =&gt; &quot;value1&quot;,
   param2 =&gt; &quot;value2&quot;,
-}</code></pre>
+}
+</code></pre>
 
 <p>Parameters, where available, are documented inside the individual classes.
-See <a href="#reference">Reference section</a>.</p>
+See <a href="#label-Reference">Reference section</a>.</p>
 
 <h3 id="label-Hiera">Hiera</h3>
 
@@ -124,7 +125,8 @@ class r_profile::timezone(
   $zone = hiera(&quot;r_profile::timezone::zone&quot;, undef),
 ) {
   ...
-}</code></pre>
+}
+</code></pre>
 
 <p>This affords the following conveniences: * It&#39;s possible to assemble
 <code>r_profile</code> classes into <code>role</code> classes using the
@@ -146,11 +148,12 @@ you have concatenated the class and variable names with colons correctly</p>
 is as simple as ensuring that we have the following value set in Hiera and
 resolvable for the node we are interested in configuring:</p>
 
-<pre class="code ruby"><code class="ruby">r_profile::timezone::zone: &quot;America/Nassau&quot;</code></pre>
+<pre class="code ruby"><code class="ruby">r_profile::timezone::zone: &quot;America/Nassau&quot;
+</code></pre>
 
 <p>Each <code>r_profile</code> class parameter in classes intended for use are
 documented within the class it is defined in See <a
-href="#reference">Reference section</a> for more information.</p>
+href="#label-Reference">Reference section</a> for more information.</p>
 
 <h2 id="label-Reference">Reference</h2>
 

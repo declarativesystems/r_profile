@@ -26,7 +26,10 @@ describe 'r_profile::puppet::master' do
 
   context 'nagios_monitored creates correct resources' do
     let :pre_condition do
-      'include nagios'
+      '
+        service { "pe-puppetserver": }
+        include nagios
+      '
     end
     let :params do
       {

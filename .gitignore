@@ -6,3 +6,4 @@ Gemfile.lock
 Puppetfile.lock
 .DS_Store
 .yardoc
+.idea
