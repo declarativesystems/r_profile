@@ -1,6 +1,6 @@
 #@PDQTest
 class { "r_profile::linux::module_disable":
-  disable_modules => [
+  modules => [
     "foo",
     "bar",
     "baz",

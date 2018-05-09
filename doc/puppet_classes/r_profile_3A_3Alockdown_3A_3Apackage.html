@@ -82,7 +82,29 @@
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Hiera data</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::lockdown::package::delete:
+  - ypserv
+  - talk-server
+  - [&quot;Server with GUI&quot;, yum_group]</code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Declaration</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_lockdown'>lockdown</span><span class='op'>::</span><span class='id identifier rubyid_package'>package</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -90,7 +112,7 @@
         <span class='name'>delete</span>
       
       
-        <span class='type'>(<tt>Array[String]</tt>)</span>
+        <span class='type'>(<tt>Array[Variant[String, Array[String]]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>hiera(&quot;r_profile::lockdown::package::delete&quot;, [])</tt>)</em>
@@ -98,7 +120,9 @@
       
         &mdash;
         <div class='inline'>
-<p>List of packages to purge</p>
+<p>Array of packages to remove. If you need to specify a provider to remove a
+particular type of package (gem, egg, yum_group, etc.) then specify an
+array containing package name and provider (see example)</p>
 </div>
       
     </li>
@@ -113,22 +137,50 @@
         <pre class="lines">
 
 
-6
-7
-8
-9
-10
-11
-12</pre>
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/lockdown/package.pp', line 6</span>
+        <pre class="code"><span class="info file"># File 'manifests/lockdown/package.pp', line 16</span>
 
 class r_profile::lockdown::package(
-    Array[String] $delete = hiera(&quot;r_profile::lockdown::package::delete&quot;, [])
+    Array[Variant[String, Array[String]]] $delete = hiera(&quot;r_profile::lockdown::package::delete&quot;, [])
 ) {
-  package { $delete:
-    ensure =&gt; purged,
+
+  $delete.each |$element| {
+    # split each package into an array of [packagename, provider] or just [packagename] if no provide needed
+
+    # https://tickets.puppetlabs.com/browse/MODULES-6534
+    $package = Array($element, true)
+    if length($package) == 2 {
+      $provider = $package[1]
+    } else {
+      $provider = undef
+    }
+
+    package { $package[0]:
+      ensure   =&gt; purged,
+      provider =&gt; $provider
+    }
   }
 }</pre>
       </td>

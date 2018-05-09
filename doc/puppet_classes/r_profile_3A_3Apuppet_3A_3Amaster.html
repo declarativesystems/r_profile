@@ -147,16 +147,19 @@ lookups</p>
   
     <li>
       
-        <span class='name'>agent_ensuretoensurethemasteragentisstopped,</span>
+        <span class='name'>agent_ensure</span>
       
       
-        <span class='type'>(<tt>'stopped''running'</tt>)</span>
+        <span class='type'>(<tt>Enum['running', 'stopped']</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::agent_ensure&quot;, &#39;running&#39;)</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>&#39;running&#39; to ensure running</p>
+<p><code>stopped</code> to ensure the master&#39;s puppet agent is stopped,
+<code>running</code> to ensure running</p>
 </div>
       
     </li>
@@ -176,19 +179,6 @@ lookups</p>
         <div class='inline'>
 <p>true to start the master&#39;s puppet agent on boot, false to not start it</p>
 </div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>agent_ensure</span>
-      
-      
-        <span class='type'>(<tt>Enum['running', 'stopped']</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::agent_ensure&quot;, &#39;running&#39;)</tt>)</em>
-      
       
     </li>
   

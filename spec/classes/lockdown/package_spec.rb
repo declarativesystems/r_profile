@@ -12,7 +12,7 @@ describe 'r_profile::lockdown::package' do
     package_titles = ['abcd', 'efgh']
     let :params do
       {
-        :delete => ['abcd', 'efgh']
+        :delete => ['abcd', 'efgh', ['xyz', 'foo']]
       }
     end
     it { should contain_package(package_titles[0]).with(
@@ -24,6 +24,12 @@ describe 'r_profile::lockdown::package' do
       {
         :ensure => 'purged',
       }
+    )}
+    it { should contain_package('xyz').with(
+        {
+            :ensure   => 'purged',
+            :provider => 'foo',
+        }
     )}
   end
 end

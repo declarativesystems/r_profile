@@ -88,7 +88,7 @@
   
     <li>
       
-        <span class='name'>disable_modules</span>
+        <span class='name'>modules</span>
       
       
         <span class='type'>(<tt>Array[String]</tt>)</span>
@@ -150,7 +150,7 @@
         <pre class="code"><span class="info file"># File 'manifests/linux/module_disable.pp', line 6</span>
 
 class r_profile::linux::module_disable(
-    Array[String] $disable_modules = [],
+    Array[String] $modules = [],
     $blacklist_file       = &quot;/etc/modprobe.d/blacklist.conf&quot;,
 ) {
 
@@ -161,13 +161,13 @@ class r_profile::linux::module_disable(
     mode   =&gt; &quot;0644&quot;,
   }
 
-  $disable_modules.each |$disable_module| {
+  $modules.each |$module| {
 
-    file_line { &quot;${blacklist_file} disable_${disable_module}&quot;:
+    file_line { &quot;${blacklist_file} disable_${module}&quot;:
       ensure =&gt; present,
       path   =&gt; $blacklist_file,
-      match  =&gt; &quot;^install ${disable_module}&quot;,
-      line   =&gt; &quot;install ${disable_module} /bin/true&quot;,
+      match  =&gt; &quot;^install ${module}&quot;,
+      line   =&gt; &quot;install ${module} /bin/true&quot;,
     }
   }
 
