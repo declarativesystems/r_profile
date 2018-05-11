@@ -1,4 +1,4 @@
-# Redhat_tidy::Password_policy
+# R_profile::Linux::Password_policy
 #
 # Enforce aging settings:
 # * password max days
@@ -10,6 +10,10 @@
 # Pam:
 #   * Tell pam to remember old passwords to prevent reuse
 #   * Tell pam to enforce password quality
+#
+# Requires:
+#   * herculesteam-augeasproviders_pam
+#   * puppetlabs-stdlib
 #
 # @example Hiera data for password quality
 #     r_profile::linux::password_policy::password_quality:
@@ -36,12 +40,12 @@
 #   settings that apply on this system
 # @param $password_quality Hash of settings to enforce in /etc/security/pwquality.conf
 class r_profile::linux::password_policy(
-    String  $pass_max_days       = "90",
-    String  $pass_warn_age       = "7",
-    String  $password_algorithm  = "sha512",
-    String  $saved_passwords     = "4",
-    Boolean $manage_authconfig   = true,
-    Hash[String,Integer] $password_quality = {}
+    String                $pass_max_days      = "90",
+    String                $pass_warn_age      = "7",
+    String                $password_algorithm = "sha512",
+    String                $saved_passwords    = "4",
+    Boolean               $manage_authconfig  = true,
+    Hash[String,Integer]  $password_quality   = {}
 ) {
 
   if $manage_authconfig {
