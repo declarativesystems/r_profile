@@ -1,9 +1,31 @@
 # Redhat_tidy::Password_policy
 #
-# Enforce password quality settings
+# Enforce aging settings:
 # * password max days
 # * password warn age
-# * password algorithm
+#
+# Enforce password quality:
+#   * `/etc/security/pwquality.conf`
+#
+# Pam:
+#   * Tell pam to remember old passwords to prevent reuse
+#   * Tell pam to enforce password quality
+#
+# @example Hiera data for password quality
+#     r_profile::linux::password_policy::password_quality:
+#       minlen: 10
+#       dcredit: -1
+#       ucredit: -1
+#       ocredit: -1
+#       lcredit: -1
+#
+#  The key names map to the available directives in the file. In this case, password must:
+#   * be 10 characters or more
+#   * contain provide at least 1 digit
+#   * contain at least one uppercase character
+#   * contain at least one special character
+#   * contain at least one lowercase character
+#
 #
 # @param pass_max_days maximum age of a password
 # @param pass_warn_age how long to warn before password expires
@@ -12,12 +34,14 @@
 # @param manage_authconfig True to install `authconfig`, otherwise assume its
 #   already on the system. `authconfig` command is required inspect the password
 #   settings that apply on this system
+# @param $password_quality Hash of settings to enforce in /etc/security/pwquality.conf
 class r_profile::linux::password_policy(
     String  $pass_max_days       = "90",
     String  $pass_warn_age       = "7",
     String  $password_algorithm  = "sha512",
     String  $saved_passwords     = "4",
     Boolean $manage_authconfig   = true,
+    Hash[String,Integer] $password_quality = {}
 ) {
 
   if $manage_authconfig {
@@ -66,6 +90,18 @@ class r_profile::linux::password_policy(
     position  => 'before module pam_deny.so',
   }
 
+  # Make sure pam password quality still enabled (the default)
+  pam { "system-auth password pam_pwquality":
+    ensure    => present,
+    service   => 'system-auth',
+    type      => 'password',
+    control   => 'requisite',
+    module    => 'pam_pwquality.so',
+    arguments => ["try_first_pass", "local_users_only", "retry=3", "authtok_type="],
+    position  => 'before *[type="password" and module="pam_unix.so"]',
+  }
+
+
   # su access for members of wheel (uncomment existing rule in stock file), needs
   # different position for rhel 7 vs 6
   if $facts['os']['release']['major'] == "7" {
@@ -81,5 +117,14 @@ class r_profile::linux::password_policy(
     module    => 'pam_wheel.so',
     arguments => 'use_uid',
     position  => $condition,
+  }
+
+  $password_quality.each |$key,$value| {
+    file_line { "/etc/security/pwquality.conf ${key}":
+      ensure => present,
+      path   => "/etc/security/pwquality.conf",
+      match  => "^${key}",
+      line   => "${key}=${value}",
+    }
   }
 }
