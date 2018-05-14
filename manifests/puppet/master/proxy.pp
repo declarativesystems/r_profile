@@ -10,7 +10,7 @@ class r_profile::puppet::master::proxy(
   $proxy                  = hiera("r_profile::puppet::master::proxy::proxy", false),
 ) inherits r_profile::puppet::params {
 
-  $puppetconf             = $r_profile::puppet::params::puppetconf
+  $puppetconf             = "${::settings::confdir}/puppet.conf"
   $sysconf_puppetserver   = $r_profile::puppet::params::sysconf_puppetserver
 
   #

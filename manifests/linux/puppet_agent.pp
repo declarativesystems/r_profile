@@ -1,11 +1,14 @@
 # R_profile::Linux::Puppet_agen
 #
 # setup a puppet agent (currently just fixes proxy settings...)
+#
+# @param proxy `false` to skip configuration of a proxy server, otherwise the proxy server url, eg `http://proxy.megacorp.com:8080`
+# @param puppet_agent_service Name of the Puppet Agent service to manage
 class r_profile::linux::puppet_agent(
     $proxy                        = hiera("r_profile::puppet::proxy", false),
-    $sysconf_puppet               = $::r_profile::puppet::params::sysconf_puppet,
-    $export_variable              = $::r_profile::puppet::params::export_variable,
-    $puppet_agent_service         = $::r_profile::puppet::params::puppet_agent_service,
+    $sysconf_puppet               = $r_profile::puppet::params::sysconf_puppet,
+    $export_variable              = $r_profile::puppet::params::export_variable,
+    $puppet_agent_service         = "puppet",
 ) inherits r_profile::puppet::params {
 
   # Docker containers should not ordinarily run puppet

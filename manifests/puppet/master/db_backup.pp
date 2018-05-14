@@ -11,14 +11,14 @@
 # @param monthday Cron monthday to commence database dump
 # @param weekday Cron weekday to commence database dump
 class r_profile::puppet::master::db_backup(
-    $ensure   = hiera("r_profile::puppet::master::db_backup::ensure",   'present'),
-    $dir      = hiera("r_profile::puppet::master::db_backup::dir",      $r_profile::puppet::params::db_backup_dir),
-    $hour     = hiera("r_profile::puppet::master::db_backup::hour",     $r_profile::puppet::params::db_backup_hour),
-    $minute   = hiera("r_profile::puppet::master::db_backup::minute",   $r_profile::puppet::params::db_backup_minute),
-    $month    = hiera("r_profile::puppet::master::db_backup::month",    $r_profile::puppet::params::db_backup_month),
-    $monthday = hiera("r_profile::puppet::master::db_backup::monthday", $r_profile::puppet::params::db_backup_monthday),
-    $weekday  = hiera("r_profile::puppet::master::db_backup::weekday",  $r_profile::puppet::params::db_backup_weekday),
-) inherits r_profile::puppet::params {
+    Enum['present', 'absent'] $ensure   = hiera("r_profile::puppet::master::db_backup::ensure",   "present"),
+    String $dir      = hiera("r_profile::puppet::master::db_backup::dir",      "/tmp"),
+    String $hour     = hiera("r_profile::puppet::master::db_backup::hour",     "5"),
+    String $minute   = hiera("r_profile::puppet::master::db_backup::minute",   "0"),
+    String $month    = hiera("r_profile::puppet::master::db_backup::month",    "*"),
+    String $monthday = hiera("r_profile::puppet::master::db_backup::monthday", "*"),
+    String $weekday  = hiera("r_profile::puppet::master::db_backup::weekday",  "*"),
+) {
 
   cron { "pe_database_backups":
     ensure      => $ensure,

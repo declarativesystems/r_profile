@@ -40,7 +40,6 @@ describe 'r_profile::puppet::master' do
       should contain_class('r_profile::puppet::master')
       should contain_nagios__nagios_service_tcp('PE puppetserver')
       should contain_nagios__nagios_service_tcp('PE console')
-      should contain_nagios__nagios_service_tcp('PE MCollective')
       should contain_nagios__nagios_service_tcp('PE PCP/PXP')
     }
   end
@@ -53,7 +52,7 @@ describe 'r_profile::puppet::master' do
     end
     it {
       should contain_class('r_profile::puppet::master')
-      [8140, 61613, 443, 8142].each { | port |
+      [8140, 443, 8142].each { | port |
         should contain_firewall("100 puppet.demo.internal HTTP #{port}")
       }
     }
