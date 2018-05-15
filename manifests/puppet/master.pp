@@ -13,15 +13,9 @@ class r_profile::puppet::master (
     Boolean $nagios_monitored = hiera("r_profile::puppet::master::nagios_monitored", false),
     Enum['running', 'stopped'] $agent_ensure =
       hiera("r_profile::puppet::master::agent_ensure", 'running'),
-    Boolean $agent_enable = hiera("r_profile::puppet::master::agent_enable", true),
 ) inherits r_profile::puppet::params {
 
   $sysconf_puppetserver   = $r_profile::puppet::params::sysconf_puppetserver
-
-  service { "puppet":
-    ensure => $agent_ensure,
-    enable => $agent_enable,
-  }
 
   file { $sysconf_puppetserver:
     ensure => file,
