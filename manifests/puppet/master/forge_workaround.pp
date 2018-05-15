@@ -46,10 +46,6 @@ class r_profile::puppet::master::forge_workaround(
   $r10k_basedir     = $pe_r10k::r10k_basedir,
 ) inherits pe_r10k {
 
-  stage { 'forge_workaround':
-    before => Stage['main'],
-  }
-
   package { "e2fsprogs":
     ensure => present,
   }
@@ -58,7 +54,6 @@ class r_profile::puppet::master::forge_workaround(
     command => "chattr -i /etc/puppetlabs/r10k/r10k.yaml",
     onlyif  => "lsattr /etc/puppetlabs/r10k/r10k.yaml |grep -- ----i-----------",
     path    => "/bin",
-    stage   => forge_workaround,
   }
 
   # duplicated logic from pe_r10k::config
@@ -86,4 +81,6 @@ class r_profile::puppet::master::forge_workaround(
   File <| title == "r10k.yaml" |> {
     content => template('pe_r10k/r10k.yaml.erb'),
   }
+
+  Exec <| title ==  "remove immutable from r10k.yaml" |> -> File <| title =="r10k.yaml" |>
 }
