@@ -13,7 +13,14 @@
 #
 # `chattr`/`lsattr` are used to turn off the immutable bit which may have been set while configuring r10k on first boot
 # to allow the inital code deploy which would include this class. Puppet is not able to alter files that are marked
-# immutable
+# immutable. Due to resource collection, the metaparameters to order this statement don't work properly so a separate
+# stage just for this class is created below.
+#
+# A ticket against Puppet Enterprise to address this feature will be created, once fixed in-product, you will have no
+# further use for this class.
+#
+# Your suggested to add this class using the node classifier (API) until then. ncedit can do this for you in a single
+# command.
 #
 # @example hiera data
 #   r_profile::puppet::master::forge_workaround::forge_settings:
@@ -39,6 +46,10 @@ class r_profile::puppet::master::forge_workaround(
   $r10k_basedir     = $pe_r10k::r10k_basedir,
 ) inherits pe_r10k {
 
+  stage { 'forge_workaround':
+    before => Stage['main'],
+  }
+
   package { "e2fsprogs":
     ensure => present,
   }
@@ -47,7 +58,7 @@ class r_profile::puppet::master::forge_workaround(
     command => "chattr -i /etc/puppetlabs/r10k/r10k.yaml",
     onlyif  => "lsattr /etc/puppetlabs/r10k/r10k.yaml |grep -- ----i-----------",
     path    => "/bin",
-    before  => File["r10k.yaml"]
+    stage   => forge_workaround,
   }
 
   # duplicated logic from pe_r10k::config

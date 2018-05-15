@@ -1,6 +1,11 @@
 # R_profile::Linux::Sudo
 #
-# Configure sudo for linux
+# Configure sudo for linux. If the fact `vagrant` exists, then a rule will be added to prevent locking out the `vagrant`
+# user.
+#
+# @example creating the vagrant fact
+#   mkdir -p  /etc/puppetlabs/facter/facts.d
+#   echo vagrant=true > /etc/puppetlabs/facter/facts.d/vagrant.txt
 class r_profile::linux::sudo {
   class { 'sudo': }
 
