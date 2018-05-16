@@ -16,6 +16,7 @@ describe 'r_profile::puppet::master::proxy' do
       include r_profile::linux::systemd
       service { "pe-puppetserver": }
       include r_profile::puppet::master
+      include r_profile::linux::puppet_agent
     '
   end
   describe 'disables proxy when unset' do

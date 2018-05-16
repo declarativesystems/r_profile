@@ -6,17 +6,14 @@
 #   * `policy` Policy based autosigning @see http://www.geoffwilliams.me.uk/Puppet/policy_based_autosigning
 #   * `accept_all` Automatically sign all certificate requests (not recommended for production use)
 #   * `absent` Disable all varieties of automatic certificate signing
-# @param template Template to use as a script to validate certificate requests
-#   when using policy based autosigning.  The default script allows new CSRs to
-#   be compared against a shared secret, set in the seperate `secret` parameter.
-#   In many cases, this is all thats required, however by supplying your own
-#   script, your able to do exotic checks such as validation against the AWS API
+# @param script_content If you would like to pass in your own script, pass a string of the content here or leave blank
+#   to use the built-in shared secret comparison
 # @param secret Shared secret to use when configuring policy based autosigning
 #   and using the built-in template as the validation script
 class r_profile::puppet::master::autosign(
     Enum['policy', 'absent', 'accept_all'] $ensure =
       hiera('r_profile::puppet::master::autosign::ensure', 'absent'),
-    $template = hiera('r_profile::puppet::master::autosign::template', "${module_name}/autosign.sh.erb"),
+    $script_content = hiera('r_profile::puppet::master::autosign::script_content', false),
     $secret   = hiera('r_profile::puppet::master::autosign::secret',undef),
 ) {
 
@@ -58,11 +55,22 @@ class r_profile::puppet::master::autosign(
   }
 
   # the autosigning script
+  if $script_content {
+    $_script_content = $script_content
+  } else {
+    if $secret {
+      $_script_content = epp("${module_name}/autosign.sh.epp", {secret=>$secret})
+    } else {
+      warning("no secret passed for autosigning - autosigning will not be not functional")
+      $_script_content = ""
+    }
+  }
+
   file { $autosign_script:
     ensure  => present,
     owner   => "root",
     group   => "pe-puppet",
     mode    => "0770",
-    content => template($template),
+    content => $_script_content,
   }
 }

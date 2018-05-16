@@ -7,7 +7,16 @@ class r_profile::puppet::master::agent_installers(
     $install      = hiera('r_profile::puppet::master::agent_installers::install', true),
 ){
 
-  class { 'psquared::agent_installers':
-    install            => $install,
+
+  # prevent timeout errors
+  Pe_staging::File {
+    timeout => 1800, # 30 mins
+  }
+
+  if $install {
+    $platform_classes = r_profile::list_agent_platforms()
+    $platform_classes.each |$platform_class| {
+      include $platform_class
+    }
   }
 }

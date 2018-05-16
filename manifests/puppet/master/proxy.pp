@@ -1,9 +1,14 @@
 # R_profile::Puppet::Proxy
 #
-# Enable a Puppet Enterprise Master to work with a proxy server.
+# Enable a Puppet Enterprise Master (not master's agent!) to work with a proxy server.
+# To configure the master's agent for proxy support, include `r_profile::linux::puppet_agent`
 #
 # If using this class you must also declare r_profile::puppet::master in order
 # to manage and notify Service['puppet']
+#
+# You must include the appropriate puppet agent class when using this one:
+#   * include r_profile::linux::puppet_agent
+#   * include r_profile::windows::puppet_agent
 #
 # @param proxy proxy server to use in the form http://user@pass:proxyhost:proxyport or false to not use a proxy server
 class r_profile::puppet::master::proxy(
@@ -81,21 +86,6 @@ class r_profile::puppet::master::proxy(
     line   => $https_proxy_var,
     match  => "https_proxy=",
     notify => Service['pe-puppetserver'],
-  }
-
-  # Enable puppet master's puppet *agent* to work with proxy
-  file_line { "puppet agent http_proxy":
-    path   => $sysconf_puppet,
-    line   => $http_proxy_var,
-    match  => "http_proxy=",
-    notify => Service['puppet'],
-  }
-
-  file_line { "puppet agent https_proxy":
-    path   => $sysconf_puppet,
-    line   => $https_proxy_var,
-    match  => "https_proxy=",
-    notify => Service['puppet'],
   }
 
   # configure gem to work with system proxy - needed if using package{}

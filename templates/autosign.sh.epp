@@ -1,6 +1,7 @@
+<%- | String $secret | -%>
 #!/bin/bash
 # define the shared secret we will accept to authenticate identity
-SHARED_SECRET="<%= @secret %>"
+SHARED_SECRET="<%= $secret %>"
 
 # capture the certname (hostname) used for the request
 CERT_NAME=$1
