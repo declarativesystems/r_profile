@@ -71,7 +71,7 @@ class r_profile::puppet::master::hiera_eyaml(
       command => 'eyaml createkeys',
       path    => ['/opt/puppetlabs/puppet/bin', '/usr/bin', '/usr/local/bin'],
       creates => "${keysdir}/private_key.pkcs7.pem",
-      require => File[$keysdir],
+      require => [File[$keysdir],  Package["vendored ruby eyaml"], Package["vendored jruby eyaml"]],
     }
 
     file { "${keysdir}/private_key.pkcs7.pem":
