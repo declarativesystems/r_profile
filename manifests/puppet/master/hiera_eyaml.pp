@@ -1,24 +1,8 @@
 # R_profile::Puppet::Master::Hiera_eyaml
 #
-# Configure hiera-eyaml
-#
-# Note that mangement of `hiera.yaml` files with puppet is no longer recommended
-# since hiera v5 encourages users to write a seperate file for each branch of the
-# control repository
-#
-# Once this has run on the puppet master with `create_keys` set true, you will
-# need to add something along the lines of:
-#
-# ```yaml
-# hierarchy:
-#   - name: "Per-datacenter secret data (encrypted)"
-#     lookup_key: eyaml_lookup_key
-#     path: "secrets/%{facts.whereami}.eyaml"
-#     options:
-#       pkcs7_private_key: /etc/puppetlabs/puppet/keys/private_key.pkcs7.pem
-#       pkcs7_public_key:  /etc/puppetlabs/puppet/keys/public_key.pkcs7.pem
-# ```
-# To your `hiera.yaml` file for each environment.
+# Configure hiera-eyaml by generating the encryption keys. Current versions of
+# Puppet Enterprise ~2018x ship a vendored eyaml gem so installation is not
+# normally needed anymore.
 #
 # If you want more then one keypair per server, you should set create_keys false
 # and make your own arrangements
@@ -69,7 +53,7 @@ class r_profile::puppet::master::hiera_eyaml(
       user    => 'pe-puppet',
       cwd     => $::settings::confdir,
       command => 'eyaml createkeys',
-      path    => ['/opt/puppetlabs/puppet/bin', '/usr/bin', '/usr/local/bin'],
+      path    => ['/opt/puppetlabs/puppet/bin', '/usr/bin', '/usr/local/bin', '/opt/puppetlabs/puppet/lib/ruby/vendor_gems/bin'],
       creates => "${keysdir}/private_key.pkcs7.pem",
       require => [File[$keysdir],  Package["vendored ruby eyaml"], Package["vendored jruby eyaml"]],
     }
