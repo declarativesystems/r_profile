@@ -12,7 +12,9 @@ describe 'r_profile::user' do
     let :params do
       {
         :users => {
-          "bob" => {},
+          "bob" => {
+              "authorized_keys" => "XXX",
+          },
         }
       }
     end
