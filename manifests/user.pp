@@ -52,6 +52,7 @@ class r_profile::user(
     if has_key($opts, 'authorized_keys') and $facts['kernel'] != 'windows' {
       sshkeys::manual { $user:
         home            => $home,
+        group           => pick($opts['gid'], $user),
         authorized_keys => $opts['authorized_keys'],
       }
     }
