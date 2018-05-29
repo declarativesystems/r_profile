@@ -1,4 +1,4 @@
-# Redhat_tidy::Mounts
+# r_profile::linux::Mounts
 #
 # Common mount good practices for RedHat:
 #   * `/tmp` mounted `nodev,nosuid,noexec` (if separate partition)

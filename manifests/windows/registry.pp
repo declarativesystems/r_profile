@@ -28,7 +28,7 @@ class r_profile::windows::registry(
     Hash[String, Optional[Hash]] $registry_value      = {},
 ) {
 
-  merge($base_registry_key, $registry_key).each |$key, $value| {
+  merge($base_registry_key, $registry_key).each |$key, $opts| {
     registry_key {
       default:
         ensure => present,
@@ -38,7 +38,7 @@ class r_profile::windows::registry(
     }
   }
 
-  merge($base_registry_value, $base_registry_value).each |$key, $value| {
+  merge($base_registry_value, $base_registry_value).each |$key, $opts| {
     registry_value {
       default:
         ensure => present,

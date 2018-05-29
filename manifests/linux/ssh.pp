@@ -1,15 +1,18 @@
 # R_profile::Linux::Ssh
 #
-# SSH support on linux using declarativesystems-ssh
-class r_profile::linux::ssh() {
+# SSH support on linux
+# @see https://forge.puppet.com/geoffwilliams/ssh
+#
+# @example hiera data
+#   r_profile::linux::ssh::settings:
+#     permit_root_login: no
+#     banner: /etc/banner
+#
+# @param settings Hash of all settings to pass through to the SSH module. See above link for details
+class r_profile::linux::ssh(
+  Hash[String, Optional[Varient[String, Hash]]] $settings = {},
+) {
   class { "ssh":
-    permit_root_login => "no",
-    banner            => "/etc/ssh/ssh-banner",
-    extra_config      => {
-      "GSSAPICleanupCredentials" => {
-        "value" =>"yes",
-      },
-      # "Motd"
-    }
+    * => $settings,
   }
 }

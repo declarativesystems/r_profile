@@ -4,14 +4,17 @@
 #
 # @param enable List of services to start and enable
 class r_profile::service(
-    Array[String] $enable = [],
+    Array[String] $services = [],
 ) {
 
+  $services.each |$key, $opts| {
+    service {
+      default:
+        ensure => present,
+      ;
 
-  $enable.each |$service| {
-    service { $service:
-      ensure => running,
-      enable => true,
+      $key:
+        * => $opts,
     }
   }
 }
