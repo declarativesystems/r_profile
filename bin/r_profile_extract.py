@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import argparse
+import argcomplete
 import os
 import sys
 import re
@@ -11,6 +12,7 @@ parser.add_argument("-e", "--export-to", help="name of module to extract to", de
 parser.add_argument("-x", "--extract", help="path to file to extract", required=True)
 parser.add_argument("-d", "--directory", help="*module* dir to write classes to, eg ~/puppet-control/site/profile")
 
+argcomplete.autocomplete(parser)
 args = vars(parser.parse_args())
 
 extract = args["extract"]
