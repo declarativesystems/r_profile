@@ -28,7 +28,7 @@
     {"name":"puppetlabs-puppetserver_gem", "version_requirement":"1.0.0"},
     {"name":"puppetlabs-mysql", "version_requirement":"5.3.0"},
     {"name":"puppetlabs-haproxy", "version_requirement":"2.1.0"},
-    /*{"name":"rtyler-jenkins", "version_requirement":"1.7.0"},*/
+    {"name":"rtyler-jenkins", "version_requirement":"1.7.0"},
     {"name":"puppetlabs-java", "version_requirement":"2.4.0"},
     {"name":"puppet-virtualbox", "version_requirement":"2.1.0"},
     {"name":"puppetlabs-reboot", "version_requirement":"2.0.0"},
@@ -55,7 +55,20 @@
     {"name":"puppetlabs-registry","version_requirement":"2.0.1"},
     {"name":"sathieu-winhttp_proxy","version_requirement":"0.2.0"},
     {"name":"puppet-windows_firewall","version_requirement":"2.0.0"},
-    {"name":"puppet-windows_env", "version_requirement":"3.1.0"}
+    {"name":"puppet-windows_env", "version_requirement":"3.1.0"},
+    {"name":"puppetlabs-concat", "version_requirement": "4.2.1"},
+    {"name":"puppet-archive", "version_requirement":"3.0.0"},
+    {"name":"puppetlabs-apt", "version_requirement":"4.5.1"},
+    {"name":"crayfishx-firewalld", "version_requirement":"3.4.0"},
+    {"name":"herculesteam-augeasproviders_shellvar", "version_requirement":"3.0.0"},
+    {"name":"puppetlabs-powershell", "version_requirement":"2.1.5"},
+    {"name":"herculesteam-augeasproviders_pam", "version_requirement":"2.1.1"},
+    {"name":"geoffwilliams-ssh", "version_requirement":"1.0.0"},
+    {"name":"geoffwilliams-filemagic", "version_requirement":"0.4.0"},
+    {"name":"herculesteam-augeasproviders_core", "version_requirement":"2.1.4"},
+    {"name":"liamjbennett-win_facts", "version_requirement": "0.0.2"},
+    {"name":"herculesteam-augeasproviders_ssh", "version_requirement": "2.5.3"},
+    {"name":"stahnma-epel", "version_requirement": "1.3.0"}
   ],
   "operatingsystem_support": [
     {

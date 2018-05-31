@@ -75,19 +75,17 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Linux::Sysctl</p>
+<p>Profile::Linux::Sysctl</p>
 
 <p>Control sysctl values (kernel tuning) on Linux. Not to be confused with
-systemctl (services).</p>
-
-<p>Settings will take place immediately when puppet is run and will also be
-persisted /etc/sysctl.d to survive across reboots. There is no support in
-this class for removing entries that have previously been set since the
-previous setting is unknowable. If restoring a previously tuned parameter
-to its default is required, the manual restoration steps on each agent are:
-1. Remove the setting from the passed in $settings list (hiera data) 2.
-Remove the corresponding file under /etc/sysctl.d on the agent node 3.
-Reboot…</p>
+systemctl (services). Settings will take place immediately when puppet is
+run and will also be persisted /etc/sysctl.d to survive across reboots.
+There is no support in this class for removing entries that have previously
+been set since the previous setting is unknowable. If restoring a
+previously tuned parameter to its default is required, the manual
+restoration steps on each agent are: 1. Remove the setting from the passed
+in $settings list (hiera data) 2. Remove the corresponding file under
+/etc/sysctl.d on the agent node 3. Reboot…</p>
 
 <p>Alternatively, set the $purge option to true and now puppet will remove
 unmanaged files under /etc/sysctl.d for us. The process now looks like
@@ -97,18 +95,27 @@ this: 1. Remove the setting from the passed in $settings list (hiera data)
 <p>Settings to enforce should be passed as a hash via the settings parameter,
 eg</p>
 
-<p>Hiera:  r_profile::linux::sysctl::settings: 
-net.ipv4.conf.all.accept_redirects: 0  net.ipv4.tcp_syncookies: 1</p>
-
 <p>Puppet code:  {  &#39;net.ipv4.conf.all.accept_redirects&#39; =&gt; 0, 
 &#39;net.ipv4.tcp_syncookies&#39; =&gt; 1  }</p>
-
-<p>Requires: thias/puppet-sysctl</p>
 
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>hiera data</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::linux::sysctl::settings:
+  net.ipv4.conf.all.accept_redirects: 0
+  net.ipv4.tcp_syncookies: 1</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -119,7 +126,7 @@ net.ipv4.conf.all.accept_redirects: 0  net.ipv4.tcp_syncookies: 1</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::linux::sysctl::purge&#39;, false)</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -137,7 +144,7 @@ net.ipv4.conf.all.accept_redirects: 0  net.ipv4.tcp_syncookies: 1</p>
         <span class='type'>(<tt>Hash[String, Any]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::linux::sysctl::settings&#39;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
@@ -150,6 +157,13 @@ net.ipv4.conf.all.accept_redirects: 0  net.ipv4.tcp_syncookies: 1</p>
 </ul>
 
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/geoffwilliams/sysctl" target="_parent" title="https://forge.puppet.com/geoffwilliams/sysctl">https://forge.puppet.com/geoffwilliams/sysctl</a></li>
+    
+  </ul>
+
 </div><div class="method_details_list">
   <table class="source_code">
     <tr>
@@ -157,6 +171,7 @@ net.ipv4.conf.all.accept_redirects: 0  net.ipv4.tcp_syncookies: 1</p>
         <pre class="lines">
 
 
+36
 37
 38
 39
@@ -171,38 +186,25 @@ net.ipv4.conf.all.accept_redirects: 0  net.ipv4.tcp_syncookies: 1</p>
 48
 49
 50
-51
-52
-53
-54
-55
-56
-57
-58</pre>
+51</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/sysctl.pp', line 37</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/sysctl.pp', line 36</span>
 
 class r_profile::linux::sysctl(
-    Boolean $purge              = hiera(&#39;r_profile::linux::sysctl::purge&#39;, false),
-    Hash[String, Any] $settings = hiera(&#39;r_profile::linux::sysctl::settings&#39;, {})
+    Boolean           $purge              = false,
+    Hash[String, Any] $settings = {},
 ){
 
   # enable purging to work, if selected
-  class { &quot;sysctl::base&quot;:
+  resources { &quot;sysctl&quot;:
     purge =&gt; $purge,
   }
 
-  $settings.each |$key, $value| {
+  $settings.each |$key, $opts| {
     sysctl { $key:
-      value  =&gt; $value,
-      notify =&gt; Exec[&quot;flush_routing_tables&quot;],
+      * =&gt; pick($opts,{}),
     }
-  }
-
-  exec { &quot;flush_routing_tables&quot;:
-    command     =&gt; &quot;/sbin/sysctl -w net.ipv4.route.flush=1&quot;,
-    refreshonly =&gt; true,
   }
 }</pre>
       </td>

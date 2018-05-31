@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::virtual::virtual_box
+  Puppet Class: r_profile::linux::ssh
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::virtual::virtual_box";
+  pathId = "puppet_classes::r_profile::linux::ssh";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::virtual::virtual_box</span>
+    <span class="title">r_profile::linux::ssh</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::virtual::virtual_box</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::ssh</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/virtual/virtual_box.pp
+      manifests/linux/ssh.pp
     </dd>
   </dl>
 </div>
@@ -75,30 +75,45 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Virtual::Virtual_box</p>
+<p>R_profile::Linux::Ssh</p>
 
-<p>Install Oracle VirtualBox using the voxpupuli virtualbox module.</p>
+<p>SSH support on linux</p>
 
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>hiera data</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::linux::ssh::settings:
+  permit_root_login: no
+  banner: /etc/banner</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
       
-        <span class='name'>version</span>
+        <span class='name'>settings</span>
       
       
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Optional[Variant[String, Hash]]]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>undef</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Version to install, installs latest if unspecified</p>
+<p>Hash of all settings to pass through to the SSH module. See above link for
+details</p>
 </div>
       
     </li>
@@ -109,7 +124,7 @@
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><a href="https://forge.puppet.com/puppet/virtualbox" target="_parent" title="https://forge.puppet.com/puppet/virtualbox">https://forge.puppet.com/puppet/virtualbox</a></li>
+      <li><a href="https://forge.puppet.com/geoffwilliams/ssh" target="_parent" title="https://forge.puppet.com/geoffwilliams/ssh">https://forge.puppet.com/geoffwilliams/ssh</a></li>
     
   </ul>
 
@@ -120,28 +135,22 @@
         <pre class="lines">
 
 
-7
-8
-9
-10
-11
 12
 13
 14
 15
-16</pre>
+16
+17
+18</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/virtual/virtual_box.pp', line 7</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/ssh.pp', line 12</span>
 
-class r_profile::virtual::virtual_box(
-  Optional[String] $version = undef,
+class r_profile::linux::ssh(
+  Hash[String, Optional[Variant[String, Hash]]] $settings = {},
 ) {
-
-  include r_profile::linux::kernel_devel
-
-  class { &quot;virtualbox&quot;:
-    version =&gt; $version,
+  class { &quot;ssh&quot;:
+    * =&gt; $settings,
   }
 }</pre>
       </td>

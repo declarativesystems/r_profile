@@ -1,43 +1,40 @@
 require 'spec_helper'
-
+require 'puppet_factset'
 describe 'r_profile::linux::sysctl' do
-
-  let(:facts) do
-    {
-      :kernel                     => "Linux",
-      :osfamily                   => "RedHat",
-      :operatingsystemmajrelease  => '7',
-    }
+  # Uncomment only the factset you would like to use for these tests
+  # system_name = 'AIX-6.1-powerpc'
+  # system_name = 'AIX-7.1-powerpc'
+  # system_name = 'CentOS-5.11-32'
+  # system_name = 'CentOS-5.11-64'
+  # system_name = 'CentOS-6.6-32'
+  # system_name = 'CentOS-6.6-64'
+  system_name = 'CentOS-7.0-64'
+  # system_name = 'CentOS-7.3-64'
+  # system_name = 'Debian-6.0.10-32'
+  # system_name = 'Debian-6.0.10-64'
+  # system_name = 'Debian-7.8-32'
+  # system_name = 'Debian-7.8-64'
+  # system_name = 'Debian-8.7-64'
+  # system_name = 'SLES-11.3-64'
+  # system_name = 'SLES-12.1-64'
+  # system_name = 'Ubuntu-12.04-32'
+  # system_name = 'Ubuntu-12.04-64'
+  # system_name = 'Ubuntu-14.04-32'
+  # system_name = 'Ubuntu-14.04-64'
+  # system_name = 'Ubuntu-16.04-64'
+  # system_name = 'Windows_Server-2008r2-64'
+  # system_name = 'Windows_Server-2012r2-64'
+  # system_name = 'solaris-10_u9-sparc-64'
+  # system_name = 'solaris-11.2-sparc-64'
+  let :facts do
+    PuppetFactset::factset_hash(system_name)
   end
 
-  context "catalog compiles" do
-    it { should compile}
+  context 'compiles ok' do
+    it { should compile }
   end
 
   context 'with default values for all parameters' do
     it { should contain_class('r_profile::linux::sysctl') }
-  end
-
-  context 'delegates sysctl entries correctly' do
-    settings = {
-      'net.ipv4.conf.all.accept_redirects' => 0,
-      'net.ipv4.tcp_syncookies'            => 1
-    }
-    let :params do
-      {
-        :settings => settings
-      }
-    end
-    # fragment file created
-    it { should contain_file('/etc/sysctl.d/net.ipv4.conf.all.accept_redirects.conf').with({
-      :content  => "net.ipv4.conf.all.accept_redirects = 0\n",
-      :owner    => 'root',
-      :mode     => '0644'
-    }).that_notifies('Exec[sysctl-net.ipv4.conf.all.accept_redirects]')}
-    it { should contain_file('/etc/sysctl.d/net.ipv4.tcp_syncookies.conf').with({
-      :content  => "net.ipv4.tcp_syncookies = 1\n",
-      :owner    => 'root',
-      :mode     => '0644'
-    }).that_notifies('Exec[sysctl-net.ipv4.tcp_syncookies]')}
   end
 end

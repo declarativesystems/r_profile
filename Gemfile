@@ -5,7 +5,7 @@ when /darwin/
 end
 gem 'puppet', '5.3.5'
 gem 'facter', '2.5.1'
-gem 'pdqtest', '1.1.0'
+gem 'pdqtest', '1.2.0'
 gem 'puppet-strings', :git => 'https://github.com/puppetlabs/puppet-strings'
 gem 'metadatajson2puppetfile', '0.1.2'
 gem 'vagrantomatic', '0.3.3'

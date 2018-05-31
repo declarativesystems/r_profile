@@ -1,4 +1,4 @@
-# Profile::Linux::Firewalld
+# R_Profile::Linux::Firewalld
 #
 # Manage firewalld using crayfishx-firewalld. Accepts base plus additional
 # options for each set of rule resources being managed for easy managment
@@ -16,7 +16,7 @@
 #   as a hash of options
 # @param base_firewalld_rich_rule additional `firewalld_rich_rule` rules
 #   as a hash of options
-class profile::linux::firewalld(
+class r_profile::linux::firewalld(
   Boolean     $enable                   = true,
   Array[Hash] $base_firewalld_service   = [],
   Array[Hash] $firewalld_service        = [],

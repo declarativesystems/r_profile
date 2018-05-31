@@ -161,7 +161,7 @@ class r_profile::linux::systemd(
   # If this is not a systemd controlled system, we simply run the true command
   # instead so that we can exit with status 0
   if $facts[&#39;systemd_active&#39;] {
-      $command = &quot;systemctl daemon-reload&quot;
+    $command = &quot;systemctl daemon-reload&quot;
   } else {
     $command = &quot;true&quot;
   }

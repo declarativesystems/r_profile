@@ -27,7 +27,11 @@ describe 'r_profile::windows::firewall' do
   # system_name = 'solaris-10_u9-sparc-64'
   # system_name = 'solaris-11.2-sparc-64'
   let :facts do
-    PuppetFactset::factset_hash(system_name)
+    PuppetFactset::factset_hash(system_name).merge({
+        :operatingsystemversion => "Windows Server 2008 R2",
+        :windows_productkey     => "DEADBEEF",
+        :windows_sid            => "x64",
+    })
   end
 
   context 'compiles ok' do

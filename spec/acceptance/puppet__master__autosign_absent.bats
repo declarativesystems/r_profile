@@ -2,10 +2,6 @@
     ! ls /usr/local/bin/puppet_enterprise_autosign.sh
 }
 
-@test "autosign script disabled" {
-    ! grep autosign /etc/puppetlabs/puppet.conf
-}
-
-@test "autosign.conf removed" {
-    ! ls /etc/puppetlabs/autosign.conf
+@test "autosigning disabled" {
+    grep "autosign = false" /etc/puppetlabs/puppet/puppet.conf
 }

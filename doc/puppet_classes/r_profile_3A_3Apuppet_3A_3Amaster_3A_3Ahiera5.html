@@ -79,7 +79,12 @@
 
 <p>Enable support for Hiera v5 system-wide by copying-in a golden
 <code>hiera.yaml</code> file and restarting puppet. Individual environments
-can then specify the hiera hierarchy they want to use as required</p>
+can then specify the hiera hierarchy they want to use as required.</p>
+
+<p>The inserted file defines a global hierarchy file for use by puppet at
+<code>/etc/puppetlabs/puppet_enterprise.yaml</code>. This is a file NOT
+managed by git and is for putting settings to re-configure puppet
+enterprise without using git, as directed by support/documentation</p>
 
   </div>
 </div>
@@ -93,19 +98,26 @@ can then specify the hiera hierarchy they want to use as required</p>
         <pre class="lines">
 
 
-7
-8
-9
-10
-11
 12
 13
 14
 15
-16</pre>
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera5.pp', line 7</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera5.pp', line 12</span>
 
 class r_profile::puppet::master::hiera5 {
   file { &quot;/etc/puppetlabs/puppet/hiera.yaml&quot;:
@@ -115,6 +127,13 @@ class r_profile::puppet::master::hiera5 {
     mode   =&gt; &quot;0644&quot;,
     source =&gt; &quot;puppet:///modules/${module_name}/hiera.yaml&quot;,
     notify =&gt; Service[&quot;pe-puppetserver&quot;],
+  }
+
+  file { &quot;/etc/puppetlabs/puppet_enterprise.yaml&quot;:
+    ensure =&gt; file,
+    owner  =&gt; &quot;root&quot;,
+    group  =&gt; &quot;root&quot;,
+    mode   =&gt; &quot;0644&quot;,
   }
 }</pre>
       </td>

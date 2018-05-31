@@ -78,9 +78,13 @@
 <p>R_profile::Timezone</p>
 
 <p>Select the active system timezone (requires reboot). Currently supports
-Linux, Solaris and AIX. Timezone names need to match the Olsen names
-available on the current system. On Linux, these are normally found under
-<code>/usr/share/zoneinfo</code></p>
+Linux, Solaris, AIX and Windows. Timezone names for linux need to match the
+Olsen names available on the current system. On Linux, these are normally
+found under <code>/usr/share/zoneinfo</code>. On Windows the timezone needs
+to match a name from <code>tzutil -l</code></p>
+
+<p>Modules required:  * geoffwilliams-windows_timezone  *
+geoffwilliams-timezone</p>
 
   </div>
 </div>
@@ -123,24 +127,36 @@ available on the current system. On Linux, these are normally found under
         <pre class="lines">
 
 
-9
-10
-11
-12
-13
-14
 15
-16</pre>
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/timezone.pp', line 9</span>
+        <pre class="code"><span class="info file"># File 'manifests/timezone.pp', line 15</span>
 
 class r_profile::timezone(
   $zone = hiera(&quot;r_profile::timezone::zone&quot;, undef),
 ) {
 
-  class { &quot;timezone&quot;:
-    zone =&gt; $zone,
+  if $facts[&#39;kernel&#39;] == &#39;windows&#39; {
+    class { &quot;windows_timezone&quot;:
+      tz =&gt; $zone,
+    }
+  } else {
+    class { &quot;timezone&quot;:
+      zone =&gt; $zone,
+    }
   }
 }</pre>
       </td>

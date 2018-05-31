@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::motd
+  Puppet Class: r_profile::windows::proxy
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::motd";
+  pathId = "puppet_classes::r_profile::windows::proxy";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::motd</span>
+    <span class="title">r_profile::windows::proxy</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::motd</h1>
+      <div id="content"><h1>Puppet Class: r_profile::windows::proxy</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/motd.pp
+      manifests/windows/proxy.pp
     </dd>
   </dl>
 </div>
@@ -75,9 +75,9 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Motd</p>
+<p>R_profile::Windows::Proxy</p>
 
-<p>Simple MOTD support for POSIX and Windows.</p>
+<p>Set the windows system proxy using netsh</p>
 
   </div>
 </div>
@@ -88,36 +88,18 @@
     
       
         <p class="example_title"><div class='inline'>
-<p>Hiera data for /etc/motd (message once logged in)</p>
+<p>hiera data enabling proxy</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::motd::content: |
-  %{facts.fqdn}
-  ===================================================================
-  This box is managed by Puppet Enterprise and is a cowboy free zone!
-
-_results in_
-
-pe-puppet.localdomain
-===================================================================
-This box is managed by Puppet Enterprise and is a cowboy free zone!</code></pre>
+      <pre class="example code"><code>r_profile::windows::proxy::proxy_server: &#39;http=proxy.example.com;https=proxy.example.org&#39;
+r_profile::windows::proxy::exclusion: &#39;&lt;local&gt;;*.example.org;*.example.com&#39;</code></pre>
     
       
         <p class="example_title"><div class='inline'>
-<p>Hiera data for /etc/issue (pre-login message)</p>
+<p>turning off proxy server</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::motd::issue: |
-  ...</code></pre>
-    
-      
-        <p class="example_title"><div class='inline'>
-<p>Hiera data for /etc/issue.net (pre-login message for telnet and other
-nominated services)</p>
-</div></p>
-      
-      <pre class="example code"><code>r_profile::motd::issue.net: |
-  ...</code></pre>
+      <pre class="example code"><code>r_profile::windows::proxy::ensure: absent</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -125,25 +107,26 @@ nominated services)</p>
   
     <li>
       
-        <span class='name'>content</span>
+        <span class='name'>ensure</span>
       
       
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
+        <span class='type'>(<tt>Enum['present', 'absent']</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>undef</tt>)</em>
+        <em class="default">(defaults to: <tt>present</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Complete message as to insert into /etc/motd</p>
+<p><code>present</code> to setup proxy, <code>absent</code> to remove
+configuration</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>issue_content</span>
+        <span class='name'>proxy_server</span>
       
       
         <span class='type'>(<tt>Optional[String]</tt>)</span>
@@ -154,14 +137,14 @@ nominated services)</p>
       
         &mdash;
         <div class='inline'>
-<p>Complete message as to insert into /etc/issue</p>
+<p>Proxy server to use in format for <code>netsh</code> see example</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>issue_net_content</span>
+        <span class='name'>exclusion</span>
       
       
         <span class='type'>(<tt>Optional[String]</tt>)</span>
@@ -172,7 +155,7 @@ nominated services)</p>
       
         &mdash;
         <div class='inline'>
-<p>Complete message as to insert into /etc/issue.net</p>
+<p>Proxy exclusions in format for <code>netsh</code> see example</p>
 </div>
       
     </li>
@@ -183,7 +166,7 @@ nominated services)</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><a href="https://forge.puppet.com/geoffwilliams/motd/readme" target="_parent" title="https://forge.puppet.com/geoffwilliams/motd/readme">https://forge.puppet.com/geoffwilliams/motd/readme</a></li>
+      <li><a href="https://forge.puppet.com/sathieu/winhttp_proxy/readme" target="_parent" title="https://forge.puppet.com/sathieu/winhttp_proxy/readme">https://forge.puppet.com/sathieu/winhttp_proxy/readme</a></li>
     
   </ul>
 
@@ -194,32 +177,32 @@ nominated services)</p>
         <pre class="lines">
 
 
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39</pre>
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/motd.pp', line 28</span>
+        <pre class="code"><span class="info file"># File 'manifests/windows/proxy.pp', line 17</span>
 
-class r_profile::motd(
-    Optional[String] $content           = undef,
-    Optional[String] $issue_content     = undef,
-    Optional[String] $issue_net_content = undef,
+class r_profile::windows::proxy(
+    Enum[&#39;present&#39;, &#39;absent&#39;] $ensure = present,
+    Optional[String] $proxy_server = undef,
+    Optional[String] $exclusion = undef
 ) {
 
-  class { &quot;motd&quot;:
-    content           =&gt; $content,
-    issue_content     =&gt; $issue_content,
-    issue_net_content =&gt; $issue_net_content,
+  winhttp_proxy { &#39;proxy&#39;:
+    ensure       =&gt; $ensure,
+    proxy_server =&gt; $proxy_server,
+    bypass_list  =&gt; $exclusion
   }
 }</pre>
       </td>

@@ -62,11 +62,6 @@
       <div id="content"><h1>Puppet Class: r_profile::puppet::master::db_backup</h1>
 <div class="box_info">
   
-  <dl>
-    <dt>Inherits:</dt>
-    <dd><span class='object_link'><a href="r_profile_3A_3Apuppet_3A_3Aparams.html" title="puppet_classes::r_profile::puppet::params (puppet_class)">r_profile::puppet::params</a></span></dd>
-  </dl>
-  
   
   <dl>
     <dt>Defined in:</dt>
@@ -96,10 +91,10 @@ dump of the database</p>
         <span class='name'>ensure</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Enum['present', 'absent']</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::ensure&quot;,   &#39;present&#39;)</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::ensure&quot;,   &quot;present&quot;)</tt>)</em>
       
       
         &mdash;
@@ -115,10 +110,10 @@ it</p>
         <span class='name'>dir</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::dir&quot;,      $r_profile::puppet::params::db_backup_dir)</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::dir&quot;,      &quot;/tmp&quot;)</tt>)</em>
       
       
         &mdash;
@@ -133,10 +128,10 @@ it</p>
         <span class='name'>hour</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::hour&quot;,     $r_profile::puppet::params::db_backup_hour)</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::hour&quot;,     &quot;5&quot;)</tt>)</em>
       
       
         &mdash;
@@ -151,10 +146,10 @@ it</p>
         <span class='name'>minute</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::minute&quot;,   $r_profile::puppet::params::db_backup_minute)</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::minute&quot;,   &quot;0&quot;)</tt>)</em>
       
       
         &mdash;
@@ -169,10 +164,10 @@ it</p>
         <span class='name'>month</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::month&quot;,    $r_profile::puppet::params::db_backup_month)</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::month&quot;,    &quot;*&quot;)</tt>)</em>
       
       
         &mdash;
@@ -187,10 +182,10 @@ it</p>
         <span class='name'>monthday</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::monthday&quot;, $r_profile::puppet::params::db_backup_monthday)</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::monthday&quot;, &quot;*&quot;)</tt>)</em>
       
       
         &mdash;
@@ -205,10 +200,10 @@ it</p>
         <span class='name'>weekday</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::weekday&quot;,  $r_profile::puppet::params::db_backup_weekday)</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::db_backup::weekday&quot;,  &quot;*&quot;)</tt>)</em>
       
       
         &mdash;
@@ -255,14 +250,14 @@ it</p>
         <pre class="code"><span class="info file"># File 'manifests/puppet/master/db_backup.pp', line 13</span>
 
 class r_profile::puppet::master::db_backup(
-    $ensure   = hiera(&quot;r_profile::puppet::master::db_backup::ensure&quot;,   &#39;present&#39;),
-    $dir      = hiera(&quot;r_profile::puppet::master::db_backup::dir&quot;,      $r_profile::puppet::params::db_backup_dir),
-    $hour     = hiera(&quot;r_profile::puppet::master::db_backup::hour&quot;,     $r_profile::puppet::params::db_backup_hour),
-    $minute   = hiera(&quot;r_profile::puppet::master::db_backup::minute&quot;,   $r_profile::puppet::params::db_backup_minute),
-    $month    = hiera(&quot;r_profile::puppet::master::db_backup::month&quot;,    $r_profile::puppet::params::db_backup_month),
-    $monthday = hiera(&quot;r_profile::puppet::master::db_backup::monthday&quot;, $r_profile::puppet::params::db_backup_monthday),
-    $weekday  = hiera(&quot;r_profile::puppet::master::db_backup::weekday&quot;,  $r_profile::puppet::params::db_backup_weekday),
-) inherits r_profile::puppet::params {
+    Enum[&#39;present&#39;, &#39;absent&#39;] $ensure   = hiera(&quot;r_profile::puppet::master::db_backup::ensure&quot;,   &quot;present&quot;),
+    String $dir      = hiera(&quot;r_profile::puppet::master::db_backup::dir&quot;,      &quot;/tmp&quot;),
+    String $hour     = hiera(&quot;r_profile::puppet::master::db_backup::hour&quot;,     &quot;5&quot;),
+    String $minute   = hiera(&quot;r_profile::puppet::master::db_backup::minute&quot;,   &quot;0&quot;),
+    String $month    = hiera(&quot;r_profile::puppet::master::db_backup::month&quot;,    &quot;*&quot;),
+    String $monthday = hiera(&quot;r_profile::puppet::master::db_backup::monthday&quot;, &quot;*&quot;),
+    String $weekday  = hiera(&quot;r_profile::puppet::master::db_backup::weekday&quot;,  &quot;*&quot;),
+) {
 
   cron { &quot;pe_database_backups&quot;:
     ensure      =&gt; $ensure,

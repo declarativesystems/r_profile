@@ -3,11 +3,7 @@
 }
 
 @test "autosign script enabled" {
-    grep autosign /etc/puppetlabs/puppet.conf
-}
-
-@test "autosign.conf removed" {
-    ! ls /etc/puppetlabs/autosign.conf
+    grep "autosign = /usr/local/bin/puppet_enterprise_autosign.sh" /etc/puppetlabs/puppet/puppet.conf
 }
 
 @test "secret in autosign script" {

@@ -92,25 +92,6 @@
   
     <li>
       
-        <span class='name'>data_binding_terminus</span>
-      
-      
-        <span class='type'>(<tt>Enum['none', 'hiera']</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::data_binding_terminus&quot;, $r_profile::puppet::params::data_binding_terminus)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>enable (<code>heira</code>)/disable (<code>none</code>) automatic hiera
-lookups</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
         <span class='name'>open_firewall</span>
       
       
@@ -169,10 +150,8 @@ lookups</p>
         <span class='name'>agent_enable</span>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'></span>
       
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::master::agent_enable&quot;, true)</tt>)</em>
       
       
         &mdash;
@@ -192,6 +171,8 @@ lookups</p>
         <pre class="lines">
 
 
+11
+12
 13
 14
 15
@@ -238,51 +219,19 @@ lookups</p>
 56
 57
 58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83</pre>
+59</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master.pp', line 13</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master.pp', line 11</span>
 
 class r_profile::puppet::master (
-    Enum[&#39;none&#39;, &#39;hiera&#39;] $data_binding_terminus =
-      hiera(&quot;r_profile::puppet::master::data_binding_terminus&quot;, $r_profile::puppet::params::data_binding_terminus),
     Boolean $open_firewall    = hiera(&quot;r_profile::puppet::master::open_firewall&quot;, false),
     Boolean $nagios_monitored = hiera(&quot;r_profile::puppet::master::nagios_monitored&quot;, false),
     Enum[&#39;running&#39;, &#39;stopped&#39;] $agent_ensure =
       hiera(&quot;r_profile::puppet::master::agent_ensure&quot;, &#39;running&#39;),
-    Boolean $agent_enable = hiera(&quot;r_profile::puppet::master::agent_enable&quot;, true),
 ) inherits r_profile::puppet::params {
 
-  $puppetconf = $r_profile::puppet::params::puppetconf
-
-  service { &quot;puppet&quot;:
-    ensure =&gt; $agent_ensure,
-    enable =&gt; $agent_enable,
-  }
+  $sysconf_puppetserver   = $r_profile::puppet::params::sysconf_puppetserver
 
   file { $sysconf_puppetserver:
     ensure =&gt; file,
@@ -297,20 +246,10 @@ class r_profile::puppet::master (
     Service[&quot;pe-puppetserver&quot;],
   ]
 
-  # data binding terminus explicit
-  ini_setting { &quot;puppet.conf data_binding_terminus&quot;:
-    ensure  =&gt; present,
-    setting =&gt; &quot;data_binding_terminus&quot;,
-    value   =&gt; $data_binding_terminus,
-    section =&gt; &quot;master&quot;,
-    path    =&gt; $puppetconf,
-    notify  =&gt; Service[&quot;pe-puppetserver&quot;],
-  }
-
   if $open_firewall {
     [8140, 61613, 443, 8142].each | $port | {
-      if !defined(Firewall[&quot;100 ${::fqdn} HTTP ${port}&quot;]) {
-        firewall { &quot;100 ${::fqdn} HTTP ${port}&quot;:
+      if !defined(Firewall[&quot;100 ${facts[&#39;fqdn&#39;]} HTTP ${port}&quot;]) {
+        firewall { &quot;100 ${facts[&#39;fqdn&#39;]} HTTP ${port}&quot;:
           dport  =&gt; $port,
           proto  =&gt; &#39;tcp&#39;,
           action =&gt; &#39;accept&#39;,
@@ -326,10 +265,6 @@ class r_profile::puppet::master (
 
     nagios::nagios_service_tcp { &#39;PE console&#39;:
       port =&gt; 443,
-    }
-
-    nagios::nagios_service_tcp { &#39;PE MCollective&#39;:
-      port =&gt; 61613,
     }
 
     nagios::nagios_service_tcp { &#39;PE PCP/PXP&#39;:

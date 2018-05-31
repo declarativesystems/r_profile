@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'puppet_factset'
-describe 'r_profile::linux::cronyd' do
+describe 'r_profile::windows::proxy' do
   # Uncomment only the factset you would like to use for these tests
   # system_name = 'AIX-6.1-powerpc'
   # system_name = 'AIX-7.1-powerpc'
@@ -30,17 +30,11 @@ describe 'r_profile::linux::cronyd' do
     PuppetFactset::factset_hash(system_name)
   end
 
-  let :params do
-    {
-        :servers => ['time.windows.com']
-    }
-  end
-
   context 'compiles ok' do
     it { should compile }
   end
 
   context 'with default values for all parameters' do
-    it { should contain_class('r_profile::linux::cronyd') }
+    it { should contain_class('r_profile::windows::proxy') }
   end
 end

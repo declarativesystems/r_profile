@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::virtual::virtual_box
+  Puppet Class: r_profile::linux::wheel
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::virtual::virtual_box";
+  pathId = "puppet_classes::r_profile::linux::wheel";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::virtual::virtual_box</span>
+    <span class="title">r_profile::linux::wheel</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::virtual::virtual_box</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::wheel</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/virtual/virtual_box.pp
+      manifests/linux/wheel.pp
     </dd>
   </dl>
 </div>
@@ -75,9 +75,9 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Virtual::Virtual_box</p>
+<p>R_profile::Linux::Wheel</p>
 
-<p>Install Oracle VirtualBox using the voxpupuli virtualbox module.</p>
+<p>Configure the <code>wheel</code> group on Linux</p>
 
   </div>
 </div>
@@ -87,31 +87,43 @@
   
     <li>
       
-        <span class='name'>version</span>
+        <span class='name'>gid</span>
       
       
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
+        <span class='type'>(<tt>Integer</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>undef</tt>)</em>
+        <em class="default">(defaults to: <tt>10</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Version to install, installs latest if unspecified</p>
+<p>GID of the wheel group, normally 10</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>wheel_su</span>
+      
+      
+        <span class='type'>(<tt>Enum['present', 'absent']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;present&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p><code>present</code> to ensure wheel group required for <code>su</code>
+access, <code>absent</code> to allow anyone</p>
 </div>
       
     </li>
   
 </ul>
 
-
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><a href="https://forge.puppet.com/puppet/virtualbox" target="_parent" title="https://forge.puppet.com/puppet/virtualbox">https://forge.puppet.com/puppet/virtualbox</a></li>
-    
-  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -129,19 +141,41 @@
 13
 14
 15
-16</pre>
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/virtual/virtual_box.pp', line 7</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/wheel.pp', line 7</span>
 
-class r_profile::virtual::virtual_box(
-  Optional[String] $version = undef,
+class r_profile::linux::wheel(
+    Integer                   $gid      = 10,
+    Enum[&#39;present&#39;, &#39;absent&#39;] $wheel_su = &#39;present&#39;,
 ) {
 
-  include r_profile::linux::kernel_devel
+  group { &quot;wheel&quot;:
+    ensure =&gt; present,
+    gid    =&gt; $gid,
+  }
 
-  class { &quot;virtualbox&quot;:
-    version =&gt; $version,
+  # only allow users in the wheel group to execute `su`
+  pam { &quot;su pam_wheel.so&quot;:
+    ensure    =&gt; $wheel_su,
+    service   =&gt; &#39;su&#39;,
+    type      =&gt; &#39;auth&#39;,
+    control   =&gt; &#39;required&#39;,
+    module    =&gt; &#39;pam_wheel.so&#39;,
+    arguments =&gt; &quot;use_uid&quot;,
+    position  =&gt; &#39;after module pam_rootok.so&#39;,
   }
 }</pre>
       </td>

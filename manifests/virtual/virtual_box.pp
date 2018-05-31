@@ -5,7 +5,7 @@
 #
 # @param version Version to install, installs latest if unspecified
 class r_profile::virtual::virtual_box(
-  $version = hiera("r_profile::virtual::virtual_box", undef)
+  Optional[String] $version = undef,
 ) {
 
   include r_profile::linux::kernel_devel

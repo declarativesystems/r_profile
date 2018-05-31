@@ -77,12 +77,26 @@
     
 <p>R_profile::Linux::Sudo</p>
 
-<p>Configure sudo for linux</p>
+<p>Configure sudo for linux. If the fact <code>vagrant</code> exists, then a
+rule will be added to prevent locking out the <code>vagrant</code> user.</p>
 
   </div>
 </div>
 <div class="tags">
   
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>creating the vagrant fact</p>
+</div></p>
+      
+      <pre class="example code"><code>mkdir -p  /etc/puppetlabs/facter/facts.d
+echo vagrant=true &gt; /etc/puppetlabs/facter/facts.d/vagrant.txt</code></pre>
+    
+  </div>
+
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -91,11 +105,6 @@
         <pre class="lines">
 
 
-4
-5
-6
-7
-8
 9
 10
 11
@@ -115,10 +124,15 @@
 25
 26
 27
-28</pre>
+28
+29
+30
+31
+32
+33</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/sudo.pp', line 4</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/sudo.pp', line 9</span>
 
 class r_profile::linux::sudo {
   class { &#39;sudo&#39;: }

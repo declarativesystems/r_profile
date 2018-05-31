@@ -87,19 +87,6 @@
   
     <li>
       
-        <span class='name'>include_src</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
         <span class='name'>auto_update</span>
       
       
@@ -179,6 +166,13 @@
 </ul>
 
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/puppetlabs/apt" target="_parent" title="https://forge.puppet.com/puppetlabs/apt">https://forge.puppet.com/puppetlabs/apt</a></li>
+    
+  </ul>
+
 </div><div class="method_details_list">
   <table class="source_code">
     <tr>
@@ -186,7 +180,6 @@
         <pre class="lines">
 
 
-4
 5
 6
 7
@@ -273,15 +266,12 @@
 88
 89
 90
-91
-92
-93</pre>
+91</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/apt.pp', line 4</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/apt.pp', line 5</span>
 
 class r_profile::linux::apt(
-    $include_src      = true,
     $auto_update      = true,
     $update_hour      = fqdn_rand(23),
     $update_minute    = fqdn_rand(59),
@@ -339,19 +329,17 @@ class r_profile::linux::apt(
     # regular updates for each release
     $releases.each | $release | {
       apt::source { &quot;apt_archive_${::lsbdistcodename}-${release}&quot;:
-        location    =&gt; $location,
-        release     =&gt; $release,
-        repos       =&gt; $repos,
-        include_src =&gt; $include_src,
+        location =&gt; $location,
+        release  =&gt; $release,
+        repos    =&gt; $repos,
       }
     }
 
     # security updates - always from main servers
     apt::source { &quot;apt_security&quot;:
-      location    =&gt; $security_location,
-      release     =&gt; $security_release,
-      repos       =&gt; $security_repos,
-      include_src =&gt; $include_src,
+      location =&gt; $security_location,
+      release  =&gt; $security_release,
+      repos    =&gt; $security_repos,
     }
   }
 

@@ -10,7 +10,7 @@
 #
 # @param settings Hash of all settings to pass through to the SSH module. See above link for details
 class r_profile::linux::ssh(
-  Hash[String, Optional[Varient[String, Hash]]] $settings = {},
+  Hash[String, Optional[Variant[String, Hash]]] $settings = {},
 ) {
   class { "ssh":
     * => $settings,

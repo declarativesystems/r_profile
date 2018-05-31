@@ -95,11 +95,16 @@
         <span class='name'>puppet_path</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>hiera(&quot;r_profile::windows::puppet_agent::puppet_path&quot;, &#39;c:/Program Files/PuppetLabs/puppet/bin&#39;)</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>PATH to the puppet agent</p>
+</div>
       
     </li>
   
@@ -108,11 +113,17 @@
         <span class='name'>proxy</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Variant[Boolean, String]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::proxy&quot;, false)</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p><code>false</code> to skip configuration of a proxy server, otherwise the
+proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
+</div>
       
     </li>
   
@@ -121,11 +132,16 @@
         <span class='name'>puppet_agent_service</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$r_profile::puppet::params::puppet_agent_service</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;puppet&quot;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of the Puppet Agent service to manage</p>
+</div>
       
     </li>
   
@@ -139,10 +155,6 @@
         <pre class="lines">
 
 
-4
-5
-6
-7
 8
 9
 10
@@ -187,19 +199,17 @@
 49
 50
 51
-52</pre>
+52
+53</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/windows/puppet_agent.pp', line 4</span>
+        <pre class="code"><span class="info file"># File 'manifests/windows/puppet_agent.pp', line 8</span>
 
 class r_profile::windows::puppet_agent(
-    $puppet_path          = hiera(&quot;r_profile::windows::puppet_agent::puppet_path&quot;, &#39;c:/Program Files/PuppetLabs/puppet/bin&#39;),
-    $proxy                = hiera(&quot;r_profile::puppet::proxy&quot;, false),
-    $puppet_agent_service = $r_profile::puppet::params::puppet_agent_service,
+    String  $puppet_path            = hiera(&quot;r_profile::windows::puppet_agent::puppet_path&quot;, &#39;c:/Program Files/PuppetLabs/puppet/bin&#39;),
+    Variant[Boolean, String] $proxy = hiera(&quot;r_profile::puppet::proxy&quot;, false),
+    String  $puppet_agent_service   = &quot;puppet&quot;,
 ) inherits r_profile::puppet::params {
-  #package { &quot;ConEmu&quot;:
-  #  ensure =&gt; present,
-  #}
 
   if $proxy {
     $proxy_ensure = present

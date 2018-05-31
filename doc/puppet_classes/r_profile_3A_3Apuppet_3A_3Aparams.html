@@ -75,8 +75,6 @@
       
       <span class='object_link'><a href="r_profile_3A_3Awindows_3A_3Apuppet_agent.html" title="puppet_classes::r_profile::windows::puppet_agent (puppet_class)">r_profile::windows::puppet_agent</a></span><br/>
       
-      <span class='object_link'><a href="r_profile_3A_3Apuppet_3A_3Amaster_3A_3Adb_backup.html" title="puppet_classes::r_profile::puppet::master::db_backup (puppet_class)">r_profile::puppet::master::db_backup</a></span><br/>
-      
       <span class='object_link'><a href="r_profile_3A_3Apuppet_3A_3Amaster_3A_3Ahiera_eyaml.html" title="puppet_classes::r_profile::puppet::master::hiera_eyaml (puppet_class)">r_profile::puppet::master::hiera_eyaml</a></span><br/>
       
     </dd>
@@ -150,37 +148,12 @@
 41
 42
 43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64</pre>
+44</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/puppet/params.pp', line 7</span>
 
 class r_profile::puppet::params {
-
-  # PE 2015/AIO agent
-  $puppet_agent_service = &quot;puppet&quot;
-  $_codedir             = $::settings::codedir
-  $mco_service          = &quot;mcollective&quot;
 
   # os-specific settings
   case $::osfamily {
@@ -188,11 +161,10 @@ class r_profile::puppet::params {
       $sysconf_dir      = &quot;/etc/default&quot;
     }
     &quot;RedHat&quot;: {
-      $sysconf_dir = &quot;/etc/sysconfig&quot;
+      $sysconf_dir      = &quot;/etc/sysconfig&quot;
     }
     &quot;Solaris&quot;: {
       $sysconf_dir      = &quot;/lib/svc/method&quot;
-      $export_variable  = true
     }
     &quot;Suse&quot;: {
       $sysconf_dir      = &quot;/etc/sysconfig&quot;
@@ -201,7 +173,7 @@ class r_profile::puppet::params {
       # no action needed
     }
     default: {
-      fail(&quot;Unsupported osfamily ${::osfamily} in profiles::puppet::params&quot;)
+      fail(&quot;Unsupported osfamily ${facts[&#39;os&#39;][&#39;family&#39;]} in profiles::puppet::params&quot;)
     }
   }
 
@@ -215,22 +187,8 @@ class r_profile::puppet::params {
   }
 
   $sysconf_puppetserver   = &quot;${sysconf_dir}/pe-puppetserver&quot;
-  $sysconf_puppet         = &quot;${sysconf_dir}/${puppet_agent_service}&quot;
-  $hieradir               = &quot;${_codedir}/environments/%{environment}/hieradata&quot;
-  $basemodulepath         = &quot;${::settings::confdir}/modules:/opt/puppetlabs/puppet/modules&quot;
-  $environmentpath        = &quot;${_codedir}/environments&quot;
-  $git_config_file        = &quot;/root/.gitconfig&quot;
-  $puppetconf             = &quot;${::settings::confdir}/puppet.conf&quot;
-  $generate_r10k_mco_cert = true
-  $autosign_script        = &quot;/usr/local/bin/autosign.sh&quot;
-  $data_binding_terminus  = &quot;hiera&quot;
+  $sysconf_puppet         = &quot;${sysconf_dir}/puppet&quot;
 
-  $db_backup_dir          = &quot;/tmp&quot;
-  $db_backup_hour         = 5
-  $db_backup_minute       = 0
-  $db_backup_month        = &quot;*&quot;
-  $db_backup_monthday     = &quot;*&quot;
-  $db_backup_weekday      = &quot;*&quot;
 
 }</pre>
       </td>

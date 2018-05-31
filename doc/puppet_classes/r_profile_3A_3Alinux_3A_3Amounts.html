@@ -75,14 +75,41 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>Redhat_tidy::Mounts</p>
+<p>r_profile::linux::Mounts</p>
 
-<p>Common mount good practices for RedHat</p>
+<p>Common mount good practices for RedHat:  * <code>/tmp</code> mounted
+<code>nodev,nosuid,noexec</code> (if separate partition)  *
+<code>/dev/shm</code> mounted <code>nodev,nosuid,noexec</code> (if separate
+partition)  * <code>/home</code> mounted <code>nodev</code> (if separate
+partition)  * Optionally bind mount <code>/var/tmp</code> to
+<code>/tmp</code></p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>bind_mount_var_tmp</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p><code>true</code> to bind mount <code>/var/tmp</code> to <code>/tmp</code></p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -91,12 +118,6 @@
         <pre class="lines">
 
 
-4
-5
-6
-7
-8
-9
 10
 11
 12
@@ -112,17 +133,50 @@
 22
 23
 24
-25</pre>
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/mounts.pp', line 4</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/mounts.pp', line 10</span>
 
-class r_profile::linux::mounts {
+class r_profile::linux::mounts(
+    Boolean $bind_mount_var_tmp = false,
+) {
   if dig($facts, &#39;mountpoints&#39;, &#39;/tmp&#39;) {
     mount { &#39;/tmp&#39;:
       ensure  =&gt; mounted,
       atboot  =&gt; true,
-      options =&gt; &#39;nosuid,noexec&#39;,
+      options =&gt; &#39;nodev,nosuid,noexec&#39;,
       device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/tmp&#39;][&#39;device&#39;],
       fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/tmp&#39;][&#39;filesystem&#39;],
     }
@@ -135,6 +189,29 @@ class r_profile::linux::mounts {
       options =&gt; &#39;nodev,nosuid,noexec&#39;,
       device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/dev/shm&#39;][&#39;device&#39;],
       fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/dev/shm&#39;][&#39;filesystem&#39;],
+    }
+  }
+
+  if dig($facts, &#39;mountpoints&#39;, &#39;/home&#39;) {
+    mount { &#39;/home&#39;:
+      ensure  =&gt; mounted,
+      atboot  =&gt; true,
+      options =&gt; &#39;nodev&#39;,
+      device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/home&#39;][&#39;device&#39;],
+      fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/home&#39;][&#39;filesystem&#39;],
+    }
+  }
+
+  if $bind_mount_var_tmp {
+    file { &quot;/var/tmp&quot;:
+      ensure =&gt; directory,
+      owner  =&gt; root,
+    }
+    mount { &#39;/var/tmp&#39;:
+      ensure  =&gt; mounted,
+      device  =&gt; &#39;/tmp&#39;,
+      fstype  =&gt; &#39;none&#39;,
+      options =&gt; &#39;bind,nodev,nosuid,noexec&#39;,
     }
   }
 

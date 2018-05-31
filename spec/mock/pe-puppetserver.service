@@ -1,0 +1,9 @@
+[Unit]
+Description=Mock pe-puppetserver service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "while true ; do echo 'mock pe-puppetserver running' ; /usr/bin/sleep 1 ; done"
+
+[Install]
+WantedBy=multi-user.target

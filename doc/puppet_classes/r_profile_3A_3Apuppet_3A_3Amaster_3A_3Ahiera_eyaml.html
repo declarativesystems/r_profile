@@ -82,25 +82,9 @@
     
 <p>R_profile::Puppet::Master::Hiera_eyaml</p>
 
-<p>Configure hiera-eyaml</p>
-
-<p>Note that mangement of <code>hiera.yaml</code> files with puppet is no
-longer recommended since hiera v5 encourages users to write a seperate file
-for each branch of the control repository</p>
-
-<p>Once this has run on the puppet master with <code>create_keys</code> set
-true, you will need to add something along the lines of:</p>
-
-<pre class="code ruby"><code class="ruby">hierarchy:
-  - name: &quot;Per-datacenter secret data (encrypted)&quot;
-    lookup_key: eyaml_lookup_key
-    path: &quot;secrets/%{facts.whereami}.eyaml&quot;
-    options:
-      pkcs7_private_key: /etc/puppetlabs/puppet/keys/private_key.pkcs7.pem
-      pkcs7_public_key:  /etc/puppetlabs/puppet/keys/public_key.pkcs7.pem
-</code></pre>
-
-<p>To your <code>hiera.yaml</code> file for each environment.</p>
+<p>Configure hiera-eyaml by generating the encryption keys. Current versions
+of Puppet Enterprise ~2018x ship a vendored eyaml gem so installation is
+not normally needed anymore.</p>
 
 <p>If you want more then one keypair per server, you should set create_keys
 false and make your own arrangements</p>
@@ -168,6 +152,22 @@ false and make your own arrangements</p>
         <pre class="lines">
 
 
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
 28
 29
 30
@@ -217,26 +217,10 @@ false and make your own arrangements</p>
 74
 75
 76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93</pre>
+77</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera_eyaml.pp', line 28</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera_eyaml.pp', line 12</span>
 
 class r_profile::puppet::master::hiera_eyaml(
     $gem_install  = hiera(&#39;r_profile::puppet::master::hiera::gem_install&#39;, true),
@@ -282,9 +266,9 @@ class r_profile::puppet::master::hiera_eyaml(
       user    =&gt; &#39;pe-puppet&#39;,
       cwd     =&gt; $::settings::confdir,
       command =&gt; &#39;eyaml createkeys&#39;,
-      path    =&gt; [&#39;/opt/puppetlabs/puppet/bin&#39;, &#39;/usr/bin&#39;, &#39;/usr/local/bin&#39;],
+      path    =&gt; [&#39;/opt/puppetlabs/puppet/bin&#39;, &#39;/usr/bin&#39;, &#39;/usr/local/bin&#39;, &#39;/opt/puppetlabs/puppet/lib/ruby/vendor_gems/bin&#39;],
       creates =&gt; &quot;${keysdir}/private_key.pkcs7.pem&quot;,
-      require =&gt; File[$keysdir],
+      require =&gt; [File[$keysdir],  Package[&quot;vendored ruby eyaml&quot;], Package[&quot;vendored jruby eyaml&quot;]],
     }
 
     file { &quot;${keysdir}/private_key.pkcs7.pem&quot;:

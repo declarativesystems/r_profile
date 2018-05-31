@@ -1,8 +1,8 @@
 # R_profile::Linux::Apt
 #
 # Setup of apt package manager
+# @see https://forge.puppet.com/puppetlabs/apt
 class r_profile::linux::apt(
-    $include_src      = true,
     $auto_update      = true,
     $update_hour      = fqdn_rand(23),
     $update_minute    = fqdn_rand(59),
@@ -60,19 +60,17 @@ class r_profile::linux::apt(
     # regular updates for each release
     $releases.each | $release | {
       apt::source { "apt_archive_${::lsbdistcodename}-${release}":
-        location    => $location,
-        release     => $release,
-        repos       => $repos,
-        include_src => $include_src,
+        location => $location,
+        release  => $release,
+        repos    => $repos,
       }
     }
 
     # security updates - always from main servers
     apt::source { "apt_security":
-      location    => $security_location,
-      release     => $security_release,
-      repos       => $security_repos,
-      include_src => $include_src,
+      location => $security_location,
+      release  => $security_release,
+      repos    => $security_repos,
     }
   }
 
