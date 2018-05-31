@@ -84,7 +84,9 @@ can then specify the hiera hierarchy they want to use as required.</p>
 <p>The inserted file defines a global hierarchy file for use by puppet at
 <code>/etc/puppetlabs/puppet_enterprise.yaml</code>. This is a file NOT
 managed by git and is for putting settings to re-configure puppet
-enterprise without using git, as directed by support/documentation</p>
+enterprise without using git, as directed by support/documentation. The
+main use of this <em>trick</em> is to enable the initial <code>puppet code
+deploy</code> to succeed when using a private forge</p>
 
   </div>
 </div>
@@ -98,8 +100,6 @@ enterprise without using git, as directed by support/documentation</p>
         <pre class="lines">
 
 
-12
-13
 14
 15
 16
@@ -114,10 +114,12 @@ enterprise without using git, as directed by support/documentation</p>
 25
 26
 27
-28</pre>
+28
+29
+30</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera5.pp', line 12</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera5.pp', line 14</span>
 
 class r_profile::puppet::master::hiera5 {
   file { &quot;/etc/puppetlabs/puppet/hiera.yaml&quot;:

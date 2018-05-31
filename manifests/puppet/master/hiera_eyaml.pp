@@ -4,14 +4,28 @@
 # Puppet Enterprise ~2018x ship a vendored eyaml gem so installation is not
 # normally needed anymore.
 #
-# If you want more then one keypair per server, you should set create_keys false
-# and make your own arrangements
+# If you want more then one keypair per server and you are using the above
+# version of Puppet Enterprise, then you should not use this class.
+#
+# The example below shows how to generate eyaml on the Puppet Master. By sharing
+# the server's public key this process can be carried out anywhere and does
+# not require root access to the Puppet Master.
+#
+# @example Prevent gem installation
+#   r_profile::puppet::master::hiera_eyaml::gem_install: false
+#
+# @example Prevent key creation
+#   r_profile::puppet::master::hiera_eyaml::create_keys: false
+#
+# @example encrypting data on the Puppet Master
+#   cd /etc/puppetlabs/puppet
+#   /opt/puppetlabs/puppet/lib/ruby/vendor_gems/bin/eyaml encrypt --password
 #
 # @param gem_install True to attempt to install and configure hiera-eyaml rubygem
 # @param create_keys, True to create a system-wide eyaml keypair
 class r_profile::puppet::master::hiera_eyaml(
-    $gem_install  = hiera('r_profile::puppet::master::hiera::gem_install', true),
-    $create_keys  = hiera('r_profile::puppet::master::hiera::create_keys', true),
+    Boolean $gem_install  = true,
+    Boolean $create_keys  = true,
 ) inherits r_profile::puppet::params {
 
   if $gem_install {

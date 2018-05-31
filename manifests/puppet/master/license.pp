@@ -8,7 +8,6 @@
 #
 # @example
 #   include r_pofile::puppet::master::license
-#
 class r_profile::puppet::master::license {
 
   # puppet_enterprise module contains a resource to read and write the same file

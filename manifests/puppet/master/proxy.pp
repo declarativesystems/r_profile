@@ -6,13 +6,12 @@
 # If using this class you must also declare r_profile::puppet::master in order
 # to manage and notify Service['puppet']
 #
-# You must include the appropriate puppet agent class when using this one:
-#   * include r_profile::linux::puppet_agent
-#   * include r_profile::windows::puppet_agent
+# @example setting the proxy server
+#   r_profile::puppet::master::proxy::proxy: http://proxy.megacorp.com:3128
 #
 # @param proxy proxy server to use in the form http://user@pass:proxyhost:proxyport or false to not use a proxy server
 class r_profile::puppet::master::proxy(
-  $proxy                  = hiera("r_profile::puppet::master::proxy::proxy", false),
+  Variant[String, Boolean] $proxy = false,
 ) inherits r_profile::puppet::params {
 
   $puppetconf             = "${::settings::confdir}/puppet.conf"
