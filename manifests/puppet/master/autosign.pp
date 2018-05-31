@@ -5,16 +5,15 @@
 # @param ensure Autosigning technique to use on this puppet master:
 #   * `policy` Policy based autosigning @see http://www.geoffwilliams.me.uk/Puppet/policy_based_autosigning
 #   * `accept_all` Automatically sign all certificate requests (not recommended for production use)
-#   * `absent` Disable all varieties of automatic certificate signing
+#   * `absent` Disable automatic certificate signing
 # @param script_content If you would like to pass in your own script, pass a string of the content here or leave blank
 #   to use the built-in shared secret comparison
-# @param secret Shared secret to use when configuring policy based autosigning
-#   and using the built-in template as the validation script
+# @param secret Shared secret to use when configuring policy based autosigning (only used with the built-in validation
+#   script)
 class r_profile::puppet::master::autosign(
-    Enum['policy', 'absent', 'accept_all'] $ensure =
-      hiera('r_profile::puppet::master::autosign::ensure', 'absent'),
-    $script_content = hiera('r_profile::puppet::master::autosign::script_content', false),
-    $secret   = hiera('r_profile::puppet::master::autosign::secret',undef),
+    Enum['policy', 'absent', 'accept_all']  $ensure         = 'absent',
+    String                                  $script_content = undef,
+    String                                  $secret         = undef,
 ) {
 
   $autosign_script = "/usr/local/bin/puppet_enterprise_autosign.sh"

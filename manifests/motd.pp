@@ -26,9 +26,9 @@
 # @param issue_content Complete message as to insert into /etc/issue
 # @param issue_net_content Complete message as to insert into /etc/issue.net
 class r_profile::motd(
--   Optional[String] $content           = undef
-    Optional[String] $issue_content     = undef
-    Optional[String] $issue_net_content = undef
+    Optional[String] $content           = undef,
+    Optional[String] $issue_content     = undef,
+    Optional[String] $issue_net_content = undef,
 ) {
 
   class { "motd":
