@@ -17,11 +17,11 @@
 # @param base_firewalld_rich_rule additional `firewalld_rich_rule` rules
 #   as a hash of options
 class profile::linux::firewalld(
-  Boolean     $enable = true,
-  Array[Hash] $base_firewalld_service = {},
-  Array[Hash] $firewalld_service = {}
-  Array[Hash] $base_firewalld_rich_rule = {},
-  Array[Hash] $firewalld_rich_rule = {}
+  Boolean     $enable                   = true,
+  Array[Hash] $base_firewalld_service   = [],
+  Array[Hash] $firewalld_service        = [],
+  Array[Hash] $base_firewalld_rich_rule = [],
+  Array[Hash] $firewalld_rich_rule      = [],
 ) {
   if $enable {
     class { "firewalld": }
@@ -35,19 +35,27 @@ class profile::linux::firewalld(
     }
 
     ($firewalld_service + $base_firewalld_service).each |$rule| {
-      rule.each |$key, $opts| {
-        firewalld_service { $key:
-        * => $opts
+      $rule.each |$key, $opts| {
+        firewalld_service {
+          default:
+            ensure => present,
+          ;
+          $key:
+            * => $opts,
+        }
+      }
+    }
+
+    ($firewalld_rich_rule + $base_firewalld_rich_rule).each |$rule| {
+      $rule.each |$key, $opts| {
+        firewalld_rich_rule {
+          default:
+            ensure => present,
+          ;
+          $key:
+            * => $opts,
+        }
       }
     }
   }
-
-  ($firewalld_rich_rule + $base_firewalld_rich_rule).each |$rule| {
-    $rule.each |$key, $opts| {
-      firewalld_rich_rule { $key:
-        * => $opts
-      }
-    }
-  }
-
 }
