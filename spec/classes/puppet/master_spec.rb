@@ -1,60 +1,40 @@
 require 'spec_helper'
+require 'puppet_factset'
 describe 'r_profile::puppet::master' do
-  let :pre_condition do
-    'service { "pe-puppetserver": }'
-  end
-
+  # Uncomment only the factset you would like to use for these tests
+  # system_name = 'AIX-6.1-powerpc'
+  # system_name = 'AIX-7.1-powerpc'
+  # system_name = 'CentOS-5.11-32'
+  # system_name = 'CentOS-5.11-64'
+  # system_name = 'CentOS-6.6-32'
+  # system_name = 'CentOS-6.6-64'
+  system_name = 'CentOS-7.0-64'
+  # system_name = 'CentOS-7.3-64'
+  # system_name = 'Debian-6.0.10-32'
+  # system_name = 'Debian-6.0.10-64'
+  # system_name = 'Debian-7.8-32'
+  # system_name = 'Debian-7.8-64'
+  # system_name = 'Debian-8.7-64'
+  # system_name = 'SLES-11.3-64'
+  # system_name = 'SLES-12.1-64'
+  # system_name = 'Ubuntu-12.04-32'
+  # system_name = 'Ubuntu-12.04-64'
+  # system_name = 'Ubuntu-14.04-32'
+  # system_name = 'Ubuntu-14.04-64'
+  # system_name = 'Ubuntu-16.04-64'
+  # system_name = 'Windows_Server-2008r2-64'
+  # system_name = 'Windows_Server-2012r2-64'
+  # system_name = 'solaris-10_u9-sparc-64'
+  # system_name = 'solaris-11.2-sparc-64'
   let :facts do
-    {
-      :osfamily               => 'RedHat',
-      :operatingsystemrelease => '7.2.1511',
-      :virtual                => true,
-      :is_pe                  => true,
-      :pe_version             => '2016.4.2',
-      :fqdn                   => 'puppet.demo.internal',
-      :kernel                 => 'Linux',
-    }
+    PuppetFactset::factset_hash(system_name)
   end
 
-  context "catalog compiles" do
-    it { should compile}
+  context 'compiles ok' do
+    it { should compile }
   end
 
   context 'with default values for all parameters' do
     it { should contain_class('r_profile::puppet::master') }
-  end
-
-  context 'nagios_monitored creates correct resources' do
-    let :pre_condition do
-      '
-        service { "pe-puppetserver": }
-        include nagios
-      '
-    end
-    let :params do
-      {
-        :nagios_monitored => true,
-      }
-    end
-    it {
-      should contain_class('r_profile::puppet::master')
-      should contain_nagios__nagios_service_tcp('PE puppetserver')
-      should contain_nagios__nagios_service_tcp('PE console')
-      should contain_nagios__nagios_service_tcp('PE PCP/PXP')
-    }
-  end
-
-  context 'open_firewall creates firewall rules' do
-    let :params do
-      {
-        :open_firewall => true,
-      }
-    end
-    it {
-      should contain_class('r_profile::puppet::master')
-      [8140, 443, 8142].each { | port |
-        should contain_firewall("100 puppet.demo.internal HTTP #{port}")
-      }
-    }
   end
 end
