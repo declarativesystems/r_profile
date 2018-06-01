@@ -215,6 +215,13 @@ built-in shared-secret script)</p>
 </ul>
 
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>@see https://forge.puppet.com/puppetlabs/inifile</li>
+    
+  </ul>
+
 </div><div class="method_details_list">
   <table class="source_code">
     <tr>
@@ -222,8 +229,6 @@ built-in shared-secret script)</p>
         <pre class="lines">
 
 
-39
-40
 41
 42
 43
@@ -286,10 +291,12 @@ built-in shared-secret script)</p>
 100
 101
 102
-103</pre>
+103
+104
+105</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master/autosign.pp', line 39</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/autosign.pp', line 41</span>
 
 class r_profile::puppet::master::autosign(
     Enum[&#39;policy&#39;, &#39;absent&#39;, &#39;accept_all&#39;]  $ensure           = &#39;absent&#39;,

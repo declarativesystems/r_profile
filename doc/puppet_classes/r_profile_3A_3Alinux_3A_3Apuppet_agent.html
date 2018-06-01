@@ -80,9 +80,17 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Linux::Puppet_agen</p>
+<p>R_profile::Linux::Puppet_agent</p>
 
-<p>setup a puppet agent (currently just fixes proxy settings…)</p>
+<p>Manage the Puppet Agent service and add support for proxy servers.</p>
+
+<p>The Puppet Agent is not managed by Puppet out-of-the box in current
+versions of Puppet Enterprise. In order to restart the service using
+Puppet, this class creates <code>Service['puppet']</code> so that restarts
+can be carried out as necessary.</p>
+
+<p>Proxy server support is managed by updating the systemd/init environment
+file to set the connection details.</p>
 
   </div>
 </div>
@@ -95,10 +103,10 @@
         <span class='name'>proxy</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Variant[String, Boolean]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::proxy&quot;, false)</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -111,10 +119,29 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
   
     <li>
       
+        <span class='name'>sysconf_puppet</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>$r_profile::puppet::params::sysconf_puppet</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to sysconf file for puppet agent. Used to set proxy server environment
+variables</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>puppet_agent_service</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>&quot;puppet&quot;</tt>)</em>
@@ -129,14 +156,38 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
   
     <li>
       
-        <span class='name'>sysconf_puppet</span>
+        <span class='name'>puppet_agent_enable</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$r_profile::puppet::params::sysconf_puppet</tt>)</em>
+        <em class="default">(defaults to: <tt>true</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p><code>true</code> to start Puppet Agent on boot, otherwise
+<code>false</code></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>puppet_agent_ensure</span>
+      
+      
+        <span class='type'>(<tt>Enum['running', 'stopped']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;running&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How to ensure the agent service</p>
+</div>
       
     </li>
   
@@ -145,7 +196,7 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
         <span class='name'>export_variable</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>$r_profile::puppet::params::export_variable</tt>)</em>
@@ -156,6 +207,13 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
 </ul>
 
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/puppetlabs/stdlib" target="_parent" title="https://forge.puppet.com/puppetlabs/stdlib">https://forge.puppet.com/puppetlabs/stdlib</a></li>
+    
+  </ul>
+
 </div><div class="method_details_list">
   <table class="source_code">
     <tr>
@@ -163,17 +221,6 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
         <pre class="lines">
 
 
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
 18
 19
 20
@@ -234,81 +281,76 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
 75
 76
 77
-78</pre>
+78
+79
+80
+81</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/puppet_agent.pp', line 7</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/puppet_agent.pp', line 18</span>
 
 class r_profile::linux::puppet_agent(
-    $proxy                        = hiera(&quot;r_profile::puppet::proxy&quot;, false),
-    $sysconf_puppet               = $r_profile::puppet::params::sysconf_puppet,
-    $export_variable              = $r_profile::puppet::params::export_variable,
-    $puppet_agent_service         = &quot;puppet&quot;,
+    Variant[String, Boolean]    $proxy                = false,
+    String                      $sysconf_puppet       = $r_profile::puppet::params::sysconf_puppet,
+    Boolean                     $export_variable      = $r_profile::puppet::params::export_variable,
+    String                      $puppet_agent_service = &quot;puppet&quot;,
+    Boolean                     $puppet_agent_enable  = true,
+    Enum[&#39;running&#39;, &#39;stopped&#39;]  $puppet_agent_ensure  = &#39;running&#39;,
 ) inherits r_profile::puppet::params {
 
-  # Docker containers should not ordinarily run puppet
-  if $virtual != &quot;docker&quot; {
-    if $proxy {
-      $proxy_ensure = present
+  # register the service so we can restart it if needed
+  # PE-11353 means we may not need this forever
+  service { $puppet_agent_service:
+    ensure =&gt; $puppet_agent_ensure,
+    enable =&gt; $puppet_agent_enable,
+  }
+
+  file { $sysconf_puppet:
+    ensure =&gt; file,
+    owner  =&gt; &quot;root&quot;,
+    group  =&gt; &quot;root&quot;,
+    mode   =&gt; &quot;0644&quot;,
+  }
+
+  $puppet_agent_notifications = [
+    Exec[&quot;systemctl_daemon_reload&quot;],
+    Service[$puppet_agent_service],
+  ]
+
+  File_line &lt;| path == $sysconf_puppet |&gt; ~&gt; $puppet_agent_notifications
+
+  #
+  # Proxy server monkey patching
+  #
+  if $proxy {
+    $proxy_ensure = present
+    if $export_variable {
+      # solaris needs a 2-step export
+      $http_proxy_var   = &quot;http_proxy=${proxy}; export http_proxy&quot;
+      $https_proxy_var  = &quot;https_proxy=${proxy}; export https_proxy&quot;
     } else {
-      $proxy_ensure = absent
+      $http_proxy_var   = &quot;http_proxy=${proxy}&quot;
+      $https_proxy_var  = &quot;https_proxy=${proxy}&quot;
     }
+  } else {
+    # remove any existing proxy info
+    $proxy_ensure     = absent
+    $http_proxy_var   = undef
+    $https_proxy_var  = undef
+  }
 
-    # register the service so we can restart it if needed
-    # PE-11353 means we may not need this forever
-    service { $puppet_agent_service:
-      ensure =&gt; running,
-      enable =&gt; true,
-    }
+  file_line { &quot;puppet agent http_proxy&quot;:
+    ensure =&gt; $proxy_ensure,
+    path   =&gt; $sysconf_puppet,
+    line   =&gt; $http_proxy_var,
+    match  =&gt; &quot;http_proxy=&quot;,
+  }
 
-    file { $sysconf_puppet:
-      ensure =&gt; file,
-      owner  =&gt; &quot;root&quot;,
-      group  =&gt; &quot;root&quot;,
-      mode   =&gt; &quot;0644&quot;,
-    }
-
-    $puppet_agent_notifications = [
-      Exec[&quot;systemctl_daemon_reload&quot;],
-      Service[$puppet_agent_service],
-    ]
-
-    File_line &lt;| path == $sysconf_puppet |&gt; ~&gt; $puppet_agent_notifications
-
-    #
-    # Proxy server monkey patching
-    #
-    if $proxy {
-      $regexp = &#39;https?://(.*?@)?([^:]+):(\d+)&#39;
-      $proxy_host = regsubst($proxy, $regexp, &#39;\2&#39;)
-      $proxy_port = regsubst($proxy, $regexp, &#39;\3&#39;)
-      if $export_variable {
-        # solaris needs a 2-step export
-        $http_proxy_var   = &quot;http_proxy=${proxy}; export http_proxy&quot;
-        $https_proxy_var  = &quot;https_proxy=${proxy}; export https_proxy&quot;
-      } else {
-        $http_proxy_var   = &quot;http_proxy=${proxy}&quot;
-        $https_proxy_var  = &quot;https_proxy=${proxy}&quot;
-      }
-    } else {
-      # remove any existing proxy info
-      $http_proxy_var   = &quot;http_proxy=&quot;
-      $https_proxy_var  = &quot;https_proxy=&quot;
-    }
-
-    file_line { &quot;puppet agent http_proxy&quot;:
-      ensure =&gt; $proxy_ensure,
-      path   =&gt; $sysconf_puppet,
-      line   =&gt; $http_proxy_var,
-      match  =&gt; &quot;http_proxy=&quot;,
-    }
-
-    file_line { &quot;puppet agent https_proxy&quot;:
-      ensure =&gt; $proxy_ensure,
-      path   =&gt; $sysconf_puppet,
-      line   =&gt; $https_proxy_var,
-      match  =&gt; &quot;https_proxy=&quot;,
-    }
+  file_line { &quot;puppet agent https_proxy&quot;:
+    ensure =&gt; $proxy_ensure,
+    path   =&gt; $sysconf_puppet,
+    line   =&gt; $https_proxy_var,
+    match  =&gt; &quot;https_proxy=&quot;,
   }
 }</pre>
       </td>

@@ -103,6 +103,13 @@ order to manage and notify <a href="'puppet'">Service</a></p>
       
       <pre class="example code"><code>r_profile::puppet::master::proxy::proxy: http://proxy.megacorp.com:3128</code></pre>
     
+      
+        <p class="example_title"><div class='inline'>
+<p>disable proxy server (the default)</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::puppet::master::proxy::proxy: false</code></pre>
+    
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -122,13 +129,22 @@ order to manage and notify <a href="'puppet'">Service</a></p>
         <div class='inline'>
 <p>proxy server to use in the form <a
 href="http://user@pass:proxyhost:proxyport">user@pass:proxyhost:proxyport</a>
-or false to not use a proxy server</p>
+or <code>false</code> to not use a proxy server</p>
 </div>
       
     </li>
   
 </ul>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/puppetlabs/inifile" target="_parent" title="https://forge.puppet.com/puppetlabs/inifile">https://forge.puppet.com/puppetlabs/inifile</a></li>
+    
+      <li><a href="https://forge.puppet.com/puppetlabs/stdlib" target="_parent" title="https://forge.puppet.com/puppetlabs/stdlib">https://forge.puppet.com/puppetlabs/stdlib</a></li>
+    
+  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -137,12 +153,6 @@ or false to not use a proxy server</p>
         <pre class="lines">
 
 
-13
-14
-15
-16
-17
-18
 19
 20
 21
@@ -236,10 +246,16 @@ or false to not use a proxy server</p>
 109
 110
 111
-112</pre>
+112
+113
+114
+115
+116
+117
+118</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master/proxy.pp', line 13</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/proxy.pp', line 19</span>
 
 class r_profile::puppet::master::proxy(
   Variant[String, Boolean] $proxy = false,

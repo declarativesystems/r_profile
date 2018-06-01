@@ -92,7 +92,7 @@ of <code>sulogin</code> for rescue/emegency mode (this is the OS default)</p>
         <span class='name'>enforce_sulogin</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -109,6 +109,13 @@ unaltered</p>
 </ul>
 
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/puppetlabs/stdlib" target="_parent" title="https://forge.puppet.com/puppetlabs/stdlib">https://forge.puppet.com/puppetlabs/stdlib</a></li>
+    
+  </ul>
+
 </div><div class="method_details_list">
   <table class="source_code">
     <tr>
@@ -116,8 +123,6 @@ unaltered</p>
         <pre class="lines">
 
 
-8
-9
 10
 11
 12
@@ -148,13 +153,15 @@ unaltered</p>
 37
 38
 39
-40</pre>
+40
+41
+42</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/systemd.pp', line 8</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/systemd.pp', line 10</span>
 
 class r_profile::linux::systemd(
-    $enforce_sulogin = false,
+    Boolean $enforce_sulogin = false,
 ) {
 
   # Provide a graph node that we can notify to get systemd to reload itself.
