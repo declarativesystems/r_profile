@@ -9,7 +9,10 @@
 # @example setting the proxy server
 #   r_profile::puppet::master::proxy::proxy: http://proxy.megacorp.com:3128
 #
-# @param proxy proxy server to use in the form http://user@pass:proxyhost:proxyport or false to not use a proxy server
+# @example disable proxy server (the default)
+#   r_profile::puppet::master::proxy::proxy: false
+#
+# @param proxy proxy server to use in the form http://user@pass:proxyhost:proxyport or `false` to not use a proxy server
 class r_profile::puppet::master::proxy(
   Variant[String, Boolean] $proxy = false,
 ) inherits r_profile::puppet::params {
