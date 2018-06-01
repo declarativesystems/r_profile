@@ -12,6 +12,8 @@
 # In all cases `autosign.conf` is removed. This file offers pattern-based autosigning which does not fit the above
 # patterns yet may still be present on the system.
 #
+# @see # @see https://forge.puppet.com/puppetlabs/inifile
+#
 # @example Hiera to enable signing all certificates
 #   r_profile::puppet::master::autosign::ensure: accept_all
 #

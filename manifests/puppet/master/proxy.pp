@@ -6,6 +6,9 @@
 # If using this class you must also declare r_profile::puppet::master in order
 # to manage and notify Service['puppet']
 #
+# @see https://forge.puppet.com/puppetlabs/inifile
+# @see https://forge.puppet.com/puppetlabs/stdlib
+#
 # @example setting the proxy server
 #   r_profile::puppet::master::proxy::proxy: http://proxy.megacorp.com:3128
 #
