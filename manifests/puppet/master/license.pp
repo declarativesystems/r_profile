@@ -28,11 +28,14 @@ class r_profile::puppet::master::license {
 
   # Copy in a licence file if diff says its non-existant or different.  We must
   # run after the code above otherwise we will be stuck in a race condition
-  # where the file can never be updated
+  # where the file can never be updated. If user forgets to load license.key into
+  # control repo then we will ignore this and proceed which is why we allow exit
+  # status 1 and 0, otherwise runs will fail
   exec { "copy pe license.key content":
-    command => "cp ${license_source} ${license_target} && chmod +644 ${license_target}",
+    command => "cp ${license_source} ${license_target} && chmod 0644 ${license_target}",
     unless  => "diff ${license_source} ${license_target}",
     path    => ["/usr/bin", "/bin"],
+    returns => [0,1],
     require => Class["puppet_enterprise::license"],
   }
 }
