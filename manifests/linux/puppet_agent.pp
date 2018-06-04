@@ -2,11 +2,10 @@
 #
 # Manages:
 #   * Puppet Agent service
-#   * PXP Agent service
 #   * Proxy server environment variable support
 #
-# The Puppet and PXP Agents are not managed by Puppet Enterprise out of the box. To restart them using Puppet we create
-# service resources for them here so that restarts can be carried out as necessary.
+# The Puppet Agent is not managed by Puppet Enterprise out of the box (but PXP Agent is...). To restart them using
+# Puppet we create service resources for them here so that restarts can be carried out as necessary.
 #
 # To support proxy servers, we set the `http_proxy` and `https_proxy` environment variables for both agents. Scheduled
 # Puppet agent runs will use the defaults from `sysconf_puppet`, Puppet agent initiated by PXP (run puppet button) uses
@@ -23,9 +22,6 @@
 # @param puppet_agent_service Name of the Puppet Agent service to manage
 # @param puppet_agent_enable `true` to start Puppet Agent on boot, otherwise `false`
 # @param puppet_agent_ensure How to ensure the Puppet Agent service
-# @param pxp_agent_service Name of the PXP Agent service to manage
-# @param pxp_agent_enable `true` to start PXP Agent on boot, otherwise `false`
-# @param pxp_agent_ensure How to ensure the PXP Agent service
 class r_profile::linux::puppet_agent(
     Variant[String, Boolean]    $proxy                = false,
     String                      $sysconf_puppet       = "${facts['sysconf_dir']}/puppet",
@@ -33,9 +29,6 @@ class r_profile::linux::puppet_agent(
     String                      $puppet_agent_service = "puppet",
     Boolean                     $puppet_agent_enable  = true,
     Enum['running', 'stopped']  $puppet_agent_ensure  = 'running',
-    String                      $pxp_agent_service    = "pxp-agent",
-    Boolean                     $pxp_agent_enable     = true,
-    Enum['running', 'stopped']  $pxp_agent_ensure     = 'running',
 ) {
 
   # register the service so we can restart it if needed
@@ -43,11 +36,6 @@ class r_profile::linux::puppet_agent(
   service { $puppet_agent_service:
     ensure => $puppet_agent_ensure,
     enable => $puppet_agent_enable,
-  }
-
-  service { $pxp_agent_service:
-    ensure => $pxp_agent_ensure,
-    enable => $pxp_agent_enable,
   }
 
 

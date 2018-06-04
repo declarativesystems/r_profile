@@ -2,7 +2,6 @@
 #
 # Manages:
 #   * Puppet Agent service
-#   * PXP Agent service
 #   * Puppet binaries in `$PATH`
 #   * Proxy server environment variables (ruby uses these instead of the windows proxy information in registry)
 #   * Reboot after making any of the above changes in order to activate them
@@ -13,18 +12,12 @@
 # @param puppet_agent_service Name of the Puppet Agent service to manage
 # @param puppet_agent_enable `true` to start Puppet Agent on boot, otherwise `false`
 # @param puppet_agent_ensure How to ensure the Puppet Agent service
-# @param pxp_agent_service Name of the PXP Agent service to manage
-# @param pxp_agent_enable `true` to start PXP Agent on boot, otherwise `false`
-# @param pxp_agent_ensure How to ensure the PXP Agent service
 class r_profile::windows::puppet_agent(
     Variant[Boolean, String]    $puppet_path          = 'c:/Program Files/PuppetLabs/puppet/bin',
     Variant[Boolean, String]    $proxy                = false,
     String                      $puppet_agent_service = "puppet",
     Enum['running', 'stopped']  $puppet_agent_ensure  = 'running',
     Boolean                     $puppet_agent_enable  = true,
-    String                      $pxp_agent_service    = "pxp-agent",
-    Enum['running', 'stopped']  $pxp_agent_ensure     = 'running',
-    Boolean                     $pxp_agent_enable     = true,
 ) {
 
   if $proxy {
@@ -48,14 +41,6 @@ class r_profile::windows::puppet_agent(
     ensure => $puppet_agent_ensure,
     enable => $puppet_agent_enable,
   }
-
-
-  service { $pxp_agent_service:
-    ensure => $pxp_agent_ensure,
-    enable => $pxp_agent_enable,
-  }
-
-
 
   #
   # proxy support
