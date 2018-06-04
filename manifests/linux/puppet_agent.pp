@@ -22,6 +22,7 @@
 # @param puppet_agent_service Name of the Puppet Agent service to manage
 # @param puppet_agent_enable `true` to start Puppet Agent on boot, otherwise `false`
 # @param puppet_agent_ensure How to ensure the Puppet Agent service
+# @param pxp_agent_service Name of the PXP Agent service to manage
 class r_profile::linux::puppet_agent(
     Variant[String, Boolean]    $proxy                = false,
     String                      $sysconf_puppet       = "${facts['sysconf_dir']}/puppet",
@@ -29,6 +30,7 @@ class r_profile::linux::puppet_agent(
     String                      $puppet_agent_service = "puppet",
     Boolean                     $puppet_agent_enable  = true,
     Enum['running', 'stopped']  $puppet_agent_ensure  = 'running',
+    String                      $pxp_agent_service    = "pxp-agent",
 ) {
 
   # register the service so we can restart it if needed

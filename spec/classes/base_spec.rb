@@ -29,6 +29,10 @@ describe 'r_profile::base' do
     fact_hash
   end
 
+  let :pre_condition do
+    'service { "pxp-agent":}'
+  end
+
 
   context 'compiles ok' do
     it { should compile }

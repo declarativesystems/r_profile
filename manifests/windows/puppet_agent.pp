@@ -12,12 +12,14 @@
 # @param puppet_agent_service Name of the Puppet Agent service to manage
 # @param puppet_agent_enable `true` to start Puppet Agent on boot, otherwise `false`
 # @param puppet_agent_ensure How to ensure the Puppet Agent service
+# @param pxp_agent_service Name of the PXP Agent service to manage
 class r_profile::windows::puppet_agent(
     Variant[Boolean, String]    $puppet_path          = 'c:/Program Files/PuppetLabs/puppet/bin',
     Variant[Boolean, String]    $proxy                = false,
     String                      $puppet_agent_service = "puppet",
     Enum['running', 'stopped']  $puppet_agent_ensure  = 'running',
     Boolean                     $puppet_agent_enable  = true,
+    String                      $pxp_agent_service    = "pxp-agent",
 ) {
 
   if $proxy {

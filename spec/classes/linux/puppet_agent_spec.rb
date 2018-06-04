@@ -29,7 +29,10 @@ describe 'r_profile::linux::puppet_agent' do
   end
 
   let :pre_condition do
-    "include r_profile::linux::systemd"
+    "
+      include r_profile::linux::systemd
+      service { 'pxp-agent':}
+    "
   end
 
   context 'compiles ok' do

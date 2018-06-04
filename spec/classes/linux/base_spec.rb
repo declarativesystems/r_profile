@@ -28,6 +28,10 @@ describe 'r_profile::linux::base' do
     PuppetFactset::factset_hash(system_name)
   end
 
+  let :pre_condition do
+    'service { "pxp-agent":}'
+  end
+
   context 'compiles ok' do
     it { should compile }
   end

@@ -17,6 +17,7 @@ describe 'r_profile::puppet::master::proxy' do
       service { "pe-puppetserver": }
       include r_profile::puppet::master
       include r_profile::linux::puppet_agent
+      service { "pxp-agent":}
     '
   end
   describe 'disables proxy when unset' do
