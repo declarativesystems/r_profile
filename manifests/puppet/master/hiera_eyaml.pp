@@ -11,6 +11,8 @@
 # the server's public key this process can be carried out anywhere and does
 # not require root access to the Puppet Master.
 #
+# @see https://forge.puppet.com/puppetlabs/puppetserver_gem
+#
 # @example Prevent gem installation
 #   r_profile::puppet::master::hiera_eyaml::gem_install: false
 #
@@ -26,7 +28,7 @@
 class r_profile::puppet::master::hiera_eyaml(
     Boolean $gem_install  = true,
     Boolean $create_keys  = true,
-) inherits r_profile::puppet::params {
+) {
 
   if $gem_install {
     # Hiera module will only install eyaml if the manage_package attribute is set,

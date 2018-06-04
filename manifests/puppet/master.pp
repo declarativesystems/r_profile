@@ -1,10 +1,10 @@
 # R_profile::Puppet::Master
 #
 # Enable restarting the `pe-puppetserver` service if its systemd environment is changed
-class r_profile::puppet::master inherits r_profile::puppet::params {
 
-  $sysconf_puppetserver   = $r_profile::puppet::params::sysconf_puppetserver
-
+class r_profile::puppet::master(
+    String $sysconf_puppetserver = "${facts['sysconf_dir']}/pe-puppetserver",
+) {
   file { $sysconf_puppetserver:
     ensure => file,
     owner  => "root",

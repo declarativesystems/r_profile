@@ -50,12 +50,33 @@ describe 'r_profile::puppet::master::proxy' do
 
     it {
       should contain_class('r_profile::puppet::master::proxy')
+      should_not contain_ini_setting("puppet.conf http_proxy_host")
+      should_not contain_ini_setting("puppet.conf http_proxy_port")
+      should contain_file_line("pe-puppetserver http_proxy")
+      should contain_file_line("pe-puppetserver https_proxy")
+    }
+  end
+
+  describe 'enables puppet.conf proxy when set' do
+    let :params do
+      {
+          :proxy => 'http://proxy.the.world:8080',
+          :puppetconf_proxy => true,
+      }
+    end
+
+    context "catalog compiles" do
+      it { should compile}
+    end
+
+    it {
+      should contain_class('r_profile::puppet::master::proxy')
       should contain_ini_setting("puppet.conf http_proxy_host").with({
-        'ensure' => 'present'
-      })
+                                                                         'ensure' => 'present'
+                                                                     })
       should contain_ini_setting("puppet.conf http_proxy_port").with({
-        'ensure' => 'present'
-      })
+                                                                         'ensure' => 'present'
+                                                                     })
       should contain_file_line("pe-puppetserver http_proxy")
       should contain_file_line("pe-puppetserver https_proxy")
     }
