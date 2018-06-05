@@ -62,11 +62,6 @@
       <div id="content"><h1>Puppet Class: r_profile::windows::puppet_agent</h1>
 <div class="box_info">
   
-  <dl>
-    <dt>Inherits:</dt>
-    <dd><span class='object_link'><a href="r_profile_3A_3Apuppet_3A_3Aparams.html" title="puppet_classes::r_profile::puppet::params (puppet_class)">r_profile::puppet::params</a></span></dd>
-  </dl>
-  
   
   <dl>
     <dt>Defined in:</dt>
@@ -82,7 +77,10 @@
     
 <p>R_profile::Window::Puppet_agent</p>
 
-<p>Setup a puppet agent on Windows</p>
+<p>Manages:  * Puppet Agent service  * Puppet binaries in <code>$PATH</code> 
+* Proxy server environment variables (ruby uses these instead of the
+windows proxy information in registry)  * Reboot after making any of the
+above changes in order to activate them</p>
 
   </div>
 </div>
@@ -95,15 +93,16 @@
         <span class='name'>puppet_path</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt>Variant[Boolean, String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::windows::puppet_agent::puppet_path&quot;, &#39;c:/Program Files/PuppetLabs/puppet/bin&#39;)</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;c:/Program Files/PuppetLabs/puppet/bin&#39;</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>PATH to the puppet agent</p>
+<p>Ensure this directory is in <code>$PATH</code> or pass <code>false</code>
+to do nothing</p>
 </div>
       
     </li>
@@ -116,13 +115,14 @@
         <span class='type'>(<tt>Variant[Boolean, String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::puppet::proxy&quot;, false)</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p><code>false</code> to skip configuration of a proxy server, otherwise the
-proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
+<p><code>false</code> Proxy server url to use with Puppet, eg
+<code>http://proxy.megacorp.com:8080</code>. Pass <code>false</code> to
+deconfigure proxy support</p>
 </div>
       
     </li>
@@ -145,6 +145,61 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>puppet_agent_enable</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p><code>true</code> to start Puppet Agent on boot, otherwise
+<code>false</code></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>puppet_agent_ensure</span>
+      
+      
+        <span class='type'>(<tt>Enum['running', 'stopped']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;running&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How to ensure the Puppet Agent service</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pxp_agent_service</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;pxp-agent&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of the PXP Agent service to manage</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -155,14 +210,6 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
         <pre class="lines">
 
 
-8
-9
-10
-11
-12
-13
-14
-15
 16
 17
 18
@@ -200,16 +247,25 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
 50
 51
 52
-53</pre>
+53
+54
+55
+56
+57
+58
+59</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/windows/puppet_agent.pp', line 8</span>
+        <pre class="code"><span class="info file"># File 'manifests/windows/puppet_agent.pp', line 16</span>
 
 class r_profile::windows::puppet_agent(
-    String  $puppet_path            = hiera(&quot;r_profile::windows::puppet_agent::puppet_path&quot;, &#39;c:/Program Files/PuppetLabs/puppet/bin&#39;),
-    Variant[Boolean, String] $proxy = hiera(&quot;r_profile::puppet::proxy&quot;, false),
-    String  $puppet_agent_service   = &quot;puppet&quot;,
-) inherits r_profile::puppet::params {
+    Variant[Boolean, String]    $puppet_path          = &#39;c:/Program Files/PuppetLabs/puppet/bin&#39;,
+    Variant[Boolean, String]    $proxy                = false,
+    String                      $puppet_agent_service = &quot;puppet&quot;,
+    Enum[&#39;running&#39;, &#39;stopped&#39;]  $puppet_agent_ensure  = &#39;running&#39;,
+    Boolean                     $puppet_agent_enable  = true,
+    String                      $pxp_agent_service    = &quot;pxp-agent&quot;,
+) {
 
   if $proxy {
     $proxy_ensure = present
@@ -218,25 +274,20 @@ class r_profile::windows::puppet_agent(
   }
 
   if $puppet_path {
-    $puppet_path_ensure = present
-  } else {
-    $puppet_path_ensure = absent
+    # puppet binaries in path
+    windows_env { &#39;puppet_path&#39;:
+      ensure    =&gt; present,
+      value     =&gt; $puppet_path,
+      mergemode =&gt; insert,
+      variable  =&gt; &quot;Path&quot;,
+      notify    =&gt; Reboot[&quot;puppet_reboot&quot;],
+    }
   }
 
   service { $puppet_agent_service:
-    ensure =&gt; running,
-    enable =&gt; true,
+    ensure =&gt; $puppet_agent_ensure,
+    enable =&gt; $puppet_agent_enable,
   }
-
-  # puppet binaries in path
-  windows_env { &#39;puppet_path&#39;:
-    ensure    =&gt; $puppet_path_ensure,
-    value     =&gt; $puppet_path,
-    mergemode =&gt; insert,
-    variable  =&gt; &quot;Path&quot;,
-    notify    =&gt; Reboot[&quot;puppet_reboot&quot;],
-  }
-
 
   #
   # proxy support

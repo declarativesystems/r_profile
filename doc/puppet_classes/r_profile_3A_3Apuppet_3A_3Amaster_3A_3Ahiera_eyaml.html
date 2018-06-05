@@ -62,11 +62,6 @@
       <div id="content"><h1>Puppet Class: r_profile::puppet::master::hiera_eyaml</h1>
 <div class="box_info">
   
-  <dl>
-    <dt>Inherits:</dt>
-    <dd><span class='object_link'><a href="r_profile_3A_3Apuppet_3A_3Aparams.html" title="puppet_classes::r_profile::puppet::params (puppet_class)">r_profile::puppet::params</a></span></dd>
-  </dl>
-  
   
   <dl>
     <dt>Defined in:</dt>
@@ -176,6 +171,13 @@ anywhere and does not require root access to the Puppet Master.</p>
 </ul>
 
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/puppetlabs/puppetserver_gem" target="_parent" title="https://forge.puppet.com/puppetlabs/puppetserver_gem">https://forge.puppet.com/puppetlabs/puppetserver_gem</a></li>
+    
+  </ul>
+
 </div><div class="method_details_list">
   <table class="source_code">
     <tr>
@@ -183,8 +185,6 @@ anywhere and does not require root access to the Puppet Master.</p>
         <pre class="lines">
 
 
-26
-27
 28
 29
 30
@@ -248,15 +248,17 @@ anywhere and does not require root access to the Puppet Master.</p>
 88
 89
 90
-91</pre>
+91
+92
+93</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera_eyaml.pp', line 26</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera_eyaml.pp', line 28</span>
 
 class r_profile::puppet::master::hiera_eyaml(
     Boolean $gem_install  = true,
     Boolean $create_keys  = true,
-) inherits r_profile::puppet::params {
+) {
 
   if $gem_install {
     # Hiera module will only install eyaml if the manage_package attribute is set,

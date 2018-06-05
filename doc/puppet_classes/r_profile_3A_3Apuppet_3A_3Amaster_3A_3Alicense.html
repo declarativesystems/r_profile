@@ -130,7 +130,10 @@ branch) and then deploy to the master as usual.</p>
 35
 36
 37
-38</pre>
+38
+39
+40
+41</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/puppet/master/license.pp', line 11</span>
@@ -155,11 +158,14 @@ class r_profile::puppet::master::license {
 
   # Copy in a licence file if diff says its non-existant or different.  We must
   # run after the code above otherwise we will be stuck in a race condition
-  # where the file can never be updated
+  # where the file can never be updated. If user forgets to load license.key into
+  # control repo then we will ignore this and proceed which is why we allow exit
+  # status 1 and 0, otherwise runs will fail
   exec { &quot;copy pe license.key content&quot;:
-    command =&gt; &quot;cp ${license_source} ${license_target} &amp;&amp; chmod +644 ${license_target}&quot;,
+    command =&gt; &quot;cp ${license_source} ${license_target} &amp;&amp; chmod 0644 ${license_target}&quot;,
     unless  =&gt; &quot;diff ${license_source} ${license_target}&quot;,
     path    =&gt; [&quot;/usr/bin&quot;, &quot;/bin&quot;],
+    returns =&gt; [0,1],
     require =&gt; Class[&quot;puppet_enterprise::license&quot;],
   }
 }</pre>

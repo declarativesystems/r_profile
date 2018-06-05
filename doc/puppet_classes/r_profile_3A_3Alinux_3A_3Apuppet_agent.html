@@ -62,11 +62,6 @@
       <div id="content"><h1>Puppet Class: r_profile::linux::puppet_agent</h1>
 <div class="box_info">
   
-  <dl>
-    <dt>Inherits:</dt>
-    <dd><span class='object_link'><a href="r_profile_3A_3Apuppet_3A_3Aparams.html" title="puppet_classes::r_profile::puppet::params (puppet_class)">r_profile::puppet::params</a></span></dd>
-  </dl>
-  
   
   <dl>
     <dt>Defined in:</dt>
@@ -82,15 +77,21 @@
     
 <p>R_profile::Linux::Puppet_agent</p>
 
-<p>Manage the Puppet Agent service and add support for proxy servers.</p>
+<p>Manages:  * Puppet Agent service  * Proxy server environment variable
+support</p>
 
-<p>The Puppet Agent is not managed by Puppet out-of-the box in current
-versions of Puppet Enterprise. In order to restart the service using
-Puppet, this class creates <code>Service['puppet']</code> so that restarts
-can be carried out as necessary.</p>
+<p>The Puppet Agent is not managed by Puppet Enterprise out of the box (but
+PXP Agent is…). To restart them using Puppet we create service resources
+for them here so that restarts can be carried out as necessary.</p>
 
-<p>Proxy server support is managed by updating the systemd/init environment
-file to set the connection details.</p>
+<p>To support proxy servers, we set the <code>http_proxy</code> and
+<code>https_proxy</code> environment variables for both agents. Scheduled
+Puppet agent runs will use the defaults from <code>sysconf_puppet</code>,
+Puppet agent initiated by PXP (run puppet button) uses
+<code>sysconf_pxp_agent</code>. By setting the environment in both files,
+consistency can be reached, apart from when running directly on the command
+line with <code>puppet agent -t</code>. In this case, the operator is
+resposonsible for its own environment</p>
 
   </div>
 </div>
@@ -125,12 +126,31 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$r_profile::puppet::params::sysconf_puppet</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;${facts[&#39;sysconf_dir&#39;]}/puppet&quot;</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
 <p>Path to sysconf file for puppet agent. Used to set proxy server environment
+variables</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sysconf_pxp_agent</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;${facts[&#39;sysconf_dir&#39;]}/pxp-agent&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to sysconf file for pxp agent. Used to set proxy server environment
 variables</p>
 </div>
       
@@ -186,21 +206,26 @@ variables</p>
       
         &mdash;
         <div class='inline'>
-<p>How to ensure the agent service</p>
+<p>How to ensure the Puppet Agent service</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>export_variable</span>
+        <span class='name'>pxp_agent_service</span>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$r_profile::puppet::params::export_variable</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;pxp-agent&quot;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of the PXP Agent service to manage</p>
+</div>
       
     </li>
   
@@ -221,14 +246,6 @@ variables</p>
         <pre class="lines">
 
 
-18
-19
-20
-21
-22
-23
-24
-25
 26
 27
 28
@@ -284,19 +301,52 @@ variables</p>
 78
 79
 80
-81</pre>
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/puppet_agent.pp', line 18</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/puppet_agent.pp', line 26</span>
 
 class r_profile::linux::puppet_agent(
     Variant[String, Boolean]    $proxy                = false,
-    String                      $sysconf_puppet       = $r_profile::puppet::params::sysconf_puppet,
-    Boolean                     $export_variable      = $r_profile::puppet::params::export_variable,
+    String                      $sysconf_puppet       = &quot;${facts[&#39;sysconf_dir&#39;]}/puppet&quot;,
+    String                      $sysconf_pxp_agent    = &quot;${facts[&#39;sysconf_dir&#39;]}/pxp-agent&quot;,
     String                      $puppet_agent_service = &quot;puppet&quot;,
     Boolean                     $puppet_agent_enable  = true,
     Enum[&#39;running&#39;, &#39;stopped&#39;]  $puppet_agent_ensure  = &#39;running&#39;,
-) inherits r_profile::puppet::params {
+    String                      $pxp_agent_service    = &quot;pxp-agent&quot;,
+) {
 
   # register the service so we can restart it if needed
   # PE-11353 means we may not need this forever
@@ -305,7 +355,8 @@ class r_profile::linux::puppet_agent(
     enable =&gt; $puppet_agent_enable,
   }
 
-  file { $sysconf_puppet:
+
+  file { [$sysconf_puppet, $sysconf_pxp_agent]:
     ensure =&gt; file,
     owner  =&gt; &quot;root&quot;,
     group  =&gt; &quot;root&quot;,
@@ -317,31 +368,45 @@ class r_profile::linux::puppet_agent(
     Service[$puppet_agent_service],
   ]
 
+  $pxp_agent_notifications = [
+    Exec[&quot;systemctl_daemon_reload&quot;],
+    Service[$pxp_agent_service],
+  ]
+
+
   File_line &lt;| path == $sysconf_puppet |&gt; ~&gt; $puppet_agent_notifications
+  File_line &lt;| path == $sysconf_pxp_agent |&gt; ~&gt; $pxp_agent_notifications
 
   #
   # Proxy server monkey patching
   #
   if $proxy {
     $proxy_ensure = present
-    if $export_variable {
+    if $facts[&#39;systemd_active&#39;] {
+      $http_proxy_var   = &quot;http_proxy=${proxy}&quot;
+      $https_proxy_var  = &quot;https_proxy=${proxy}&quot;
+    } else {
       # solaris needs a 2-step export
       $http_proxy_var   = &quot;http_proxy=${proxy}; export http_proxy&quot;
       $https_proxy_var  = &quot;https_proxy=${proxy}; export https_proxy&quot;
-    } else {
-      $http_proxy_var   = &quot;http_proxy=${proxy}&quot;
-      $https_proxy_var  = &quot;https_proxy=${proxy}&quot;
     }
   } else {
     # remove any existing proxy info
     $proxy_ensure     = absent
-    $http_proxy_var   = undef
-    $https_proxy_var  = undef
+    $http_proxy_var   = &quot;http_proxy=&quot;
+    $https_proxy_var  = &quot;https_proxy=&quot;
   }
 
   file_line { &quot;puppet agent http_proxy&quot;:
     ensure =&gt; $proxy_ensure,
     path   =&gt; $sysconf_puppet,
+    line   =&gt; $http_proxy_var,
+    match  =&gt; &quot;http_proxy=&quot;,
+  }
+
+  file_line { &quot;pxp agent http_proxy&quot;:
+    ensure =&gt; $proxy_ensure,
+    path   =&gt; $sysconf_pxp_agent,
     line   =&gt; $http_proxy_var,
     match  =&gt; &quot;http_proxy=&quot;,
   }
@@ -352,6 +417,14 @@ class r_profile::linux::puppet_agent(
     line   =&gt; $https_proxy_var,
     match  =&gt; &quot;https_proxy=&quot;,
   }
+
+  file_line { &quot;pxp agent https_proxy&quot;:
+    ensure =&gt; $proxy_ensure,
+    path   =&gt; $sysconf_pxp_agent,
+    line   =&gt; $https_proxy_var,
+    match  =&gt; &quot;https_proxy=&quot;,
+  }
+
 }</pre>
       </td>
     </tr>

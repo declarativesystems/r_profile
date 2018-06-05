@@ -62,11 +62,6 @@
       <div id="content"><h1>Puppet Class: r_profile::puppet::master::proxy</h1>
 <div class="box_info">
   
-  <dl>
-    <dt>Inherits:</dt>
-    <dd><span class='object_link'><a href="r_profile_3A_3Apuppet_3A_3Aparams.html" title="puppet_classes::r_profile::puppet::params (puppet_class)">r_profile::puppet::params</a></span></dd>
-  </dl>
-  
   
   <dl>
     <dt>Defined in:</dt>
@@ -86,8 +81,9 @@
 proxy server. To configure the master&#39;s agent for proxy support,
 include <code>r_profile::linux::puppet_agent</code></p>
 
-<p>If using this class you must also declare r_profile::puppet::master in
-order to manage and notify <a href="'puppet'">Service</a></p>
+<p>If using this class you must also declare
+<code>r_profile::puppet::master</code> in order to manage and notify
+<code>Service['pe-puppetserver']</code></p>
 
   </div>
 </div>
@@ -134,6 +130,47 @@ or <code>false</code> to not use a proxy server</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>sysconf_puppetserver</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;${facts[&#39;sysconf_dir&#39;]}/pe-puppetserver&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to systemd/init environment file for PuppetServer</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>puppetconf_proxy</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p><code>true</code> to also add proxy information to
+<code>puppet.conf</code>. If set, all operations on Puppet will use the
+proxy server and there is no ability to bypass, so this will break commands
+such as <code>puppet node</code>. If we are deconfigiuring a proxy server,
+then always remove proxy server info from <code>puppet.conf</code>. @see
+ENTERPRISE-1175</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -153,11 +190,6 @@ or <code>false</code> to not use a proxy server</p>
         <pre class="lines">
 
 
-19
-20
-21
-22
-23
 24
 25
 26
@@ -252,17 +284,27 @@ or <code>false</code> to not use a proxy server</p>
 115
 116
 117
-118</pre>
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master/proxy.pp', line 19</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/proxy.pp', line 24</span>
 
 class r_profile::puppet::master::proxy(
-  Variant[String, Boolean] $proxy = false,
-) inherits r_profile::puppet::params {
+  Variant[String, Boolean] $proxy                   = false,
+  String                   $sysconf_puppetserver    = &quot;${facts[&#39;sysconf_dir&#39;]}/pe-puppetserver&quot;,
+  Boolean                  $puppetconf_proxy        = false,
+) {
 
   $puppetconf             = &quot;${::settings::confdir}/puppet.conf&quot;
-  $sysconf_puppetserver   = $r_profile::puppet::params::sysconf_puppetserver
 
   #
   # Proxy server in settings file
@@ -274,13 +316,13 @@ class r_profile::puppet::master::proxy(
     $proxy_port             = regsubst($proxy, $regexp, &#39;\3&#39;)
     $http_proxy_var_gemrc   = &quot;http_proxy: ${proxy}&quot;
     $https_proxy_var_gemrc  = &quot;https_proxy: ${proxy}&quot;
-    if $export_variable {
+    if $facts[&#39;systemd_active&#39;] {
+      $http_proxy_var = &quot;http_proxy=${proxy}&quot;
+      $https_proxy_var = &quot;https_proxy=${proxy}&quot;
+    } else {
       # solaris needs a 2-step export
       $http_proxy_var   = &quot;http_proxy=${proxy}; export http_proxy&quot;
       $https_proxy_var  = &quot;https_proxy=${proxy}; export https_proxy&quot;
-    } else {
-      $http_proxy_var   = &quot;http_proxy=${proxy}&quot;
-      $https_proxy_var  = &quot;https_proxy=${proxy}&quot;
     }
   } else {
     $proxy_ensure = absent
@@ -303,21 +345,24 @@ class r_profile::puppet::master::proxy(
   }
 
   # PMT (puppet.conf)
-  ini_setting { &quot;puppet.conf http_proxy_host&quot;:
-    path    =&gt; $puppetconf,
-    section =&gt; &quot;user&quot;,
-    setting =&gt; &quot;http_proxy_host&quot;,
-    value   =&gt; $proxy_host,
-    notify  =&gt; Service[&#39;puppet&#39;],
+  if $puppetconf_proxy or ! $proxy {
+    ini_setting { &quot;puppet.conf http_proxy_host&quot;:
+      path    =&gt; $puppetconf,
+      section =&gt; &quot;user&quot;,
+      setting =&gt; &quot;http_proxy_host&quot;,
+      value   =&gt; $proxy_host,
+      notify  =&gt; Service[&#39;puppet&#39;],
+    }
+
+    ini_setting { &quot;puppet.conf http_proxy_port&quot;:
+      path    =&gt; $puppetconf,
+      section =&gt; &quot;user&quot;,
+      setting =&gt; &quot;http_proxy_port&quot;,
+      value   =&gt; $proxy_port,
+      notify  =&gt; Service[&#39;puppet&#39;],
+    }
   }
 
-  ini_setting { &quot;puppet.conf http_proxy_port&quot;:
-    path    =&gt; $puppetconf,
-    section =&gt; &quot;user&quot;,
-    setting =&gt; &quot;http_proxy_port&quot;,
-    value   =&gt; $proxy_port,
-    notify  =&gt; Service[&#39;puppet&#39;],
-  }
 
   # Enable pe-puppetserver to work with proxy
   file_line { &quot;pe-puppetserver http_proxy&quot;:
