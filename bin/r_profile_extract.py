@@ -33,6 +33,7 @@ if args["puppet_enterprise"]:
         "manifests/windows/puppet_agent.pp",
         "manifests/linux/puppet_agent.pp",
         "templates/autosign.sh.epp",
+        "files/hiera.yaml",
     ]
 elif args["extract"]:
     extracts = [args["extract"]]
