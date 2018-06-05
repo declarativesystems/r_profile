@@ -7,3 +7,4 @@ Puppetfile.lock
 .DS_Store
 .yardoc
 .idea
+.Puppetfile.pdqtest
