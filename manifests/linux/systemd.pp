@@ -6,6 +6,9 @@
 #
 # @see https://forge.puppet.com/puppetlabs/stdlib
 #
+# @example don't rewrite systemd files to require password for single user mode
+#   r_profile::linux::systemd::enforce_sulogin: true
+#
 # @param enforce_sulogin `true` to ensure `sulogin` used, false to leave files unaltered
 class r_profile::linux::systemd(
     Boolean $enforce_sulogin = false,

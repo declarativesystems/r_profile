@@ -5,10 +5,27 @@
 #   * `/dev/shm` mounted `nodev,nosuid,noexec` (if separate partition)
 #   * `/home` mounted `nodev` (if separate partition)
 #   * Optionally bind mount `/var/tmp` to `/tmp`
+#   * Ensure additional `mounts` are present in `/etc/fstab` and mounted
+#
+# @see https://puppet.com/docs/puppet/5.5/types/mount.html
+#
+# @example hiera data to enable bind mounting /tmp
+#   r_profile::linux::mounts::bind_mount_var_tmp: true
+#
+# @example hiera data to ensure additional mounts (options are those provided by `mount` provider)
+#   r_profile::linux::mounts::mounts:
+#     "/data":
+#       atboot: true
+#       device: /dev/sdc1
+#       fstype: ext4
+#     "/cdrom":
+#       ensure: absent
 #
 # @param bind_mount_var_tmp `true` to bind mount `/var/tmp` to `/tmp`
+# @param mounts Hash of extra mountpoints to mount (see examples)
 class r_profile::linux::mounts(
-    Boolean $bind_mount_var_tmp = false,
+    Boolean                       $bind_mount_var_tmp = false,
+    Hash[String, Optional[Hash]]  $mounts             = {}
 ) {
   if dig($facts, 'mountpoints', '/tmp') {
     mount { '/tmp':
@@ -53,4 +70,13 @@ class r_profile::linux::mounts(
     }
   }
 
+  $mounts.each |$key, $opts| {
+    mount {
+      default:
+        ensure => mounted,
+      ;
+      $key:
+        * => pick($opts, {})
+    }
+  }
 }

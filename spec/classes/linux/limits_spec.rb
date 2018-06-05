@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'r_profile::linux::limit' do
+describe 'r_profile::linux::limits' do
   let :facts do
       {
         :operatingsystemmajrelease  => '7',
@@ -14,7 +14,7 @@ describe 'r_profile::linux::limit' do
   end
 
   context 'with default values for all parameters' do
-    it { should contain_class('r_profile::linux::limit') }
+    it { should contain_class('r_profile::linux::limits') }
   end
 
   context 'with settings present' do

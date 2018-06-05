@@ -1,4 +1,4 @@
-# Redhat_tidy::Sysconfig_init
+# R_profile::Linux::Sysconfig_init
 #
 # Lockdown /etc/sysconfig/init settings (RHEL < 7)
 # * PROMPT=no
@@ -7,7 +7,21 @@
 #
 # Lockdown /etc/sysconfig/init settings (RHEL >= 7)
 # * PROMPT=no
-# * umask 027
+# * umask 0027
+#
+# In RHEL7, we must use systemd to configure what happens in single user mode. See r_profile::linux::systemd
+#
+# @example don't manage the PROMPT variable
+#   r_profile::linux::sysconfig_init::manage_prompt: false
+#
+# @example don't manage the SINGLE variable
+#   r_profile::linux::sysconfig_init::manage_single: false
+#
+# @example don't manage umask
+#   r_profile::linux::sysconfig_init::manage_umask: false
+#
+# @example enforce a more relaxed umask
+#   r_proflie::linux::sysconfig_init::umask: 0022
 #
 # @param manage_prompt Manage the PROMPT variable if true otherwise do nothing
 # @param manage_single Manage the SINGLE variable if true otherwise do nothing
@@ -17,7 +31,7 @@ class r_profile::linux::sysconfig_init(
   $manage_prompt  = true,
   $manage_single  = true,
   $manage_umask   = true,
-  $umask          = "027",
+  $umask          = "0027",
 ) {
 
   $file = "/etc/sysconfig/init"
