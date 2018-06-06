@@ -14,15 +14,18 @@
 #
 # @param mount hash of mounts to mount
 # @param default hash of default mount options
-class r_profile::mount($mount={}, $default={}) {
-  $mount.each |$key, $opts| {
+class r_profile::mount(
+  Hash[String, Optional[Hash]]  $mounts             = {},
+  Hash[String, Optional[Hash]]  $default_mounts             = {},
+
+  $mount={}, $default={}) {
+  $mounts.each |$key, $opts| {
     mount {
       default:
-        * => $default,
+        ensure => mounted,
       ;
       $key:
-        * => $opts
-      ;
+        * => pick($opts, {})
     }
   }
 }

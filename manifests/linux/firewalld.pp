@@ -11,15 +11,19 @@
 #     "allow ssh":
 #       ensure: present
 #       service: ssh
+#       zone: public
 #     "allow puppetmaster":
 #       ensure: present
 #       service: "puppetmaster"
+#       zone: public
 #     "allow puppet orchestrator":
 #       ensure:  present
 #       service: "puppet-orchestrator"
+#       zone: public
 #     "allow https":
 #       ensure: present
 #       service: "https"
+#       zone: public
 #
 # @example hiera data for creating a rich rule
 #   r_profile::linux::firewalld::firewalld_rich_rule:{}

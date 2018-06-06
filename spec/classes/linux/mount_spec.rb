@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'puppet_factset'
-describe 'r_profile::linux::mounts' do
+describe 'r_profile::linux::mount' do
   # Uncomment only the factset you would like to use for these tests
   # system_name = 'AIX-6.1-powerpc'
   # system_name = 'AIX-7.1-powerpc'
@@ -35,6 +35,6 @@ describe 'r_profile::linux::mounts' do
   end
 
   context 'with default values for all parameters' do
-    it { should contain_class('r_profile::linux::mounts') }
+    it { should contain_class('r_profile::linux::mount') }
   end
 end

@@ -19,14 +19,19 @@
 #     "java-1.8.0-openjdk":
 #       ensure: "1.8.0.171-8.b10.el7_5"
 #
-# @param packages Array or Hash of packages (suitable for ensure_packages) to
-#   install.  Using a hash allows the installation source to be specified,
-#   necessary to install package on AIX and Solaris
+# @example Hiera data to install using a different package provider
+#   r_profile::package::packages:
+#     nokogiri:
+#       provider: gem
+#
+# @param base_packages Hash of basic packages to install.  Using a hash allows the provider options to be specified
+# @param packages Hash of additional packages to install.  Using a hash allows the provider options to be specified
 class r_profile::package(
-    Hash[String, Optional[Hash]] $packages = {},
+    Hash[String, Optional[Hash]] $base_packages = {},
+    Hash[String, Optional[Hash]] $packages      = {},
 ) {
 
-  $packages.each | $key, $opts | {
+  merge($base_packages, $packages).each | $key, $opts | {
     package {
       default:
         ensure => present,
