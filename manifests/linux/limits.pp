@@ -9,25 +9,21 @@
 #
 # @example hiera data to set limits
 #   r_profile::linux::limits::settings:
-#     'root/nofile':
-#       both: 1048576
+#     '*/nofile':
+#       hard: 1048576
+#       soft: 1048576
 #     '*/memlock':
 #       both: unlimited
 #
 # @param purge True to remove unmanaged entries otherwise false
 # @param settings Hash of limits settings to make
 class r_profile::linux::limits(
-    Boolean                       $purge    = false,
-    Hash[String, Optional[Hash]]  $settings = {},
+    Boolean $purge    = false,
+    Hash    $settings = {},
 ) {
   class { 'limits':
     purge_limits_d_dir => $purge,
-  }
-
-  $settings.each |$key, $opts| {
-    limits::limits { $key:
-      * => pick($opts, {}),
-    }
+    entries            => $settings,
   }
 
 }
