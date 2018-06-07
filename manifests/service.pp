@@ -32,7 +32,7 @@ class r_profile::service(
       ;
 
       $key:
-        * => $opts,
+        * => pick($opts, {}),
     }
   }
 }

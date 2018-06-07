@@ -25,7 +25,6 @@
     {"name":"geoffwilliams-timezone", "version_requirement":"0.1.1"},
     {"name":"declarativesystems/puppet_vagrant", "version_requirement":"0.5.0"},
     {"name":"saz-sudo", "version_requirement":"5.0.0"},
-    {"name":"puppetlabs-puppetserver_gem", "version_requirement":"1.0.0"},
     {"name":"puppetlabs-mysql", "version_requirement":"5.3.0"},
     {"name":"puppetlabs-haproxy", "version_requirement":"2.1.0"},
     {"name":"rtyler-jenkins", "version_requirement":"1.7.0"},
