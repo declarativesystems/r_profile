@@ -11,7 +11,7 @@
 # @param blacklist_file File to store the module blacklist in
 class r_profile::linux::module_disable(
     Array[String] $modules        = [],
-    String        $disable_file = "/etc/modprobe.d/blacklist.conf",
+    String        $disable_file = "/etc/modprobe.d/disabled.conf",
 ) {
 
   file { $disable_file:
