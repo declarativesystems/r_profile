@@ -10,7 +10,7 @@
   "dependencies": [
     {"name":"puppetlabs-stdlib","version_requirement":">= 4.16.0"},
     {"name":"WhatsARanjit-node_manager", "version_requirement":"0.7.1"},
-    {"name":"geoffwilliams-motd","version_requirement":"2.1.1"},
+    {"name":"geoffwilliams-motd","version_requirement":"2.2.0"},
     {"name":"puppetlabs-ntp","version_requirement":"7.1.1"},
     {"name":"geoffwilliams-sysctl","version_requirement":"0.1.1"},
     {"name":"puppetlabs-inifile","version_requirement":"2.2.2"},
