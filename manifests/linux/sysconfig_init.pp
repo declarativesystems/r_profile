@@ -35,6 +35,12 @@ class r_profile::linux::sysconfig_init(
 ) {
 
   $file = "/etc/sysconfig/init"
+  file { $file:
+    ensure => file,
+    owner  => "root",
+    group  => "root",
+    mode   => "0644",
+  }
 
   # PROMPT=no
   if $manage_prompt {
