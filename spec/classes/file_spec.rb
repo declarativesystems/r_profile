@@ -23,18 +23,4 @@ describe 'r_profile::file' do
     )}
   end
 
-  context 'manages directories' do
-    let :params do
-      {
-        :directories => {
-          "/bar" => {},
-        }
-      }
-    end
-    it { should contain_file('/bar').with(
-      {
-        :ensure => "directory",
-      }
-    )}
-  end
 end
