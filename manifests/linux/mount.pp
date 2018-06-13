@@ -11,7 +11,8 @@
 # @example hiera data to enable bind mounting /tmp
 #   r_profile::linux::mount::bind_mount_var_tmp: true
 #
-# @param bind_mount_var_tmp `true` to bind mount `/var/tmp` to `/tmp`
+# @param bind_mount_var_tmp `true` to bind mount `/var/tmp` to `/tmp` if
+#   `/var/tmp` is not already a separately mounted partition
 class r_profile::linux::mount(
     Boolean $bind_mount_var_tmp = false,
 ) {
@@ -45,7 +46,7 @@ class r_profile::linux::mount(
     }
   }
 
-  if $bind_mount_var_tmp {
+  if $bind_mount_var_tmp and ! dig($facts, 'mountpoints', '/var/tmp'){
     file { "/var/tmp":
       ensure => directory,
       owner  => root,
