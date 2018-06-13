@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Puppet Class: r_profile::linux::mount
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "puppet_classes::r_profile::linux::mount";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (r)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Classes</span></span>
+     &raquo; 
+    <span class="title">r_profile::linux::mount</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Class: r_profile::linux::mount</h1>
+<div class="box_info">
+  
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      manifests/linux/mount.pp
+    </dd>
+  </dl>
+</div>
+
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>r_profile::linux::Mounts</p>
+
+<p>Common mount good practices for RedHat:  * <code>/tmp</code> mounted
+<code>nodev,nosuid,noexec</code> (if separate partition)  *
+<code>/dev/shm</code> mounted <code>nodev,nosuid,noexec</code> (if separate
+partition)  * <code>/home</code> mounted <code>nodev</code> (if separate
+partition)  * Optionally bind mount <code>/var/tmp</code> to
+<code>/tmp</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>hiera data to enable bind mounting /tmp</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::linux::mount::bind_mount_var_tmp: true</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>bind_mount_var_tmp</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p><code>true</code> to bind mount <code>/var/tmp</code> to <code>/tmp</code>
+if <code>/var/tmp</code> is not already a separately mounted partition</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://puppet.com/docs/puppet/5.5/types/mount.html" target="_parent" title="https://puppet.com/docs/puppet/5.5/types/mount.html">https://puppet.com/docs/puppet/5.5/types/mount.html</a></li>
+    
+  </ul>
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'manifests/linux/mount.pp', line 16</span>
+
+class r_profile::linux::mount(
+    Boolean $bind_mount_var_tmp = false,
+) {
+  if dig($facts, &#39;mountpoints&#39;, &#39;/tmp&#39;) {
+    mount { &#39;/tmp&#39;:
+      ensure  =&gt; mounted,
+      atboot  =&gt; true,
+      options =&gt; &#39;nodev,nosuid,noexec&#39;,
+      device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/tmp&#39;][&#39;device&#39;],
+      fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/tmp&#39;][&#39;filesystem&#39;],
+    }
+  }
+
+  if dig($facts, &#39;mountpoints&#39;, &#39;/dev/shm&#39;) {
+    mount { &#39;/dev/shm&#39;:
+      ensure  =&gt; mounted,
+      atboot  =&gt; true,
+      options =&gt; &#39;nodev,nosuid,noexec&#39;,
+      device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/dev/shm&#39;][&#39;device&#39;],
+      fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/dev/shm&#39;][&#39;filesystem&#39;],
+    }
+  }
+
+  if dig($facts, &#39;mountpoints&#39;, &#39;/home&#39;) {
+    mount { &#39;/home&#39;:
+      ensure  =&gt; mounted,
+      atboot  =&gt; true,
+      options =&gt; &#39;nodev&#39;,
+      device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/home&#39;][&#39;device&#39;],
+      fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/home&#39;][&#39;filesystem&#39;],
+    }
+  }
+
+  if $bind_mount_var_tmp and ! dig($facts, &#39;mountpoints&#39;, &#39;/var/tmp&#39;){
+    file { &quot;/var/tmp&quot;:
+      ensure =&gt; directory,
+      owner  =&gt; root,
+    }
+    mount { &#39;/var/tmp&#39;:
+      ensure  =&gt; mounted,
+      device  =&gt; &#39;/tmp&#39;,
+      fstype  =&gt; &#39;none&#39;,
+      options =&gt; &#39;bind,nodev,nosuid,noexec&#39;,
+    }
+  }
+}</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>

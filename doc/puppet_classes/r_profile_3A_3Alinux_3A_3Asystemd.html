@@ -79,12 +79,33 @@
 
 <p>Provides:  * <code>Exec['systemctl_daemon_reload']</code> to scan for
 changed units when puppet changes them (invoke via notify)  * Enforcement
-of <code>sulogin</code> for rescue/emegency mode (this is the OS default)</p>
+of <code>sulogin</code> for rescue/emegency mode (this is the OS default) 
+* Disable graphical login by changing the default target (replaces default
+runlevel from <code>/etc/inittab</code>)</p>
 
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>don&#39;t rewrite systemd files to require password for single user mode</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::linux::systemd::enforce_sulogin: false</code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>disable booting to graphical login</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::linux::systemd::disable_graphical_login: true</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -95,7 +116,7 @@ of <code>sulogin</code> for rescue/emegency mode (this is the OS default)</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
+        <em class="default">(defaults to: <tt>true</tt>)</em>
       
       
         &mdash;
@@ -103,6 +124,19 @@ of <code>sulogin</code> for rescue/emegency mode (this is the OS default)</p>
 <p><code>true</code> to ensure <code>sulogin</code> used, false to leave files
 unaltered</p>
 </div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>disable_graphical_login</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
       
     </li>
   
@@ -123,13 +157,6 @@ unaltered</p>
         <pre class="lines">
 
 
-10
-11
-12
-13
-14
-15
-16
 17
 18
 19
@@ -155,13 +182,32 @@ unaltered</p>
 39
 40
 41
-42</pre>
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/systemd.pp', line 10</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/systemd.pp', line 17</span>
 
 class r_profile::linux::systemd(
-    Boolean $enforce_sulogin = false,
+    Boolean $enforce_sulogin          = true,
+    Boolean $disable_graphical_login  = false,
 ) {
 
   # Provide a graph node that we can notify to get systemd to reload itself.
@@ -184,6 +230,16 @@ class r_profile::linux::systemd(
         match  =&gt; &#39;^ExecStart=&#39;,
         line   =&gt; &#39;ExecStart=-/bin/sh -c &quot;/sbin/sulogin; /usr/bin/systemctl --fail --no-block default&#39;
       }
+    }
+  }
+
+  if $disable_graphical_login {
+    # reboot to make active
+    file { &quot;/etc/systemd/system/default.target&quot;:
+      ensure =&gt; symlink,
+      owner  =&gt; &quot;root&quot;,
+      group  =&gt; &quot;root&quot;,
+      target =&gt; &quot;/lib/systemd/system/multi-user.target&quot;,
     }
   }
 

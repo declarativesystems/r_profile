@@ -93,30 +93,12 @@
         <span class='type'>(<tt>Any</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::file::files&quot;, false)</tt>)</em>
+        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::file::files&quot;, {})</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
 <p>Hash of files to create (suitable for create_resources)</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>directories</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::file::directories&quot;, false)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Hash of directories to create (suitable for create_resources)</p>
 </div>
       
     </li>
@@ -149,6 +131,7 @@
         <pre class="lines">
 
 
+7
 8
 9
 10
@@ -176,59 +159,38 @@
 32
 33
 34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46</pre>
+35</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/file.pp', line 8</span>
+        <pre class="code"><span class="info file"># File 'manifests/file.pp', line 7</span>
 
 class r_profile::file(
-  $files             = hiera(&quot;r_profile::file::files&quot;, false),
-  $directories       = hiera(&quot;r_profile::file::directories&quot;, false),
+  $files             = hiera(&quot;r_profile::file::files&quot;, {}),
   $process_template = hiera(&quot;r_profile::file::process_template&quot;, false),
 ) {
 
-  $default_directory  = { &quot;ensure&quot; =&gt; &quot;directory&quot;}
-  $default_file       = { &quot;ensure&quot; =&gt; &quot;file&quot;}
-
-  if $files {
-    $files.each |$title, $opts| {
-      if $process_template {
-        if dig($opts, &#39;content&#39;) and $opts[&#39;content&#39;] =~ /^template(.+)$/ {
-          # process the template and return the content
-          $template = regsubst($opts[&quot;content&quot;], &#39;^template\(([^)]+)\)$&#39;, &#39;\1&#39;)
-          $temp = {
-            &quot;content&quot; =&gt; template($template)
-          }
-          # merge the hashes, allowing parsed content to override
-          $_opts = merge($opts, $temp)
+  $files.each |$title, $opts| {
+    if $process_template {
+      if dig($opts, &#39;content&#39;) and $opts[&#39;content&#39;] =~ /^template(.+)$/ {
+        # process the template and return the content
+        $template = regsubst($opts[&quot;content&quot;], &#39;^template\(([^)]+)\)$&#39;, &#39;\1&#39;)
+        $temp = {
+          &quot;content&quot; =&gt; template($template)
         }
-      } else {
-        $_opts = $opts
+        # merge the hashes, allowing parsed content to override
+        $_opts = merge($opts, $temp)
       }
-
-      file {
-        default:
-          * =&gt; $default_file,
-        ;
-        $title:
-          * =&gt; $_opts,
-      }
+    } else {
+      $_opts = $opts
     }
-  }
 
-  if $directories {
-    create_resources(&quot;file&quot;, $directories, $default_directory)
+    file {
+      default:
+        ensure =&gt; file,
+      ;
+      $title:
+        * =&gt; $_opts,
+    }
   }
 }</pre>
       </td>

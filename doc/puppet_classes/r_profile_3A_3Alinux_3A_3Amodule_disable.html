@@ -75,10 +75,13 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>Redhat_tidy::Module_blacklist</p>
+<p>R_Profile::Linux::Module_blacklist</p>
 
-<p>Blacklist/disable kernel modules by breaking them in
-/etc/modeprobe.d/blacklist.conf</p>
+<p>Disable kernel modules by breaking them in
+<code>/etc/modeprobe.d/disable.conf</code>. Kernel modules will be disabled
+rather than blacklisted by this process as <code>modprobe</code> will try
+to load the related file. Since we definie the module as
+<code>/bin/true</code>, it won’t be loaded.</p>
 
   </div>
 </div>
@@ -97,6 +100,11 @@
         <em class="default">(defaults to: <tt>[]</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Disable these kernel modules from loading</p>
+</div>
+      
     </li>
   
     <li>
@@ -104,16 +112,41 @@
         <span class='name'>blacklist_file</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'></span>
       
       
-        <em class="default">(defaults to: <tt>&quot;/etc/modprobe.d/blacklist.conf&quot;</tt>)</em>
+      
+        &mdash;
+        <div class='inline'>
+<p>File to store the module blacklist in</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>disable_file</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;/etc/modprobe.d/disabled.conf&quot;</tt>)</em>
       
       
     </li>
   
 </ul>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/puppetlabs/stdlib" target="_parent" title="https://forge.puppet.com/puppetlabs/stdlib">https://forge.puppet.com/puppetlabs/stdlib</a></li>
+    
+      <li><a href="https://linux-audit.com/kernel-hardening-disable-and-blacklist-linux-modules/" target="_parent" title="https://linux-audit.com/kernel-hardening-disable-and-blacklist-linux-modules/">https://linux-audit.com/kernel-hardening-disable-and-blacklist-linux-modules/</a></li>
+    
+  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -122,12 +155,6 @@
         <pre class="lines">
 
 
-6
-7
-8
-9
-10
-11
 12
 13
 14
@@ -144,17 +171,23 @@
 25
 26
 27
-28</pre>
+28
+29
+30
+31
+32
+33
+34</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/module_disable.pp', line 6</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/module_disable.pp', line 12</span>
 
 class r_profile::linux::module_disable(
-    Array[String] $modules = [],
-    $blacklist_file       = &quot;/etc/modprobe.d/blacklist.conf&quot;,
+    Array[String] $modules        = [],
+    String        $disable_file = &quot;/etc/modprobe.d/disabled.conf&quot;,
 ) {
 
-  file { $blacklist_file:
+  file { $disable_file:
     ensure =&gt; file,
     owner  =&gt; &quot;root&quot;,
     group  =&gt; &quot;root&quot;,
@@ -163,9 +196,9 @@ class r_profile::linux::module_disable(
 
   $modules.each |$module| {
 
-    file_line { &quot;${blacklist_file} disable_${module}&quot;:
+    file_line { &quot;${disable_file} disable_${module}&quot;:
       ensure =&gt; present,
-      path   =&gt; $blacklist_file,
+      path   =&gt; $disable_file,
       match  =&gt; &quot;^install ${module}&quot;,
       line   =&gt; &quot;install ${module} /bin/true&quot;,
     }

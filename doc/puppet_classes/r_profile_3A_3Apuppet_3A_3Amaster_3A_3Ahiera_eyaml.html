@@ -79,10 +79,20 @@
 
 <p>Configure hiera-eyaml by generating the encryption keys. Current versions
 of Puppet Enterprise ~2018x ship a vendored eyaml gem so installation is
-not normally needed anymore.</p>
+not needed anymore.</p>
 
-<p>If you want more then one keypair per server and you are using the above
-version of Puppet Enterprise, then you should not use this class.</p>
+<p>Beware that if you are running Puppet Enterprise and install the
+<code>puppetlabs-puppetserver_gem</code> module, you will run into
+ENTERPRISE-1179. To fix this, you must remove
+<code>puppetlabs-puppetserver_gem</code> from your <code>Puppetfile</code>
+and re-deploy code.</p>
+
+<p>If you must install hiera-eyaml gem for some reason, then you will have to
+install <code>puppetlabs-puppetserver_gem</code> module and follow the
+example below to enable gem installation.</p>
+
+<p>If you want more then one keypair per server then you should not use this
+class.</p>
 
 <p>The example below shows how to generate eyaml on the Puppet Master. By
 sharing the server&#39;s public key this process can be carried out
@@ -97,10 +107,10 @@ anywhere and does not require root access to the Puppet Master.</p>
     
       
         <p class="example_title"><div class='inline'>
-<p>Prevent gem installation</p>
+<p>Install the hiera-eyaml gems (not needed for modern Puppet Enterprise)</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::puppet::master::hiera_eyaml::gem_install: false</code></pre>
+      <pre class="example code"><code>r_profile::puppet::master::hiera_eyaml::gem_install: true</code></pre>
     
       
         <p class="example_title"><div class='inline'>
@@ -129,7 +139,7 @@ anywhere and does not require root access to the Puppet Master.</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -174,6 +184,8 @@ anywhere and does not require root access to the Puppet Master.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
+      <li><a href="https://tickets.puppetlabs.com/browse/ENTERPRISE-1179" target="_parent" title="https://tickets.puppetlabs.com/browse/ENTERPRISE-1179">https://tickets.puppetlabs.com/browse/ENTERPRISE-1179</a></li>
+    
       <li><a href="https://forge.puppet.com/puppetlabs/puppetserver_gem" target="_parent" title="https://forge.puppet.com/puppetlabs/puppetserver_gem">https://forge.puppet.com/puppetlabs/puppetserver_gem</a></li>
     
   </ul>
@@ -185,16 +197,6 @@ anywhere and does not require root access to the Puppet Master.</p>
         <pre class="lines">
 
 
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
 38
 39
 40
@@ -250,31 +252,28 @@ anywhere and does not require root access to the Puppet Master.</p>
 90
 91
 92
-93</pre>
+93
+94
+95
+96
+97</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera_eyaml.pp', line 28</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master/hiera_eyaml.pp', line 38</span>
 
 class r_profile::puppet::master::hiera_eyaml(
-    Boolean $gem_install  = true,
+    Boolean $gem_install  = false,
     Boolean $create_keys  = true,
 ) {
 
   if $gem_install {
-    # Hiera module will only install eyaml if the manage_package attribute is set,
-    # however, setting this also installs the hiera package itself, eg completly
-    # breaks puppet enterprise ;-) best thing to do here is install eyaml ourselves
-    # and then use the hiera module to finish setting up the hierarchy and eyaml
-    # keys.  Note that we have to do this twice - once for vendored ruby and once
-    # for vendored jruby.  This isn&#39;t need for installations created with
-    # puppetizer since it does all this for you...
-
-    # we need a composite namevar to allow this to succeed:
+    # If we&#39;re on old PE/POS then we need to install ourselves with a composite namevar:
     # http://www.craigdunn.org/2016/07/composite-namevars-in-puppet/
     package { &quot;vendored ruby eyaml&quot;:
       ensure   =&gt; present,
       name     =&gt; &quot;hiera-eyaml&quot;,
       provider =&gt; puppet_gem,
+      before   =&gt; Exec[&#39;createkeys&#39;],
     }
 
     package { &quot;vendored jruby eyaml&quot;:
@@ -282,6 +281,7 @@ class r_profile::puppet::master::hiera_eyaml(
       name     =&gt; &quot;hiera-eyaml&quot;,
       provider =&gt; puppetserver_gem,
       notify   =&gt; Service[&#39;pe-puppetserver&#39;],
+      before   =&gt; Exec[&#39;createkeys&#39;],
     }
   }
 
@@ -301,7 +301,7 @@ class r_profile::puppet::master::hiera_eyaml(
       command =&gt; &#39;eyaml createkeys&#39;,
       path    =&gt; [&#39;/opt/puppetlabs/puppet/bin&#39;, &#39;/usr/bin&#39;, &#39;/usr/local/bin&#39;, &#39;/opt/puppetlabs/puppet/lib/ruby/vendor_gems/bin&#39;],
       creates =&gt; &quot;${keysdir}/private_key.pkcs7.pem&quot;,
-      require =&gt; [File[$keysdir],  Package[&quot;vendored ruby eyaml&quot;], Package[&quot;vendored jruby eyaml&quot;]],
+      require =&gt; File[$keysdir]
     }
 
     file { &quot;${keysdir}/private_key.pkcs7.pem&quot;:

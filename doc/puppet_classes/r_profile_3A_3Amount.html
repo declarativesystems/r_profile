@@ -139,6 +139,32 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>mounts</span>
+      
+      
+        <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>default_mounts</span>
+      
+      
+        <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+    </li>
+  
 </ul>
 
 
@@ -167,20 +193,26 @@
 25
 26
 27
-28</pre>
+28
+29
+30
+31</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/mount.pp', line 17</span>
 
-class r_profile::mount($mount={}, $default={}) {
-  $mount.each |$key, $opts| {
+class r_profile::mount(
+  Hash[String, Optional[Hash]]  $mounts             = {},
+  Hash[String, Optional[Hash]]  $default_mounts             = {},
+
+  $mount={}, $default={}) {
+  $mounts.each |$key, $opts| {
     mount {
       default:
-        * =&gt; $default,
+        ensure =&gt; mounted,
       ;
       $key:
-        * =&gt; $opts
-      ;
+        * =&gt; pick($opts, {})
     }
   }
 }</pre>

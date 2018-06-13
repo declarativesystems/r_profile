@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::service
+  Puppet Class: r_profile::linux::limits
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::service";
+  pathId = "puppet_classes::r_profile::linux::limits";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::service</span>
+    <span class="title">r_profile::linux::limits</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::service</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::limits</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/service.pp
+      manifests/linux/limits.pp
     </dd>
   </dl>
 </div>
@@ -75,14 +75,9 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Service</p>
+<p>R_profile::Limits</p>
 
-<p>Ensure services are managed by Puppet to a particular state. By default
-enable services to start on boot and be running.</p>
-
-<p>We take both a <code>base</code> and override hash of services and merge
-them to form a final list. This allows for simpler management through
-hiera.</p>
+<p>Manage Linux system limits using saz/limits</p>
 
   </div>
 </div>
@@ -93,22 +88,22 @@ hiera.</p>
     
       
         <p class="example_title"><div class='inline'>
-<p>Hiera data to ensure service is enabled on boot and running</p>
+<p>hiera data to enable purging unmanaged rules</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::service::services:
-  ntpd:
-  sshd</code></pre>
+      <pre class="example code"><code>r_profile::linux::limits::purge: true</code></pre>
     
       
         <p class="example_title"><div class='inline'>
-<p>Hiera data to ensure service stopped and not available on boot</p>
+<p>hiera data to set limits</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::service::services:
-  xinetd:
-    ensure: stopped
-    enable: false</code></pre>
+      <pre class="example code"><code>r_profile::linux::limits::settings:
+  &#39;*/nofile&#39;:
+    hard: 1048576
+    soft: 1048576
+  &#39;*/memlock&#39;:
+    both: unlimited</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -116,28 +111,28 @@ hiera.</p>
   
     <li>
       
-        <span class='name'>base_services</span>
+        <span class='name'>purge</span>
       
       
-        <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Base hash of services to manage (see examples)</p>
+<p>True to remove unmanaged entries otherwise false</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>services</span>
+        <span class='name'>settings</span>
       
       
-        <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>{}</tt>)</em>
@@ -145,13 +140,20 @@ hiera.</p>
       
         &mdash;
         <div class='inline'>
-<p>Override hash of services to manage (see examples)</p>
+<p>Hash of limits settings to make</p>
 </div>
       
     </li>
   
 </ul>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/saz/limits/" target="_parent" title="https://forge.puppet.com/saz/limits/">https://forge.puppet.com/saz/limits/</a></li>
+    
+  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -160,6 +162,8 @@ hiera.</p>
         <pre class="lines">
 
 
+20
+21
 22
 23
 24
@@ -167,36 +171,20 @@ hiera.</p>
 26
 27
 28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38</pre>
+29</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/service.pp', line 22</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/limits.pp', line 20</span>
 
-class r_profile::service(
-    Hash[String, Optional[Hash]]  $base_services  = {},
-    Hash[String, Optional[Hash]]  $services       = {},
+class r_profile::linux::limits(
+    Boolean $purge    = false,
+    Hash    $settings = {},
 ) {
-
-  merge($base_services, $services).each |$key, $opts| {
-    service {
-      default:
-        ensure =&gt; running,
-        enable =&gt; true,
-      ;
-
-      $key:
-        * =&gt; pick($opts, {}),
-    }
+  class { &#39;limits&#39;:
+    purge_limits_d_dir =&gt; $purge,
+    entries            =&gt; $settings,
   }
+
 }</pre>
       </td>
     </tr>

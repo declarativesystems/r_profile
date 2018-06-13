@@ -93,21 +93,13 @@
 
 4
 5
-6
-7
-8
-9
-10</pre>
+6</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/base.pp', line 4</span>
 
 class r_profile::base {
-  include r_profile::motd
-  include r_profile::software
-  include r_profile::user
   include &quot;r_profile::${downcase($kernel)}::base&quot;
-  include r_profile::monitor::nagios_monitored
 }</pre>
       </td>
     </tr>
