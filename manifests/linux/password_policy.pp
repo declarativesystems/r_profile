@@ -1,35 +1,38 @@
 # R_profile::Linux::Password_policy
 #
-# Enforce aging settings:
+# Manage several settings related to password quality, privilege, aging and algorithm selection. See below for details.
+#
+# Enforce aging/ settings (`/etc/login.defs`):
 # * password max days
 # * password warn age
+# * password algorithm
 #
-# Enforce password quality:
-#   * `/etc/security/pwquality.conf`
+# Enforce password quality (`/etc/security/pwquality.conf`):
+#   * All directives passed in `password_quality` parameter
 #
-# Pam:
+# Pam (`/etc/pam.d/system-auth` and `/etc/pam.d/su`):
 #   * Tell pam to remember old passwords to prevent reuse
 #   * Tell pam to enforce password quality
+#   * Restrict `su` command to members of group `wheel`
 #
-# Requires:
-#   * herculesteam-augeasproviders_pam
-#   * puppetlabs-stdlib
+# @see https://forge.puppet.com/herculesteam/augeasproviders_core
+# @see https://forge.puppet.com/herculesteam/augeasproviders_pamv
+# @see https://forge.puppet.com/puppetlabs/stdlib
 #
 # @example Hiera data for password quality
-#     r_profile::linux::password_policy::password_quality:
-#       minlen: 10
-#       dcredit: -1
-#       ucredit: -1
-#       ocredit: -1
-#       lcredit: -1
+#   r_profile::linux::password_policy::password_quality:
+#     minlen: 10
+#     dcredit: -1
+#     ucredit: -1
+#     ocredit: -1
+#     lcredit: -1
 #
-#  The key names map to the available directives in the file. In this case, password must:
+#   The key names map to the available directives in the file. In this case, password must:
 #   * be 10 characters or more
 #   * contain provide at least 1 digit
 #   * contain at least one uppercase character
 #   * contain at least one special character
 #   * contain at least one lowercase character
-#
 #
 # @param pass_max_days maximum age of a password
 # @param pass_warn_age how long to warn before password expires
@@ -40,10 +43,10 @@
 #   settings that apply on this system
 # @param $password_quality Hash of settings to enforce in /etc/security/pwquality.conf
 class r_profile::linux::password_policy(
-    String                $pass_max_days      = "90",
-    String                $pass_warn_age      = "7",
+    Integer               $pass_max_days      = 90,
+    Integer               $pass_warn_age      = 7,
     String                $password_algorithm = "sha512",
-    String                $saved_passwords    = "4",
+    Integer               $saved_passwords    = 4,
     Boolean               $manage_authconfig  = true,
     Hash[String,Integer]  $password_quality   = {}
 ) {
