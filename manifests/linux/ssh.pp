@@ -1,18 +1,24 @@
 # R_profile::Linux::Ssh
 #
-# SSH support on linux
-# @see https://forge.puppet.com/geoffwilliams/ssh
+# SSH support on linux using Augeas.
 #
-# @example hiera data
+# @see https://forge.puppet.com/geoffwilliams/ssh
+# @see https://forge.puppet.com/herculesteam/augeasproviders_ssh
+# @see https://forge.puppet.com/herculesteam/augeasproviders_core
+#
+# @example Usage
+#   include r_profile::linux::ssh
+#
+# @example Hiera data
 #   r_profile::linux::ssh::settings:
 #     permit_root_login: no
 #     banner: /etc/banner
 #
 # @param settings Hash of all settings to pass through to the SSH module. See above link for details
 class r_profile::linux::ssh(
-  Hash[String, Optional[Variant[String, Hash]]] $settings = {},
+  Hash[String, Variant[String,Array[String]]] $settings = {},
 ) {
   class { "ssh":
-    * => $settings,
+    settings => $settings,
   }
 }
