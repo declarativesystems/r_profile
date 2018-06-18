@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'puppet_factset'
-describe 'r_profile::linux::audit' do
+describe 'r_profile::linux::cron' do
   # Uncomment only the factset you would like to use for these tests
   # system_name = 'AIX-6.1-powerpc'
   # system_name = 'AIX-7.1-powerpc'
@@ -35,6 +35,6 @@ describe 'r_profile::linux::audit' do
   end
 
   context 'with default values for all parameters' do
-    it { should contain_class('r_profile::linux::audit') }
+    it { should contain_class('r_profile::linux::cron') }
   end
 end

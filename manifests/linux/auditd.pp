@@ -1,64 +1,37 @@
-# Redhat_tidy::Audit
+# R_profile::Linux::Auditd
 #
-# Ensure the audit service is installed, running and has a fixed set of rules
-# loaded
+# Ensure the auditd service is installed, running and has a fixed set of rules
+# loaded.
 #
-# @param rules String of rules to add to /etc/audit/audit.rules
-# @param manage_package True to ensure the audit package is installed otherwise
-#   do nothing
-# @param manage_service True to ensure the audit service is running otherwise do
-#   nothing
-# @param refresh_after_rules True to HUP the auditd service after a rule change
-#   else do nothing.  Note that this works independently of overall service
-#   management with the `manage_service` parameter
-class r_profile::linux::audit(
-    String  $rules                = '',
-    Boolean $manage_package       = true,
-    Boolean $manage_service       = true,
-    Boolean $refresh_after_rules  = true,
+# kemra102/auditd module from https://github.com/kemra102/puppet-auditd is used
+# to provide auditd management. Pending a new forge release to address
+# https://github.com/kemra102/puppet-auditd/issues/44 (merged) a hotfix module
+# will be used instead
+#
+# @see https://forge.puppet.com/geoffwilliams/auditd
+#
+# @example Puppet usage
+#   include r_profile::linux::auditd
+#
+# @example Hiera data for general auditd settings
+#   r_profile::linux::auditd::settings:
+#     log_format: "ENHANCED"
+#     max_log_file: 10
+#     num_logs: 5
+#     max_log_file_action: "rotate"
+#
+# @example Hiera data to manage rules
+#
+#
+# @param rules Hash of rules to enforce (see examples)
+# @param settings Hash or settings to apply to auditd (see examples)
+class r_profile::linux::auditd(
+    Hash[String, Hash[String,String]] $rules = {},
+    Hash[String, String] $settings = {}
 ) {
-  $package      = "audit"
-  $service      = "auditd"
-  $rule_file    = "/etc/audit/audit.rules"
-  $refresh_exec = "refresh_auditd"
 
-  if $refresh_after_rules {
-    $notify = "Exec[${refresh_exec}]"
-  } else {
-    $notify = undef
-  }
-
-  if $manage_package {
-    $_package = $package
-    package { $_package:
-      ensure => present,
-    }
-  } else {
-    $_package = undef
-  }
-
-  if $manage_service {
-    service { $service:
-      ensure  => running,
-      enable  => true,
-      require => Package[$_package],
-    }
-  }
-
-  if $rules != '' {
-    file { $rule_file:
-      ensure  => file,
-      owner   => "root",
-      group   => "root",
-      mode    => "0640",
-      content => $rules,
-      notify  => $notify,
-    }
-  }
-
-  exec { $refresh_exec:
-    refreshonly => true,
-    command     => "pkill -P 1-HUP ${service}",
-    path        => ["/usr/bin", "/bin"],
+  class { 'auditd':
+    *     => $settings,
+    rules => $rules,
   }
 }
