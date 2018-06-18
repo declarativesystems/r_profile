@@ -70,9 +70,10 @@
     {"name":"puppetlabs-ntp", "version_requirement": "7.1.1"},
     {"name":"puppet-rsyslog", "version_requirement": "3.1.1"},
     {"name":"puppet-logrotate", "version_requirement": "3.2.1"},
-    {"name":"geoffwilliams-auditd", "version_requirement": "2.2.2"}
-    {"name":"geoffwilliams-chmod_r", "version_requirement": "0.1.2"}
-    {"name":"geoffwilliams-chown_r", "version_requirement": "0.2.0"}
+    {"name":"geoffwilliams-auditd", "version_requirement": "2.2.2"},
+    {"name":"geoffwilliams-chmod_r", "version_requirement": "0.1.2"},
+    {"name":"geoffwilliams-chown_r", "version_requirement": "0.2.0"},
+    {"name":"geoffwilliams-system_users", "version_requirement": "0.4.0"}
   ],
   "operatingsystem_support": [
     {

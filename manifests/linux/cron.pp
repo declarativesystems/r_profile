@@ -30,12 +30,12 @@ class r_profile::linux::cron {
   }
 
   chmod_r { "/var/spool/cron":
-    want_mode   => "0600",
+    want_mode => "0600",
   }
 
   chown_r { "/var/spool/cron":
-    want_user   => "root",
-    want_group  => "root",
+    want_user  => "root",
+    want_group => "root",
   }
 
   file_line { "/etc/cron.allow root":
