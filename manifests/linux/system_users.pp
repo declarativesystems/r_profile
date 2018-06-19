@@ -4,6 +4,10 @@
 # * disable _system_ accounts (UID < 500/1000) by locking the shell
 # * ensure root group is 0
 # * lock inactive users
+# * Fix ownership on homedirs (owned by user, optionally set mode)
+# * Find and remove any 'override' files (.netrc, .rhosts, etc)
+# * Find and remove any NIS (`+`) entries from /etc/passwd,
+#   /etc/shadow, /etc/gshadow and /etc/group
 #
 # @see https://forge.puppet.com/geoffwilliams/system_users
 #
@@ -26,5 +30,10 @@ class r_profile::linux::system_users(
   }
   include system_users::root_group
   include system_users::lock_inactive
+  include system_users::homedir
+  include system_users::delete_nis
+  include system_users::lock_empty_password
+  system_users_disable_overrides { "overrides_disabled": }
+
 
 }
