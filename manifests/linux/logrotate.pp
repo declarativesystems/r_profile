@@ -5,49 +5,38 @@
 #   * rotation defaults
 #   * individual rules
 #
-# @see https://forge.puppet.com/puppet/logrotate
+# @see https://forge.puppet.com/geoffwilliams/logrotate
 #
 # @example class usage
 #   include r_profile::linux::logrotate
 #
 # @example Hiera data to set default rotation options:
-#   r_profile::linux::logrotate::default_settings:
+#   r_profile::linux::logrotate::settings:
 #     rotate: 10
-#     rotate_every: 'week'
-#     ifempty: true
-#     dateext: true
+#     weekly:
+#     create:
+#     dateext:
 #
-# @example Hiera data to set rules
-#   r_profile::linux::logrotate::rules:
-#     'apache':
-#       path: '/var/log/httpd/*.log'
-#       rotate: 5
-#       mail: 'test@example.com'
-#       size: '100k'
-#       sharedscripts: true
-#       postrotate: '/etc/init.d/httpd restart'
+# @example Hiera data to set log rotation entries
+#   r_profile::linux::logrotate::entries:
+#     /var/log/httpd/*.log':
+#       settings:
+#         rotate: 5
+#         mail: 'test@example.com'
+#         size: '100k'
+#         sharedscripts:
+#         postrotate: '/etc/init.d/httpd restart'
 #
-# @param rules Hash of rules to configure logrotate with (see examples. Complete list of allowable keys at
-#   https://github.com/voxpupuli/puppet-logrotate/blob/master/manifests/rule.pp)
-# @param default_settings hash of default log rotation settings (see examples. Complete list of allowable keys at
-#   https://github.com/voxpupuli/puppet-logrotate/blob/master/manifests/conf.pp)
+# @param entries Hash of logrotate entries to create (see examples)
+# @param settings Hash of default settings for `logrotate.conf` (see examples)
 class r_profile::linux::logrotate(
-    Hash[String, Optional[Hash]]  $rules            = {},
-    Hash[String, Any]             $default_settings = {
-      "rotate"        => 5,
-      "rotate_every"  => "day",
-      "ifempty"      => true,
-    },
+    Hash[String, Optional[Hash]]  $entries  = {},
+    Hash[String, Any]             $settings = {}
 ) {
 
-  class { '::logrotate':
-    config => $default_settings,
+  class { 'logrotate':
+    settings => $settings,
+    entries  => $entries,
   }
 
-
-  $rules.each |$key, $opts| {
-    logrotate::rule { $key:
-      * => pick($opts, {}),
-    }
-  }
 }

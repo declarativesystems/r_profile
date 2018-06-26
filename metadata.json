@@ -61,7 +61,7 @@
     {"name":"puppetlabs-powershell", "version_requirement":"2.1.5"},
     {"name":"herculesteam-augeasproviders_pam", "version_requirement":"2.1.1"},
     {"name":"geoffwilliams-ssh", "version_requirement":"2.0.0"},
-    {"name":"geoffwilliams-filemagic", "version_requirement":"0.4.0"},
+    {"name":"geoffwilliams-filemagic", "version_requirement":"0.5.1"},
     {"name":"herculesteam-augeasproviders_core", "version_requirement":"2.1.4"},
     {"name":"liamjbennett-win_facts", "version_requirement": "0.0.2"},
     {"name":"herculesteam-augeasproviders_ssh", "version_requirement": "2.5.3"},
@@ -69,11 +69,11 @@
     {"name":"beergeek-chronyd", "version_requirement": "0.1.2"},
     {"name":"puppetlabs-ntp", "version_requirement": "7.1.1"},
     {"name":"puppet-rsyslog", "version_requirement": "3.1.1"},
-    {"name":"puppet-logrotate", "version_requirement": "3.2.1"},
+    {"name":"geoffwilliams-logrotate", "version_requirement": "0.1.0"},
     {"name":"geoffwilliams-auditd", "version_requirement": "2.2.2"},
     {"name":"geoffwilliams-chmod_r", "version_requirement": "0.1.2"},
     {"name":"geoffwilliams-chown_r", "version_requirement": "0.2.0"},
-    {"name":"geoffwilliams-system_users", "version_requirement": "0.4.0"}
+    {"name":"geoffwilliams-system_users", "version_requirement": "0.5.1"}
   ],
   "operatingsystem_support": [
     {

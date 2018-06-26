@@ -134,4 +134,26 @@ class r_profile::linux::password_policy(
       line   => "${key}=${value}",
     }
   }
+
+  # Lock accounts after 3 failed logins
+  ["password-auth", "system-auth"].each |$service| {
+    pam { "${service} required pam_tally2.so deny=3":
+      ensure    => present,
+      service   => $service,
+      type      => 'auth',
+      control   => 'required',
+      module    => 'pam_tally2.so',
+      arguments => 'deny=3',
+      position  => 'before *[type="auth" and control="include"]',
+    }
+
+    pam { "${service} required pam_tally2.so":
+      ensure   => present,
+      service  => $service,
+      type     => 'account',
+      control  => 'required',
+      module   => 'pam_tally2.so',
+      position => 'before *[type="account" and control="include"]',
+    }
+  }
 }
