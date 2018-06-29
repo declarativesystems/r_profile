@@ -8,3 +8,4 @@ Puppetfile.lock
 .yardoc
 .idea
 .Puppetfile.pdqtest
+/.pdqtest
