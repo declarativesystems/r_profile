@@ -30,13 +30,17 @@
 #   order (see examples)
 # @param entries Hash of logging entries to create (see examples)
 class r_profile::linux::rsyslog_client(
-  Array[Hash[String, Any]]  $settings = [],
-  Hash[String,String]       $entries  = {},
+  Array[Hash[String, Any]]  $settings       = [],
+  Hash[String,String]       $entries        = {},
+  Enum['running','stopped'] $service_ensure = "running",
+  Boolean                   $service_enable = true,
 ) {
 
   class { 'rsyslog_client':
-    settings => $settings,
-    entries  => $entries,
+    settings       => $settings,
+    entries        => $entries,
+    service_ensure => $service_ensure,
+    service_enable => $service_enable,
   }
 
 }
