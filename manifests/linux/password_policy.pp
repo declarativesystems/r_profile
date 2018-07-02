@@ -3,9 +3,9 @@
 # Manage several settings related to password quality, privilege, aging and algorithm selection. See below for details.
 #
 # Enforce aging/ settings (`/etc/login.defs`):
-# * password max days
-# * password warn age
-# * password algorithm
+#   * password max days
+#   * password warn age
+#   * password algorithm
 #
 # Enforce password quality (`/etc/security/pwquality.conf`):
 #   * All directives passed in `password_quality` parameter
@@ -14,6 +14,9 @@
 #   * Tell pam to remember old passwords to prevent reuse
 #   * Tell pam to enforce password quality
 #   * Restrict `su` command to members of group `wheel`
+#
+# Pam (`/etc/pam.d/password-auth` and `/etc/pam.d/system-auth`):
+#   * Lock accounts after 3 incorrect login attempts
 #
 # @see https://forge.puppet.com/herculesteam/augeasproviders_core
 # @see https://forge.puppet.com/herculesteam/augeasproviders_pamv
