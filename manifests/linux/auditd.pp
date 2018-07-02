@@ -27,7 +27,7 @@
 # @param settings Hash or settings to apply to auditd (see examples)
 class r_profile::linux::auditd(
     Hash[String, Hash[String,String]] $rules = {},
-    Hash[String, String] $settings = {}
+    Hash[String, String]              $settings = {}
 ) {
 
   class { 'auditd':

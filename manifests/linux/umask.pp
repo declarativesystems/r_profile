@@ -1,6 +1,9 @@
 # R_profile::Linux::Umask
 #
-# Set the umask for each of the requested files
+# Set the umask for each of the requested files. The files must already exist in order to add a line
+# to them. r_profile::file can be used to do this if required.
+#
+# @see https://forge.puppet.com/geoffwilliams/filemagic/readme
 #
 # @example Activate the umask profile
 #   include r_profile::linux::umask
@@ -10,7 +13,7 @@
 #
 # @example Hiera data to set umask in several files with one exception
 #   r_profile::linux::umask::files:
-#     /etc/profile.d/umask:
+#     /etc/profile.d/umask.sh:
 #     /root/.bashrc:
 #     /var/lib/myapp/.bashrc: '0007'
 class r_profile::linux::umask(
@@ -21,7 +24,8 @@ class r_profile::linux::umask(
   $files.each |$key, $opts| {
     fm_replace { "${key}:umask":
       ensure            => present,
-      data              => "umask ${pick(umask, default_umask)}",
+      path              => $key,
+      data              => "umask ${pick($opts, $default_umask)}",
       match             => "^umask",
       insert_if_missing => true,
       insert_at         => 'bottom',
