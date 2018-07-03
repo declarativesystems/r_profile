@@ -32,7 +32,6 @@
 # @param domain Domain to join
 # @param ad_password AD password to use for joining
 # @param ou Array of OUs to use for joining eg `foo,bar,baz` (OU= will be added for you)
-# @param services List of services to enable for SSD/Realmd
 # @param groups List of groups to add to `simple_allow_groups` (will be flattened for you)
 class r_profile::linux::realmd(
     String                  $domain,
