@@ -4,6 +4,13 @@
 # RHEL 7. You are advised to use hiera-eyaml to encrypt the `ad_password` parameter when
 # using this profile.
 #
+# To avoid catalogue compilation failure when required AD details are missing, the module
+# will only attempt to configure AD support when the following are present:
+#   * domain
+#   * ad_username
+#   * ad_password
+#   * ou
+#
 # @see https://forge.puppet.com/geoffwilliams/realmd
 #
 # @example activating the realmd profile
@@ -34,17 +41,20 @@
 # @param ou Array of OUs to use for joining eg `foo,bar,baz` (OU= will be added for you)
 # @param groups List of groups to add to `simple_allow_groups` (will be flattened for you)
 class r_profile::linux::realmd(
-    String                  $domain,
-    String                  $ad_username,
-    String                  $ad_password,
-    Array[String]           $ou,
-    Optional[Array[String]] $groups = undef,
+    Optional[String]        $domain       = undef,
+    Optional[String]        $ad_username  = undef,
+    Optional[String]        $ad_password  = undef,
+    Optional[Array[String]] $ou           = undef,
+    Optional[Array[String]] $groups       = undef,
 ) {
-  class { "realmd":
-    domain      => $domain,
-    ad_username => $ad_username,
-    ad_password => $ad_password,
-    ou          => $ou,
-    groups      => $groups,
+
+  if $domain and $ad_username and $ad_password and $ou {
+    class { "realmd":
+      domain      => $domain,
+      ad_username => $ad_username,
+      ad_password => $ad_password,
+      ou          => $ou,
+      groups      => $groups,
+    }
   }
 }
