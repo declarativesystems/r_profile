@@ -74,7 +74,8 @@
     {"name":"geoffwilliams-chmod_r", "version_requirement": "0.1.2"},
     {"name":"geoffwilliams-chown_r", "version_requirement": "0.2.0"},
     {"name":"geoffwilliams-system_users", "version_requirement": "0.5.1"},
-    {"name":"geoffwilliams-filemagic", "version_requirement": "0.5.2"}
+    {"name":"geoffwilliams-filemagic", "version_requirement": "0.5.2"},
+    {"name":"geoffwilliams-realmd", "version_requirement": "0.1.1"}
   ],
   "operatingsystem_support": [
     {
