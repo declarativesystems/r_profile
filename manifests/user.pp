@@ -1,8 +1,11 @@
 # R_profile::User
 #
-# Support for creating users and groups in bulk
+# Support for creating users and groups in bulk.
 #
-# @example Heira data to support deluxe users with SSH logon granted
+# Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
+# those in base.
+#
+# @example Heira data to create a user with an authorised key
 #   r_profile::user::users:
 #     alice:
 #       password: '$6$5XEywcNV$3txL0NS1cdR2coRI5bl1H2Sp6WOv8TLYG/BO3QtaeMKTRu9vlUCrYW9sZxsdGruZMI3SP8/B.DE8bl7rPV3p80'
@@ -14,16 +17,23 @@
 #   # note the backslash at end of line and quotes around the whole key. This ends up as
 #   # a single line in the target file without needing a really long line in yaml
 #
-# @param users Hash of user resources to create (suitable for ensure_resources)
-# @param groups Hash of group resources to create (suitable for ensure_resources)
-# @param deluxe Popuplate all user resources listed with a cool skeleton of files
+# @example Hiera data to create a group
+#   r_profile::user::groups:
+#     alice:
+#       gid: 100
+#
+# @param base_users Hash of user resources to create (suitable for `user` resource)
+# @param users Hash of user resources to create (suitable for `user` resource)
+# @param base_groups Hash of group resources to create (suitable for `group` resource)
+# @param groups Hash of group resources to create (suitable for `group` resource)
 class r_profile::user(
-    Hash[String, Optional[Hash]] $users  = hiera("r_profile::user::users", {}),
-    Hash[String, Optional[Hash]] $groups = hiera("r_profile::user::groups", {}),
-    Boolean $deluxe = hiera("r_profile::user::deluxe", false),
+    Hash[String, Optional[Hash]] $base_users  = {},
+    Hash[String, Optional[Hash]] $users       = {},
+    Hash[String, Optional[Hash]] $base_groups = {},
+    Hash[String, Optional[Hash]] $groups      = {},
 ) {
 
-  $users.each |$user, $opts| {
+  ($base_users + $users).each |$user, $opts| {
     # if homedir set, create it
     $home = pick(dig($opts, 'home'), "/home/${user}")
 
@@ -56,15 +66,10 @@ class r_profile::user(
         authorized_keys => $opts['authorized_keys'],
       }
     }
-
-    if $deluxe and $facts['kernel'] != 'windows'{
-      # copy in skeleton files, setup nice prompt, etc
-      bash_user_skel { $user: }
-    }
   }
 
 
-  $groups.each |$group, $opts| {
+  ($base_groups + $groups).each |$group, $opts| {
     group {
       default:
         ensure => present,
