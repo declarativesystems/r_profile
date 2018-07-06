@@ -25,13 +25,16 @@
 #
 # @param rules Hash of rules to enforce (see examples)
 # @param settings Hash or settings to apply to auditd (see examples)
+# @param audispd_settings Hash of settings for the audispd.conf config file
 class r_profile::linux::auditd(
-    Hash[String, Hash[String,String]] $rules = {},
-    Hash[String, String]              $settings = {}
+    Hash[String, Hash[String,String]] $rules            = {},
+    Hash[String, String]              $settings         = {},
+    Hash[String, String]              $audispd_settings = {},
 ) {
 
   class { 'auditd':
-    *     => $settings,
-    rules => $rules,
+    settings         => $settings,
+    audispd_settings => $audispd_settings,
+    rules            => $rules,
   }
 }

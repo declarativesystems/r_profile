@@ -36,6 +36,16 @@
 #         port: 8080
 #         protocol: tcp
 #
+# @example Define additional custom service
+#   r_profile::linux::firewalld::custom_service:
+#     other_https:
+#       short: 'other_https',
+#       description: 'other_https',
+#       port:
+#         -
+#           port: 8443
+#           protocol: tcp
+#
 # @example disable firewalld
 #   r_profile::linux::firewalld::service_ensure: stopped
 #   r_profile::linux::firewalld::service_enable: false
@@ -45,7 +55,9 @@
 # @param base_firewalld_service base level `firewalld_service` rules (see examples)
 # @param firewalld_service additional `firewalld_service` rules (see examples)
 # @param base_firewalld_rich_rule base level `firewalld_rich_rule` rules (see examples)
-# @param base_firewalld_rich_rule additional `firewalld_rich_rule` rules (see examples)
+# @param firewalld_rich_rule additional `firewalld_rich_rule` rules (see examples)
+# @param base_custom_service Base level `firewalld::custom_service` definitions (see examples)
+# @param custom_service additional `firewalld::custom_service` definitions (see examples)
 class r_profile::linux::firewalld(
     Enum['running', 'stopped']    $service_ensure           = 'running',
     Boolean                       $service_enable           = true,
@@ -53,6 +65,8 @@ class r_profile::linux::firewalld(
     Hash[String, Optional[Hash]]  $firewalld_service        = {},
     Hash[String, Optional[Hash]]  $base_firewalld_rich_rule = {},
     Hash[String, Optional[Hash]]  $firewalld_rich_rule      = {},
+    Hash[String, Optional[Hash]]  $base_custom_service      = {},
+    Hash[String, Optional[Hash]]  $custom_service           = {},
 ) {
 
   # Service definition for Puppet Orchestrator (8142) - PuppetMaster definition alreaady ships with RHEL7
@@ -79,7 +93,7 @@ class r_profile::linux::firewalld(
       purge_ports      => true,
     }
 
-    merge($base_firewalld_service, $firewalld_service).each |$key, $opts| {
+    ($base_firewalld_service + $firewalld_service).each |$key, $opts| {
       firewalld_service {
         default:
           ensure => present,
@@ -89,13 +103,19 @@ class r_profile::linux::firewalld(
       }
     }
 
-    merge($base_firewalld_rich_rule, $firewalld_rich_rule).each |$key, $opts| {
+    ($base_firewalld_rich_rule + $firewalld_rich_rule).each |$key, $opts| {
       firewalld_rich_rule {
         default:
           ensure => present,
         ;
         $key:
           * => $opts,
+      }
+    }
+
+    ($base_custom_service + $custom_service).each |$key, $opts| {
+      firewalld::custom_service { $key:
+        * => $opts,
       }
     }
   }
