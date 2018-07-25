@@ -32,10 +32,12 @@
 #   }
 #
 # @param purge Purge unmanaged files from /etc/sysctl.d
-# @param settings Hash of settings as key=>value pairs
+# @param base_settings Hash of settings as key=>value pairs (base)
+# @param settings Hash of settings as key=>value pairs (override)
 class r_profile::linux::sysctl(
-    Boolean           $purge              = false,
-    Hash[String, Any] $settings = {},
+    Boolean           $purge          = false,
+    Hash[String, Any] $base_settings  = {},
+    Hash[String, Any] $settings       = {},
 ){
 
   # enable purging to work, if selected
@@ -43,7 +45,9 @@ class r_profile::linux::sysctl(
     purge => $purge,
   }
 
-  $settings.each |$key, $opts| {
+  include sysctl::initrd
+
+  ($base_settings + $settings).each |$key, $opts| {
     sysctl { $key:
       * => pick($opts,{}),
     }
