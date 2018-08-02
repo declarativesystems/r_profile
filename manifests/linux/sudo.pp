@@ -34,7 +34,7 @@ class r_profile::linux::sudo(
       ensure  => file,
       owner   => "root",
       group   => "root",
-      mode    => "0600",
+      mode    => "0440",
       content => "${header}\n${content}",
     }
   }
