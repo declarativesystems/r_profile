@@ -77,8 +77,12 @@
     
 <p>R_profile::Linux::Sudo</p>
 
-<p>Configure sudo for linux. If the fact <code>vagrant</code> exists, then a
-rule will be added to prevent locking out the <code>vagrant</code> user.</p>
+<p>Configure sudo for linux using Puppet. We take a minimal approach to
+management by just making sure that the package is installed and that the
+files we want to manage exist at /etc/sudoers.d.</p>
+
+<p>This non-destructive approach lets us only manage the sections of
+configuration we want to</p>
 
   </div>
 </div>
@@ -89,13 +93,97 @@ rule will be added to prevent locking out the <code>vagrant</code> user.</p>
     
       
         <p class="example_title"><div class='inline'>
-<p>creating the vagrant fact</p>
+<p>Profile usage</p>
 </div></p>
       
-      <pre class="example code"><code>mkdir -p  /etc/puppetlabs/facter/facts.d
-echo vagrant=true &gt; /etc/puppetlabs/facter/facts.d/vagrant.txt</code></pre>
+      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_sudo'>sudo</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Managing a fragment in /etc/sudoers.d</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::linux::sudo::sudoers_d:
+  30_admin: &quot;%admins ALL=(ALL) NOPASSWD: ALL&quot;</code></pre>
     
   </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>package</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;sudo&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of the sudo package</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sudoers_d_dir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;/etc/sudoers.d&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Directory where sudoers fragments can be kept</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sudoers_d</span>
+      
+      
+        <span class='type'>(<tt>Hash[String, String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of file content for for files to manage inside the
+<code>/etc/sudoers.d</code> directory</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>header</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;# This file is managed by Puppet; changes may be overwritten&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Warning message to add to top of files we manage</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 
 </div><div class="method_details_list">
@@ -105,18 +193,6 @@ echo vagrant=true &gt; /etc/puppetlabs/facter/facts.d/vagrant.txt</code></pre>
         <pre class="lines">
 
 
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
 21
 22
 23
@@ -129,35 +205,39 @@ echo vagrant=true &gt; /etc/puppetlabs/facter/facts.d/vagrant.txt</code></pre>
 30
 31
 32
-33</pre>
+33
+34
+35
+36
+37
+38
+39
+40
+41</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/sudo.pp', line 9</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/sudo.pp', line 21</span>
 
-class r_profile::linux::sudo {
-  class { &#39;sudo&#39;: }
+class r_profile::linux::sudo(
+    String                $package        = &quot;sudo&quot;,
+    String                $sudoers_d_dir  = &quot;/etc/sudoers.d&quot;,
+    Hash[String, String]  $sudoers_d      = {},
+    String                $header         = &quot;# This file is managed by Puppet; changes may be overwritten&quot;,
+) {
 
-  group { [&quot;sudo&quot;, &quot;admins&quot;]:
+  package { $package:
     ensure =&gt; present,
   }
 
-  if dig($facts, &#39;vagrant&#39;) {
-    sudo::conf { &quot;vagrant&quot;:
-      priority =&gt; 10,
-      content  =&gt; &quot;%vagrant ALL=(ALL) NOPASSWD: ALL&quot;,
+  $sudoers_d.each |$filename, $content| {
+    file { &quot;${sudoers_d_dir}/${filename}&quot;:
+      ensure  =&gt; file,
+      owner   =&gt; &quot;root&quot;,
+      group   =&gt; &quot;root&quot;,
+      mode    =&gt; &quot;0440&quot;,
+      content =&gt; &quot;${header}\n${content}&quot;,
     }
   }
-
-  sudo::conf { &#39;admins&#39;:
-    priority =&gt; 20,
-    content  =&gt; &quot;%admins ALL=(ALL) NOPASSWD: ALL&quot;,
-  }
-
-  sudo::conf { &#39;sudo&#39;:
-    priority =&gt; 30,
-    content  =&gt; &quot;%sudo ALL=(ALL:ALL) ALL&quot;,
-  }
-
 }</pre>
       </td>
     </tr>

@@ -131,6 +131,13 @@ nominated services)</p>
 r_profile::motd::issue.net: |
   ...</code></pre>
     
+      
+        <p class="example_title"><div class='inline'>
+<p>Hiera data for blank MOTD (no message)</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::motd::content: false</code></pre>
+    
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -140,7 +147,7 @@ r_profile::motd::issue.net: |
         <span class='name'>content</span>
       
       
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
+        <span class='type'>(<tt>Variant[Boolean, Optional[String]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -148,7 +155,8 @@ r_profile::motd::issue.net: |
       
         &mdash;
         <div class='inline'>
-<p>Complete message as to insert into /etc/motd</p>
+<p>The message to use for login message (or all messages) on all platforms or
+<code>false</code> to write an empty file</p>
 </div>
       
     </li>
@@ -158,7 +166,7 @@ r_profile::motd::issue.net: |
         <span class='name'>issue_content</span>
       
       
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
+        <span class='type'>(<tt>Variant[Boolean, Optional[String]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -166,7 +174,8 @@ r_profile::motd::issue.net: |
       
         &mdash;
         <div class='inline'>
-<p>Complete message as to insert into /etc/issue</p>
+<p>The message to be used for <code>/etc/issue</code> (pre-login message -
+linux only) or <code>false</code> to write an empty file</p>
 </div>
       
     </li>
@@ -176,7 +185,7 @@ r_profile::motd::issue.net: |
         <span class='name'>issue_net_content</span>
       
       
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
+        <span class='type'>(<tt>Variant[Boolean, Optional[String]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -184,7 +193,9 @@ r_profile::motd::issue.net: |
       
         &mdash;
         <div class='inline'>
-<p>Complete message as to insert into /etc/issue.net</p>
+<p>The message to be used for <code>/etc/issue.net</code> (pre-login message
+for telnet/other nominated services - linux only) or <code>false</code> to
+write an empty file</p>
 </div>
       
     </li>
@@ -202,8 +213,9 @@ r_profile::motd::issue.net: |
       
         &mdash;
         <div class='inline'>
-<p>Use value from <code>content</code> for all files unless overriden
-individually</p>
+<p><code>true</code> to use the main MOTD message from <code>content</code>
+for all messages unless overriden individually by
+<code>issue_content</code> and <code>issue_net</code> (linux only)</p>
 </div>
       
     </li>
@@ -225,29 +237,29 @@ individually</p>
         <pre class="lines">
 
 
-37
-38
-39
-40
-41
-42
-43
-44
 45
 46
 47
 48
 49
-50</pre>
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/motd.pp', line 37</span>
+        <pre class="code"><span class="info file"># File 'manifests/motd.pp', line 45</span>
 
 class r_profile::motd(
-    Optional[String] $content           = undef,
-    Optional[String] $issue_content     = undef,
-    Optional[String] $issue_net_content = undef,
-    Boolean          $identical_content = true,
+    Variant[Boolean, Optional[String]]  $content            = undef,
+    Variant[Boolean, Optional[String]]  $issue_content      = undef,
+    Variant[Boolean, Optional[String]]  $issue_net_content  = undef,
+    Boolean                             $identical_content  = true,
 ) {
 
   class { &quot;motd&quot;:

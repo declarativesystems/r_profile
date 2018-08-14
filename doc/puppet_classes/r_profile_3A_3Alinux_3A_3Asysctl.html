@@ -138,6 +138,24 @@ eg</p>
   
     <li>
       
+        <span class='name'>base_settings</span>
+      
+      
+        <span class='type'>(<tt>Hash[String, Any]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of settings as key=&gt;value pairs (base)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>settings</span>
       
       
@@ -149,7 +167,7 @@ eg</p>
       
         &mdash;
         <div class='inline'>
-<p>Hash of settings as key=&gt;value pairs</p>
+<p>Hash of settings as key=&gt;value pairs (override)</p>
 </div>
       
     </li>
@@ -171,7 +189,6 @@ eg</p>
         <pre class="lines">
 
 
-36
 37
 38
 39
@@ -186,14 +203,19 @@ eg</p>
 48
 49
 50
-51</pre>
+51
+52
+53
+54
+55</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/sysctl.pp', line 36</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/sysctl.pp', line 37</span>
 
 class r_profile::linux::sysctl(
-    Boolean           $purge              = false,
-    Hash[String, Any] $settings = {},
+    Boolean           $purge          = false,
+    Hash[String, Any] $base_settings  = {},
+    Hash[String, Any] $settings       = {},
 ){
 
   # enable purging to work, if selected
@@ -201,7 +223,9 @@ class r_profile::linux::sysctl(
     purge =&gt; $purge,
   }
 
-  $settings.each |$key, $opts| {
+  include sysctl::initrd
+
+  ($base_settings + $settings).each |$key, $opts| {
     sysctl { $key:
       * =&gt; pick($opts,{}),
     }

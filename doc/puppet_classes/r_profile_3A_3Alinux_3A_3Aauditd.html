@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::host
+  Puppet Class: r_profile::linux::auditd
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::host";
+  pathId = "puppet_classes::r_profile::linux::auditd";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::host</span>
+    <span class="title">r_profile::linux::auditd</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::host</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::auditd</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/host.pp
+      manifests/linux/auditd.pp
     </dd>
   </dl>
 </div>
@@ -75,13 +75,17 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profiles::Host</p>
+<p>R_profile::Linux::Auditd</p>
 
-<p>Mange the static lookup table for hostnames.</p>
+<p>Ensure the auditd service is installed, running and has a fixed set of
+rules loaded.</p>
 
-<p>We take both a <code>base</code> and override hash of services and merge
-them to form a final list. This allows for simpler management through
-hiera.</p>
+<p>kemra102/auditd module from <a
+href="https://github.com/kemra102/puppet-auditd">github.com/kemra102/puppet-auditd</a>
+is used to provide auditd management. Pending a new forge release to
+address <a
+href="https://github.com/kemra102/puppet-auditd/issues/44">github.com/kemra102/puppet-auditd/issues/44</a>
+(merged) a hotfix module will be used instead</p>
 
   </div>
 </div>
@@ -92,27 +96,28 @@ hiera.</p>
     
       
         <p class="example_title"><div class='inline'>
-<p>Basic usage</p>
+<p>Puppet usage</p>
 </div></p>
       
-      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_host'>host</span></code></pre>
+      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_auditd'>auditd</span></code></pre>
     
       
         <p class="example_title"><div class='inline'>
-<p>Purging unmanaged entries</p>
+<p>Hiera data for general auditd settings</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::host::purge: true</code></pre>
+      <pre class="example code"><code>r_profile::linux::auditd::settings:
+  log_format: &quot;ENHANCED&quot;
+  max_log_file: 10
+  num_logs: 5
+  max_log_file_action: &quot;rotate&quot;</code></pre>
     
       
         <p class="example_title"><div class='inline'>
-<p>Adding a host record</p>
+<p>Hiera data to manage rules</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::host::hosts:
-  localhost.localdomain
-    ip: 127.0.0.1
-    host_aliases: localhost</code></pre>
+      <pre class="example code"><code></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -120,28 +125,10 @@ hiera.</p>
   
     <li>
       
-        <span class='name'>base_hosts</span>
+        <span class='name'>rules</span>
       
       
-        <span class='type'>(<tt>Hash[String,Hash]</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Base hash of hosts to create, see examples</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>hosts</span>
-      
-      
-        <span class='type'>(<tt>Hash[String,Hash]</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Hash[String,String]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>{}</tt>)</em>
@@ -149,32 +136,56 @@ hiera.</p>
       
         &mdash;
         <div class='inline'>
-<p>Override hash of hosts to create, see examples</p>
+<p>Hash of rules to enforce (see examples)</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>purge</span>
+        <span class='name'>settings</span>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt>Hash[String, String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p><code>true</code> to purge unmanaged host entries, otherwise
-<code>false</code></p>
+<p>Hash or settings to apply to auditd (see examples)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>audispd_settings</span>
+      
+      
+        <span class='type'>(<tt>Hash[String, String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of settings for the audispd.conf config file</p>
 </div>
       
     </li>
   
 </ul>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/geoffwilliams/auditd" target="_parent" title="https://forge.puppet.com/geoffwilliams/auditd">https://forge.puppet.com/geoffwilliams/auditd</a></li>
+    
+  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -183,12 +194,6 @@ hiera.</p>
         <pre class="lines">
 
 
-23
-24
-25
-26
-27
-28
 29
 30
 31
@@ -200,31 +205,21 @@ hiera.</p>
 37
 38
 39
-40
-41
-42</pre>
+40</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/host.pp', line 23</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/auditd.pp', line 29</span>
 
-class r_profile::host(
-  Hash[String,Hash] $base_hosts = {},
-  Hash[String,Hash] $hosts      = {},
-  Boolean           $purge      = false,
+class r_profile::linux::auditd(
+    Hash[String, Hash[String,String]] $rules            = {},
+    Hash[String, String]              $settings         = {},
+    Hash[String, String]              $audispd_settings = {},
 ) {
 
-  resources { &quot;host&quot;:
-    purge =&gt; $purge,
-  }
-
-  ($base_hosts + $hosts).each |$key, $opts| {
-    host {
-      default:
-        ensure =&gt; present,
-      ;
-      $key:
-        * =&gt; $opts,
-    }
+  class { &#39;auditd&#39;:
+    settings         =&gt; $settings,
+    audispd_settings =&gt; $audispd_settings,
+    rules            =&gt; $rules,
   }
 }</pre>
       </td>

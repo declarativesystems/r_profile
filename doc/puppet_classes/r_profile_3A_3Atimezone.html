@@ -83,13 +83,36 @@ Olsen names available on the current system. On Linux, these are normally
 found under <code>/usr/share/zoneinfo</code>. On Windows the timezone needs
 to match a name from <code>tzutil -l</code></p>
 
-<p>Modules required:  * geoffwilliams-windows_timezone  *
-geoffwilliams-timezone</p>
-
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Usage</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_timezone'>timezone</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Setting the timezone for Linux</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::timezone::zone: &quot;Pacific/Honolulu&quot;</code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Setting the timezone for Windows</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::timezone::zone: &quot;Hawaiian Standard Time&quot;</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -97,10 +120,10 @@ geoffwilliams-timezone</p>
         <span class='name'>zone</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::timezone::zone&quot;, undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
         &mdash;
@@ -116,7 +139,13 @@ geoffwilliams-timezone</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
+      <li><a href="https://forge.puppet.com/geoffwilliams/timezone" target="_parent" title="https://forge.puppet.com/geoffwilliams/timezone">https://forge.puppet.com/geoffwilliams/timezone</a></li>
+    
+      <li><a href="https://forge.puppet.com/geoffwilliams/windows_timezone" target="_parent" title="https://forge.puppet.com/geoffwilliams/windows_timezone">https://forge.puppet.com/geoffwilliams/windows_timezone</a></li>
+    
       <li><a href="https://en.wikipedia.org/wiki/Tz_database" target="_parent" title="https://en.wikipedia.org/wiki/Tz_database">https://en.wikipedia.org/wiki/Tz_database</a></li>
+    
+      <li><a href="https://github.com/GeoffWilliams/puppet-windows_timezone/blob/master/doc/windows_timezones.txt" target="_parent" title="https://github.com/GeoffWilliams/puppet-windows_timezone/blob/master/doc/windows_timezones.txt">https://github.com/GeoffWilliams/puppet-windows_timezone/blob/master/doc/windows_timezones.txt</a></li>
     
   </ul>
 
@@ -127,26 +156,26 @@ geoffwilliams-timezone</p>
         <pre class="lines">
 
 
-15
-16
-17
-18
-19
-20
-21
-22
 23
 24
 25
 26
 27
-28</pre>
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/timezone.pp', line 15</span>
+        <pre class="code"><span class="info file"># File 'manifests/timezone.pp', line 23</span>
 
 class r_profile::timezone(
-  $zone = hiera(&quot;r_profile::timezone::zone&quot;, undef),
+    Optional[String] $zone = undef,
 ) {
 
   if $facts[&#39;kernel&#39;] == &#39;windows&#39; {

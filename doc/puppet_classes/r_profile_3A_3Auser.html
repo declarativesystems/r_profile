@@ -77,7 +77,10 @@
     
 <p>R_profile::User</p>
 
-<p>Support for creating users and groups in bulk</p>
+<p>Support for creating users and groups in bulk.</p>
+
+<p>Items to create are grouped into base and non-base to allow easy management
+in Hiera. Items in non-base can override those in base.</p>
 
   </div>
 </div>
@@ -88,7 +91,7 @@
     
       
         <p class="example_title"><div class='inline'>
-<p>Heira data to support deluxe users with SSH logon granted</p>
+<p>Heira data to create a user with an authorised key</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::user::users:
@@ -102,9 +105,36 @@
 # note the backslash at end of line and quotes around the whole key. This ends up as
 # a single line in the target file without needing a really long line in yaml</code></pre>
     
+      
+        <p class="example_title"><div class='inline'>
+<p>Hiera data to create a group</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::user::groups:
+  alice:
+    gid: 100</code></pre>
+    
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
+  
+    <li>
+      
+        <span class='name'>base_users</span>
+      
+      
+        <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of user resources to create (suitable for <code>user</code> resource)</p>
+</div>
+      
+    </li>
   
     <li>
       
@@ -114,12 +144,31 @@
         <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::user::users&quot;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Hash of user resources to create (suitable for ensure_resources)</p>
+<p>Hash of user resources to create (suitable for <code>user</code> resource)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>base_groups</span>
+      
+      
+        <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of group resources to create (suitable for <code>group</code>
+resource)</p>
 </div>
       
     </li>
@@ -132,30 +181,13 @@
         <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::user::groups&quot;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Hash of group resources to create (suitable for ensure_resources)</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>deluxe</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::user::deluxe&quot;, false)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Popuplate all user resources listed with a cool skeleton of files</p>
+<p>Hash of group resources to create (suitable for <code>group</code>
+resource)</p>
 </div>
       
     </li>
@@ -170,15 +202,6 @@
         <pre class="lines">
 
 
-20
-21
-22
-23
-24
-25
-26
-27
-28
 29
 30
 31
@@ -228,18 +251,24 @@
 75
 76
 77
-78</pre>
+78
+79
+80
+81
+82
+83</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/user.pp', line 20</span>
+        <pre class="code"><span class="info file"># File 'manifests/user.pp', line 29</span>
 
 class r_profile::user(
-    Hash[String, Optional[Hash]] $users  = hiera(&quot;r_profile::user::users&quot;, {}),
-    Hash[String, Optional[Hash]] $groups = hiera(&quot;r_profile::user::groups&quot;, {}),
-    Boolean $deluxe = hiera(&quot;r_profile::user::deluxe&quot;, false),
+    Hash[String, Optional[Hash]] $base_users  = {},
+    Hash[String, Optional[Hash]] $users       = {},
+    Hash[String, Optional[Hash]] $base_groups = {},
+    Hash[String, Optional[Hash]] $groups      = {},
 ) {
 
-  $users.each |$user, $opts| {
+  ($base_users + $users).each |$user, $opts| {
     # if homedir set, create it
     $home = pick(dig($opts, &#39;home&#39;), &quot;/home/${user}&quot;)
 
@@ -272,15 +301,10 @@ class r_profile::user(
         authorized_keys =&gt; $opts[&#39;authorized_keys&#39;],
       }
     }
-
-    if $deluxe and $facts[&#39;kernel&#39;] != &#39;windows&#39;{
-      # copy in skeleton files, setup nice prompt, etc
-      bash_user_skel { $user: }
-    }
   }
 
 
-  $groups.each |$group, $opts| {
+  ($base_groups + $groups).each |$group, $opts| {
     group {
       default:
         ensure =&gt; present,

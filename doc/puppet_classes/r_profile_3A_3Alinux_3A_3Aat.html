@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::file
+  Puppet Class: r_profile::linux::at
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::file";
+  pathId = "puppet_classes::r_profile::linux::at";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::file</span>
+    <span class="title">r_profile::linux::at</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::file</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::at</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/file.pp
+      manifests/linux/at.pp
     </dd>
   </dl>
 </div>
@@ -75,57 +75,23 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::File</p>
+<p>R_profile::Linux::At</p>
 
-<p>Support for managing files and directories.</p>
-
-<p>Items to create are grouped into base and non-base to allow easy management
-in Hiera. Items in non-base can override those in base.</p>
+<p>Setup the <code>at</code> scheduler: * Remove <code>at.deny</code> so that
+only allowed users can run <code>at</code> * Strict permissions on
+<code>at.allow</code> * Allow <code>root</code> to use <code>at</code></p>
 
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
   
-    <li>
-      
-        <span class='name'>base_files</span>
-      
-      
-        <span class='type'>(<tt>Hash[String, Hash[String,Any]]</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Hash of files to create (suitable for <code>file</code> resource)</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>files</span>
-      
-      
-        <span class='type'>(<tt>Hash[String, Hash[String,Any]]</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Hash of files to create (suitable for <code>file</code> resource)</p>
-</div>
-      
-    </li>
-  
-</ul>
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/puppetlabs/stdlib" target="_parent" title="https://forge.puppet.com/puppetlabs/stdlib">https://forge.puppet.com/puppetlabs/stdlib</a></li>
+    
+  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -134,6 +100,7 @@ in Hiera. Items in non-base can override those in base.</p>
         <pre class="lines">
 
 
+9
 10
 11
 12
@@ -148,24 +115,29 @@ in Hiera. Items in non-base can override those in base.</p>
 21
 22
 23
-24</pre>
+24
+25
+26</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/file.pp', line 10</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/at.pp', line 9</span>
 
-class r_profile::file(
-  Hash[String, Hash[String,Any]]  $base_files       = {},
-  Hash[String, Hash[String,Any]]  $files            = {},
-) {
+class r_profile::linux::at {
+  file { &quot;/etc/at.deny&quot;:
+    ensure =&gt; absent,
+  }
 
-  ($base_files + $files).each |$title, $opts| {
-    file {
-      default:
-        ensure =&gt; file,
-      ;
-      $title:
-        * =&gt; $opts,
-    }
+  file { &quot;/etc/at.allow&quot;:
+    ensure =&gt; file,
+    owner  =&gt; &quot;root&quot;,
+    group  =&gt; &quot;root&quot;,
+    mode   =&gt; &quot;0400&quot;,
+  }
+
+  file_line { &quot;/etc/at.allow root&quot;:
+    ensure =&gt; present,
+    line   =&gt; &quot;root&quot;,
+    path   =&gt; &quot;/etc/at.allow&quot;
   }
 }</pre>
       </td>

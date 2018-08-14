@@ -1,13 +1,42 @@
 # R_profiles::Host
 #
-# Ensure that certain hosts entries exist on this host
+# Mange the static lookup table for hostnames.
 #
-# @param entries Hash of hosts to create - In a form suitable for create_resources
+# We take both a `base` and override hash of services and merge them to form a final list. This allows for simpler
+# management through hiera.
+#
+# @example Basic usage
+#   include r_profile::host
+#
+# @example Purging unmanaged entries
+#   r_profile::host::purge: true
+#
+# @example Adding a host record
+#   r_profile::host::hosts:
+#     localhost.localdomain
+#       ip: 127.0.0.1
+#       host_aliases: localhost
+#
+# @param base_hosts Base hash of hosts to create, see examples
+# @param hosts Override hash of hosts to create, see examples
+# @param purge `true` to purge unmanaged host entries, otherwise `false`
 class r_profile::host(
-  $entries = hiera("r_profile::host::entries",false),
+  Hash[String,Hash] $base_hosts = {},
+  Hash[String,Hash] $hosts      = {},
+  Boolean           $purge      = false,
 ) {
 
-  if $entries {
-    create_resources("host", $entries)
+  resources { "host":
+    purge => $purge,
+  }
+
+  ($base_hosts + $hosts).each |$key, $opts| {
+    host {
+      default:
+        ensure => present,
+      ;
+      $key:
+        * => $opts,
+    }
   }
 }

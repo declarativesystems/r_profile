@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::file
+  Puppet Class: r_profile::linux::resolv_conf
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::file";
+  pathId = "puppet_classes::r_profile::linux::resolv_conf";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::file</span>
+    <span class="title">r_profile::linux::resolv_conf</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::file</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::resolv_conf</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/file.pp
+      manifests/linux/resolv_conf.pp
     </dd>
   </dl>
 </div>
@@ -75,57 +75,64 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::File</p>
+<p>R_profile::Linux::Resolv_conf</p>
 
-<p>Support for managing files and directories.</p>
-
-<p>Items to create are grouped into base and non-base to allow easy management
-in Hiera. Items in non-base can override those in base.</p>
+<p>Manage <code>/etc/resolv.conf</code></p>
 
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>basic usage</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_resolv_conf'>resolv_conf</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Hiera data</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::linux::resolv_conf::settings:
+  search: &quot;megalan megacorp.com&quot;,
+  nameservers:
+    - &quot;10.0.0.1&quot;
+    - &quot;10.0.4.4&quot;</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
       
-        <span class='name'>base_files</span>
+        <span class='name'>settings</span>
       
       
-        <span class='type'>(<tt>Hash[String, Hash[String,Any]]</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Variant[String, Array[String]]]</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Hash of files to create (suitable for <code>file</code> resource)</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>files</span>
-      
-      
-        <span class='type'>(<tt>Hash[String, Hash[String,Any]]</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Hash of files to create (suitable for <code>file</code> resource)</p>
+<p>Hash of settings to pass to <code>resolv_conf</code> class (see examples)</p>
 </div>
       
     </li>
   
 </ul>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/geoffwilliams/resolv_conf" target="_parent" title="https://forge.puppet.com/geoffwilliams/resolv_conf">https://forge.puppet.com/geoffwilliams/resolv_conf</a></li>
+    
+  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -134,38 +141,24 @@ in Hiera. Items in non-base can override those in base.</p>
         <pre class="lines">
 
 
-10
-11
-12
-13
-14
-15
-16
-17
 18
 19
 20
 21
 22
 23
-24</pre>
+24
+25</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/file.pp', line 10</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/resolv_conf.pp', line 18</span>
 
-class r_profile::file(
-  Hash[String, Hash[String,Any]]  $base_files       = {},
-  Hash[String, Hash[String,Any]]  $files            = {},
+class r_profile::linux::resolv_conf(
+  Hash[String, Variant[String, Array[String]]] $settings,
 ) {
 
-  ($base_files + $files).each |$title, $opts| {
-    file {
-      default:
-        ensure =&gt; file,
-      ;
-      $title:
-        * =&gt; $opts,
-    }
+  class { &quot;resolv_conf&quot;:
+    * =&gt; $settings,
   }
 }</pre>
       </td>

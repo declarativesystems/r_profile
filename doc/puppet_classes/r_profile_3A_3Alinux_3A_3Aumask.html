@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::host
+  Puppet Class: r_profile::linux::umask
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::host";
+  pathId = "puppet_classes::r_profile::linux::umask";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::host</span>
+    <span class="title">r_profile::linux::umask</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::host</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::umask</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/host.pp
+      manifests/linux/umask.pp
     </dd>
   </dl>
 </div>
@@ -75,13 +75,11 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profiles::Host</p>
+<p>R_profile::Linux::Umask</p>
 
-<p>Mange the static lookup table for hostnames.</p>
-
-<p>We take both a <code>base</code> and override hash of services and merge
-them to form a final list. This allows for simpler management through
-hiera.</p>
+<p>Set the umask for each of the requested files. The files must already exist
+in order to add a line to them. r_profile::file can be used to do this if
+required.</p>
 
   </div>
 </div>
@@ -92,27 +90,27 @@ hiera.</p>
     
       
         <p class="example_title"><div class='inline'>
-<p>Basic usage</p>
+<p>Activate the umask profile</p>
 </div></p>
       
-      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_host'>host</span></code></pre>
+      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_umask'>umask</span></code></pre>
     
       
         <p class="example_title"><div class='inline'>
-<p>Purging unmanaged entries</p>
+<p>Hiera data to set a restrictive umask</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::host::purge: true</code></pre>
+      <pre class="example code"><code>r_profile::linux::umask::default_umask: &#39;0077&#39;</code></pre>
     
       
         <p class="example_title"><div class='inline'>
-<p>Adding a host record</p>
+<p>Hiera data to set umask in several files with one exception</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::host::hosts:
-  localhost.localdomain
-    ip: 127.0.0.1
-    host_aliases: localhost</code></pre>
+      <pre class="example code"><code>r_profile::linux::umask::files:
+  /etc/profile.d/umask.sh:
+  /root/.bashrc:
+  /var/lib/myapp/.bashrc: &#39;0007&#39;</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -120,61 +118,39 @@ hiera.</p>
   
     <li>
       
-        <span class='name'>base_hosts</span>
+        <span class='name'>default_umask</span>
       
       
-        <span class='type'>(<tt>Hash[String,Hash]</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;0022&#39;</tt>)</em>
       
-      
-        &mdash;
-        <div class='inline'>
-<p>Base hash of hosts to create, see examples</p>
-</div>
       
     </li>
   
     <li>
       
-        <span class='name'>hosts</span>
+        <span class='name'>files</span>
       
       
-        <span class='type'>(<tt>Hash[String,Hash]</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Optional[String]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>{}</tt>)</em>
       
-      
-        &mdash;
-        <div class='inline'>
-<p>Override hash of hosts to create, see examples</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>purge</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p><code>true</code> to purge unmanaged host entries, otherwise
-<code>false</code></p>
-</div>
       
     </li>
   
 </ul>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/geoffwilliams/filemagic/readme" target="_parent" title="https://forge.puppet.com/geoffwilliams/filemagic/readme">https://forge.puppet.com/geoffwilliams/filemagic/readme</a></li>
+    
+  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -183,6 +159,10 @@ hiera.</p>
         <pre class="lines">
 
 
+19
+20
+21
+22
 23
 24
 25
@@ -194,36 +174,24 @@ hiera.</p>
 31
 32
 33
-34
-35
-36
-37
-38
-39
-40
-41
-42</pre>
+34</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/host.pp', line 23</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/umask.pp', line 19</span>
 
-class r_profile::host(
-  Hash[String,Hash] $base_hosts = {},
-  Hash[String,Hash] $hosts      = {},
-  Boolean           $purge      = false,
+class r_profile::linux::umask(
+    String                          $default_umask = &#39;0022&#39;,
+    Hash[String, Optional[String]]  $files  = {}
 ) {
 
-  resources { &quot;host&quot;:
-    purge =&gt; $purge,
-  }
-
-  ($base_hosts + $hosts).each |$key, $opts| {
-    host {
-      default:
-        ensure =&gt; present,
-      ;
-      $key:
-        * =&gt; $opts,
+  $files.each |$key, $opts| {
+    fm_replace { &quot;${key}:umask&quot;:
+      ensure            =&gt; present,
+      path              =&gt; $key,
+      data              =&gt; &quot;umask ${pick($opts, $default_umask)}&quot;,
+      match             =&gt; &quot;^umask&quot;,
+      insert_if_missing =&gt; true,
+      insert_at         =&gt; &#39;bottom&#39;,
     }
   }
 }</pre>

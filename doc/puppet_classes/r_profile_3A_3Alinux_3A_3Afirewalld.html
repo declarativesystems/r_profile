@@ -128,6 +128,20 @@ using hiera.</p>
     
       
         <p class="example_title"><div class='inline'>
+<p>Define additional custom service</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::linux::firewalld::custom_service:
+  other_https:
+    short: &#39;other_https&#39;,
+    description: &#39;other_https&#39;,
+    port:
+      -
+        port: 8443
+        protocol: tcp</code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
 <p>disable firewalld</p>
 </div></p>
       
@@ -231,10 +245,10 @@ to disable it</p>
   
     <li>
       
-        <span class='name'>base_firewalld_rich_rule</span>
+        <span class='name'>firewalld_rich_rule</span>
       
       
-        <span class='type'></span>
+        <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>{}</tt>)</em>
@@ -249,7 +263,7 @@ to disable it</p>
   
     <li>
       
-        <span class='name'>firewalld_rich_rule</span>
+        <span class='name'>base_custom_service</span>
       
       
         <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
@@ -257,6 +271,31 @@ to disable it</p>
       
         <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Base level <code>firewalld::custom_service</code> definitions (see
+examples)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>custom_service</span>
+      
+      
+        <span class='type'>(<tt>Hash[String, Optional[Hash]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>additional <code>firewalld::custom_service</code> definitions (see
+examples)</p>
+</div>
       
     </li>
   
@@ -277,18 +316,6 @@ to disable it</p>
         <pre class="lines">
 
 
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
 61
 62
 63
@@ -330,10 +357,30 @@ to disable it</p>
 99
 100
 101
-102</pre>
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/firewalld.pp', line 49</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/firewalld.pp', line 61</span>
 
 class r_profile::linux::firewalld(
     Enum[&#39;running&#39;, &#39;stopped&#39;]    $service_ensure           = &#39;running&#39;,
@@ -342,6 +389,8 @@ class r_profile::linux::firewalld(
     Hash[String, Optional[Hash]]  $firewalld_service        = {},
     Hash[String, Optional[Hash]]  $base_firewalld_rich_rule = {},
     Hash[String, Optional[Hash]]  $firewalld_rich_rule      = {},
+    Hash[String, Optional[Hash]]  $base_custom_service      = {},
+    Hash[String, Optional[Hash]]  $custom_service           = {},
 ) {
 
   # Service definition for Puppet Orchestrator (8142) - PuppetMaster definition alreaady ships with RHEL7
@@ -368,7 +417,7 @@ class r_profile::linux::firewalld(
       purge_ports      =&gt; true,
     }
 
-    merge($base_firewalld_service, $firewalld_service).each |$key, $opts| {
+    ($base_firewalld_service + $firewalld_service).each |$key, $opts| {
       firewalld_service {
         default:
           ensure =&gt; present,
@@ -378,13 +427,19 @@ class r_profile::linux::firewalld(
       }
     }
 
-    merge($base_firewalld_rich_rule, $firewalld_rich_rule).each |$key, $opts| {
+    ($base_firewalld_rich_rule + $firewalld_rich_rule).each |$key, $opts| {
       firewalld_rich_rule {
         default:
           ensure =&gt; present,
         ;
         $key:
           * =&gt; $opts,
+      }
+    }
+
+    ($base_custom_service + $custom_service).each |$key, $opts| {
+      firewalld::custom_service { $key:
+        * =&gt; $opts,
       }
     }
   }

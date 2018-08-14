@@ -80,9 +80,33 @@
 <p>Common mount good practices for RedHat:  * <code>/tmp</code> mounted
 <code>nodev,nosuid,noexec</code> (if separate partition)  *
 <code>/dev/shm</code> mounted <code>nodev,nosuid,noexec</code> (if separate
-partition)  * <code>/home</code> mounted <code>nodev</code> (if separate
 partition)  * Optionally bind mount <code>/var/tmp</code> to
-<code>/tmp</code></p>
+<code>/tmp</code>  * All partitions except <code>/</code> mounted with
+<code>nodev</code> option</p>
+
+<p>Note that options for <code>/dev/shm</code> will be ignored as per <a
+href="https://bugzilla.redhat.com/show_bug.cgi?id=783884">bugzilla.redhat.com/show_bug.cgi?id=783884</a></p>
+
+<p>Puppet provides a <code>mountpoint</code> fact with output similar to: 
+/home =&gt; {  available =&gt; “19.97 GiB”,  available_bytes =&gt;
+21438976000,  capacity =&gt; “0.16%”,  device =&gt;
+“/dev/mapper/centos-home”,  filesystem =&gt; “xfs”,  options =&gt; [ “rw”,
+“seclabel”, “relatime”, “attr2”, “inode64”, “noquota” ],  size =&gt; “20.00
+GiB”,  size_bytes =&gt; 21472735232,  used =&gt; “32.20 MiB”,  used_bytes
+=&gt; 33759232  },</p>
+
+<p>This is completely different to the input the <code>mount</code> provider
+uses:  mount { &#39;/home&#39;:  ensure =&gt; &#39;mounted&#39;,  device
+=&gt; &#39;/dev/mapper/centos-home&#39;,  dump =&gt; &#39;0&#39;,  fstype
+=&gt; &#39;xfs&#39;,  options =&gt; &#39;defaults&#39;,  pass =&gt;
+&#39;0&#39;,  target =&gt; &#39;/etc/fstab&#39;,  }</p>
+
+<p>Since the <code>mountpoint</code> fact does not include the current ensure,
+this profile uses a new fact <code>fstab</code> which includes the content
+of <code>/etc/fstab</code> validated against <code>/proc/mounts</code> and
+excluding any swap partitions:  /home =&gt; {  ensure =&gt; “mounted”, 
+device =&gt; “/dev/mapper/centos-home”,  fstab =&gt; “xfs”,  options =&gt;
+“defaults”,  dump =&gt; “0”,  pass =&gt; “0”  }</p>
 
   </div>
 </div>
@@ -115,8 +139,9 @@ partition)  * Optionally bind mount <code>/var/tmp</code> to
       
         &mdash;
         <div class='inline'>
-<p><code>true</code> to bind mount <code>/var/tmp</code> to <code>/tmp</code>
-if <code>/var/tmp</code> is not already a separately mounted partition</p>
+<p><code>true</code> to bind mount <code>/var/tmp</code> onto
+<code>/tmp</code> if <code>/var/tmp</code> is not <em>already</em> a
+separately mounted partition</p>
 </div>
       
     </li>
@@ -138,101 +163,91 @@ if <code>/var/tmp</code> is not already a separately mounted partition</p>
         <pre class="lines">
 
 
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61</pre>
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/mount.pp', line 16</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/mount.pp', line 62</span>
 
 class r_profile::linux::mount(
     Boolean $bind_mount_var_tmp = false,
 ) {
-  if dig($facts, &#39;mountpoints&#39;, &#39;/tmp&#39;) {
-    mount { &#39;/tmp&#39;:
-      ensure  =&gt; mounted,
-      atboot  =&gt; true,
-      options =&gt; &#39;nodev,nosuid,noexec&#39;,
-      device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/tmp&#39;][&#39;device&#39;],
-      fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/tmp&#39;][&#39;filesystem&#39;],
-    }
-  }
 
-  if dig($facts, &#39;mountpoints&#39;, &#39;/dev/shm&#39;) {
-    mount { &#39;/dev/shm&#39;:
-      ensure  =&gt; mounted,
-      atboot  =&gt; true,
-      options =&gt; &#39;nodev,nosuid,noexec&#39;,
-      device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/dev/shm&#39;][&#39;device&#39;],
-      fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/dev/shm&#39;][&#39;filesystem&#39;],
-    }
-  }
-
-  if dig($facts, &#39;mountpoints&#39;, &#39;/home&#39;) {
-    mount { &#39;/home&#39;:
-      ensure  =&gt; mounted,
-      atboot  =&gt; true,
-      options =&gt; &#39;nodev&#39;,
-      device  =&gt; $facts[&#39;mountpoints&#39;][&#39;/home&#39;][&#39;device&#39;],
-      fstype  =&gt; $facts[&#39;mountpoints&#39;][&#39;/home&#39;][&#39;filesystem&#39;],
-    }
-  }
-
-  if $bind_mount_var_tmp and ! dig($facts, &#39;mountpoints&#39;, &#39;/var/tmp&#39;){
+  if $bind_mount_var_tmp and ! dig($facts, &#39;fstab&#39;, &#39;/var/tmp&#39;){
     file { &quot;/var/tmp&quot;:
       ensure =&gt; directory,
       owner  =&gt; root,
     }
     mount { &#39;/var/tmp&#39;:
       ensure  =&gt; mounted,
+      atboot  =&gt; true,
       device  =&gt; &#39;/tmp&#39;,
       fstype  =&gt; &#39;none&#39;,
-      options =&gt; &#39;bind,nodev,nosuid,noexec&#39;,
+      options =&gt; &#39;bind&#39;,
     }
   }
+
+  pick($facts[&#39;fstab&#39;], {}).each |$key, $opts| {
+    # leave root filesystem and bind mounts alone
+    if $key != &quot;/&quot; and ! ($opts[&#39;options&#39;] =~ /bind/) {
+
+      if $key == &#39;/tmp&#39; {
+        # special handling for /tmp - should always just be
+        $mount_options = &quot;nodev,nosuid,noexec&quot;
+      } elsif ! ($opts[&#39;options&#39;] =~ /nodev/) {
+        # for all other mount points, make sure that we add the nodev option
+        $mount_options = &quot;${opts[&#39;options&#39;]},nodev&quot;
+      } else {
+        # otherwise we are already setup how we should be
+        $mount_options = $opts[&#39;options&#39;]
+      }
+
+
+      mount { $key:
+        options =&gt; $mount_options,
+      }
+    }
+  }
+
 }</pre>
       </td>
     </tr>

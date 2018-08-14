@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Puppet Class: r_profile::ntp
+  Puppet Class: r_profile::linux::yumrepo
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "puppet_classes::r_profile::ntp";
+  pathId = "puppet_classes::r_profile::linux::yumrepo";
   relpath = '../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../_index.html">Index (r)</a> &raquo;
     <span class='title'><span class='object_link'>Puppet Classes</span></span>
      &raquo; 
-    <span class="title">r_profile::ntp</span>
+    <span class="title">r_profile::linux::yumrepo</span>
   
 </div>
 
@@ -59,14 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Puppet Class: r_profile::ntp</h1>
+      <div id="content"><h1>Puppet Class: r_profile::linux::yumrepo</h1>
 <div class="box_info">
   
   
   <dl>
     <dt>Defined in:</dt>
     <dd>
-      manifests/ntp.pp
+      manifests/linux/yumrepo.pp
     </dd>
   </dl>
 </div>
@@ -75,16 +75,13 @@
 <div class="docstring">
   <div class="discussion">
     
-<p>R_profile::Ntp</p>
+<p>R_Profile::Linux::Yumrepo</p>
 
-<p>NTP for Linux/unix based servers. Newer Linux systems can use
-<code>r_profile::linux::chronyd</code> to gain a more modern NTP
-implementation.</p>
-
-<p>Windows users gain NTP by joining a domain. There is no support for
-standalone windows NTP yet</p>
-
-<p>Supports: * AIX * Solaris * Linux</p>
+<p>Setup the system yum repos in a custom stage before the main puppet run.
+This lets up setup all the repositories to be avaiable by the
+<code>main</code> stage. Items to create are grouped into base and non-base
+to allow easy management in Hiera. Items in non-base can override those in
+base.</p>
 
   </div>
 </div>
@@ -95,33 +92,35 @@ standalone windows NTP yet</p>
     
       
         <p class="example_title"><div class='inline'>
-<p>setup default NTP client</p>
+<p>Puppet code to define a stage and run this class in it</p>
 </div></p>
       
-      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_ntp'>ntp</span></code></pre>
+      <pre class="example code"><code>stage { &quot;yumrepos&quot;:
+  before =&gt; Stage[&quot;main&quot;],
+}
+class { &quot;r_profile::linux::yumrepo&quot;
+  stage =&gt; &quot;yumrepos&quot;
+}</code></pre>
     
       
         <p class="example_title"><div class='inline'>
-<p>Hiera data for setting the server(s) to use</p>
+<p>Alternatively, use the <code>r_profile::repo</code> class to instantate
+this class</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::ntp::servers:
-  - time.windows.com
-  - pool.ntp.org</code></pre>
+      <pre class="example code"><code><span class='comment'># must add _this_ class to the list of classes to include `r_profile::repo::profiles`
+</span><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_repo'>repo</span></code></pre>
     
       
         <p class="example_title"><div class='inline'>
-<p>Hiera data to prevent trying to manage the package</p>
+<p>Hiera data to setup a custom hosted yum repository</p>
 </div></p>
       
-      <pre class="example code"><code>r_profile::ntp::package_manage: false</code></pre>
-    
-      
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to prevent trying to manage the service</p>
-</div></p>
-      
-      <pre class="example code"><code>r_profile::ntp::service_manage: false</code></pre>
+      <pre class="example code"><code>r_profile::linux::yumrepo:yumrepos
+  Artifactory:
+    baseurl: http://artifactory.megacorp.com
+    enabled: 1
+    gpgcheck: 0</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -129,61 +128,43 @@ standalone windows NTP yet</p>
   
     <li>
       
-        <span class='name'>servers</span>
+        <span class='name'>base_yumrepos</span>
       
       
-        <span class='type'>(<tt>Optional[Array[String]]</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Hash]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>undef</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Array of servers to ask for the time</p>
+<p>Hash of yum repositories to ensure (base)</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>package_manage</span>
+        <span class='name'>yumrepos</span>
       
       
-        <span class='type'>(<tt>Optional[Boolean]</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Hash]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>undef</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>True if we should install ntp otherwise false</p>
+<p>Hash of yum repositories to ensure (overrides)</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>service_manage</span>
-      
-      
-        <span class='type'>(<tt>Optional[Boolean]</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>undef</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>True if we should control the ntpd service otherwise false</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>service_name</span>
+        <span class='name'>stage</span>
       
       
         <span class='type'></span>
@@ -192,7 +173,7 @@ standalone windows NTP yet</p>
       
         &mdash;
         <div class='inline'>
-<p>Name of the service to manage if we are instructed to do so</p>
+<p>Stage to setup yum repositories in</p>
 </div>
       
     </li>
@@ -203,7 +184,9 @@ standalone windows NTP yet</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><a href="https://forge.puppet.com/puppetlabs/ntp" target="_parent" title="https://forge.puppet.com/puppetlabs/ntp">https://forge.puppet.com/puppetlabs/ntp</a></li>
+      <li><a href="https://puppet.com/docs/puppet/5.5/lang_run_stages.html" target="_parent" title="https://puppet.com/docs/puppet/5.5/lang_run_stages.html">https://puppet.com/docs/puppet/5.5/lang_run_stages.html</a></li>
+    
+      <li><a href="https://puppet.com/docs/puppet/5.5/types/yumrepo.html" target="_parent" title="https://puppet.com/docs/puppet/5.5/types/yumrepo.html">https://puppet.com/docs/puppet/5.5/types/yumrepo.html</a></li>
     
   </ul>
 
@@ -214,7 +197,6 @@ standalone windows NTP yet</p>
         <pre class="lines">
 
 
-33
 34
 35
 36
@@ -226,21 +208,28 @@ standalone windows NTP yet</p>
 42
 43
 44
-45</pre>
+45
+46
+47
+48
+49</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/ntp.pp', line 33</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/yumrepo.pp', line 34</span>
 
-class r_profile::ntp(
-    Optional[Array[String]] $servers        = undef,
-    Optional[Boolean]       $package_manage = undef,
-    Optional[Boolean]       $service_manage = undef,
+class r_profile::linux::yumrepo(
+    Hash[String, Hash]  $base_yumrepos  = {},
+    Hash[String, Hash]  $yumrepos       = {},
 ) {
-  if $facts[&#39;virtual&#39;] != &quot;docker&quot; {
-    class { &quot;ntp&quot;:
-      servers        =&gt; $servers,
-      package_manage =&gt; $package_manage,
-      service_manage =&gt; $service_manage,
+
+
+  ($base_yumrepos + $yumrepos).each |$key, $opts| {
+    yumrepo {
+      default:
+        ensure =&gt; present,
+      ;
+      $key:
+        * =&gt; $opts,
     }
   }
 }</pre>

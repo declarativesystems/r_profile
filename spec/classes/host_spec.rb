@@ -9,7 +9,7 @@ describe 'r_profile::host' do
   context 'processes hosts entries correctly' do
     let :params do
       {
-        :entries => {
+        :hosts => {
           "momrah.everliving.com" => {
             "ip" => "126.126.126.126",
           }
