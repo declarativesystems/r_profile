@@ -8,6 +8,9 @@
 #   * Enable/disable rulegroups by name
 #   * Mange firewall rules
 #
+# Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
+# those in base.
+#
 # @see https://forge.puppet.com/geoffwilliams/windows_firewall
 #
 # @example turning off all firewalls
