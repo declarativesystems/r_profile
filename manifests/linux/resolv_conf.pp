@@ -17,8 +17,8 @@
 # @param base_settings Base hash of settings to pass to `resolv_conf` class (see examples)
 # @param settings Override hash of settings to pass to `resolv_conf` class (see examples)
 class r_profile::linux::resolv_conf(
-  Hash[String, Variant[String, Array[String]]] $base_settings,
-  Hash[String, Variant[String, Array[String]]] $settings,
+  Hash[String, Variant[String, Array[String]]] $base_settings = {},
+  Hash[String, Variant[String, Array[String]]] $settings      = {},
 ) {
 
   class { "resolv_conf":

@@ -6,6 +6,9 @@
 #
 # This non-destructive approach lets us only manage the sections of configuration we want to
 #
+# Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
+# those in base.
+#
 # @example Profile usage
 #   include r_profile::linux::sudo
 #
@@ -15,12 +18,15 @@
 #
 # @param package Name of the sudo package
 # @param sudoers_d_dir Directory where sudoers fragments can be kept
-# @param sudoers_d Hash of file content for for files to manage inside the `/etc/sudoers.d`
+# @param base_sudoers_d Base hash of file content for for files to manage inside the `/etc/sudoers.d`
+#   directory
+# @param sudoers_d Override hash of file content for for files to manage inside the `/etc/sudoers.d`
 #   directory
 # @param header Warning message to add to top of files we manage
 class r_profile::linux::sudo(
     String                $package        = "sudo",
     String                $sudoers_d_dir  = "/etc/sudoers.d",
+    Hash[String, String]  $base_sudoers_d = {},
     Hash[String, String]  $sudoers_d      = {},
     String                $header         = "# This file is managed by Puppet; changes may be overwritten",
 ) {
@@ -29,7 +35,7 @@ class r_profile::linux::sudo(
     ensure => present,
   }
 
-  $sudoers_d.each |$filename, $content| {
+  ($base_sudoers_d + $sudoers_d).each |$filename, $content| {
     file { "${sudoers_d_dir}/${filename}":
       ensure  => file,
       owner   => "root",
