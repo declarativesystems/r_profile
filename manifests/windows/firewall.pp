@@ -100,7 +100,7 @@ class r_profile::windows::firewall(
     Boolean             $purge_rules    = false,
 ) {
 
-  resources { "windows_firewall_rules":
+  resources { "windows_firewall_rule":
     purge => $purge_rules,
   }
 
