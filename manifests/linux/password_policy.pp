@@ -96,7 +96,7 @@ class r_profile::linux::password_policy(
     type      => 'password',
     control   => 'sufficient',
     module    => 'pam_unix.so',
-    arguments => "remember=${saved_passwords}",
+    arguments => ["try_first_pass", "use_authtok", "sha512", "shadow", "remember=${saved_passwords}"],
     position  => 'before module pam_deny.so',
   }
 
