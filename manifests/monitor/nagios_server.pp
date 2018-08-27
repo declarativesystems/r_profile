@@ -4,7 +4,7 @@
 #
 # @param password Password to use for nagios
 class r_profile::monitor::nagios_server(
-    String $password = undef,
+    Optional[String] $password = undef,
 ) {
   include nagios
   class { "nagios::server":
