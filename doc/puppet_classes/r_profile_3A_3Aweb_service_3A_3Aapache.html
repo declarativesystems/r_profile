@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::web_service::apache
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,13 +74,14 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Web_service::Apache</p>
+    <p>R_profile::Web_service::Apache</p>
 
 <p>Install and configure Apache webserver</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -90,52 +91,15 @@
         <span class='name'>website_hash</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::website_hash&#39;,undef)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Hash of websites to create in a suitable for for create_resources and the
-apache::vhost resource</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>open_firewall</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::open_firewall&#39;, false)</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
-        <div class='inline'>
-<p>True to alter IP tables to allow connection to apache</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>lb</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::lb&#39;,true)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Export a resorce suitable for use with a load balancer</p>
+        <div class='inline'><p>Hash of websites to create in a suitable for for create_resources
+and the apache::vhost resource</p>
 </div>
       
     </li>
@@ -145,52 +109,14 @@ apache::vhost resource</p>
         <span class='name'>disable_php</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::disable_php&#39;, false)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>True to disable support for PHP otherwise it will be installed</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>nagios_monitored</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::nagios_monitored&#39;, true)</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
-        <div class='inline'>
-<p>True to export a resource to nagios for monitoring</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>ip</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::ip&#39;, undef)</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>IP address or array of IP addresses to listen on. Default is to listen on
-all interfaces</p>
+        <div class='inline'><p><code>true</code> to disable support for PHP otherwise it will be installed</p>
 </div>
       
     </li>
@@ -200,11 +126,33 @@ all interfaces</p>
         <span class='name'>disable_mysql</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::apache::disable_mysql&#39;, false)</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> to disable support for mysql in PHP otherwise enable it</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ip</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>IP address or array of IP addresses to listen on.  Default is to listen
+on all interfaces</p>
+</div>
       
     </li>
   
@@ -218,6 +166,8 @@ all interfaces</p>
         <pre class="lines">
 
 
+11
+12
 13
 14
 15
@@ -289,98 +239,16 @@ all interfaces</p>
 81
 82
 83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163</pre>
+84</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/web_service/apache.pp', line 13</span>
+        <pre class="code"><span class="info file"># File 'manifests/web_service/apache.pp', line 11</span>
 
 class r_profile::web_service::apache(
-    $website_hash       = hiera(&#39;r_profile::web_service::apache::website_hash&#39;,undef),
-    $open_firewall      = hiera(&#39;r_profile::web_service::apache::open_firewall&#39;, false),
-    $lb                 = hiera(&#39;r_profile::web_service::apache::lb&#39;,true),
-    $disable_php        = hiera(&#39;r_profile::web_service::apache::disable_php&#39;, false),
-    $disable_mysql      = hiera(&#39;r_profile::web_service::apache::disable_mysql&#39;, false),
-    $nagios_monitored   = hiera(&#39;r_profile::web_service::apache::nagios_monitored&#39;, true),
-    $ip                 = hiera(&#39;r_profile::web_service::apache::ip&#39;, undef),
+    Hash              $website_hash  = {},
+    Boolean           $disable_php   = false,
+    Boolean           $disable_mysql = false,
+    Optional[String]  $ip            = undef,
 ) {
 
   # port is always 80, you would have to changed listeners, etc to support
@@ -394,68 +262,14 @@ class r_profile::web_service::apache(
   if ! $disable_php {
     include ::apache::mod::php
 
-    class { &#39;mysql::bindings&#39;:
-      php_enable =&gt; true,
+    if ! $disable_mysql {
+      class { &#39;mysql::bindings&#39;:
+        php_enable =&gt; true,
+      }
     }
   }
 
   include ::apache::mod::ssl
-
-  # firewall
-  if $open_firewall and !defined(Firewall[&quot;100 ${::fqdn} HTTP ${port}&quot;]) {
-    firewall { &quot;100 ${::fqdn} HTTP ${port}&quot;:
-      dport  =&gt; $port,
-      proto  =&gt; &#39;tcp&#39;,
-      action =&gt; &#39;accept&#39;,
-    }
-  }
-
-  # load balancer
-  # setup the FACT that will tell us what IP address to use (run n)
-  if is_string($lb) {
-    $lb_address = $lb
-  } else {
-    if dig($facts, &#39;pe_server_version&#39;) {
-
-      # attempt to lookup which nodes are classified as Haproxies
-      # and use first.  Only do this if being run in agent-master mode
-      $lb_addresses = $::settings::storeconfigs ? {
-        true    =&gt; query_nodes(&#39;Class[R_profile::Monitor::Haproxy]&#39;),
-        default =&gt; false,
-      }
-
-      if is_array($lb_addresses) {
-        $lb_address = $lb_addresses[0]
-      } else {
-        $lb_address = false
-      }
-    } else {
-      $lb_address = false
-    }
-  }
-  if $lb_address and is_string($lb) {
-    $source_ip = $source_ipaddress[$lb_address]
-  } else {
-    $source_ip = undef
-  }
-
-  if $lb {
-    # export the IP address (run n+1)
-    @@haproxy::balancermember { $fqdn:
-      listening_service =&gt; &#39;apache&#39;,
-      server_names      =&gt; $fqdn,
-      ipaddresses       =&gt; $source_ip,
-      ports             =&gt; $port,
-      options           =&gt; &#39;check&#39;,
-    }
-  }
-
-  # nagios for main host
-  if $nagios_monitored {
-    nagios::nagios_service_http { $fqdn:
-      port =&gt; $port,
-    }
-  }
 
   # setup the default vhost here.  we always want one of these.  The main
   # apache module sets one of these up but doesn&#39;t let us set the
@@ -485,43 +299,23 @@ class r_profile::web_service::apache(
     mode   =&gt; &#39;0755&#39;,
   }
 
-  if $website_hash {
-    $website_hash.each |String $site_name, Hash $website| {
+  $website_hash.each |String $site_name, Hash $website| {
 
-      $_docroot = &quot;/var/www/${website[&#39;docroot&#39;]}&quot;
+    $_docroot = &quot;/var/www/${website[&#39;docroot&#39;]}&quot;
 
-      apache::vhost { $site_name:
-        docroot        =&gt; $_docroot,
-        manage_docroot =&gt; $website[&#39;manage_docroot&#39;],
-        port           =&gt; $port,
-        priority       =&gt; $website[&#39;priority&#39;],
-        directories    =&gt; [
-          {
-            path           =&gt; $_docroot,
-            allow_override =&gt; [&#39;All&#39;],
-          },
-        ],
-      }
-
-      # Add to load balancer if enabled and we should use a different listener
-      if $lb and $website[&#39;lb_listener&#39;] {
-        # export the IP address (run n+1)
-        @@haproxy::balancermember { &quot;${site_name}-${::fqdn}&quot;:
-          listening_service =&gt; $website[&#39;lb_listener&#39;],
-          server_names      =&gt; $site_name,
-          ipaddresses       =&gt; $source_ip,
-          ports             =&gt; $port,
-          options           =&gt; &#39;check&#39;,
-        }
-      }
-
-      # nagios for VHOST
-      if $nagios_monitored {
-        nagios::nagios_service_http { $site_name:
-          port =&gt; $port,
-        }
-      }
+    apache::vhost { $site_name:
+      docroot        =&gt; $_docroot,
+      manage_docroot =&gt; $website[&#39;manage_docroot&#39;],
+      port           =&gt; $port,
+      priority       =&gt; $website[&#39;priority&#39;],
+      directories    =&gt; [
+        {
+          path           =&gt; $_docroot,
+          allow_override =&gt; [&#39;All&#39;],
+        },
+      ],
     }
+
   }
 }</pre>
       </td>

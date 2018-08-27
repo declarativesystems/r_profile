@@ -44,7 +44,7 @@
 # @param manage_authconfig True to install `authconfig`, otherwise assume its
 #   already on the system. `authconfig` command is required inspect the password
 #   settings that apply on this system
-# @param $password_quality Hash of settings to enforce in /etc/security/pwquality.conf
+# @param password_quality Hash of settings to enforce in /etc/security/pwquality.conf
 class r_profile::linux::password_policy(
     Integer               $pass_max_days      = 90,
     Integer               $pass_warn_age      = 7,

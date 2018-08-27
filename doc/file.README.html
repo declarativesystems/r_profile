@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -57,65 +57,43 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'>
-<p><a href="https://travis-ci.org/declarativesystems/r_profile"><img
-src="https://travis-ci.org/declarativesystems/r_profile.svg?branch=master"></a></p>
+      <div id="content"><div id='filecontents'><p><a href="https://travis-ci.org/declarativesystems/r_profile"><img src="https://travis-ci.org/declarativesystems/r_profile.svg?branch=master" alt="Build Status"></a></p>
 
-<h1 id="label-r_profile">r_profile</h1>
+<h1>r_profile</h1>
 
-<h4 id="label-Table+of+Contents">Table of Contents</h4>
-<ol><li>
-<p><a href="#label-Overview">Overview</a></p>
-</li><li>
-<p><a href="#label-Usage">Usage - Configuration options and additional
-functionality</a></p>
-</li><li>
-<p><a href="#label-Reference">Reference - An under-the-hood peek at what the module
-is doing and how</a></p>
-</li><li>
-<p><a href="#label-Limitations">Limitations - OS compatibility, etc.</a></p>
-</li><li>
-<p><a href="#label-Development">Development - Guide for contributing to the
-module</a></p>
-</li></ol>
+<h4>Table of Contents</h4>
 
-<h2 id="label-Overview">Overview</h2>
+<ol>
+<li><a href="#label-Overview">Overview</a></li>
+<li><a href="#label-Usage">Usage - Configuration options and additional functionality</a></li>
+<li><a href="#label-Reference">Reference - An under-the-hood peek at what the module is doing and how</a></li>
+<li><a href="#label-Limitations">Limitations - OS compatibility, etc.</a></li>
+<li><a href="#label-Development">Development - Guide for contributing to the module</a></li>
+</ol>
 
-<p>The <code>r_profile</code> module contains the profile equivalent of ready
-meals for Puppet. The idea is that by offering a small selection of
-ready-to-use profiles, they can be reused amongst the puppet community
-without the need to repeatedly develop boilerplate code for common tasks.</p>
+<h2>Overview</h2>
 
-<p>The module itself contains many discrete profiles which become immediately
-available for use by installing the module. Once installed, it is up to the
-user to select the appropriate classes to integrate into roles. Think along
-the lines of picking out individual chocolates from a box rather then
-eating the whole thing and you&#39;ve got the right idea.</p>
+<p>The <code>r_profile</code> module contains the profile equivalent of ready meals for Puppet.  The idea is that by offering a small selection of ready-to-use profiles, they can be reused amongst the puppet community without the need to repeatedly develop boilerplate code for common tasks.</p>
 
-<h2 id="label-Usage">Usage</h2>
+<p>The module itself contains many discrete profiles which become immediately available for use by installing the module.  Once installed, it is up to the user to select the appropriate classes to integrate into roles.  Think along the lines of picking out individual chocolates from a box rather then eating the whole thing and you&#39;ve got the right idea.</p>
 
-<p>Most classes will need to be loaded using the <code>class</code> resource
-syntax in order to pass the appropriate class defaults, eg:</p>
+<h2>Usage</h2>
 
-<pre class="code ruby"><code class="ruby">class { &quot;foo:bar&quot;:
+<p>Most classes will need to be loaded using the <code>class</code> resource syntax in order to pass the appropriate class defaults, eg:</p>
+
+<pre class="code puppet"><code class="puppet">class { &quot;foo:bar&quot;:
   param1 =&gt; &quot;value1&quot;,
   param2 =&gt; &quot;value2&quot;,
 }
 </code></pre>
 
-<p>Parameters, where available, are documented inside the individual classes.
-See <a href="#label-Reference">Reference section</a>.</p>
+<p>Parameters, where available, are documented inside the individual classes.  See <a href="#label-Reference">Reference section</a>.</p>
 
-<h3 id="label-Hiera">Hiera</h3>
+<h3>Hiera</h3>
 
-<p>Since these are profile classes, we are at the appropriate level to perform
-<a href="https://docs.puppet.com/hiera/3.2/">Hiera</a> lookups directly.
-Hiera lookups in <code>r_profile</code> classes are coded as class
-parameters and use explicit lookups using the <a
-href="https://docs.puppet.com/puppet/latest/function.html#hiera">hiera()
-function</a>, like this:</p>
+<p>Since these are profile classes, we are at the appropriate level to perform <a href="https://docs.puppet.com/hiera/3.2/">Hiera</a> lookups directly.  Hiera lookups in <code>r_profile</code> classes are coded as class parameters and use explicit lookups using the <a href="https://docs.puppet.com/puppet/latest/function.html#hiera"><code>hiera()</code> function</a>, like this:</p>
 
-<pre class="code ruby"><code class="ruby"># R_profile::Timezone
+<pre class="code puppet"><code class="puppet"># R_profile::Timezone
 #
 # Select the active system timezone (requires reboot).  Currently supports Linux,
 # Solaris and AIX
@@ -128,76 +106,54 @@ class r_profile::timezone(
 }
 </code></pre>
 
-<p>This affords the following conveniences: * It&#39;s possible to assemble
-<code>r_profile</code> classes into <code>role</code> classes using the
-console to directly <em>include</em> each class if desired * Class
-parameters will automatically resolve to the key specified in the
-<code>hiera()</code> function * If no suitable value can be found in hiera,
-the second argument to the <code>hiera()</code> function will be used as a
-default value (if present, otherwise an error will occur) * If using the
-console, values can be overridden directly, per <code>r_profile</code>
-class, per node group * All hiera keys are explicitly specified, while <a
-href="https://docs.puppet.com/hiera/3.3/puppet.html#automatic-parameter-lookup">Automatic
-parameter lookup</a> could have been used instead, it appears somewhat
-<em>magical</em> to casual users. More importantly, hard coding the
-complete, correct hiera keys allows them to be pasted directly into your
-hiera <code>.yaml</code> files (or equivalent) without having to make sure
-you have concatenated the class and variable names with colons correctly</p>
+<p>This affords the following conveniences:</p>
 
-<p>Setting our local timezone using the <code>r_profile::timezone</code> class
-is as simple as ensuring that we have the following value set in Hiera and
-resolvable for the node we are interested in configuring:</p>
+<ul>
+<li>It&#39;s possible to assemble <code>r_profile</code> classes into <code>role</code> classes using the console to directly <em>include</em> each class if desired</li>
+<li>Class parameters will automatically resolve to the key specified in the <code>hiera()</code> function</li>
+<li>If no suitable value can be found in hiera, the second argument to the <code>hiera()</code> function will be used as a default value (if present, otherwise an error will occur)</li>
+<li>If using the console, values can be overridden directly, per <code>r_profile</code> class, per node group</li>
+<li>All hiera keys are explicitly specified, while <a href="https://docs.puppet.com/hiera/3.3/puppet.html#automatic-parameter-lookup">Automatic parameter lookup</a> could have been used instead, it appears somewhat <em>magical</em> to casual users.  More importantly, hard coding the complete, correct hiera keys allows them to be pasted directly into your hiera <code>.yaml</code> files (or equivalent) without having to make sure you have concatenated the class and variable names with colons correctly</li>
+</ul>
 
-<pre class="code ruby"><code class="ruby">r_profile::timezone::zone: &quot;America/Nassau&quot;
+<p>Setting our local timezone using the <code>r_profile::timezone</code> class is as simple as ensuring that we have the following value set in Hiera and resolvable for the node we are interested in configuring:</p>
+
+<pre class="code json"><code class="json">r_profile::timezone::zone: &quot;America/Nassau&quot;
 </code></pre>
 
-<p>Each <code>r_profile</code> class parameter in classes intended for use are
-documented within the class it is defined in See <a
-href="#label-Reference">Reference section</a> for more information.</p>
+<p>Each <code>r_profile</code> class parameter in classes intended for use are documented within the class it is defined in See <a href="#label-Reference">Reference section</a> for more information.</p>
 
-<h2 id="label-Reference">Reference</h2>
+<h2>Reference</h2>
 
-<p>Reference documentation is generated directly from source code using <a
-href="https://github.com/puppetlabs/puppet-strings">puppet-strings</a>. You
-may regenerate the documentation by running:</p>
+<p>Reference documentation is generated directly from source code using <a href="https://github.com/puppetlabs/puppet-strings">puppet-strings</a>.  You may regenerate the documentation by running:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_puppet'>puppet</span> <span class='id identifier rubyid_strings'>strings</span>
+<pre class="code shell"><code class="shell">bundle exec puppet strings
 </code></pre>
 
-<p>Or you may view the current <a
-href="https://rawgit.com/GeoffWilliams/r_profile/master/doc/index.html">generated
-documentation</a>.</p>
+<p>Or you may view the current <a href="https://rawgit.com/GeoffWilliams/r_profile/master/doc/index.html">generated documentation</a>.</p>
 
-<p>The documentation is no substitute for reading and understanding the module
-source code, and all users should ensure they are familiar and comfortable
-with the operations this module performs before using it.</p>
+<p>The documentation is no substitute for reading and understanding the module source code, and all users should ensure they are familiar and comfortable with the operations this module performs before using it.</p>
 
-<h2 id="label-Limitations">Limitations</h2>
-<ul><li>
-<p>Not supported by Puppet, Inc.</p>
-</li><li>
-<p>Limited OS support</p>
-</li><li>
-<p>Not all classes are fully functional! Evaluate your chosen usage against
-the existing functionality.</p>
-</li></ul>
+<h2>Limitations</h2>
 
-<h2 id="label-Development">Development</h2>
+<ul>
+<li>Not supported by Puppet, Inc.</li>
+<li>Limited OS support</li>
+<li>Not all classes are fully functional!  Evaluate your chosen usage against the existing functionality.</li>
+</ul>
+
+<h2>Development</h2>
 
 <p>PRs accepted :)</p>
 
-<h2 id="label-Testing">Testing</h2>
+<h2>Testing</h2>
 
-<p>This module supports testing using <a
-href="https://github.com/GeoffWilliams/pdqtest">PDQTest</a>.</p>
-<ul><li>
-<p>RSpec tests exist for most classes but <a
-href="https://tickets.puppetlabs.com/browse/MODULES-4287">tickets.puppetlabs.com/browse/MODULES-4287</a>
-makes this impossible for windows at present.</p>
-</li><li>
-<p>The vsphere profile is prestently untestable as the module is
-enterprise-only</p>
-</li></ul>
+<p>This module supports testing using <a href="https://github.com/GeoffWilliams/pdqtest">PDQTest</a>.</p>
+
+<ul>
+<li>RSpec tests exist for most classes but <a href="https://tickets.puppetlabs.com/browse/MODULES-4287">https://tickets.puppetlabs.com/browse/MODULES-4287</a> makes this impossible for windows at present.</li>
+<li>The vsphere profile is prestently untestable as the module is enterprise-only</li>
+</ul>
 
 <p>Test can be executed with:</p>
 

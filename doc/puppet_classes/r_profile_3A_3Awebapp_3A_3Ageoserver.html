@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::webapp::geoserver
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,13 +74,14 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Webapp::Geoserver</p>
+    <p>R_profile::Webapp::Geoserver</p>
 
 <p>Support for install GeoServer - A server-side Java GIS</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -96,6 +97,10 @@
         <em class="default">(defaults to: <tt>&#39;2.9.1&#39;</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'><p>Version number to install</p>
+</div>
+      
     </li>
   
     <li>
@@ -109,62 +114,23 @@
         <em class="default">(defaults to: <tt>&#39;http://sourceforge.net/projects/geoserver/files/GeoServer&#39;</tt>)</em>
       
       
-    </li>
-  
-    <li>
-      
-        <span class='name'>lb</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>service_name</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>&#39;geoserver&#39;</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>nagios_monitored</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>monitor_port</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>8080</tt>)</em>
-      
+        &mdash;
+        <div class='inline'><p>Base URL to download from</p>
+</div>
       
     </li>
   
 </ul>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/puppetlabs/tomcat" target="_parent" title="https://forge.puppet.com/puppetlabs/tomcat">https://forge.puppet.com/puppetlabs/tomcat</a></li>
+    
+      <li><a href="https://forge.puppet.com/puppet/archive" target="_parent" title="https://forge.puppet.com/puppet/archive">https://forge.puppet.com/puppet/archive</a></li>
+    
+  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -173,12 +139,6 @@
         <pre class="lines">
 
 
-4
-5
-6
-7
-8
-9
 10
 11
 12
@@ -276,23 +236,14 @@
 104
 105
 106
-107
-108
-109
-110
-111
-112</pre>
+107</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/webapp/geoserver.pp', line 4</span>
+        <pre class="code"><span class="info file"># File 'manifests/webapp/geoserver.pp', line 10</span>
 
 class r_profile::webapp::geoserver(
   $version          = &#39;2.9.1&#39;,
   $download_base    = &#39;http://sourceforge.net/projects/geoserver/files/GeoServer&#39;,
-  $lb               = true,
-  $service_name     = &#39;geoserver&#39;,
-  $nagios_monitored = true,
-  $monitor_port     = 8080,
 ) {
 
   # tomcat
@@ -385,13 +336,6 @@ class r_profile::webapp::geoserver(
     path    =&gt; [ &#39;/usr/bin&#39;, &#39;/bin&#39;],
     creates =&gt; &quot;${data_dir}/global.xml&quot;,
     require =&gt; Archive[$war_file],
-  }
-
-  if $nagios_monitored {
-    nagios::nagios_service_http { &#39;geoserver&#39;:
-      port =&gt; $monitor_port,
-      url  =&gt; &#39;/geoserver/web&#39;,
-    }
   }
 
 }</pre>

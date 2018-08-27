@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::sudo
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,33 +74,34 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Sudo</p>
+    <p>R_profile::Linux::Sudo</p>
 
-<p>Configure sudo for linux using Puppet. We take a minimal approach to
-management by just making sure that the package is installed and that the
-files we want to manage exist at /etc/sudoers.d.</p>
+<p>Configure sudo for linux using Puppet. We take a minimal approach to management by just
+making sure that the package is installed and that the files we want to manage exist
+at /etc/sudoers.d.</p>
 
-<p>This non-destructive approach lets us only manage the sections of
-configuration we want to</p>
+<p>This non-destructive approach lets us only manage the sections of configuration we want to</p>
+
+<p>Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
+those in base.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Profile usage</p>
+        <p class="example_title"><div class='inline'><p>Profile usage</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_sudo'>sudo</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Managing a fragment in /etc/sudoers.d</p>
+        <p class="example_title"><div class='inline'><p>Managing a fragment in /etc/sudoers.d</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::sudo::sudoers_d:
@@ -122,8 +123,7 @@ configuration we want to</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Name of the sudo package</p>
+        <div class='inline'><p>Name of the sudo package</p>
 </div>
       
     </li>
@@ -140,8 +140,25 @@ configuration we want to</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Directory where sudoers fragments can be kept</p>
+        <div class='inline'><p>Directory where sudoers fragments can be kept</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>base_sudoers_d</span>
+      
+      
+        <span class='type'>(<tt>Hash[String, String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Base hash of file content for for files to manage inside the <code>/etc/sudoers.d</code>
+directory</p>
 </div>
       
     </li>
@@ -158,9 +175,8 @@ configuration we want to</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of file content for for files to manage inside the
-<code>/etc/sudoers.d</code> directory</p>
+        <div class='inline'><p>Override hash of file content for for files to manage inside the <code>/etc/sudoers.d</code>
+directory</p>
 </div>
       
     </li>
@@ -177,8 +193,7 @@ configuration we want to</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Warning message to add to top of files we manage</p>
+        <div class='inline'><p>Warning message to add to top of files we manage</p>
 </div>
       
     </li>
@@ -193,11 +208,6 @@ configuration we want to</p>
         <pre class="lines">
 
 
-21
-22
-23
-24
-25
 26
 27
 28
@@ -213,14 +223,21 @@ configuration we want to</p>
 38
 39
 40
-41</pre>
+41
+42
+43
+44
+45
+46
+47</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/sudo.pp', line 21</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/sudo.pp', line 26</span>
 
 class r_profile::linux::sudo(
     String                $package        = &quot;sudo&quot;,
     String                $sudoers_d_dir  = &quot;/etc/sudoers.d&quot;,
+    Hash[String, String]  $base_sudoers_d = {},
     Hash[String, String]  $sudoers_d      = {},
     String                $header         = &quot;# This file is managed by Puppet; changes may be overwritten&quot;,
 ) {
@@ -229,7 +246,7 @@ class r_profile::linux::sudo(
     ensure =&gt; present,
   }
 
-  $sudoers_d.each |$filename, $content| {
+  ($base_sudoers_d + $sudoers_d).each |$filename, $content| {
     file { &quot;${sudoers_d_dir}/${filename}&quot;:
       ensure  =&gt; file,
       owner   =&gt; &quot;root&quot;,

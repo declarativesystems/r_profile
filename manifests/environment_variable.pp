@@ -2,13 +2,22 @@
 #
 # Manage enivronment variables on windows and linux
 #
-# @param variable Varliable to set in the form `variable=value`. Arrays accepted
+# @see https://forge.puppet.com/geoffwilliams/environment_variable
+#
+# @example Basic usage
+#   include r_profile::environment_variable
+#
+# @example Setting variables
+#   r_profile::environment_variable::variables:
+#     - "JAVA_HOME=/usr/local/jdk"
+#     - "JAVA_OPTS='-Djava.awt.headless=true'"
+#
+# @param variables Array of variables to set in the form `variable=value` (see example)
 class r_profile::environment_variable(
-    $variables = hiera("r_profile::environment_variable::variables", []),
+    Array[String] $variables = []
 ) {
 
-  $_variables = any2array($variables)
-  $_variables.each |$variable| {
+  $variables.each |$variable| {
     environment_variable::variable { $variable:
       ensure => present,
     }

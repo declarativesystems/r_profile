@@ -16,7 +16,7 @@
 #   already installed as part of rbenv::build, attempting installation
 #   here as well will cause duplicate resource error
 #   @see https://forge.puppet.com/jdowning/rbenv#full-example
-# @param rbenv_plugins Array of rbenv pluings to install (for building new rubies)
+# @param install_dir Install ruby in this directory
 class r_profile::ruby(
     $version        = hiera('r_profile::ruby::version', ['2.4.1', '2.3.4']),
     $gems           = hiera('r_profile::ruby::gems', {}),

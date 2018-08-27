@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::host
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,39 +74,36 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profiles::Host</p>
+    <p>R_profiles::Host</p>
 
 <p>Mange the static lookup table for hostnames.</p>
 
-<p>We take both a <code>base</code> and override hash of services and merge
-them to form a final list. This allows for simpler management through
-hiera.</p>
+<p>We take both a <code>base</code> and override hash of services and merge them to form a final list. This allows for simpler
+management through hiera.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Basic usage</p>
+        <p class="example_title"><div class='inline'><p>Basic usage</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_host'>host</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Purging unmanaged entries</p>
+        <p class="example_title"><div class='inline'><p>Purging unmanaged entries</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::host::purge: true</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Adding a host record</p>
+        <p class="example_title"><div class='inline'><p>Adding a host record</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::host::hosts:
@@ -130,8 +127,7 @@ hiera.</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Base hash of hosts to create, see examples</p>
+        <div class='inline'><p>Base hash of hosts to create, see examples</p>
 </div>
       
     </li>
@@ -148,8 +144,7 @@ hiera.</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Override hash of hosts to create, see examples</p>
+        <div class='inline'><p>Override hash of hosts to create, see examples</p>
 </div>
       
     </li>
@@ -166,9 +161,7 @@ hiera.</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>true</code> to purge unmanaged host entries, otherwise
-<code>false</code></p>
+        <div class='inline'><p><code>true</code> to purge unmanaged host entries, otherwise <code>false</code></p>
 </div>
       
     </li>

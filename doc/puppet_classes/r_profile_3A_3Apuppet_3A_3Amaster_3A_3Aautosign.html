@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::puppet::master::autosign
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,45 +74,40 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Puppet::Master::Autosign</p>
+    <p>R_profile::Puppet::Master::Autosign</p>
 
-<p>Configure Puppet Enterprise to autosign client certificates:  * Policy
-based autosigning @<a
-href="https://puppet.com/docs/puppet/5.5/ssl_autosign.html#policy-based-autosigning">puppet.com/docs/puppet/5.5/ssl_autosign.html#policy-based-autosigning</a>
-* Naive autosigning @see <a
-href="https://puppet.com/docs/puppet/5.5/ssl_autosign.html#nave-autosigning">puppet.com/docs/puppet/5.5/ssl_autosign.html#nave-autosigning</a>
-* No autosigning @see <a
-href="https://puppet.com/docs/puppet/5.5/ssl_autosign.html#disabling-autosigning">puppet.com/docs/puppet/5.5/ssl_autosign.html#disabling-autosigning</a></p>
+<p>Configure Puppet Enterprise to autosign client certificates:</p>
 
-<p>If Policy based autosigning is enabled, then a script to check for the
-presence of the shared secret passed in <code>secret</code> will be created
-for you. If you would rather install your own script then you may pass the
-body of the script file in <code>script_content</code> and this profile
-will write it out for you.</p>
+<ul>
+<li>Policy based autosigning @<a href="https://puppet.com/docs/puppet/5.5/ssl_autosign.html#policy-based-autosigning">https://puppet.com/docs/puppet/5.5/ssl_autosign.html#policy-based-autosigning</a></li>
+<li>Naive autosigning @see <a href="https://puppet.com/docs/puppet/5.5/ssl_autosign.html#nave-autosigning">https://puppet.com/docs/puppet/5.5/ssl_autosign.html#nave-autosigning</a></li>
+<li>No autosigning @see <a href="https://puppet.com/docs/puppet/5.5/ssl_autosign.html#disabling-autosigning">https://puppet.com/docs/puppet/5.5/ssl_autosign.html#disabling-autosigning</a></li>
+</ul>
 
-<p>In all cases <code>autosign.conf</code> is removed. This file offers
-pattern-based autosigning which does not fit the above patterns yet may
-still be present on the system.</p>
+<p>If Policy based autosigning is enabled, then a script to check for the presence of the shared secret passed in
+<code>secret</code> will be created for you. If you would rather install your own script then you may pass the body of the script
+file in <code>script_content</code> and this profile will write it out for you.</p>
+
+<p>In all cases <code>autosign.conf</code> is removed. This file offers pattern-based autosigning which does not fit the above
+patterns yet may still be present on the system.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera to enable signing all certificates</p>
+        <p class="example_title"><div class='inline'><p>Hiera to enable signing all certificates</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::puppet::master::autosign::ensure: accept_all</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera to enable policy based autosigning with a shared secret (encrypted
-with eyaml)</p>
+        <p class="example_title"><div class='inline'><p>Hiera to enable policy based autosigning with a shared secret (encrypted with eyaml)</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::puppet::master::autosign::ensure: policy
@@ -125,8 +120,7 @@ r_profile::puppet::master::autosign::secret: &gt;
   IZGeunzwhqfmEtGiqpvJJQ5wVRdzJVpTnANBA5qxeA==]</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera to enable policy based autosigning with your own custom script</p>
+        <p class="example_title"><div class='inline'><p>Hiera to enable policy based autosigning with your own custom script</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::puppet::master::autosign::ensure: policy
@@ -150,8 +144,7 @@ r_profile::puppet::master::autosign::script_content: |-
       
       
         &mdash;
-        <div class='inline'>
-<p>Autosigning technique to use on this puppet master (see above)</p>
+        <div class='inline'><p>Autosigning technique to use on this puppet master (see above)</p>
 </div>
       
     </li>
@@ -168,9 +161,8 @@ r_profile::puppet::master::autosign::script_content: |-
       
       
         &mdash;
-        <div class='inline'>
-<p>If you would like to pass in your own script, pass a string of the content
-here or leave blank to use the built-in shared secret check</p>
+        <div class='inline'><p>If you would like to pass in your own script, pass a string of the content here or leave blank
+to use the built-in shared secret check</p>
 </div>
       
     </li>
@@ -187,9 +179,7 @@ here or leave blank to use the built-in shared secret check</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Shared secret to use when configuring policy based autosigning (only for
-built-in shared-secret script)</p>
+        <div class='inline'><p>Shared secret to use when configuring policy based autosigning (only for built-in shared-secret script)</p>
 </div>
       
     </li>
@@ -206,8 +196,7 @@ built-in shared-secret script)</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Path to save the autosigning script</p>
+        <div class='inline'><p>Path to save the autosigning script</p>
 </div>
       
     </li>

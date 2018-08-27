@@ -6,7 +6,7 @@ end
 gem 'puppet', '5.3.5'
 gem 'facter', '2.5.1'
 gem 'pdqtest', '1.2.1'
-gem 'puppet-strings', :git => 'https://github.com/puppetlabs/puppet-strings'
+gem 'puppet-strings'
 gem 'metadatajson2puppetfile', '0.1.2'
 gem 'vagrantomatic', '0.3.3'
 gem 'puppetclassify', '0.1.5'

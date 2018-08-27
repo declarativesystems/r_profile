@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::rsyslog_client
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,29 +74,33 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Rsyslog</p>
+    <p>R_profile::Linux::Rsyslog</p>
 
-<p>Setup <code>rsyslog</code> client:  * Install Package  * General settings 
-* Managed logfiles</p>
+<p>Setup <code>rsyslog</code> client:</p>
+
+<ul>
+<li>Install Package</li>
+<li>General settings</li>
+<li>Managed logfiles</li>
+</ul>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Setup syslog client with settings from hiera</p>
+        <p class="example_title"><div class='inline'><p>Setup syslog client with settings from hiera</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_rsyslog'>rsyslog</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data for general rsyslog settings</p>
+        <p class="example_title"><div class='inline'><p>Hiera data for general rsyslog settings</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::rsyslog_client::settings:
@@ -108,8 +112,7 @@
   - &#39;$DirCreateMode&#39;: &#39;0750&#39;</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data for rsyslog entries</p>
+        <p class="example_title"><div class='inline'><p>Hiera data for rsyslog entries</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::rsyslog_client::entries:
@@ -132,12 +135,10 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Settings to insert into the <code>rsyslog.conf</code> file. Existing
-definitions will be replaced in-place. If a setting is added that
-doesn&#39;t already exist, it will be inserted into the file <em>from</em>
-line <code>setting_insertion_line</code>. Settings will be processed in
-array order (see examples)</p>
+        <div class='inline'><p>Settings to insert into the <code>rsyslog.conf</code> file. Existing definitions will be
+replaced in-place. If a setting is added that doesn&#39;t already exist, it will be inserted
+into the file <em>from</em> line <code>setting_insertion_line</code>. Settings will be processed in array
+order (see examples)</p>
 </div>
       
     </li>
@@ -154,8 +155,7 @@ array order (see examples)</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of logging entries to create (see examples)</p>
+        <div class='inline'><p>Hash of logging entries to create (see examples)</p>
 </div>
       
     </li>
@@ -171,6 +171,10 @@ array order (see examples)</p>
         <em class="default">(defaults to: <tt>&quot;running&quot;</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'><p>How to ensure the rsyslog service</p>
+</div>
+      
     </li>
   
     <li>
@@ -183,6 +187,10 @@ array order (see examples)</p>
       
         <em class="default">(defaults to: <tt>true</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> to start rsyslog on boot otherwise false</p>
+</div>
       
     </li>
   
@@ -203,8 +211,6 @@ array order (see examples)</p>
         <pre class="lines">
 
 
-32
-33
 34
 35
 36
@@ -217,10 +223,12 @@ array order (see examples)</p>
 43
 44
 45
-46</pre>
+46
+47
+48</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/rsyslog_client.pp', line 32</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/rsyslog_client.pp', line 34</span>
 
 class r_profile::linux::rsyslog_client(
   Array[Hash[String, Any]]  $settings       = [],

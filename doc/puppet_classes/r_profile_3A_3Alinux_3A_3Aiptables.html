@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::iptables
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,32 +74,17 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Iptables</p>
+    <p>R_profile::Linux::Iptables</p>
 
 <p>Management of the IPtables Linux firewall</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
-    <li>
-      
-        <span class='name'>ensuretakecontroloftheIPtablesfirewall,turn</span>
-      
-      
-        <span class='type'>(<tt>'managed''disabled'</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>IPtables off, &#39;unmanaged&#39; do not change firewall settings</p>
-</div>
-      
-    </li>
   
     <li>
       
@@ -109,8 +94,13 @@
         <span class='type'>(<tt>Enum['managed', 'disabled', 'unmanaged']</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::linux::iptables::ensure&#39;, &#39;unmanaged&#39;)</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;unmanaged&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p><code>managed</code> take control of the IPtables firewall, <code>disabled</code> turn
+IPtables off, <code>unmanaged</code> do not change firewall settings</p>
+</div>
       
     </li>
   
@@ -148,7 +138,7 @@
         <pre class="code"><span class="info file"># File 'manifests/linux/iptables.pp', line 7</span>
 
 class r_profile::linux::iptables(
-    Enum[&#39;managed&#39;, &#39;disabled&#39;, &#39;unmanaged&#39;] $ensure = hiera(&#39;r_profile::linux::iptables::ensure&#39;, &#39;unmanaged&#39;),
+    Enum[&#39;managed&#39;, &#39;disabled&#39;, &#39;unmanaged&#39;] $ensure = &#39;unmanaged&#39;,
 ) {
   # Suggested global firewall defaults declared in r10k-control/manifests/site.pp
   #Firewall {

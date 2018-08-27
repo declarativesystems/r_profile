@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::umask
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,37 +74,34 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Umask</p>
+    <p>R_profile::Linux::Umask</p>
 
-<p>Set the umask for each of the requested files. The files must already exist
-in order to add a line to them. r_profile::file can be used to do this if
-required.</p>
+<p>Set the umask for each of the requested files. The files must already exist in order to add a line
+to them. r_profile::file can be used to do this if required.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Activate the umask profile</p>
+        <p class="example_title"><div class='inline'><p>Activate the umask profile</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_umask'>umask</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to set a restrictive umask</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to set a restrictive umask</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::umask::default_umask: &#39;0077&#39;</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to set umask in several files with one exception</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to set umask in several files with one exception</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::umask::files:
@@ -127,6 +124,10 @@ required.</p>
         <em class="default">(defaults to: <tt>&#39;0022&#39;</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'><p>Default umask value</p>
+</div>
+      
     </li>
   
     <li>
@@ -139,6 +140,11 @@ required.</p>
       
         <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Hash of files to set the umask in. <code>default_umask</code> will be used unless a
+file sets a value explicitly (see examples)</p>
+</div>
       
     </li>
   
@@ -159,10 +165,6 @@ required.</p>
         <pre class="lines">
 
 
-19
-20
-21
-22
 23
 24
 25
@@ -174,10 +176,14 @@ required.</p>
 31
 32
 33
-34</pre>
+34
+35
+36
+37
+38</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/umask.pp', line 19</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/umask.pp', line 23</span>
 
 class r_profile::linux::umask(
     String                          $default_umask = &#39;0022&#39;,

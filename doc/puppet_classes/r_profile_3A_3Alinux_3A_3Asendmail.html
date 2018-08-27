@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::sendmail
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,23 +74,27 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Sendmail</p>
+    <p>R_profile::Linux::Sendmail</p>
 
-<p>Configure (currently disable) the sendmail daemon. * Service configuable
-(default to stopped/disabled) * Set daemon in /etc/sysconfig/sendmail * Set
-queue in /etc/sysconfig/sendmail</p>
+<p>Configure (currently disable) the sendmail daemon.</p>
+
+<ul>
+<li>Service configuable (default to stopped/disabled)</li>
+<li>Set daemon in /etc/sysconfig/sendmail</li>
+<li>Set queue in /etc/sysconfig/sendmail</li>
+</ul>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>disable sendmail</p>
+        <p class="example_title"><div class='inline'><p>disable sendmail</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_sendmail'>sendmail</span></code></pre>
@@ -111,9 +115,7 @@ queue in /etc/sysconfig/sendmail</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>stopped</code> to shutdown sendmail if running, otherwise
-<code>running</code> to start</p>
+        <div class='inline'><p><code>stopped</code> to shutdown sendmail if running, otherwise <code>running</code> to start</p>
 </div>
       
     </li>
@@ -130,9 +132,7 @@ queue in /etc/sysconfig/sendmail</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>false</code> to prevent sendmail from starting on boot otherwise
-false</p>
+        <div class='inline'><p><code>false</code> to prevent sendmail from starting on boot otherwise false</p>
 </div>
       
     </li>
@@ -149,9 +149,7 @@ false</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>no</code> to prevent sendmail from daemonising otherwise
-<code>yes</code></p>
+        <div class='inline'><p><code>no</code> to prevent sendmail from daemonising otherwise <code>yes</code></p>
 </div>
       
     </li>
@@ -168,9 +166,7 @@ false</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Interval at which to process the sendmail queue (<code>-q</code> parameter
-to <code>sendmail</code>)</p>
+        <div class='inline'><p>Interval at which to process the sendmail queue (<code>-q</code> parameter to <code>sendmail</code>)</p>
 </div>
       
     </li>
@@ -185,6 +181,10 @@ to <code>sendmail</code>)</p>
       
         <em class="default">(defaults to: <tt>&quot;sendmail&quot;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Name of the sendmail service</p>
+</div>
       
     </li>
   
@@ -205,7 +205,6 @@ to <code>sendmail</code>)</p>
         <pre class="lines">
 
 
-17
 18
 19
 20
@@ -242,10 +241,11 @@ to <code>sendmail</code>)</p>
 51
 52
 53
-54</pre>
+54
+55</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/sendmail.pp', line 17</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/sendmail.pp', line 18</span>
 
 class r_profile::linux::sendmail(
     String            $ensure  = &quot;stopped&quot;,

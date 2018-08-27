@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::monitor::nagios_monitored
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,13 +74,14 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Monitor::Nagios_monitored</p>
+    <p>R_profile::Monitor::Nagios_monitored</p>
 
 <p>Configure nagios to monitor something</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -90,11 +91,15 @@
         <span class='name'>nagios_server</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::monitor::nagios_monitored::nagios_server&#39;, false)</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Hostname of nagios server</p>
+</div>
       
     </li>
   
@@ -108,8 +113,6 @@
         <pre class="lines">
 
 
-4
-5
 6
 7
 8
@@ -130,13 +133,15 @@
 23
 24
 25
-26</pre>
+26
+27
+28</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/monitor/nagios_monitored.pp', line 4</span>
+        <pre class="code"><span class="info file"># File 'manifests/monitor/nagios_monitored.pp', line 6</span>
 
 class r_profile::monitor::nagios_monitored(
-  $nagios_server = hiera(&#39;r_profile::monitor::nagios_monitored::nagios_server&#39;, false),
+  Optional[String]  $nagios_server = undef,
 ) {
 
   # sometimes we might need to determine the incoming ethernet adaptor to use for
@@ -151,10 +156,10 @@ class r_profile::monitor::nagios_monitored(
     local_ip      =&gt; $local_ip,
   }
 
-  @@nagios_host { $fqdn:
+  @@nagios_host { $facts[&#39;fqdn&#39;]:
     ensure  =&gt; present,
     address =&gt; $local_ip,
-    use     =&gt; &quot;${downcase($kernel)}-server&quot;,
+    use     =&gt; &quot;${downcase($facts[&#39;kernel&#39;])}-server&quot;,
   }
 
 }</pre>

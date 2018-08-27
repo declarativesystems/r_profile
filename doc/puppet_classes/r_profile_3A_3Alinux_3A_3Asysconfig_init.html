@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::sysconfig_init
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,35 +74,41 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Sysconfig_init</p>
+    <p>R_profile::Linux::Sysconfig_init</p>
 
-<p>Lockdown /etc/sysconfig/init settings (RHEL &lt; 7) * PROMPT=no *
-SINGLE=/sbin/sulogin</p>
+<p>Lockdown /etc/sysconfig/init settings (RHEL &lt; 7)</p>
 
-<p>Lockdown /etc/sysconfig/init settings (RHEL &gt;= 7) * PROMPT=no</p>
+<ul>
+<li>PROMPT=no</li>
+<li>SINGLE=/sbin/sulogin</li>
+</ul>
 
-<p>In RHEL7, we must use systemd to configure what happens in single user
-mode. See r_profile::linux::systemd Since umask can be set in many places
-it has its own profile, see r_profile::linux::umask</p>
+<p>Lockdown /etc/sysconfig/init settings (RHEL &gt;= 7)</p>
+
+<ul>
+<li>PROMPT=no</li>
+</ul>
+
+<p>In RHEL7, we must use systemd to configure what happens in single user mode. See r_profile::linux::systemd
+Since umask can be set in many places it has its own profile, see r_profile::linux::umask</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>don&#39;t manage the PROMPT variable</p>
+        <p class="example_title"><div class='inline'><p>don&#39;t manage the PROMPT variable</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::sysconfig_init::manage_prompt: false</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>don&#39;t manage the SINGLE variable</p>
+        <p class="example_title"><div class='inline'><p>don&#39;t manage the SINGLE variable</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::sysconfig_init::manage_single: false</code></pre>
@@ -123,8 +129,7 @@ it has its own profile, see r_profile::linux::umask</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Manage the PROMPT variable if true otherwise do nothing</p>
+        <div class='inline'><p>Manage the PROMPT variable if true otherwise do nothing</p>
 </div>
       
     </li>
@@ -141,8 +146,7 @@ it has its own profile, see r_profile::linux::umask</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Manage the SINGLE variable if true otherwise do nothing</p>
+        <div class='inline'><p>Manage the SINGLE variable if true otherwise do nothing</p>
 </div>
       
     </li>
@@ -158,6 +162,10 @@ it has its own profile, see r_profile::linux::umask</p>
         <em class="default">(defaults to: <tt>true</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'><p>Manage the umask setting if true otherwise do nothing</p>
+</div>
+      
     </li>
   
     <li>
@@ -171,6 +179,10 @@ it has its own profile, see r_profile::linux::umask</p>
         <em class="default">(defaults to: <tt>&quot;0027&quot;</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'><p>Value for umask (when managed)</p>
+</div>
+      
     </li>
   
 </ul>
@@ -183,8 +195,6 @@ it has its own profile, see r_profile::linux::umask</p>
         <pre class="lines">
 
 
-21
-22
 23
 24
 25
@@ -218,10 +228,12 @@ it has its own profile, see r_profile::linux::umask</p>
 53
 54
 55
-56</pre>
+56
+57
+58</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/sysconfig_init.pp', line 21</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/sysconfig_init.pp', line 23</span>
 
 class r_profile::linux::sysconfig_init(
   $manage_prompt  = true,

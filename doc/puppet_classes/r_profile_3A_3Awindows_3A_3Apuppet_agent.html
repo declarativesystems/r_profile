@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::windows::puppet_agent
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,16 +74,21 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Window::Puppet_agent</p>
+    <p>R_profile::Window::Puppet_agent</p>
 
-<p>Manages:  * Puppet Agent service  * Puppet binaries in <code>$PATH</code> 
-* Proxy server environment variables (ruby uses these instead of the
-windows proxy information in registry)  * Reboot after making any of the
-above changes in order to activate them</p>
+<p>Manages:</p>
+
+<ul>
+<li>Puppet Agent service</li>
+<li>Puppet binaries in <code>$PATH</code></li>
+<li>Proxy server environment variables (ruby uses these instead of the windows proxy information in registry)</li>
+<li>Reboot after making any of the above changes in order to activate them</li>
+</ul>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -100,9 +105,7 @@ above changes in order to activate them</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Ensure this directory is in <code>$PATH</code> or pass <code>false</code>
-to do nothing</p>
+        <div class='inline'><p>Ensure this directory is in <code>$PATH</code> or pass <code>false</code> to do nothing</p>
 </div>
       
     </li>
@@ -119,9 +122,7 @@ to do nothing</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>false</code> Proxy server url to use with Puppet, eg
-<code>http://proxy.megacorp.com:8080</code>. Pass <code>false</code> to
+        <div class='inline'><p><code>false</code> Proxy server url to use with Puppet, eg <code>http://proxy.megacorp.com:8080</code>. Pass <code>false</code> to
 deconfigure proxy support</p>
 </div>
       
@@ -139,8 +140,7 @@ deconfigure proxy support</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Name of the Puppet Agent service to manage</p>
+        <div class='inline'><p>Name of the Puppet Agent service to manage</p>
 </div>
       
     </li>
@@ -157,9 +157,7 @@ deconfigure proxy support</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>true</code> to start Puppet Agent on boot, otherwise
-<code>false</code></p>
+        <div class='inline'><p><code>true</code> to start Puppet Agent on boot, otherwise <code>false</code></p>
 </div>
       
     </li>
@@ -176,8 +174,7 @@ deconfigure proxy support</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>How to ensure the Puppet Agent service</p>
+        <div class='inline'><p>How to ensure the Puppet Agent service</p>
 </div>
       
     </li>
@@ -194,8 +191,7 @@ deconfigure proxy support</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Name of the PXP Agent service to manage</p>
+        <div class='inline'><p>Name of the PXP Agent service to manage</p>
 </div>
       
     </li>

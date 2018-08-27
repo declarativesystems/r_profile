@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::ntp
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,35 +74,38 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Ntp</p>
+    <p>R_profile::Ntp</p>
 
-<p>NTP for Linux/unix based servers. Newer Linux systems can use
-<code>r_profile::linux::chronyd</code> to gain a more modern NTP
+<p>NTP for Linux/unix based servers. Newer Linux systems can use <code>r_profile::linux::chronyd</code> to gain a more modern NTP
 implementation.</p>
 
-<p>Windows users gain NTP by joining a domain. There is no support for
-standalone windows NTP yet</p>
+<p>Windows users gain NTP by joining a domain. There is no support for standalone windows NTP yet</p>
 
-<p>Supports: * AIX * Solaris * Linux</p>
+<p>Supports:</p>
+
+<ul>
+<li>AIX</li>
+<li>Solaris</li>
+<li>Linux</li>
+</ul>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>setup default NTP client</p>
+        <p class="example_title"><div class='inline'><p>setup default NTP client</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_ntp'>ntp</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data for setting the server(s) to use</p>
+        <p class="example_title"><div class='inline'><p>Hiera data for setting the server(s) to use</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::ntp::servers:
@@ -110,15 +113,13 @@ standalone windows NTP yet</p>
   - pool.ntp.org</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to prevent trying to manage the package</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to prevent trying to manage the package</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::ntp::package_manage: false</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to prevent trying to manage the service</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to prevent trying to manage the service</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::ntp::service_manage: false</code></pre>
@@ -139,8 +140,7 @@ standalone windows NTP yet</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of servers to ask for the time</p>
+        <div class='inline'><p>Array of servers to ask for the time</p>
 </div>
       
     </li>
@@ -157,8 +157,7 @@ standalone windows NTP yet</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>True if we should install ntp otherwise false</p>
+        <div class='inline'><p>True if we should install ntp otherwise false</p>
 </div>
       
     </li>
@@ -175,24 +174,7 @@ standalone windows NTP yet</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>True if we should control the ntpd service otherwise false</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>service_name</span>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Name of the service to manage if we are instructed to do so</p>
+        <div class='inline'><p>True if we should control the ntpd service otherwise false</p>
 </div>
       
     </li>
@@ -214,6 +196,7 @@ standalone windows NTP yet</p>
         <pre class="lines">
 
 
+32
 33
 34
 35
@@ -225,11 +208,10 @@ standalone windows NTP yet</p>
 41
 42
 43
-44
-45</pre>
+44</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/ntp.pp', line 33</span>
+        <pre class="code"><span class="info file"># File 'manifests/ntp.pp', line 32</span>
 
 class r_profile::ntp(
     Optional[Array[String]] $servers        = undef,

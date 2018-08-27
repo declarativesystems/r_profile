@@ -1,12 +1,25 @@
 # R_profile::Windows::Chocolatey
 #
 # Setup chocolatey package manager on Windows
+#
+# @see https://forge.puppet.com/puppetlabs/chocolatey
+# @see https://forge.puppet.com/puppet/windows_env
+#
+# @example Basic usage
+#   include r_profile::windows::chocolatey
+#
+# @example Chocolatey settings
+#   r_profile::windows::chocolatey:
+#     settings:
+#       chocolatey_download_url: 'https://internalurl/to/chocolatey.nupkg'
+#       use_7zip: false
+#       choco_install_timeout_seconds: 2700
+#
+# @param chocolatey_path Add this directory to the `PATH` variable for easy access to the `choco` command
+# @param settings Hash of settings to pass to main chocolatey installer module
 class r_profile::windows::chocolatey(
-    $install_location = hiera("r_profile::windows::chocolatey::install_location", undef),
-    $download_url     = hiera("r_profile::windows::chocolatey::download_url", undef),
-    $use_7zip         = hiera("r_profile::windows::chocolatey::use_7zip", undef),
-    $timeout          = hiera("r_profile::windows::chocolatey::timeout", undef),
-    $chocolatey_path  = hiera("r_profile::windows::chocolatey::path", "c:/ProgramData/chocolatey")
+    String            $chocolatey_path  = "c:/ProgramData/chocolatey",
+    Hash[String,Any]  $settings = {},
 ) {
 
   if $chocolatey_path {
@@ -26,9 +39,6 @@ class r_profile::windows::chocolatey(
   }
 
   class {'chocolatey':
-    chocolatey_download_url       => $download_url,
-    choco_install_location        => $install_location,
-    use_7zip                      => $use_7zip,
-    choco_install_timeout_seconds => $timeout,
+    * => $settings,
   }
 }

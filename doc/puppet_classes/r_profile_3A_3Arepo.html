@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::repo
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,33 +74,30 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>Profile::Repo</p>
+    <p>Profile::Repo</p>
 
-<p>Declare (instantiate) the required profile classes in a stage before
-<code>main</code>: <code>repo</code>. The reason for this class to exist is
-because it is not possible for classes to self-define their own runstage.
-It <em>must</em> be passed using resource style class declaration as a
-simple string.</p>
+<p>Declare (instantiate) the required profile classes in a stage before <code>main</code>: <code>repo</code>.
+The reason for this class to exist is because it is not possible for classes to
+self-define their own runstage. It <em>must</em> be passed using resource style class
+declaration as a simple string.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Declare all requested repositories, setting up the <code>repo</code>
-runstage</p>
+        <p class="example_title"><div class='inline'><p>Declare all requested repositories, setting up the <code>repo</code> runstage</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_profile'>profile</span><span class='op'>::</span><span class='id identifier rubyid_repo'>repo</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Providing the list of repository profiles to load</p>
+        <p class="example_title"><div class='inline'><p>Providing the list of repository profiles to load</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::repo::profiles:
@@ -122,8 +119,7 @@ runstage</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of profile classes to load in the <code>repo</code> stage</p>
+        <div class='inline'><p>Array of profile classes to load in the <code>repo</code> stage</p>
 </div>
       
     </li>
@@ -140,8 +136,7 @@ runstage</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Name of the stage to process repositories in (before <code>main</code>)</p>
+        <div class='inline'><p>Name of the stage to process repositories in (before <code>main</code>)</p>
 </div>
       
     </li>

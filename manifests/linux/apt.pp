@@ -1,15 +1,9 @@
 # R_profile::Linux::Apt
 #
 # Setup of apt package manager
+#
 # @see https://forge.puppet.com/puppetlabs/apt
-class r_profile::linux::apt(
-    $auto_update      = true,
-    $update_hour      = fqdn_rand(23),
-    $update_minute    = fqdn_rand(59),
-    $update_month     = "*",
-    $update_monthday  = "*",
-    $update_weekday   = "*",
-) {
+class r_profile::linux::apt() {
   class { "apt":
     purge  =>  {
       "sources.list"  => true,
@@ -74,18 +68,5 @@ class r_profile::linux::apt(
     }
   }
 
-  if $auto_update {
-    cron { "apt_auto_update":
-      ensure      => present,
-      command     => "apt-get update && apt-get upgrade -y",
-      user        => "root",
-      environment => "PATH=/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin",
-      hour        => $update_hour,
-      minute      => $update_minute,
-      month       => $update_month,
-      monthday    => $update_monthday,
-      weekday     => $update_weekday,
-    }
-  }
 
 }

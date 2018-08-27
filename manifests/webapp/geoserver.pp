@@ -1,13 +1,15 @@
 # R_profile::Webapp::Geoserver
 #
 # Support for install GeoServer - A server-side Java GIS
+#
+# @see https://forge.puppet.com/puppetlabs/tomcat
+# @see https://forge.puppet.com/puppet/archive
+#
+# @param version Version number to install
+# @param download_base Base URL to download from
 class r_profile::webapp::geoserver(
   $version          = '2.9.1',
   $download_base    = 'http://sourceforge.net/projects/geoserver/files/GeoServer',
-  $lb               = true,
-  $service_name     = 'geoserver',
-  $nagios_monitored = true,
-  $monitor_port     = 8080,
 ) {
 
   # tomcat
@@ -100,13 +102,6 @@ class r_profile::webapp::geoserver(
     path    => [ '/usr/bin', '/bin'],
     creates => "${data_dir}/global.xml",
     require => Archive[$war_file],
-  }
-
-  if $nagios_monitored {
-    nagios::nagios_service_http { 'geoserver':
-      port => $monitor_port,
-      url  => '/geoserver/web',
-    }
   }
 
 }

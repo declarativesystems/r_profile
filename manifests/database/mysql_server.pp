@@ -1,37 +1,41 @@
 # R_profile::Database::Mysql_server
 #
 # Install the MySQL database server
+#
+# @see https://forge.puppet.com/puppetlabs/mysql
+#
+# @example Basic usage
+#   include r_profile::database::mysql_server
+#
+# @example Server settings
+#   r_profile::database::mysql_server::settings:
+#     root_password: "TopSecr3t"
+#     remove_default_accounts: true
+#
+# @example Database creation
+#   r_profile::database::mysql_server::dbs:
+#     'mydb':
+#       user: 'myuser'
+#       password: 'mypass'
+#       host: 'localhost'
+#       grant:
+#         - 'SELECT'
+#         - 'UPDATE'
+#
+# @param settings Hash of server settings to enforce (see examples)
+# @param dbs Hash of databases to create (see examples)
 class r_profile::database::mysql_server(
-    $root_password    = hiera("r_profile::database::mysql_server::root_password", 'changeme'),
-    $override_options = hiera("r_profile::database::mysql_server::override_options", undef),
-    $db               = hiera("r_profile::database::mysql_server::db", {}),
-    $db_default       = hiera("r_profile::database::mysql_server::db_default", {}),
-    $nagios_monitored = hiera("r_profile::database::mysql_server::nagios_monitored", true),
-    $open_firewall    = hiera("r_profile::database::mysql_server::open_firewall", false),
+    Hash[String, Any]               $settings = {},
+    Hash[String, Hash[String, Any]] $dbs      = {},
 ) {
 
-  # always 3306
-  $port = 3306
-
-  class { '::mysql::server':
-    root_password           => $root_password,
-    remove_default_accounts => true,
-    override_options        => $override_options
+  class { 'mysql::server':
+    * => $settings,
   }
 
-  create_resources("mysql::db", $db, $db_default)
-
-  if $nagios_monitored {
-    nagios::nagios_service_tcp { 'MySQL':
-      port => $port,
-    }
-  }
-
-  if $open_firewall and !defined(Firewall["100 ${::fqdn} TCP ${port}"]) {
-    firewall { "100 ${::fqdn} TCP ${port}":
-      dport  => $port,
-      proto  => 'tcp',
-      action => 'accept',
+  $dbs.each |$key, $opts| {
+    mysql::db { $key:
+      * => $opts,
     }
   }
 

@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::puppet_agent
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,27 +74,28 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Puppet_agent</p>
+    <p>R_profile::Linux::Puppet_agent</p>
 
-<p>Manages:  * Puppet Agent service  * Proxy server environment variable
-support</p>
+<p>Manages:</p>
 
-<p>The Puppet Agent is not managed by Puppet Enterprise out of the box (but
-PXP Agent is…). To restart them using Puppet we create service resources
-for them here so that restarts can be carried out as necessary.</p>
+<ul>
+<li>Puppet Agent service</li>
+<li>Proxy server environment variable support</li>
+</ul>
 
-<p>To support proxy servers, we set the <code>http_proxy</code> and
-<code>https_proxy</code> environment variables for both agents. Scheduled
-Puppet agent runs will use the defaults from <code>sysconf_puppet</code>,
-Puppet agent initiated by PXP (run puppet button) uses
-<code>sysconf_pxp_agent</code>. By setting the environment in both files,
-consistency can be reached, apart from when running directly on the command
-line with <code>puppet agent -t</code>. In this case, the operator is
-resposonsible for its own environment</p>
+<p>The Puppet Agent is not managed by Puppet Enterprise out of the box (but PXP Agent is...). To restart them using
+Puppet we create service resources for them here so that restarts can be carried out as necessary.</p>
+
+<p>To support proxy servers, we set the <code>http_proxy</code> and <code>https_proxy</code> environment variables for both agents. Scheduled
+Puppet agent runs will use the defaults from <code>sysconf_puppet</code>, Puppet agent initiated by PXP (run puppet button) uses
+<code>sysconf_pxp_agent</code>. By setting the environment in both files, consistency can be reached, apart from when running
+directly on the command line with <code>puppet agent -t</code>. In this case, the operator is resposonsible for its own
+environment</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -111,9 +112,8 @@ resposonsible for its own environment</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>false</code> to skip configuration of a proxy server, otherwise the
-proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
+        <div class='inline'><p><code>false</code> to skip configuration of a proxy server, otherwise the proxy server url, eg
+<code>http://proxy.megacorp.com:8080</code></p>
 </div>
       
     </li>
@@ -130,9 +130,7 @@ proxy server url, eg <code>http://proxy.megacorp.com:8080</code></p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Path to sysconf file for puppet agent. Used to set proxy server environment
-variables</p>
+        <div class='inline'><p>Path to sysconf file for puppet agent. Used to set proxy server environment variables</p>
 </div>
       
     </li>
@@ -149,9 +147,7 @@ variables</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Path to sysconf file for pxp agent. Used to set proxy server environment
-variables</p>
+        <div class='inline'><p>Path to sysconf file for pxp agent. Used to set proxy server environment variables</p>
 </div>
       
     </li>
@@ -168,8 +164,7 @@ variables</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Name of the Puppet Agent service to manage</p>
+        <div class='inline'><p>Name of the Puppet Agent service to manage</p>
 </div>
       
     </li>
@@ -186,9 +181,7 @@ variables</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>true</code> to start Puppet Agent on boot, otherwise
-<code>false</code></p>
+        <div class='inline'><p><code>true</code> to start Puppet Agent on boot, otherwise <code>false</code></p>
 </div>
       
     </li>
@@ -205,8 +198,7 @@ variables</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>How to ensure the Puppet Agent service</p>
+        <div class='inline'><p>How to ensure the Puppet Agent service</p>
 </div>
       
     </li>
@@ -223,8 +215,7 @@ variables</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Name of the PXP Agent service to manage</p>
+        <div class='inline'><p>Name of the PXP Agent service to manage</p>
 </div>
       
     </li>

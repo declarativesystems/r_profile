@@ -16,6 +16,10 @@
 #     /etc/profile.d/umask.sh:
 #     /root/.bashrc:
 #     /var/lib/myapp/.bashrc: '0007'
+#
+# @param default_umask Default umask value
+# @param files Hash of files to set the umask in. `default_umask` will be used unless a
+#   file sets a value explicitly (see examples)
 class r_profile::linux::umask(
     String                          $default_umask = '0022',
     Hash[String, Optional[String]]  $files  = {}

@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::virtual::vagrant
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,50 +74,32 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Virtual::vagrant</p>
+    <p>R_profile::Virtual::vagrant</p>
 
 <p>Support for managing VMs via Vagrant (experimental)</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
       
-        <span class='name'>puppet_master</span>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>IP address of puppetmaster (or hostname IF RESOLVABLE) Required if you want
-to provision an agent on managed VMs automatically, otherwise no agent will
-be installed</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
         <span class='name'>vms</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::virtual::vagrant::vms&quot;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of VMs to install in a suitable format for create_resources and
-<code>vagrant_vm</code></p>
+        <div class='inline'><p>Hash of VMs to install in a suitable format for create_resources
+and <code>vagrant_vm</code></p>
 </div>
       
     </li>
@@ -127,15 +109,14 @@ be installed</p>
         <span class='name'>vm_default</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::virtual::vagrant::vm_default&quot;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of default options for <code>vagrant_vm</code></p>
+        <div class='inline'><p>Hash of default options for <code>vagrant_vm</code></p>
 </div>
       
     </li>
@@ -150,6 +131,9 @@ be installed</p>
         <pre class="lines">
 
 
+8
+9
+10
 11
 12
 13
@@ -157,18 +141,25 @@ be installed</p>
 15
 16
 17
-18</pre>
+18
+19
+20</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/virtual/vagrant.pp', line 11</span>
+        <pre class="code"><span class="info file"># File 'manifests/virtual/vagrant.pp', line 8</span>
 
 class r_profile::virtual::vagrant(
-    $vms            = hiera(&quot;r_profile::virtual::vagrant::vms&quot;, {}),
-    $vm_default     = hiera(&quot;r_profile::virtual::vagrant::vm_default&quot;, {}),
+    Hash $vms            = {},
+    Hash $vm_default     = {},
 ) {
 
   include puppet_vagrant::install
-  create_resources(&quot;vagrant_vm&quot;, $vms, $vm_default)
+  $vms.each |$key, $opts| {
+    vagrant_vm { $key:
+      * =&gt; $opts
+    }
+  }
+
 }</pre>
       </td>
     </tr>

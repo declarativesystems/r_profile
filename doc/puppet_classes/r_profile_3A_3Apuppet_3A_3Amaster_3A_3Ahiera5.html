@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::puppet::master::hiera5
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,22 +74,23 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Puppet::Master::Hiera5</p>
+    <p>R_profile::Puppet::Master::Hiera5</p>
 
-<p>Enable support for Hiera v5 system-wide by copying-in a golden
-<code>hiera.yaml</code> file and restarting puppet. Individual environments
-can then specify the hiera hierarchy they want to use as required.</p>
+<p>Enable support for Hiera v5 system-wide by copying-in a golden <code>hiera.yaml</code>
+file and restarting puppet.  Individual environments can then specify the
+hiera hierarchy they want to use as required.</p>
 
 <p>The inserted file defines a global hierarchy file for use by puppet at
-<code>/etc/puppetlabs/puppet_enterprise.yaml</code>. This is a file NOT
-managed by git and is for putting settings to re-configure puppet
-enterprise without using git, as directed by support/documentation. The
-main use of this <em>trick</em> is to enable the initial <code>puppet code
-deploy</code> to succeed when using a private forge</p>
+<code>/etc/puppetlabs/puppet_enterprise.yaml</code>. This is a file NOT managed by git
+and is for putting settings to re-configure puppet enterprise without using
+git, as directed by support/documentation. The main use of this <em>trick</em> is
+to enable the initial <code>puppet code deploy</code> to succeed when using a private
+forge</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
 

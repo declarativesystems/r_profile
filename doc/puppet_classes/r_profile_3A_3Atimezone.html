@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::timezone
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,39 +74,36 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Timezone</p>
+    <p>R_profile::Timezone</p>
 
-<p>Select the active system timezone (requires reboot). Currently supports
-Linux, Solaris, AIX and Windows. Timezone names for linux need to match the
-Olsen names available on the current system. On Linux, these are normally
-found under <code>/usr/share/zoneinfo</code>. On Windows the timezone needs
-to match a name from <code>tzutil -l</code></p>
+<p>Select the active system timezone (requires reboot).  Currently supports Linux,
+Solaris, AIX and Windows.  Timezone names for linux need to match the Olsen names
+available on the current system.  On Linux, these are normally found under
+<code>/usr/share/zoneinfo</code>. On Windows the timezone needs to match a name from <code>tzutil -l</code></p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Usage</p>
+        <p class="example_title"><div class='inline'><p>Usage</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_timezone'>timezone</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Setting the timezone for Linux</p>
+        <p class="example_title"><div class='inline'><p>Setting the timezone for Linux</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::timezone::zone: &quot;Pacific/Honolulu&quot;</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Setting the timezone for Windows</p>
+        <p class="example_title"><div class='inline'><p>Setting the timezone for Windows</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::timezone::zone: &quot;Hawaiian Standard Time&quot;</code></pre>
@@ -127,8 +124,7 @@ to match a name from <code>tzutil -l</code></p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Timezone to set this node to, eg &#39;Asia/Hong_Kong&#39;</p>
+        <div class='inline'><p>Timezone to set this node to, eg &#39;Asia/Hong_Kong&#39;</p>
 </div>
       
     </li>

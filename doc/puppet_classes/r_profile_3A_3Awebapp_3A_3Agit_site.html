@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::webapp::git_site
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,22 +74,29 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>Deploy web site(s) from git</p>
-
-<h1 id="label-Params">Params</h1>
-
-<p><code>sites</code> Hash of checkout sources and destinations:
-target_directory =&gt; {  source =&gt; &#39;url&#39; # git checkout url 
-revision =&gt; &#39;ref&#39; # branch/tag (optional)  notify =&gt; Res, #
-Puppet resource to notify  owner =&gt; &#39;user&#39; # local user to own
-downloaded files  group =&gt; &#39;group&#39; # local group to own
-downloaded files }</p>
+    <p>Deploy web site(s) from git</p>
 
   </div>
 </div>
+
+
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'><p>Downloading site from git</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::webapp::git_site:
+  /var/www/phpquote:
+    source: https://github.com/GeoffWilliams/phpquote
+    revision: master
+    notify: Service[&#39;httpd&#39;]</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -97,11 +104,15 @@ downloaded files }</p>
         <span class='name'>sites</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Hash[String, Any]]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::webapp::git_site::sites&#39;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Hash of checkout sources and destinations (see examples)</p>
+</div>
       
     </li>
   
@@ -115,6 +126,9 @@ downloaded files }</p>
         <pre class="lines">
 
 
+11
+12
+13
 14
 15
 16
@@ -127,16 +141,13 @@ downloaded files }</p>
 23
 24
 25
-26
-27
-28
-29</pre>
+26</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/webapp/git_site.pp', line 14</span>
+        <pre class="code"><span class="info file"># File 'manifests/webapp/git_site.pp', line 11</span>
 
 class r_profile::webapp::git_site(
-    $sites = hiera(&#39;r_profile::webapp::git_site::sites&#39;, {}),
+    Hash[String, Hash[String, Any]] $sites = {},
 ) {
 
   $sites.keys.each | $site | {

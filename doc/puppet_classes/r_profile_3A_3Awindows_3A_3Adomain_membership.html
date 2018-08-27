@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::windows::domain_membership
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,22 +74,22 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Windows::Domain_membership</p>
+    <p>R_profile::Windows::Domain_membership</p>
 
-<p>Join an Active Directory domain using Puppet and the
-trlinkin/domain_membership module using data from Hiera</p>
+<p>Join an Active Directory domain using Puppet and the trlinkin/domain_membership
+module using data from Hiera</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Join a domain</p>
+        <p class="example_title"><div class='inline'><p>Join a domain</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_windows'>windows</span><span class='op'>::</span><span class='id identifier rubyid_domain_membership'>domain_membership</span></code></pre>
@@ -110,8 +110,7 @@ trlinkin/domain_membership module using data from Hiera</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>AD domain which the node should be a member of.</p>
+        <div class='inline'><p>AD domain which the node should be a member of.</p>
 </div>
       
     </li>
@@ -128,8 +127,7 @@ trlinkin/domain_membership module using data from Hiera</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>User with ability to join machines to a Domain.</p>
+        <div class='inline'><p>User with ability to join machines to a Domain.</p>
 </div>
       
     </li>
@@ -146,8 +144,7 @@ trlinkin/domain_membership module using data from Hiera</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Password for domain joining user.</p>
+        <div class='inline'><p>Password for domain joining user.</p>
 </div>
       
     </li>
@@ -164,8 +161,7 @@ trlinkin/domain_membership module using data from Hiera</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>OU in the directory for the machine account to be created in.</p>
+        <div class='inline'><p>OU in the directory for the machine account to be created in.</p>
 </div>
       
     </li>
@@ -182,9 +178,8 @@ trlinkin/domain_membership module using data from Hiera</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Whether or not to force machine password reset if it becomes out of sync
-with the domain.</p>
+        <div class='inline'><p>Whether or not to force machine password reset if it becomes
+out of sync with the domain.</p>
 </div>
       
     </li>
@@ -201,8 +196,7 @@ with the domain.</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Whether or not to reboot when the machine joins the domain.</p>
+        <div class='inline'><p>Whether or not to reboot when the machine joins the domain.</p>
 </div>
       
     </li>
@@ -219,10 +213,9 @@ with the domain.</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>A bit field for options to use when joining the domain. A value of
-&#39;1&#39; indicates default domain join (the default) @see <a
-href="http://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx">msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx</a></p>
+        <div class='inline'><p>A bit field for options to use when joining the domain.
+A value of &#39;1&#39; indicates default domain join (the default)
+@see <a href="http://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx">http://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx</a></p>
 </div>
       
     </li>
@@ -239,10 +232,9 @@ href="http://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx">msdn.micro
       
       
         &mdash;
-        <div class='inline'>
-<p>Domain of user account used to join machine, if different from domain
-machine will be joined to. If not specified, the value passed to the domain
-parameter will be used.</p>
+        <div class='inline'><p>Domain of user account used to join machine, if different
+from domain machine will be joined to. If not specified, the value passed to
+the domain parameter will be used.</p>
 </div>
       
     </li>

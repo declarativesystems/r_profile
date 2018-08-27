@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::lockdown::package
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,21 +74,21 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Lockdown::Package</p>
+    <p>R_profile::Lockdown::Package</p>
 
 <p>Purge the passed-in packages from the system</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data</p>
+        <p class="example_title"><div class='inline'><p>Hiera data</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::lockdown::package::delete:
@@ -97,8 +97,7 @@
   - [&quot;Server with GUI&quot;, yum_group]</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Declaration</p>
+        <p class="example_title"><div class='inline'><p>Declaration</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_lockdown'>lockdown</span><span class='op'>::</span><span class='id identifier rubyid_package'>package</span></code></pre>
@@ -119,10 +118,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of packages to remove. If you need to specify a provider to remove a
-particular type of package (gem, egg, yum_group, etc.) then specify an
-array containing package name and provider (see example)</p>
+        <div class='inline'><p>Array of packages to remove. If you need to specify a provider to remove a particular type of package
+(gem, egg, yum_group, etc.) then specify an array containing package name and provider (see example)</p>
 </div>
       
     </li>

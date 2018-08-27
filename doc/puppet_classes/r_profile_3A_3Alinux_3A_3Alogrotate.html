@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::logrotate
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,29 +74,33 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>r_profile::linux::logrotate</p>
+    <p>r_profile::linux::logrotate</p>
 
-<p>Setup log rotation on Linux:  * installation/configuration of logrotate  *
-rotation defaults  * individual rules</p>
+<p>Setup log rotation on Linux:</p>
+
+<ul>
+<li>installation/configuration of logrotate</li>
+<li>rotation defaults</li>
+<li>individual rules</li>
+</ul>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>class usage</p>
+        <p class="example_title"><div class='inline'><p>class usage</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_logrotate'>logrotate</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to set default rotation options:</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to set default rotation options:</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::logrotate::settings:
@@ -106,8 +110,7 @@ rotation defaults  * individual rules</p>
   dateext:</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to set log rotation entries</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to set log rotation entries</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::logrotate::entries:
@@ -135,8 +138,7 @@ rotation defaults  * individual rules</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of logrotate entries to create (see examples)</p>
+        <div class='inline'><p>Hash of logrotate entries to create (see examples)</p>
 </div>
       
     </li>
@@ -153,8 +155,7 @@ rotation defaults  * individual rules</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of default settings for <code>logrotate.conf</code> (see examples)</p>
+        <div class='inline'><p>Hash of default settings for <code>logrotate.conf</code> (see examples)</p>
 </div>
       
     </li>

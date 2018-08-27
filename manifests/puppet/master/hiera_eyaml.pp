@@ -33,8 +33,8 @@
 #   cd /etc/puppetlabs/puppet
 #   /opt/puppetlabs/puppet/lib/ruby/vendor_gems/bin/eyaml encrypt --password
 #
+# @param create_keys True to create a system-wide eyaml keypair
 # @param gem_install True to attempt to install and configure hiera-eyaml rubygem
-# @param create_keys, True to create a system-wide eyaml keypair
 class r_profile::puppet::master::hiera_eyaml(
     Boolean $gem_install  = false,
     Boolean $create_keys  = true,

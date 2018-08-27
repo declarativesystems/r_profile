@@ -2,13 +2,19 @@
 #
 # Manage the azure VMs using the passed-in hash
 #
+# @param azure_vm Hash of azure VMs to create
+# @param azure_vm_default Hash of default settings for azure VMs
+# @param install_puppet_windows_cmd Command to run to install puppet on windows
+# @param install_puppet_linux_cmd Command to run to install puppet on linux
+# @param puppet_master_fqdn FQDN of Puppet master
+# @param challenge_password Challenge password to use for autosigning
 class r_profile::cloud::azure(
-    Hash    $azure_vm                             = hiera('r_profile::cloud::azure::azure_vm', {}),
-    Hash    $azure_vm_default                     = hiera('r_profile::cloud::azure::azure_vm_default', {}),
-    Optional[String] $install_puppet_windows_cmd  = hiera('r_profile::cloud::azure::install_puppet_windows_cmd', undef),
-    Optional[String] $install_puppet_linux_cmd    = hiera('r_profile::cloud::azure::install_puppet_linux_cmd', undef),
-    Optional[String] $puppet_master_fqdn          = hiera('r_profile::cloud::azure::puppet_master_fqdn', undef),
-    Optional[String] $challenge_password          = hiera('r_profile::cloud::azure::challenge_password', undef),
+    Hash    $azure_vm                             = {},
+    Hash    $azure_vm_default                     = {},
+    Optional[String] $install_puppet_windows_cmd  = undef,
+    Optional[String] $install_puppet_linux_cmd    = undef,
+    Optional[String] $puppet_master_fqdn          = undef,
+    Optional[String] $challenge_password          = undef,
 ) {
 
   # pick the selected password from hiera or use an empty string

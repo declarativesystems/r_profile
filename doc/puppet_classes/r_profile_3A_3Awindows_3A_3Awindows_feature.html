@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::windows::windows_feature
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,59 +74,48 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Windows::Windows_feature</p>
+    <p>R_profile::Windows::Windows_feature</p>
 
 <p>Install Windows Features using Puppet and reboot if required.</p>
 
-<p>Rebooting is controlled adding an additional parameter
-<code>reboot_after</code> to the data fed to this profile. <em>This</em>
-class will act on this directive itself by subscribing its own
-<code>reboot</code> resource to any windows features decorated with this
-parameter.</p>
+<p>Rebooting is controlled adding an additional parameter <code>reboot_after</code> to the data fed
+to this profile. <em>This</em> class will act on this directive itself by subscribing its own
+<code>reboot</code> resource to any windows features decorated with this parameter.</p>
 
-<p>We will remove the <code>reboot_after</code> attribute from the hash of
-options passed to the real <code>windows_feature</code> resource to prevent
-an error about unknown parameters.</p>
+<p>We will remove the <code>reboot_after</code> attribute from the hash of options passed to the real
+<code>windows_feature</code> resource to prevent an error about unknown parameters.</p>
 
-<p>Items to create are grouped into base and non-base to allow easy management
-in Hiera. Items in non-base can override those in base.</p>
+<p>Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
+those in base.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>basic usage</p>
+        <p class="example_title"><div class='inline'><p>basic usage</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_windows'>windows</span><span class='op'>::</span><span class='id identifier rubyid_windows_feature'>windows_feature</span></code></pre>
     
+      
+        <p class="example_title"><div class='inline'><p>Hiera data to install windows features</p>
+</div></p>
+      
+      <pre class="example code"><code>r_profile::windows::windows_feature::features:
+  &#39;Web-Server&#39;:
+  &#39;Web-WebServer&#39;:
+    installmanagementtools: true
+    reboot_after: true</code></pre>
+    
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
-    <li>
-      
-        <span class='name'>Hiera</span>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>data to install windows features
-r_profile::windows::windows_feature::features:  &#39;Web-Server&#39;: 
-&#39;Web-WebServer&#39;:  installmanagementtools: true  reboot_after: true</p>
-</div>
-      
-    </li>
   
     <li>
       
@@ -140,8 +129,7 @@ r_profile::windows::windows_feature::features:  &#39;Web-Server&#39;:
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of windows features to install (base)</p>
+        <div class='inline'><p>Hash of windows features to install (base)</p>
 </div>
       
     </li>
@@ -158,8 +146,7 @@ r_profile::windows::windows_feature::features:  &#39;Web-Server&#39;:
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of windows features to install (override)</p>
+        <div class='inline'><p>Hash of windows features to install (override)</p>
 </div>
       
     </li>

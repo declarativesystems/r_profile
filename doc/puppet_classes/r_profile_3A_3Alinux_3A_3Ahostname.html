@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::hostname
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,25 +74,25 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Hostname</p>
+    <p>R_profile::Linux::Hostname</p>
 
-<p>Set the hostname using systemd and optionally the system IP address. By
-default, set the hostname to match <code>certname</code> - the name of the
-signed certificate that puppet knows about. This is useful for cloud
-environments such as azure that assign dnsdomains based on regions that
-cannot be changed to a sensible default</p>
+<p>Set the hostname using systemd and optionally the system IP address.  By
+default, set the hostname to match <code>certname</code> - the name of the signed
+certificate that puppet knows about.  This is useful for cloud environments
+such as azure that assign dnsdomains based on regions that cannot be changed
+to a sensible default</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Set the hostname based on the puppet <code>certname</code></p>
+        <p class="example_title"><div class='inline'><p>Set the hostname based on the puppet <code>certname</code></p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_hostname'>hostname</span></code></pre>
@@ -113,8 +113,7 @@ cannot be changed to a sensible default</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>The fully qualified hostname that this host should use for all names</p>
+        <div class='inline'><p>The fully qualified hostname that this host should use for all names</p>
 </div>
       
     </li>
@@ -131,8 +130,7 @@ cannot be changed to a sensible default</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>The IP address of a corresponding entry to add to /etc/hosts if required</p>
+        <div class='inline'><p>The IP address of a corresponding entry to add to /etc/hosts if required</p>
 </div>
       
     </li>

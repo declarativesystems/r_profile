@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::yumrepo
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,25 +74,24 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_Profile::Linux::Yumrepo</p>
+    <p>R_Profile::Linux::Yumrepo</p>
 
-<p>Setup the system yum repos in a custom stage before the main puppet run.
-This lets up setup all the repositories to be avaiable by the
-<code>main</code> stage. Items to create are grouped into base and non-base
-to allow easy management in Hiera. Items in non-base can override those in
-base.</p>
+<p>Setup the system yum repos in a custom stage before the main puppet run. This lets
+up setup all the repositories to be avaiable by the <code>main</code> stage.
+Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
+those in base.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Puppet code to define a stage and run this class in it</p>
+        <p class="example_title"><div class='inline'><p>Puppet code to define a stage and run this class in it</p>
 </div></p>
       
       <pre class="example code"><code>stage { &quot;yumrepos&quot;:
@@ -103,17 +102,14 @@ class { &quot;r_profile::linux::yumrepo&quot;
 }</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Alternatively, use the <code>r_profile::repo</code> class to instantate
-this class</p>
+        <p class="example_title"><div class='inline'><p>Alternatively, use the <code>r_profile::repo</code> class to instantate this class</p>
 </div></p>
       
       <pre class="example code"><code><span class='comment'># must add _this_ class to the list of classes to include `r_profile::repo::profiles`
 </span><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_repo'>repo</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to setup a custom hosted yum repository</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to setup a custom hosted yum repository</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::yumrepo:yumrepos
@@ -138,8 +134,7 @@ this class</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of yum repositories to ensure (base)</p>
+        <div class='inline'><p>Hash of yum repositories to ensure (base)</p>
 </div>
       
     </li>
@@ -156,24 +151,7 @@ this class</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of yum repositories to ensure (overrides)</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>stage</span>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Stage to setup yum repositories in</p>
+        <div class='inline'><p>Hash of yum repositories to ensure (overrides)</p>
 </div>
       
     </li>
@@ -197,6 +175,7 @@ this class</p>
         <pre class="lines">
 
 
+33
 34
 35
 36
@@ -211,11 +190,10 @@ this class</p>
 45
 46
 47
-48
-49</pre>
+48</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/yumrepo.pp', line 34</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/yumrepo.pp', line 33</span>
 
 class r_profile::linux::yumrepo(
     Hash[String, Hash]  $base_yumrepos  = {},

@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::puppet::master
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,9 +74,14 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
+    <p>R_profile::Puppet::Master</p>
+
+<p>Enable restarting the <code>pe-puppetserver</code> service if its systemd environment is changed</p>
+
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -92,6 +97,10 @@
         <em class="default">(defaults to: <tt>&quot;${facts[&#39;sysconf_dir&#39;]}/pe-puppetserver&quot;</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'><p>Path to sysconfig settings for pe-puppetserver</p>
+</div>
+      
     </li>
   
 </ul>
@@ -104,7 +113,6 @@
         <pre class="lines">
 
 
-5
 6
 7
 8
@@ -119,10 +127,11 @@
 17
 18
 19
-20</pre>
+20
+21</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/puppet/master.pp', line 5</span>
+        <pre class="code"><span class="info file"># File 'manifests/puppet/master.pp', line 6</span>
 
 class r_profile::puppet::master(
     String $sysconf_puppetserver = &quot;${facts[&#39;sysconf_dir&#39;]}/pe-puppetserver&quot;,

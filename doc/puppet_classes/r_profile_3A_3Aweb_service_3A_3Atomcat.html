@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::web_service::tomcat
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,13 +74,14 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Web_service::Tomcat</p>
+    <p>R_profile::Web_service::Tomcat</p>
 
 <p>Install and configure tomcat application server</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -90,11 +91,15 @@
         <span class='name'>source_url</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>&#39;http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.14/bin/apache-tomcat-8.5.14.tar.gz&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>URL to file to install tomcat from</p>
+</div>
       
     </li>
   
@@ -103,11 +108,15 @@
         <span class='name'>catalina_home</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>&#39;/opt/tomcat&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Path to install tomcat</p>
+</div>
       
     </li>
   
@@ -116,11 +125,15 @@
         <span class='name'>service</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>&#39;tomcat&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Name of the tomcat service</p>
+</div>
       
     </li>
   
@@ -129,11 +142,15 @@
         <span class='name'>user</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>&#39;tomcat&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>User to run tomcat as</p>
+</div>
       
     </li>
   
@@ -142,11 +159,15 @@
         <span class='name'>group</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>&#39;tomcat&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Group for <code>user</code></p>
+</div>
       
     </li>
   
@@ -155,55 +176,27 @@
         <span class='name'>port</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Integer</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>8080</tt>)</em>
       
       
-    </li>
-  
-    <li>
-      
-        <span class='name'>lb</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>nagios_monitored</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>open_firewall</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
+        &mdash;
+        <div class='inline'><p>TCP port to run on</p>
+</div>
       
     </li>
   
 </ul>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://forge.puppet.com/puppetlabs/tomcat" target="_parent" title="https://forge.puppet.com/puppetlabs/tomcat">https://forge.puppet.com/puppetlabs/tomcat</a></li>
+    
+  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -212,15 +205,6 @@
         <pre class="lines">
 
 
-4
-5
-6
-7
-8
-9
-10
-11
-12
 13
 14
 15
@@ -249,66 +233,18 @@
 38
 39
 40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86</pre>
+41</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/web_service/tomcat.pp', line 4</span>
+        <pre class="code"><span class="info file"># File 'manifests/web_service/tomcat.pp', line 13</span>
 
 class r_profile::web_service::tomcat(
-    $source_url       = &#39;http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.14/bin/apache-tomcat-8.5.14.tar.gz&#39;,
-    $catalina_home    = &#39;/opt/tomcat&#39;,
-    $service          = &#39;tomcat&#39;,
-    $user             = &#39;tomcat&#39;,
-    $group            = &#39;tomcat&#39;,
-    $port             = 8080,
-    $lb               = true,
-    $nagios_monitored = true,
-    $open_firewall    = false,
+    String $source_url    = &#39;http://apache.mirror.amaze.com.au/tomcat/tomcat-8/v8.5.14/bin/apache-tomcat-8.5.14.tar.gz&#39;,
+    String $catalina_home = &#39;/opt/tomcat&#39;,
+    String $service       = &#39;tomcat&#39;,
+    String $user          = &#39;tomcat&#39;,
+    String $group         = &#39;tomcat&#39;,
+    Integer $port         = 8080,
 ){
 
   # for processing .war files
@@ -330,57 +266,6 @@ class r_profile::web_service::tomcat(
     require =&gt; Tomcat::Install[$catalina_home]
   }
 
-  if $lb {
-
-    # setup the FACT that will tell us what IP address to use (run n)
-    if is_string($lb) {
-      $lb_address = $lb
-    } else {
-      # attempt to lookup which nodes are classified as Haproxies and use first
-      # check storedconfigs to ensure we are not running under rspec/puppet apply
-      $lb_addresses = $::settings::storeconfigs ? {
-        true    =&gt; query_nodes(&#39;Class[R_profile::Monitor::Haproxy]&#39;),
-        default =&gt; false,
-      }
-      if is_array($lb_addresses) {
-        $lb_address = $lb_addresses[0]
-      } else {
-        $lb_address = false
-      }
-    }
-
-    if $lb_address and is_string($lb) {
-      $source_ip = $source_ipaddress[$lb_address]
-    } else {
-      $source_ip = undef
-    }
-
-    # export the IP address (run n+1)
-    @@haproxy::balancermember { &quot;${service}-${::fqdn}&quot;:
-      listening_service =&gt; &#39;tomcat&#39;,
-      server_names      =&gt; $::fqdn,
-      ipaddresses       =&gt; $source_ip,
-      ports             =&gt; $port,
-      options           =&gt; &#39;check&#39;,
-    }
-
-    # runs will be collected on the loadbalancer next time it runs puppet
-  }
-
-  if $nagios_monitored {
-    nagios::nagios_service_http { &#39;tomcat&#39;:
-      port =&gt; $port,
-      url  =&gt; &#39;/&#39;,
-    }
-  }
-
-  if $open_firewall and !defined(Firewall[&quot;100 ${::fqdn} HTTP ${port}&quot;]) {
-    firewall { &quot;100 ${::fqdn} HTTP ${port}&quot;:
-      dport  =&gt; $port,
-      proto  =&gt; &#39;tcp&#39;,
-      action =&gt; &#39;accept&#39;,
-    }
-  }
 }</pre>
       </td>
     </tr>

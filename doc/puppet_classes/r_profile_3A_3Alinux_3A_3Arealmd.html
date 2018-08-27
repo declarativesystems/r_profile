@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::realmd
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,34 +74,39 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Realmd</p>
+    <p>R_profile::Linux::Realmd</p>
 
-<p>Support for setting up realmd (SSSD) for authentication against a directory
-server on RHEL 7. You are advised to use hiera-eyaml to encrypt the
-<code>ad_password</code> parameter when using this profile.</p>
+<p>Support for setting up realmd (SSSD) for authentication against a directory server on
+RHEL 7. You are advised to use hiera-eyaml to encrypt the <code>ad_password</code> parameter when
+using this profile.</p>
 
-<p>To avoid catalogue compilation failure when required AD details are
-missing, the module will only attempt to configure AD support when the
-following are present:  * domain  * ad_username  * ad_password  * ou</p>
+<p>To avoid catalogue compilation failure when required AD details are missing, the module
+will only attempt to configure AD support when the following are present:</p>
+
+<ul>
+<li>domain</li>
+<li>ad_username</li>
+<li>ad_password</li>
+<li>ou</li>
+</ul>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>activating the realmd profile</p>
+        <p class="example_title"><div class='inline'><p>activating the realmd profile</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_realmd'>realmd</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data for joining domain</p>
+        <p class="example_title"><div class='inline'><p>Hiera data for joining domain</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::realmd::domain: &quot;megacorp.com&quot;
@@ -115,8 +120,7 @@ r_profile::linux::realmd::groups:
   - &#39;superadmins&#39;</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data with encrypted password</p>
+        <p class="example_title"><div class='inline'><p>Hiera data with encrypted password</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::realmd::ad_password: &gt;
@@ -143,8 +147,24 @@ r_profile::linux::realmd::groups:
       
       
         &mdash;
-        <div class='inline'>
-<p>Domain to join</p>
+        <div class='inline'><p>Domain to join</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ad_username</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>AD username to use for joining</p>
 </div>
       
     </li>
@@ -161,8 +181,7 @@ r_profile::linux::realmd::groups:
       
       
         &mdash;
-        <div class='inline'>
-<p>AD password to use for joining</p>
+        <div class='inline'><p>AD password to use for joining</p>
 </div>
       
     </li>
@@ -179,9 +198,7 @@ r_profile::linux::realmd::groups:
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of OUs to use for joining eg <code>foo,bar,baz</code> (OU= will be
-added for you)</p>
+        <div class='inline'><p>Array of OUs to use for joining eg <code>foo,bar,baz</code> (OU= will be added for you)</p>
 </div>
       
     </li>
@@ -198,23 +215,8 @@ added for you)</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>List of groups to add to <code>simple_allow_groups</code> (will be
-flattened for you)</p>
+        <div class='inline'><p>List of groups to add to <code>simple_allow_groups</code> (will be flattened for you)</p>
 </div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>ad_username</span>
-      
-      
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>undef</tt>)</em>
-      
       
     </li>
   
@@ -235,7 +237,6 @@ flattened for you)</p>
         <pre class="lines">
 
 
-43
 44
 45
 46
@@ -252,10 +253,11 @@ flattened for you)</p>
 57
 58
 59
-60</pre>
+60
+61</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/realmd.pp', line 43</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/realmd.pp', line 44</span>
 
 class r_profile::linux::realmd(
     Optional[String]        $domain       = undef,

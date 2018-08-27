@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::monitor::nagios_server
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,13 +74,14 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Monitor::Nagios_server</p>
+    <p>R_profile::Monitor::Nagios_server</p>
 
 <p>Confifgure nagios server</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -90,11 +91,15 @@
         <span class='name'>password</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&quot;r_profile::monitor::nagios_server::password&quot;, undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Password to use for nagios</p>
+</div>
       
     </li>
   
@@ -108,20 +113,20 @@
         <pre class="lines">
 
 
-4
-5
 6
 7
 8
 9
 10
-11</pre>
+11
+12
+13</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/monitor/nagios_server.pp', line 4</span>
+        <pre class="code"><span class="info file"># File 'manifests/monitor/nagios_server.pp', line 6</span>
 
 class r_profile::monitor::nagios_server(
-    $password = hiera(&quot;r_profile::monitor::nagios_server::password&quot;, undef),
+    String $password = undef,
 ) {
   include nagios
   class { &quot;nagios::server&quot;:

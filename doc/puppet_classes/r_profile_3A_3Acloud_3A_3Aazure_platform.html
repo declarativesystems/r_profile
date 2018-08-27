@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::cloud::azure_platform
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,11 +74,27 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>puppet module install puppet-nodejs –version 2.3.0</p>
+    <p>R_profile::Cloud::Azure_platform</p>
+
+<p>Setup the dependencies for the puppetlabs/azure forge module</p>
+
+<p>The forge module uses a locally installed copy of the Azure library in order
+to talk to the Azure Cloud.  There are presently two versions of this library:</p>
+
+<ul>
+<li><code>azure</code> command via the Azure xplat-cli (older, written in nodejs)</li>
+<li><code>az</code> command via Azure CLI 2.0 (newer, written in python)</li>
+</ul>
+
+<p>v1.x of forge module uses the xplat-cli and that is what this profile sets up
+for you.</p>
+
+<p>puppet module install puppet-nodejs --version 2.3.0</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -91,38 +107,43 @@
         <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure_platform::subscriptions&#39;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of subscriptions with the format: <code>   subscription_name = {    
-subscription_id           =&gt; &quot;the_subscription_id&quot;,    
-tenant_id                 =&gt; &quot;the_tenant_id&quot;,     client_id   
-=&gt; &quot;the_client_id&quot;,     client_secret             =&gt;
-&quot;the_client_secret&quot;,     user                      =&gt;
-&quot;local linux user to run as&quot;,     homedir                   =&gt;
-&quot;home dir to install puppet agent&quot;,     puppet_master_fqdn       
-=&gt; &quot;fqdn.of.puppetmaster&quot;,     run_puppet_ssh_public_key =&gt;
-&quot;your public key...&quot;,   } </code> * subscription_id The
-subsciption ID to provision ID to work with,  obtainedfrom billing page in
-azure portal * tenant_id The active directory tennant ID to work with, see 
-<a
-href="https://stackoverflow.com/a/41028320/3441106">stackoverflow.com/a/41028320/3441106</a>
-* client_id This is the equivalent of a username and involves registering 
-an application in the Azure AD instance. Once registered, the field to use 
-here is <code>application_id</code>. We don&#39;t use
-<code>object_id</code> at all. Important:  Once the user has been created,
-it needs to be given RBAC access to the  Azure API which is done through
-the billing -&gt; subscriptions menu  @see <a
-href="https://docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html">docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html</a>
-* client_secret This is the equivalent of a password for the above user 
-and can be found by following the above tutorial * user local user who will
-run this puppet agent * homedir of this user (guess at /home/$user if
-absent) * puppet_master_fqdn Address of puppet master to connect this agent
-to * run_puppet_ssh_public_key If present, configure SSH to allow
-connections  using this key to run the puppet agent -t command
-automatically</p>
+        <div class='inline'><p>Hash of subscriptions with the format:</p>
+
+<pre class="code ruby"><code class="ruby">  <span class='id identifier rubyid_subscription_name'>subscription_name</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='id identifier rubyid_subscription_id'>subscription_id</span>           <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>the_subscription_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='id identifier rubyid_tenant_id'>tenant_id</span>                 <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>the_tenant_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='id identifier rubyid_client_id'>client_id</span>                 <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>the_client_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='id identifier rubyid_client_secret'>client_secret</span>             <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>the_client_secret</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='id identifier rubyid_user'>user</span>                      <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>local linux user to run as</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='id identifier rubyid_homedir'>homedir</span>                   <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>home dir to install puppet agent</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='id identifier rubyid_puppet_master_fqdn'>puppet_master_fqdn</span>        <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fqdn.of.puppetmaster</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='id identifier rubyid_run_puppet_ssh_public_key'>run_puppet_ssh_public_key</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>your public key...</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='rbrace'>}</span>
+</code></pre>
+
+<ul>
+<li>subscription_id The subsciption ID to provision ID to work with,
+obtainedfrom billing page in azure portal</li>
+<li>tenant_id The active directory tennant ID to work with, see
+<a href="https://stackoverflow.com/a/41028320/3441106">https://stackoverflow.com/a/41028320/3441106</a></li>
+<li>client_id This is the equivalent of a username and involves registering
+an application in the Azure AD instance.  Once registered, the field to use
+here is <code>application_id</code>.  We don&#39;t use <code>object_id</code> at all.  Important:
+Once the user has been created, it needs to be given RBAC access to the
+Azure API which is done through the billing -&gt; subscriptions menu
+@see <a href="https://docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html">https://docs.bmc.com/docs/cloudlifecyclemanagement/46/setting-up-a-tenant-id-client-id-and-client-secret-for-azure-resource-manager-provisioning-669202145.html</a></li>
+<li>client_secret This is the equivalent of a password for the above user
+and can be found by following the above tutorial</li>
+<li>user local user who will run this puppet agent</li>
+<li>homedir of this user (guess at /home/$user if absent)</li>
+<li>puppet_master_fqdn Address of puppet master to connect this agent to</li>
+<li>run_puppet_ssh_public_key If present, configure SSH to allow connections
+using this key to run the puppet agent -t command automatically</li>
+</ul>
 </div>
       
     </li>
@@ -135,13 +156,12 @@ automatically</p>
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure_platform::azure_gem_version&#39;,&quot;0.7.9&quot;)</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;0.7.9&quot;</tt>)</em>
       
       
         &mdash;
-        <div class='inline'>
-<p>Specify the version of the <code>azure</code> gem to use to talk to the
-azure API - useful if you need to use a newer version of the
+        <div class='inline'><p>Specify the version of the <code>azure</code> gem to use to talk
+to the azure API - useful if you need to use a newer version of the
 <code>puppetlabs-azure</code> module</p>
 </div>
       
@@ -155,14 +175,13 @@ azure API - useful if you need to use a newer version of the
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure_platform::azure_mgmt_gem_version&#39;, &quot;0.3.1&quot;)</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;0.3.1&quot;</tt>)</em>
       
       
         &mdash;
-        <div class='inline'>
-<p>Specify the version of the <code>azure-mgmt-*</code> gems to use to talk to
-the azure API - useful if you need to use a newer version of the
-<code>puppetlabs-azure</code> module</p>
+        <div class='inline'><p>Specify the version of the <code>azure-mgmt-*</code> gems to
+use to talk to the azure API - useful if you need to use a newer version of
+the <code>puppetlabs-azure</code> module</p>
 </div>
       
     </li>
@@ -175,15 +194,25 @@ the azure API - useful if you need to use a newer version of the
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure_platform::run_puppet_command&#39;,
-      &quot;/opt/puppetlabs/puppet/bin/puppet agent -t&quot;
-    )</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;/opt/puppetlabs/puppet/bin/puppet agent -t&quot;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>How to run puppet agent (only this command will be allowed
+via SSH)</p>
+</div>
       
     </li>
   
 </ul>
 
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://github.com/Azure/azure-xplat-cli" target="_parent" title="https://github.com/Azure/azure-xplat-cli">https://github.com/Azure/azure-xplat-cli</a></li>
+    
+  </ul>
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -192,8 +221,6 @@ the azure API - useful if you need to use a newer version of the
         <pre class="lines">
 
 
-53
-54
 55
 56
 57
@@ -308,15 +335,13 @@ the azure API - useful if you need to use a newer version of the
 166</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/cloud/azure_platform.pp', line 53</span>
+        <pre class="code"><span class="info file"># File 'manifests/cloud/azure_platform.pp', line 55</span>
 
 class r_profile::cloud::azure_platform(
-    Hash    $subscriptions          = hiera(&#39;r_profile::cloud::azure_platform::subscriptions&#39;, {}),
-    String  $azure_gem_version      = hiera(&#39;r_profile::cloud::azure_platform::azure_gem_version&#39;,&quot;0.7.9&quot;),
-    String  $azure_mgmt_gem_version = hiera(&#39;r_profile::cloud::azure_platform::azure_mgmt_gem_version&#39;, &quot;0.3.1&quot;),
-    String  $run_puppet_command     = hiera(&#39;r_profile::cloud::azure_platform::run_puppet_command&#39;,
-      &quot;/opt/puppetlabs/puppet/bin/puppet agent -t&quot;
-    ),
+    Hash    $subscriptions          = {},
+    String  $azure_gem_version      = &quot;0.7.9&quot;,
+    String  $azure_mgmt_gem_version = &quot;0.3.1&quot;,
+    String  $run_puppet_command     = &quot;/opt/puppetlabs/puppet/bin/puppet agent -t&quot;,
 ) {
 
   # only for root agents

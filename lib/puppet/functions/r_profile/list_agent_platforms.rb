@@ -1,10 +1,16 @@
-# r_profile::list_agent_platforms
-#
-# Scan the classes provided by pe_repo and produce an array strings containing
-# all of the shipped pe_repo::platform classes for this PE release.  This solves
-# the problem of having to keep psquared in sync with each PE release
 Puppet::Functions.create_function(:'r_profile::list_agent_platforms') do
-
+  # r_profile::list_agent_platforms
+  #
+  # Scan the classes provided by pe_repo and produce an array strings containing
+  # all of the shipped pe_repo::platform classes for this PE release.  This solves
+  # the problem of having to keep psquared in sync with each PE release
+  #
+  # @return Array of agent platforms for this PE version
+  # @example Capturing all agent platforms
+  #   $platforms = r_profile::list_agent_platforms()
+  #   $platform.each |$platform| {
+  #     ...
+  #   }
   def list_agent_platforms()
     platform_classes = []
 

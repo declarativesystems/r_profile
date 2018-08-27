@@ -30,7 +30,6 @@
 #
 # @param base_yumrepos Hash of yum repositories to ensure (base)
 # @param yumrepos Hash of yum repositories to ensure (overrides)
-# @param stage Stage to setup yum repositories in
 class r_profile::linux::yumrepo(
     Hash[String, Hash]  $base_yumrepos  = {},
     Hash[String, Hash]  $yumrepos       = {},

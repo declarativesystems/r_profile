@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::firewalld
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,8 +74,7 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Firewalld</p>
+    <p>R_profile::Linux::Firewalld</p>
 
 <p>Manage firewalld using crayfishx-firewalld. Accepts base plus additional
 options for each set of rule resources being managed for easy managment
@@ -83,14 +82,15 @@ using hiera.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>hiera data for enabling free access to a service</p>
+        <p class="example_title"><div class='inline'><p>hiera data for enabling free access to a service</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::firewalld::firewalld_service:
@@ -112,8 +112,7 @@ using hiera.</p>
     zone: public</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>hiera data for creating a rich rule</p>
+        <p class="example_title"><div class='inline'><p>hiera data for creating a rich rule</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::firewalld::firewalld_rich_rule:{}
@@ -127,8 +126,7 @@ using hiera.</p>
       protocol: tcp</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Define additional custom service</p>
+        <p class="example_title"><div class='inline'><p>Define additional custom service</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::firewalld::custom_service:
@@ -141,8 +139,7 @@ using hiera.</p>
         protocol: tcp</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>disable firewalld</p>
+        <p class="example_title"><div class='inline'><p>disable firewalld</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::firewalld::service_ensure: stopped
@@ -164,8 +161,7 @@ r_profile::linux::firewalld::service_enable: false</code></pre>
       
       
         &mdash;
-        <div class='inline'>
-<p>How to ensure the <code>firewalld</code> service</p>
+        <div class='inline'><p>How to ensure the <code>firewalld</code> service</p>
 </div>
       
     </li>
@@ -182,9 +178,7 @@ r_profile::linux::firewalld::service_enable: false</code></pre>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>true</code> to start firewalld on boot otherwise <code>false</code>
-to disable it</p>
+        <div class='inline'><p><code>true</code> to start firewalld on boot otherwise <code>false</code> to disable it</p>
 </div>
       
     </li>
@@ -201,8 +195,7 @@ to disable it</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>base level <code>firewalld_service</code> rules (see examples)</p>
+        <div class='inline'><p>base level <code>firewalld_service</code> rules (see examples)</p>
 </div>
       
     </li>
@@ -219,8 +212,7 @@ to disable it</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>additional <code>firewalld_service</code> rules (see examples)</p>
+        <div class='inline'><p>additional <code>firewalld_service</code> rules (see examples)</p>
 </div>
       
     </li>
@@ -237,8 +229,7 @@ to disable it</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>base level <code>firewalld_rich_rule</code> rules (see examples)</p>
+        <div class='inline'><p>base level <code>firewalld_rich_rule</code> rules (see examples)</p>
 </div>
       
     </li>
@@ -255,8 +246,7 @@ to disable it</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>additional <code>firewalld_rich_rule</code> rules (see examples)</p>
+        <div class='inline'><p>additional <code>firewalld_rich_rule</code> rules (see examples)</p>
 </div>
       
     </li>
@@ -273,9 +263,7 @@ to disable it</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Base level <code>firewalld::custom_service</code> definitions (see
-examples)</p>
+        <div class='inline'><p>Base level <code>firewalld::custom_service</code> definitions (see examples)</p>
 </div>
       
     </li>
@@ -292,9 +280,7 @@ examples)</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>additional <code>firewalld::custom_service</code> definitions (see
-examples)</p>
+        <div class='inline'><p>additional <code>firewalld::custom_service</code> definitions (see examples)</p>
 </div>
       
     </li>

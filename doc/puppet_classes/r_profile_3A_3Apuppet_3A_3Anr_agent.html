@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::puppet::nr_agent
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,30 +74,30 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Puppet::Nr_agent</p>
+    <p>R_profile::Puppet::Nr_agent</p>
 
-<p>Install non-root puppet agent(s). Typically useful if you want to manage
+<p>Install non-root puppet agent(s).  Typically useful if you want to manage
 cloud resources with puppet and reqiure multiple puppet agents to do so.</p>
 
-<p>Rquires that your puppet master hostname is resolvable already, either via
-DNS or <code>/etc/hosts</code></p>
+<p>Rquires that your puppet master hostname is resolvable already, either via DNS
+or <code>/etc/hosts</code></p>
 
-<p>Since puppet must already be installed on a node (as root) to be able to
-run this class, we do not attempt to (re)install puppet. This means we
-cannot use the puppet curl|bash installer and must instead create the
-appropriate settings files and services</p>
+<p>Since puppet must already be installed on a node (as root) to be able to run
+this class, we do not attempt to (re)install puppet.  This means we cannot use
+the puppet curl|bash installer and must instead create the appropriate settings
+files and services</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Installing non-root agents</p>
+        <p class="example_title"><div class='inline'><p>Installing non-root agents</p>
 </div></p>
       
       <pre class="example code"><code>class { &quot;r_profile::puppet::nr_agent&quot;:
@@ -126,8 +126,7 @@ appropriate settings files and services</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>The FQDN of the puppet master</p>
+        <div class='inline'><p>The FQDN of the puppet master</p>
 </div>
       
     </li>
@@ -144,9 +143,9 @@ appropriate settings files and services</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of agents to install, where each hash member&#39;s key is the certname
-of the agent to install and the value is a hash of options for this agent</p>
+        <div class='inline'><p>Hash of agents to install, where each hash member&#39;s key is the
+certname of the agent to install and the value is a hash of options for this
+agent</p>
 </div>
       
     </li>

@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::cloud::vsphere
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,17 +74,18 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Cloud::Vsphere</p>
+    <p>R_profile::Cloud::Vsphere</p>
 
-<p>Setup the dependencies for the puppetlabs/vsphere forge module and manage
-the passed-in hash of VMs.</p>
+<p>Setup the dependencies for the puppetlabs/vsphere forge module and manage the
+passed-in hash of VMs.</p>
 
-<p>The forge module uses some locally gems for Vsphere library in order to
-talk to the Vsphere Cloud.</p>
+<p>The forge module uses some locally gems for Vsphere library in order
+to talk to the Vsphere API</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -97,8 +98,12 @@ talk to the Vsphere Cloud.</p>
         <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::vsphere::host&#39;, undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>hostname or IP address of vsphere server to talk to API as</p>
+</div>
       
     </li>
   
@@ -110,8 +115,12 @@ talk to the Vsphere Cloud.</p>
         <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::vsphere::user&#39;, undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>username for API</p>
+</div>
       
     </li>
   
@@ -123,8 +132,12 @@ talk to the Vsphere Cloud.</p>
         <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::vsphere::password&#39;, undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>password for API</p>
+</div>
       
     </li>
   
@@ -136,8 +149,12 @@ talk to the Vsphere Cloud.</p>
         <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::vsphere::vsphere_vm&#39;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Hash of VMs to create</p>
+</div>
       
     </li>
   
@@ -149,8 +166,12 @@ talk to the Vsphere Cloud.</p>
         <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::vsphere::vsphere_vm_default&#39;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Hash of default settings for creating VMs</p>
+</div>
       
     </li>
   
@@ -164,11 +185,6 @@ talk to the Vsphere Cloud.</p>
         <pre class="lines">
 
 
-9
-10
-11
-12
-13
 14
 15
 16
@@ -217,17 +233,22 @@ talk to the Vsphere Cloud.</p>
 59
 60
 61
-62</pre>
+62
+63
+64
+65
+66
+67</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/cloud/vsphere.pp', line 9</span>
+        <pre class="code"><span class="info file"># File 'manifests/cloud/vsphere.pp', line 14</span>
 
 class r_profile::cloud::vsphere(
-  Optional[String]  $vsphere_host        = hiera(&#39;r_profile::cloud::vsphere::host&#39;, undef),
-  Optional[String]  $vsphere_user        = hiera(&#39;r_profile::cloud::vsphere::user&#39;, undef),
-  Optional[String]  $vsphere_password    = hiera(&#39;r_profile::cloud::vsphere::password&#39;, undef),
-  Hash              $vsphere_vm         = hiera(&#39;r_profile::cloud::vsphere::vsphere_vm&#39;, {}),
-  Hash              $vsphere_vm_default = hiera(&#39;r_profile::cloud::vsphere::vsphere_vm_default&#39;, {}),
+    Optional[String]  $vsphere_host       = undef,
+    Optional[String]  $vsphere_user       = undef,
+    Optional[String]  $vsphere_password   = undef,
+    Hash              $vsphere_vm         = {},
+    Hash              $vsphere_vm_default = {},
 ) {
   ensure_packages(
     [

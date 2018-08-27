@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::system_users
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,36 +74,44 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::System_users</p>
+    <p>R_profile::Linux::System_users</p>
 
-<p>Lockdown and restrict users across the system: * disable <em>system</em>
-accounts (UID &lt; 500/1000) by locking the shell * ensure root group is 0
-* lock inactive users * Fix ownership on homedirs (owned by user,
-optionally set mode) * Find and remove any &#39;override&#39; files
-(.netrc, .rhosts, etc) * Find and remove any NIS (<code>+</code>) entries
-from /etc/passwd,  /etc/shadow, /etc/gshadow and /etc/group</p>
+<p>Lockdown and restrict users across the system:</p>
 
-<p>system users (<code>system_uids</code> - uid &lt; 1000) - or - low uid
-users (<code>low_uids</code> - uid &lt; 500)</p>
+<ul>
+<li>disable <em>system</em> accounts (UID &lt; 500/1000) by locking the shell</li>
+<li>ensure root group is 0</li>
+<li>lock inactive users</li>
+<li>Fix ownership on homedirs (owned by user, optionally set mode)</li>
+<li>Find and remove any &#39;override&#39; files (.netrc, .rhosts, etc)</li>
+<li>Find and remove any NIS (<code>+</code>) entries from /etc/passwd,
+/etc/shadow, /etc/gshadow and /etc/group</li>
+</ul>
+
+<p>system users (<code>system_uids</code> - uid &lt; 1000)</p>
+
+<ul>
+<li>or -
+low uid users (<code>low_uids</code> - uid &lt; 500)</li>
+</ul>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>class usage</p>
+        <p class="example_title"><div class='inline'><p>class usage</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_system_users'>system_users</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to lock low_uids</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to lock low_uids</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::system_users::uid_range: &#39;low_uids&#39;</code></pre>
@@ -124,8 +132,7 @@ users (<code>low_uids</code> - uid &lt; 500)</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Range of UIDs to lockdown (see above)</p>
+        <div class='inline'><p>Range of UIDs to lockdown (see above)</p>
 </div>
       
     </li>

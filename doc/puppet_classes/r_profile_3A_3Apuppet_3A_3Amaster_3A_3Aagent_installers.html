@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::puppet::master::agent_installers
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,40 +74,38 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Puppet::Master::Agent_installers</p>
+    <p>R_profile::Puppet::Master::Agent_installers</p>
 
-<p>Puppet Enterprise doesn&#39;t ship with the installers needed for every
-platform included in the installation media.&#39;Users must instead follow
-the steps at <a
-href="https://puppet.com/docs/pe/2018.1/installing/installing_agents.html#ariaid-title2">puppet.com/docs/pe/2018.1/installing/installing_agents.html#ariaid-title2</a>
-which involves createating classifier groups and manually classifying each
-installer you wish to provide.</p>
+<p>Puppet Enterprise doesn&#39;t ship with the installers needed for every platform included in the installation media.&#39;Users
+must instead follow the steps at <a href="https://puppet.com/docs/pe/2018.1/installing/installing_agents.html#ariaid-title2">https://puppet.com/docs/pe/2018.1/installing/installing_agents.html#ariaid-title2</a>
+which involves createating classifier groups and manually classifying each installer you wish to provide.</p>
 
-<p>This class automates the process by:  1. A custom function that inspects
-the puppet master for the avaiable installer classes  2. Include each class
-so that the agent installer will be downloaded (requires internet
-access/proxy be setup)</p>
+<p>This class automates the process by:</p>
+
+<ol>
+<li>A custom function that inspects the puppet master for the avaiable installer classes</li>
+<li>Include each class so that the agent installer will be downloaded (requires internet access/proxy be setup)</li>
+</ol>
 
 <p>There are 1GB+ of installers to download so this can take a long time</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Download all agent installers</p>
+        <p class="example_title"><div class='inline'><p>Download all agent installers</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_puppet'>puppet</span><span class='op'>::</span><span class='id identifier rubyid_master'>master</span><span class='op'>::</span><span class='id identifier rubyid_agent_installers'>agent_installers</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to prevent agent installer download</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to prevent agent installer download</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::puppet::master::agent_installers::install: false</code></pre>
@@ -128,9 +126,7 @@ access/proxy be setup)</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>true</code> to install all main Puppet agent installers,
-<code>false</code> to skip downloading</p>
+        <div class='inline'><p><code>true</code> to install all main Puppet agent installers, <code>false</code> to skip downloading</p>
 </div>
       
     </li>

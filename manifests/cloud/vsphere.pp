@@ -4,14 +4,19 @@
 # passed-in hash of VMs.
 #
 # The forge module uses some locally gems for Vsphere library in order
-# to talk to the Vsphere Cloud.
+# to talk to the Vsphere API
 #
+# @param vsphere_host hostname or IP address of vsphere server to talk to API as
+# @param vsphere_user username for API
+# @param vsphere_password password for API
+# @param vsphere_vm Hash of VMs to create
+# @param vsphere_vm_default Hash of default settings for creating VMs
 class r_profile::cloud::vsphere(
-  Optional[String]  $vsphere_host        = hiera('r_profile::cloud::vsphere::host', undef),
-  Optional[String]  $vsphere_user        = hiera('r_profile::cloud::vsphere::user', undef),
-  Optional[String]  $vsphere_password    = hiera('r_profile::cloud::vsphere::password', undef),
-  Hash              $vsphere_vm         = hiera('r_profile::cloud::vsphere::vsphere_vm', {}),
-  Hash              $vsphere_vm_default = hiera('r_profile::cloud::vsphere::vsphere_vm_default', {}),
+    Optional[String]  $vsphere_host       = undef,
+    Optional[String]  $vsphere_user       = undef,
+    Optional[String]  $vsphere_password   = undef,
+    Hash              $vsphere_vm         = {},
+    Hash              $vsphere_vm_default = {},
 ) {
   ensure_packages(
     [

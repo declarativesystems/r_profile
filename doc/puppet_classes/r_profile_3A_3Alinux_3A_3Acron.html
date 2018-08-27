@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::cron
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,18 +74,21 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Cron</p>
+    <p>R_profile::Linux::Cron</p>
 
-<p>Restrict permissions on the <code>cron</code> scheduler * Remove
-<code>cron.deny</code> so that only allowed users can run <code>cron</code>
-* Strict permissions on <code>at.allow</code> * Allow <code>root</code> to
-use <code>cron</code> * All files under <code>/var/spool/cron</code> owned
-by <code>root</code> with <code>0600</code> permissions (<code>crontab
--e</code> will relax these)</p>
+<p>Restrict permissions on the <code>cron</code> scheduler</p>
+
+<ul>
+<li>Remove <code>cron.deny</code> so that only allowed users can run <code>cron</code></li>
+<li>Strict permissions on <code>at.allow</code></li>
+<li>Allow <code>root</code> to use <code>cron</code></li>
+<li>All files under <code>/var/spool/cron</code> owned by <code>root</code> with <code>0600</code> permissions (<code>crontab -e</code> will relax these)</li>
+</ul>
 
   </div>
 </div>
+
+
 <div class="tags">
   
 

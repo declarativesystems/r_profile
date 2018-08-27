@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::webapp::wordpress
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,32 +74,16 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Webapp::Wordpress</p>
+    <p>R_profile::Webapp::Wordpress</p>
 
 <p>Install wordpress CMS using <code>hunner-wordpress</code></p>
 
   </div>
 </div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>nagios_monitored</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
-      
-    </li>
-  
-</ul>
 
+
+<div class="tags">
+  
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -116,33 +100,19 @@
 9
 10
 11
-12
-13
-14
-15
-16
-17
-18
-19</pre>
+12</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/webapp/wordpress.pp', line 4</span>
 
-class r_profile::webapp::wordpress(
-    $nagios_monitored = true,
-) {
-  apache::vhost { $::fqdn:
+class r_profile::webapp::wordpress() {
+  apache::vhost { $facts[&#39;fqdn&#39;]:
     port     =&gt; &#39;80&#39;,
     priority =&gt; &#39;00&#39;,
     docroot  =&gt; &#39;/opt/wordpress&#39;,
   }
 
   include ::wordpress
-  if $nagios_monitored {
-    nagios::nagios_service_http { &#39;wordpress&#39;:
-      url =&gt; &#39;/wp-admin/install.php&#39;,
-    }
-  }
 }</pre>
       </td>
     </tr>

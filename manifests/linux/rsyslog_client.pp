@@ -29,6 +29,8 @@
 #   into the file _from_ line `setting_insertion_line`. Settings will be processed in array
 #   order (see examples)
 # @param entries Hash of logging entries to create (see examples)
+# @param service_ensure How to ensure the rsyslog service
+# @param service_enable `true` to start rsyslog on boot otherwise false
 class r_profile::linux::rsyslog_client(
   Array[Hash[String, Any]]  $settings       = [],
   Hash[String,String]       $entries        = {},

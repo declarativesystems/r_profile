@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::motd
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,22 +74,21 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Motd</p>
+    <p>R_profile::Motd</p>
 
 <p>Simple MOTD support for POSIX and Windows.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to set <code>/etc/motd</code>, <code>/etc/issue</code> and
-<code>/etc/issue.net</code> to the same message</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to set <code>/etc/motd</code>, <code>/etc/issue</code> and <code>/etc/issue.net</code> to the same message</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::motd::content: |
@@ -104,8 +103,7 @@ pe-puppet.localdomain
 This box is managed by Puppet Enterprise and is a cowboy free zone!</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data for /etc/motd (message once logged in)</p>
+        <p class="example_title"><div class='inline'><p>Hiera data for /etc/motd (message once logged in)</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::motd::identical_content: false
@@ -113,8 +111,7 @@ r_profile::motd::content: |
   ...</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data for /etc/issue (pre-login message)</p>
+        <p class="example_title"><div class='inline'><p>Hiera data for /etc/issue (pre-login message)</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::motd::identical_content: false
@@ -122,9 +119,7 @@ r_profile::motd::issue: |
   ...</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data for /etc/issue.net (pre-login message for telnet and other
-nominated services)</p>
+        <p class="example_title"><div class='inline'><p>Hiera data for /etc/issue.net (pre-login message for telnet and other nominated services)</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::motd::identical_content: false
@@ -132,8 +127,7 @@ r_profile::motd::issue.net: |
   ...</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data for blank MOTD (no message)</p>
+        <p class="example_title"><div class='inline'><p>Hiera data for blank MOTD (no message)</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::motd::content: false</code></pre>
@@ -154,9 +148,8 @@ r_profile::motd::issue.net: |
       
       
         &mdash;
-        <div class='inline'>
-<p>The message to use for login message (or all messages) on all platforms or
-<code>false</code> to write an empty file</p>
+        <div class='inline'><p>The message to use for login message (or all messages) on all platforms or <code>false</code> to write an empty
+file</p>
 </div>
       
     </li>
@@ -173,9 +166,8 @@ r_profile::motd::issue.net: |
       
       
         &mdash;
-        <div class='inline'>
-<p>The message to be used for <code>/etc/issue</code> (pre-login message -
-linux only) or <code>false</code> to write an empty file</p>
+        <div class='inline'><p>The message  to be used for <code>/etc/issue</code> (pre-login message - linux only) or <code>false</code> to write an
+empty file</p>
 </div>
       
     </li>
@@ -192,10 +184,8 @@ linux only) or <code>false</code> to write an empty file</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>The message to be used for <code>/etc/issue.net</code> (pre-login message
-for telnet/other nominated services - linux only) or <code>false</code> to
-write an empty file</p>
+        <div class='inline'><p>The message to be used for <code>/etc/issue.net</code> (pre-login message for telnet/other nominated
+services - linux only) or <code>false</code> to write an empty file</p>
 </div>
       
     </li>
@@ -212,10 +202,8 @@ write an empty file</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>true</code> to use the main MOTD message from <code>content</code>
-for all messages unless overriden individually by
-<code>issue_content</code> and <code>issue_net</code> (linux only)</p>
+        <div class='inline'><p><code>true</code> to use the main MOTD message from <code>content</code> for all messages unless overriden
+individually by <code>issue_content</code> and <code>issue_net</code> (linux only)</p>
 </div>
       
     </li>

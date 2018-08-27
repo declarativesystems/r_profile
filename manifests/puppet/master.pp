@@ -1,7 +1,8 @@
 # R_profile::Puppet::Master
 #
 # Enable restarting the `pe-puppetserver` service if its systemd environment is changed
-
+#
+# @param sysconf_puppetserver Path to sysconfig settings for pe-puppetserver
 class r_profile::puppet::master(
     String $sysconf_puppetserver = "${facts['sysconf_dir']}/pe-puppetserver",
 ) {

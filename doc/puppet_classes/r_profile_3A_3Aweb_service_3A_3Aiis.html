@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::web_service::iis
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,13 +74,14 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Web_service::Iis</p>
+    <p>R_profile::Web_service::Iis</p>
 
 <p>Install and configure IIS web server</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -90,11 +91,15 @@
         <span class='name'>website_owner</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::iis::website_owner&#39;, &quot;IUSR_${hostname}&quot;)</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;IUSR_${hostname}&quot;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>File ownership for webserver</p>
+</div>
       
     </li>
   
@@ -103,11 +108,15 @@
         <span class='name'>website_group</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::iis::website_group&#39;, &#39;Administrators&#39;)</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;Administrators&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>File ownership for webserver</p>
+</div>
       
     </li>
   
@@ -116,11 +125,15 @@
         <span class='name'>website_hash</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::iis::website_hash&#39;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Hash of websites to create</p>
+</div>
       
     </li>
   
@@ -129,11 +142,15 @@
         <span class='name'>ensure_default</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Enum['present', 'absent']</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::web_service::iss::ensure_default&#39;, present)</tt>)</em>
+        <em class="default">(defaults to: <tt>present</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>How to ensure the default website (<code>absent</code> or <code>present</code>)</p>
+</div>
       
     </li>
   
@@ -147,11 +164,6 @@
         <pre class="lines">
 
 
-4
-5
-6
-7
-8
 9
 10
 11
@@ -282,16 +294,21 @@
 136
 137
 138
-139</pre>
+139
+140
+141
+142
+143
+144</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/web_service/iis.pp', line 4</span>
+        <pre class="code"><span class="info file"># File 'manifests/web_service/iis.pp', line 9</span>
 
 class r_profile::web_service::iis(
-  $website_owner  = hiera(&#39;r_profile::web_service::iis::website_owner&#39;, &quot;IUSR_${hostname}&quot;),
-  $website_group  = hiera(&#39;r_profile::web_service::iis::website_group&#39;, &#39;Administrators&#39;),
-  $website_hash   = hiera(&#39;r_profile::web_service::iis::website_hash&#39;, {}),
-  $ensure_default = hiera(&#39;r_profile::web_service::iss::ensure_default&#39;, present),
+  String                    $website_owner  = &quot;IUSR_${hostname}&quot;,
+  String                    $website_group  = &#39;Administrators&#39;,
+  Hash                      $website_hash   = {},
+  Enum[&#39;present&#39;, &#39;absent&#39;] $ensure_default = present,
 ) {
 
   File {
@@ -299,43 +316,43 @@ class r_profile::web_service::iis(
     group =&gt; $website_group,
   }
 
-case $::kernelmajversion {
-  &#39;6.0&#39;,&#39;6.1&#39;: {
-    $feature_name = [
-      &#39;Web-Server&#39;,
-      &#39;Web-WebServer&#39;,
-      &#39;Web-Asp-Net&#39;,
-      &#39;Web-ISAPI-Ext&#39;,
-      &#39;Web-ISAPI-Filter&#39;,
-      &#39;NET-Framework&#39;,
-      &#39;WAS-NET-Environment&#39;,
-      &#39;Web-Http-Redirect&#39;,
-      &#39;Web-Filtering&#39;,
-      &#39;Web-Mgmt-Console&#39;,
-      &#39;Web-Mgmt-Tools&#39;
-    ]
-  }
-  &#39;6.2.&#39;,&#39;6.3&#39;: {
-    $feature_name = [
-      &#39;Web-Server&#39;,
-      &#39;Web-WebServer&#39;,
-      &#39;Web-Common-Http&#39;,
-      &#39;Web-Asp&#39;,
-      &#39;Web-Asp-Net45&#39;,
-      &#39;Web-ISAPI-Ext&#39;,
-      &#39;Web-ISAPI-Filter&#39;,
-      &#39;Web-Http-Redirect&#39;,
-      &#39;Web-Health&#39;,
-      &#39;Web-Http-Logging&#39;,
-      &#39;Web-Filtering&#39;,
-      &#39;Web-Mgmt-Console&#39;,
-      &#39;Web-Mgmt-Tools&#39;
+  case $::kernelmajversion {
+    &#39;6.0&#39;,&#39;6.1&#39;: {
+      $feature_name = [
+        &#39;Web-Server&#39;,
+        &#39;Web-WebServer&#39;,
+        &#39;Web-Asp-Net&#39;,
+        &#39;Web-ISAPI-Ext&#39;,
+        &#39;Web-ISAPI-Filter&#39;,
+        &#39;NET-Framework&#39;,
+        &#39;WAS-NET-Environment&#39;,
+        &#39;Web-Http-Redirect&#39;,
+        &#39;Web-Filtering&#39;,
+        &#39;Web-Mgmt-Console&#39;,
+        &#39;Web-Mgmt-Tools&#39;
       ]
+    }
+    &#39;6.2.&#39;,&#39;6.3&#39;: {
+      $feature_name = [
+        &#39;Web-Server&#39;,
+        &#39;Web-WebServer&#39;,
+        &#39;Web-Common-Http&#39;,
+        &#39;Web-Asp&#39;,
+        &#39;Web-Asp-Net45&#39;,
+        &#39;Web-ISAPI-Ext&#39;,
+        &#39;Web-ISAPI-Filter&#39;,
+        &#39;Web-Http-Redirect&#39;,
+        &#39;Web-Health&#39;,
+        &#39;Web-Http-Logging&#39;,
+        &#39;Web-Filtering&#39;,
+        &#39;Web-Mgmt-Console&#39;,
+        &#39;Web-Mgmt-Tools&#39;
+        ]
+    }
+    default: {
+      fail(&quot;You must be running a 19th centery version of Windows&quot;)
+    }
   }
-  default: {
-    fail(&quot;You must be running a 19th centery version of Windows&quot;)
-  }
-}
 
 
   #dsc_windowsfeature { $feature_name:

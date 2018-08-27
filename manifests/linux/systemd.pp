@@ -14,6 +14,7 @@
 #   r_profile::linux::systemd::disable_graphical_login: true
 #
 # @param enforce_sulogin `true` to ensure `sulogin` used, false to leave files unaltered
+# @param disable_graphical_login `true` to disable graphical logins otherwise `false` to leave files unaltered
 class r_profile::linux::systemd(
     Boolean $enforce_sulogin          = true,
     Boolean $disable_graphical_login  = false,

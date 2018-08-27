@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::ruby
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,17 +74,18 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Ruby</p>
+    <p>R_profile::Ruby</p>
 
-<p>Install a system-level ruby for customer applications to use. While its
-possible to use Puppet&#39;s vendored ruby for everything, its safter to
-for customer to install their own ruby for internal apps to use since
-otherwise messing with the gems could break puppet in such a way that it is
-unable to run, leaving the system unmanaged</p>
+<p>Install a system-level ruby for customer applications to use.  While its
+possible to use Puppet&#39;s vendored ruby for everything, its safter to for
+customer to install their own ruby for internal apps to use since otherwise
+messing with the gems could break puppet in such a way that it is unable to
+run, leaving the system unmanaged</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -101,10 +102,9 @@ unable to run, leaving the system unmanaged</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of Ruby versions to install (linux). On windows, only a single
-version can be installed due to packaging so we will install the first
-listed version. On linux, the first listed version will be set as the
+        <div class='inline'><p>Array of Ruby versions to install (linux).  On windows, only
+a single version can be installed due to packaging so we will install the
+first listed version.  On linux, the first listed version will be set as the
 default</p>
 </div>
       
@@ -122,29 +122,12 @@ default</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of default gems to install in a form suitable for create_resources of
-the <code>rbenv::gem</code> type (not recommened - please use bundler for
-day-to-day gem installation). IMPORTANT: Bundler is already installed as
-part of rbenv::build, attempting installation here as well will cause
-duplicate resource error @see <a
-href="https://forge.puppet.com/jdowning/rbenv#full-example">forge.puppet.com/jdowning/rbenv#full-example</a></p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>rbenv_plugins</span>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Array of rbenv pluings to install (for building new rubies)</p>
+        <div class='inline'><p>Hash of default gems to install in a form suitable for
+create_resources of the <code>rbenv::gem</code> type (not recommened - please use
+bundler for day-to-day gem installation).  IMPORTANT:  Bundler is
+already installed as part of rbenv::build, attempting installation
+here as well will cause duplicate resource error
+@see <a href="https://forge.puppet.com/jdowning/rbenv#full-example">https://forge.puppet.com/jdowning/rbenv#full-example</a></p>
 </div>
       
     </li>
@@ -159,6 +142,10 @@ href="https://forge.puppet.com/jdowning/rbenv#full-example">forge.puppet.com/jdo
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Install ruby in this directory</p>
+</div>
       
     </li>
   

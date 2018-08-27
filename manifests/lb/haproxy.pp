@@ -3,18 +3,23 @@
 # A haproxy based load-balancer
 #
 # https://tickets.puppetlabs.com/browse/MODULES-3932
+#
+# @param listeners Hash of listeners to create
+# @param frontends Hash of frontends to create
+# @param backends Hash of backends to create
+# @param admin_stats `true` to enable the built-in stats web page
+# @param stats_port TCP Port to run stats on
+# @param stats_username Username for stats website
+# @param stats_password Password for stats website
 class r_profile::lb::haproxy(
-  $listeners        = hiera('r_profile::lb::haproxy::listeners',undef),
-  $open_firewall    = hiera('r_profile::lb::haproxy::open_firewall', false),
-  $frontends        = hiera('r_profile::lb::haproxy::frontends',undef),
-  $backends         = hiera('r_profile::lb::haproxy::backends',undef),
-  $admin_stats      = hiera('r_profile::lb::haproxy::admin_stats', true),
-  $nagios_monitored = hiera('r_profile::lb::haproxy::nagios_monitored', true),
-  $stats_port       = hiera('r_profile::lb::haproxy::stats_port', '9090'),
-  $stats_username   = hiera('r_profile::lb::haproxy::stats_username', 'puppet'),
-  $stats_password   = hiera('r_profile::lb::haproxy::stats_password', 'puppet'),
+  Hash[String, Hash[String, Any]] $listeners      = {},
+  Hash[String, Hash[String, Any]] $frontends      = {},
+  Hash[String, Hash[String, Any]] $backends       = {},
+  Boolean                         $admin_stats    = false,
+  Array[Integer]                  $stats_port     = [9090],
+  String                          $stats_username = "puppet",
+  String                          $stats_password = "puppet",
 ) {
-
 
   include haproxy
   if $admin_stats {
@@ -27,65 +32,23 @@ class r_profile::lb::haproxy(
         },
     }
 
-    if $nagios_monitored {
-      nagios::nagios_service_tcp { 'haproxy_stats':
-        port => $stats_port,
-      }
-    }
+  }
 
-    if $open_firewall {
-      firewall { "100 nagios_stats":
-        dport  => $stats_port,
-        proto  => 'tcp',
-        action => 'accept',
-      }
+  $listeners.each |String $listener,Hash $listener_values| {
+    haproxy::listen { $listener:
+      * => $listener_values,
     }
   }
 
-  if $listeners {
-    $listeners.each |String $listener,Hash $listener_values| {
-      haproxy::listen { $listener:
-        * => $listener_values,
-      }
-
-      if $open_firewall {
-        firewall { "100 ${listener}":
-          dport  => [$listener_values['ports']],
-          proto  => 'tcp',
-          action => 'accept',
-        }
-      }
-
-      if $nagios_monitored {
-        nagios::nagios_service_tcp { "haproxy_${listener}":
-          port => $listener_values['ports'],
-        }
-      }
-
+  $frontends.each |String $frontend, Hash $frontend_values| {
+    haproxy::frontend { $frontend:
+      * => $frontend_values,
     }
   }
 
-  if $frontends {
-    $frontends.each |String $frontend, Hash $frontend_values| {
-      haproxy::frontend { $frontend:
-        * => $frontend_values,
-      }
-
-      if $open_firewall {
-        firewall { "100 ${frontend}":
-          dport  => [$frontend_values['ports']],
-          proto  => 'tcp',
-          action => 'accept',
-        }
-      }
-    }
-  }
-
-  if $backends {
-    $backends.each |String $backend, Hash $backend_values| {
-      haproxy::backend { $backend:
-        * => $backend_values,
-      }
+  $backends.each |String $backend, Hash $backend_values| {
+    haproxy::backend { $backend:
+      * => $backend_values,
     }
   }
 }

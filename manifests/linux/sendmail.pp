@@ -14,6 +14,7 @@
 # @param enable `false` to prevent sendmail from starting on boot otherwise false
 # @param daemon `no` to prevent sendmail from daemonising otherwise `yes`
 # @param queue Interval at which to process the sendmail queue (`-q` parameter to `sendmail`)
+# @param service Name of the sendmail service
 class r_profile::linux::sendmail(
     String            $ensure  = "stopped",
     Boolean           $enable  = false,

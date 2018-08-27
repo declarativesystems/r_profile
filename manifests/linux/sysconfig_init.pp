@@ -18,6 +18,8 @@
 #
 # @param manage_prompt Manage the PROMPT variable if true otherwise do nothing
 # @param manage_single Manage the SINGLE variable if true otherwise do nothing
+# @param manage_umask Manage the umask setting if true otherwise do nothing
+# @param umask Value for umask (when managed)
 class r_profile::linux::sysconfig_init(
   $manage_prompt  = true,
   $manage_single  = true,

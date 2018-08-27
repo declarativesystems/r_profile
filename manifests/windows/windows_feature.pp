@@ -18,7 +18,7 @@
 # @example basic usage
 #   include r_profile::windows::windows_feature
 #
-# @param Hiera data to install windows features
+# @example Hiera data to install windows features
 #   r_profile::windows::windows_feature::features:
 #     'Web-Server':
 #     'Web-WebServer':

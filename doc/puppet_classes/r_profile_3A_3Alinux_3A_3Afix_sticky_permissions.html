@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::fix_sticky_permissions
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,20 +74,21 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>Redhat_tidy::Fix_sticky_permissions</p>
+    <p>Redhat_tidy::Fix_sticky_permissions</p>
 
 <p>Perform a system-wide find across local filesystems for world-writable
-directories and make sure that they all have the sticky bit set so that
-only the owning UID can delete them</p>
+directories and make sure that they all have the sticky bit set so that only
+the owning UID can delete them</p>
 
-<p>WARNING! This class will perform a system-wide find every puppet run! On a
-modest VM with a 10gb filesystem, this takes approximately 30 seconds,
-however it may much longer if you are running on a system with lots of
-local disk available</p>
+<p>WARNING! This class will perform a system-wide find every puppet run!  On a
+modest VM with a 10gb filesystem, this takes approximately 30 seconds, however
+it may much longer if you are running on a system with lots of local disk
+available</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
 

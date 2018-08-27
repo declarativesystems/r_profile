@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::windows::proxy
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,29 +74,28 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Windows::Proxy</p>
+    <p>R_profile::Windows::Proxy</p>
 
 <p>Set the windows system proxy using netsh</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>hiera data enabling proxy</p>
+        <p class="example_title"><div class='inline'><p>hiera data enabling proxy</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::windows::proxy::proxy_server: &#39;http=proxy.example.com;https=proxy.example.org&#39;
 r_profile::windows::proxy::exclusion: &#39;&lt;local&gt;;*.example.org;*.example.com&#39;</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>turning off proxy server</p>
+        <p class="example_title"><div class='inline'><p>turning off proxy server</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::windows::proxy::ensure: absent</code></pre>
@@ -117,9 +116,7 @@ r_profile::windows::proxy::exclusion: &#39;&lt;local&gt;;*.example.org;*.example
       
       
         &mdash;
-        <div class='inline'>
-<p><code>present</code> to setup proxy, <code>absent</code> to remove
-configuration</p>
+        <div class='inline'><p><code>present</code> to setup proxy, <code>absent</code> to remove configuration</p>
 </div>
       
     </li>
@@ -136,8 +133,7 @@ configuration</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Proxy server to use in format for <code>netsh</code> see example</p>
+        <div class='inline'><p>Proxy server to use in format for <code>netsh</code> see example</p>
 </div>
       
     </li>
@@ -154,8 +150,7 @@ configuration</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Proxy exclusions in format for <code>netsh</code> see example</p>
+        <div class='inline'><p>Proxy exclusions in format for <code>netsh</code> see example</p>
 </div>
       
     </li>

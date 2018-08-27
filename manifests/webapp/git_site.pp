@@ -1,18 +1,15 @@
 # Deploy web site(s) from git
 #
-# Params
-# ======
-# `sites`
-# Hash of checkout sources and destinations:
-# target_directory => {
-#   source    => 'url'   # git checkout url
-#   revision  => 'ref'   # branch/tag (optional)
-#   notify    => Res,    # Puppet resource to notify
-#   owner     => 'user'  # local user to own downloaded files
-#   group     => 'group' # local group to own downloaded files
-# }
+# @example Downloading site from git
+#   r_profile::webapp::git_site:
+#     /var/www/phpquote:
+#       source: https://github.com/GeoffWilliams/phpquote
+#       revision: master
+#       notify: Service['httpd']
+#
+# @param sites Hash of checkout sources and destinations (see examples)
 class r_profile::webapp::git_site(
-    $sites = hiera('r_profile::webapp::git_site::sites', {}),
+    Hash[String, Hash[String, Any]] $sites = {},
 ) {
 
   $sites.keys.each | $site | {

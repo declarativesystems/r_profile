@@ -1,11 +1,16 @@
 # R_profile::Web_service::Iis
 #
 # Install and configure IIS web server
+#
+# @param website_owner File ownership for webserver
+# @param website_group File ownership for webserver
+# @param website_hash Hash of websites to create
+# @param ensure_default How to ensure the default website (`absent` or `present`)
 class r_profile::web_service::iis(
-  $website_owner  = hiera('r_profile::web_service::iis::website_owner', "IUSR_${hostname}"),
-  $website_group  = hiera('r_profile::web_service::iis::website_group', 'Administrators'),
-  $website_hash   = hiera('r_profile::web_service::iis::website_hash', {}),
-  $ensure_default = hiera('r_profile::web_service::iss::ensure_default', present),
+  String                    $website_owner  = "IUSR_${hostname}",
+  String                    $website_group  = 'Administrators',
+  Hash                      $website_hash   = {},
+  Enum['present', 'absent'] $ensure_default = present,
 ) {
 
   File {
@@ -13,43 +18,43 @@ class r_profile::web_service::iis(
     group => $website_group,
   }
 
-case $::kernelmajversion {
-  '6.0','6.1': {
-    $feature_name = [
-      'Web-Server',
-      'Web-WebServer',
-      'Web-Asp-Net',
-      'Web-ISAPI-Ext',
-      'Web-ISAPI-Filter',
-      'NET-Framework',
-      'WAS-NET-Environment',
-      'Web-Http-Redirect',
-      'Web-Filtering',
-      'Web-Mgmt-Console',
-      'Web-Mgmt-Tools'
-    ]
-  }
-  '6.2.','6.3': {
-    $feature_name = [
-      'Web-Server',
-      'Web-WebServer',
-      'Web-Common-Http',
-      'Web-Asp',
-      'Web-Asp-Net45',
-      'Web-ISAPI-Ext',
-      'Web-ISAPI-Filter',
-      'Web-Http-Redirect',
-      'Web-Health',
-      'Web-Http-Logging',
-      'Web-Filtering',
-      'Web-Mgmt-Console',
-      'Web-Mgmt-Tools'
+  case $::kernelmajversion {
+    '6.0','6.1': {
+      $feature_name = [
+        'Web-Server',
+        'Web-WebServer',
+        'Web-Asp-Net',
+        'Web-ISAPI-Ext',
+        'Web-ISAPI-Filter',
+        'NET-Framework',
+        'WAS-NET-Environment',
+        'Web-Http-Redirect',
+        'Web-Filtering',
+        'Web-Mgmt-Console',
+        'Web-Mgmt-Tools'
       ]
+    }
+    '6.2.','6.3': {
+      $feature_name = [
+        'Web-Server',
+        'Web-WebServer',
+        'Web-Common-Http',
+        'Web-Asp',
+        'Web-Asp-Net45',
+        'Web-ISAPI-Ext',
+        'Web-ISAPI-Filter',
+        'Web-Http-Redirect',
+        'Web-Health',
+        'Web-Http-Logging',
+        'Web-Filtering',
+        'Web-Mgmt-Console',
+        'Web-Mgmt-Tools'
+        ]
+    }
+    default: {
+      fail("You must be running a 19th centery version of Windows")
+    }
   }
-  default: {
-    fail("You must be running a 19th centery version of Windows")
-  }
-}
 
 
   #dsc_windowsfeature { $feature_name:

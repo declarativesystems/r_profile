@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::puppet::master::proxy
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,34 +74,31 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Puppet::Proxy</p>
+    <p>R_profile::Puppet::Proxy</p>
 
-<p>Enable a Puppet Enterprise Master (not master&#39;s agent!) to work with a
-proxy server. To configure the master&#39;s agent for proxy support,
-include <code>r_profile::linux::puppet_agent</code></p>
+<p>Enable a Puppet Enterprise Master (not master&#39;s agent!) to work with a proxy server.
+To configure the master&#39;s agent for proxy support, include <code>r_profile::linux::puppet_agent</code></p>
 
-<p>If using this class you must also declare
-<code>r_profile::puppet::master</code> in order to manage and notify
-<code>Service['pe-puppetserver']</code></p>
+<p>If using this class you must also declare <code>r_profile::puppet::master</code> in order
+to manage and notify <code>Service[&#39;pe-puppetserver&#39;]</code></p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>setting the proxy server</p>
+        <p class="example_title"><div class='inline'><p>setting the proxy server</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::puppet::master::proxy::proxy: http://proxy.megacorp.com:3128</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>disable proxy server (the default)</p>
+        <p class="example_title"><div class='inline'><p>disable proxy server (the default)</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::puppet::master::proxy::proxy: false</code></pre>
@@ -122,10 +119,7 @@ include <code>r_profile::linux::puppet_agent</code></p>
       
       
         &mdash;
-        <div class='inline'>
-<p>proxy server to use in the form <a
-href="http://user@pass:proxyhost:proxyport">user@pass:proxyhost:proxyport</a>
-or <code>false</code> to not use a proxy server</p>
+        <div class='inline'><p>proxy server to use in the form <a href="http://user@pass:proxyhost:proxyport">http://user@pass:proxyhost:proxyport</a> or <code>false</code> to not use a proxy server</p>
 </div>
       
     </li>
@@ -142,8 +136,7 @@ or <code>false</code> to not use a proxy server</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Path to systemd/init environment file for PuppetServer</p>
+        <div class='inline'><p>Path to systemd/init environment file for PuppetServer</p>
 </div>
       
     </li>
@@ -160,13 +153,10 @@ or <code>false</code> to not use a proxy server</p>
       
       
         &mdash;
-        <div class='inline'>
-<p><code>true</code> to also add proxy information to
-<code>puppet.conf</code>. If set, all operations on Puppet will use the
-proxy server and there is no ability to bypass, so this will break commands
-such as <code>puppet node</code>. If we are deconfigiuring a proxy server,
-then always remove proxy server info from <code>puppet.conf</code>. @see
-ENTERPRISE-1175</p>
+        <div class='inline'><p><code>true</code> to also add proxy information to <code>puppet.conf</code>. If set, all operations on Puppet will
+use the proxy server and there is no ability to bypass, so this will break commands such as <code>puppet node</code>. If we
+are deconfigiuring a proxy server, then always remove proxy server info from <code>puppet.conf</code>.
+@see ENTERPRISE-1175</p>
 </div>
       
     </li>

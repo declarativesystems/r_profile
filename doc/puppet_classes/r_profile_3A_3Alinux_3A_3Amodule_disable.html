@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::module_disable
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,17 +74,16 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_Profile::Linux::Module_blacklist</p>
+    <p>R_Profile::Linux::Module_blacklist</p>
 
-<p>Disable kernel modules by breaking them in
-<code>/etc/modeprobe.d/disable.conf</code>. Kernel modules will be disabled
-rather than blacklisted by this process as <code>modprobe</code> will try
-to load the related file. Since we definie the module as
+<p>Disable kernel modules by breaking them in <code>/etc/modeprobe.d/disable.conf</code>. Kernel modules will be disabled rather
+than blacklisted by this process as <code>modprobe</code> will try to load the related file. Since we definie the module as
 <code>/bin/true</code>, it won’t be loaded.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -101,24 +100,7 @@ to load the related file. Since we definie the module as
       
       
         &mdash;
-        <div class='inline'>
-<p>Disable these kernel modules from loading</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>blacklist_file</span>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>File to store the module blacklist in</p>
+        <div class='inline'><p>Disable these kernel modules from loading</p>
 </div>
       
     </li>
@@ -133,6 +115,10 @@ to load the related file. Since we definie the module as
       
         <em class="default">(defaults to: <tt>&quot;/etc/modprobe.d/disabled.conf&quot;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>File to store the module blacklist in</p>
+</div>
       
     </li>
   

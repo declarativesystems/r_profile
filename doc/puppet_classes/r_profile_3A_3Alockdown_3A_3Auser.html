@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::lockdown::user
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,18 +74,18 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Lockdown::User</p>
+    <p>R_profile::Lockdown::User</p>
 
-<p>Lockdown users by disabling their passwords and or shells. Alternatively,
-we will remove all users named in the delete parameter. Note that it is an
-error to attempt to both disable and remove a user, since disabling
-requires that the user still be present to update /etc/shadow and
-/etc/password. This will manifest as a duplicate declaration error if
-encountered in the field.</p>
+<p>Lockdown users by disabling their passwords and or shells.  Alternatively, we
+will remove all users named in the delete parameter.  Note that it is an error
+to attempt to both disable and remove a user, since disabling requires that
+the user still be present to update /etc/shadow and /etc/password.  This will
+manifest as a duplicate declaration error if encountered in the field.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -102,8 +102,7 @@ encountered in the field.</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of usernames who should have their password locked</p>
+        <div class='inline'><p>Array of usernames who should have their password locked</p>
 </div>
       
     </li>
@@ -120,8 +119,7 @@ encountered in the field.</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of usernames who should have their shell disabled</p>
+        <div class='inline'><p>Array of usernames who should have their shell disabled</p>
 </div>
       
     </li>
@@ -138,8 +136,7 @@ encountered in the field.</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of usernames who should be deleted from the system</p>
+        <div class='inline'><p>Array of usernames who should be deleted from the system</p>
 </div>
       
     </li>

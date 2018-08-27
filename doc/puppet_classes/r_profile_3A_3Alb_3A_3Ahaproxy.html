@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::lb::haproxy
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,16 +74,16 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Lb::Haproxy</p>
+    <p>R_profile::Lb::Haproxy</p>
 
 <p>A haproxy based load-balancer</p>
 
-<p><a
-href="https://tickets.puppetlabs.com/browse/MODULES-3932">tickets.puppetlabs.com/browse/MODULES-3932</a></p>
+<p><a href="https://tickets.puppetlabs.com/browse/MODULES-3932">https://tickets.puppetlabs.com/browse/MODULES-3932</a></p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -93,24 +93,15 @@ href="https://tickets.puppetlabs.com/browse/MODULES-3932">tickets.puppetlabs.com
         <span class='name'>listeners</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Hash[String, Any]]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::lb::haproxy::listeners&#39;,undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
-    </li>
-  
-    <li>
-      
-        <span class='name'>open_firewall</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::lb::haproxy::open_firewall&#39;, false)</tt>)</em>
-      
+        &mdash;
+        <div class='inline'><p>Hash of listeners to create</p>
+</div>
       
     </li>
   
@@ -119,11 +110,15 @@ href="https://tickets.puppetlabs.com/browse/MODULES-3932">tickets.puppetlabs.com
         <span class='name'>frontends</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Hash[String, Any]]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::lb::haproxy::frontends&#39;,undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Hash of frontends to create</p>
+</div>
       
     </li>
   
@@ -132,11 +127,15 @@ href="https://tickets.puppetlabs.com/browse/MODULES-3932">tickets.puppetlabs.com
         <span class='name'>backends</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Hash[String, Any]]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::lb::haproxy::backends&#39;,undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Hash of backends to create</p>
+</div>
       
     </li>
   
@@ -145,24 +144,15 @@ href="https://tickets.puppetlabs.com/browse/MODULES-3932">tickets.puppetlabs.com
         <span class='name'>admin_stats</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::lb::haproxy::admin_stats&#39;, true)</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
-    </li>
-  
-    <li>
-      
-        <span class='name'>nagios_monitored</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::lb::haproxy::nagios_monitored&#39;, true)</tt>)</em>
-      
+        &mdash;
+        <div class='inline'><p><code>true</code> to enable the built-in stats web page</p>
+</div>
       
     </li>
   
@@ -171,11 +161,15 @@ href="https://tickets.puppetlabs.com/browse/MODULES-3932">tickets.puppetlabs.com
         <span class='name'>stats_port</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Array[Integer]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::lb::haproxy::stats_port&#39;, &#39;9090&#39;)</tt>)</em>
+        <em class="default">(defaults to: <tt>[9090]</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>TCP Port to run stats on</p>
+</div>
       
     </li>
   
@@ -184,11 +178,15 @@ href="https://tickets.puppetlabs.com/browse/MODULES-3932">tickets.puppetlabs.com
         <span class='name'>stats_username</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::lb::haproxy::stats_username&#39;, &#39;puppet&#39;)</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;puppet&quot;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Username for stats website</p>
+</div>
       
     </li>
   
@@ -197,11 +195,15 @@ href="https://tickets.puppetlabs.com/browse/MODULES-3932">tickets.puppetlabs.com
         <span class='name'>stats_password</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::lb::haproxy::stats_password&#39;, &#39;puppet&#39;)</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;puppet&quot;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Password for stats website</p>
+</div>
       
     </li>
   
@@ -215,14 +217,6 @@ href="https://tickets.puppetlabs.com/browse/MODULES-3932">tickets.puppetlabs.com
         <pre class="lines">
 
 
-6
-7
-8
-9
-10
-11
-12
-13
 14
 15
 16
@@ -263,60 +257,20 @@ href="https://tickets.puppetlabs.com/browse/MODULES-3932">tickets.puppetlabs.com
 51
 52
 53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91</pre>
+54</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/lb/haproxy.pp', line 6</span>
+        <pre class="code"><span class="info file"># File 'manifests/lb/haproxy.pp', line 14</span>
 
 class r_profile::lb::haproxy(
-  $listeners        = hiera(&#39;r_profile::lb::haproxy::listeners&#39;,undef),
-  $open_firewall    = hiera(&#39;r_profile::lb::haproxy::open_firewall&#39;, false),
-  $frontends        = hiera(&#39;r_profile::lb::haproxy::frontends&#39;,undef),
-  $backends         = hiera(&#39;r_profile::lb::haproxy::backends&#39;,undef),
-  $admin_stats      = hiera(&#39;r_profile::lb::haproxy::admin_stats&#39;, true),
-  $nagios_monitored = hiera(&#39;r_profile::lb::haproxy::nagios_monitored&#39;, true),
-  $stats_port       = hiera(&#39;r_profile::lb::haproxy::stats_port&#39;, &#39;9090&#39;),
-  $stats_username   = hiera(&#39;r_profile::lb::haproxy::stats_username&#39;, &#39;puppet&#39;),
-  $stats_password   = hiera(&#39;r_profile::lb::haproxy::stats_password&#39;, &#39;puppet&#39;),
+  Hash[String, Hash[String, Any]] $listeners      = {},
+  Hash[String, Hash[String, Any]] $frontends      = {},
+  Hash[String, Hash[String, Any]] $backends       = {},
+  Boolean                         $admin_stats    = false,
+  Array[Integer]                  $stats_port     = [9090],
+  String                          $stats_username = &quot;puppet&quot;,
+  String                          $stats_password = &quot;puppet&quot;,
 ) {
-
 
   include haproxy
   if $admin_stats {
@@ -329,65 +283,23 @@ class r_profile::lb::haproxy(
         },
     }
 
-    if $nagios_monitored {
-      nagios::nagios_service_tcp { &#39;haproxy_stats&#39;:
-        port =&gt; $stats_port,
-      }
-    }
+  }
 
-    if $open_firewall {
-      firewall { &quot;100 nagios_stats&quot;:
-        dport  =&gt; $stats_port,
-        proto  =&gt; &#39;tcp&#39;,
-        action =&gt; &#39;accept&#39;,
-      }
+  $listeners.each |String $listener,Hash $listener_values| {
+    haproxy::listen { $listener:
+      * =&gt; $listener_values,
     }
   }
 
-  if $listeners {
-    $listeners.each |String $listener,Hash $listener_values| {
-      haproxy::listen { $listener:
-        * =&gt; $listener_values,
-      }
-
-      if $open_firewall {
-        firewall { &quot;100 ${listener}&quot;:
-          dport  =&gt; [$listener_values[&#39;ports&#39;]],
-          proto  =&gt; &#39;tcp&#39;,
-          action =&gt; &#39;accept&#39;,
-        }
-      }
-
-      if $nagios_monitored {
-        nagios::nagios_service_tcp { &quot;haproxy_${listener}&quot;:
-          port =&gt; $listener_values[&#39;ports&#39;],
-        }
-      }
-
+  $frontends.each |String $frontend, Hash $frontend_values| {
+    haproxy::frontend { $frontend:
+      * =&gt; $frontend_values,
     }
   }
 
-  if $frontends {
-    $frontends.each |String $frontend, Hash $frontend_values| {
-      haproxy::frontend { $frontend:
-        * =&gt; $frontend_values,
-      }
-
-      if $open_firewall {
-        firewall { &quot;100 ${frontend}&quot;:
-          dport  =&gt; [$frontend_values[&#39;ports&#39;]],
-          proto  =&gt; &#39;tcp&#39;,
-          action =&gt; &#39;accept&#39;,
-        }
-      }
-    }
-  }
-
-  if $backends {
-    $backends.each |String $backend, Hash $backend_values| {
-      haproxy::backend { $backend:
-        * =&gt; $backend_values,
-      }
+  $backends.each |String $backend, Hash $backend_values| {
+    haproxy::backend { $backend:
+      * =&gt; $backend_values,
     }
   }
 }</pre>

@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::mount
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,50 +74,74 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>r_profile::linux::Mounts</p>
+    <p>r_profile::linux::Mounts</p>
 
-<p>Common mount good practices for RedHat:  * <code>/tmp</code> mounted
-<code>nodev,nosuid,noexec</code> (if separate partition)  *
-<code>/dev/shm</code> mounted <code>nodev,nosuid,noexec</code> (if separate
-partition)  * Optionally bind mount <code>/var/tmp</code> to
-<code>/tmp</code>  * All partitions except <code>/</code> mounted with
-<code>nodev</code> option</p>
+<p>Common mount good practices for RedHat:</p>
 
-<p>Note that options for <code>/dev/shm</code> will be ignored as per <a
-href="https://bugzilla.redhat.com/show_bug.cgi?id=783884">bugzilla.redhat.com/show_bug.cgi?id=783884</a></p>
+<ul>
+<li><code>/tmp</code> mounted <code>nodev,nosuid,noexec</code> (if separate partition)</li>
+<li><code>/dev/shm</code> mounted <code>nodev,nosuid,noexec</code> (if separate partition)</li>
+<li>Optionally bind mount <code>/var/tmp</code> to <code>/tmp</code></li>
+<li>All partitions except <code>/</code> mounted with <code>nodev</code> option</li>
+</ul>
 
-<p>Puppet provides a <code>mountpoint</code> fact with output similar to: 
-/home =&gt; {  available =&gt; “19.97 GiB”,  available_bytes =&gt;
-21438976000,  capacity =&gt; “0.16%”,  device =&gt;
-“/dev/mapper/centos-home”,  filesystem =&gt; “xfs”,  options =&gt; [ “rw”,
-“seclabel”, “relatime”, “attr2”, “inode64”, “noquota” ],  size =&gt; “20.00
-GiB”,  size_bytes =&gt; 21472735232,  used =&gt; “32.20 MiB”,  used_bytes
-=&gt; 33759232  },</p>
+<p>Note that options for <code>/dev/shm</code> will be ignored as per <a href="https://bugzilla.redhat.com/show_bug.cgi?id=783884">https://bugzilla.redhat.com/show_bug.cgi?id=783884</a></p>
 
-<p>This is completely different to the input the <code>mount</code> provider
-uses:  mount { &#39;/home&#39;:  ensure =&gt; &#39;mounted&#39;,  device
-=&gt; &#39;/dev/mapper/centos-home&#39;,  dump =&gt; &#39;0&#39;,  fstype
-=&gt; &#39;xfs&#39;,  options =&gt; &#39;defaults&#39;,  pass =&gt;
-&#39;0&#39;,  target =&gt; &#39;/etc/fstab&#39;,  }</p>
+<p>Puppet provides a <code>mountpoint</code> fact with output similar to:
+  /home =&gt; {
+    available =&gt; &quot;19.97 GiB&quot;,
+    available_bytes =&gt; 21438976000,
+    capacity =&gt; &quot;0.16%&quot;,
+    device =&gt; &quot;/dev/mapper/centos-home&quot;,
+    filesystem =&gt; &quot;xfs&quot;,
+    options =&gt; [
+      &quot;rw&quot;,
+      &quot;seclabel&quot;,
+      &quot;relatime&quot;,
+      &quot;attr2&quot;,
+      &quot;inode64&quot;,
+      &quot;noquota&quot;
+    ],
+    size =&gt; &quot;20.00 GiB&quot;,
+    size_bytes =&gt; 21472735232,
+    used =&gt; &quot;32.20 MiB&quot;,
+    used_bytes =&gt; 33759232
+  },</p>
 
-<p>Since the <code>mountpoint</code> fact does not include the current ensure,
-this profile uses a new fact <code>fstab</code> which includes the content
-of <code>/etc/fstab</code> validated against <code>/proc/mounts</code> and
-excluding any swap partitions:  /home =&gt; {  ensure =&gt; “mounted”, 
-device =&gt; “/dev/mapper/centos-home”,  fstab =&gt; “xfs”,  options =&gt;
-“defaults”,  dump =&gt; “0”,  pass =&gt; “0”  }</p>
+<p>This is completely different to the input the <code>mount</code> provider uses:
+  mount { &#39;/home&#39;:
+    ensure  =&gt; &#39;mounted&#39;,
+    device  =&gt; &#39;/dev/mapper/centos-home&#39;,
+    dump    =&gt; &#39;0&#39;,
+    fstype  =&gt; &#39;xfs&#39;,
+    options =&gt; &#39;defaults&#39;,
+    pass    =&gt; &#39;0&#39;,
+    target  =&gt; &#39;/etc/fstab&#39;,
+  }</p>
+
+<p>Since the <code>mountpoint</code> fact does not include the current ensure, this profile uses a new
+fact <code>fstab</code> which includes the content of <code>/etc/fstab</code> validated against <code>/proc/mounts</code> and
+excluding any swap partitions:
+  /home =&gt; {
+    ensure =&gt; &quot;mounted&quot;,
+    device =&gt; &quot;/dev/mapper/centos-home&quot;,
+    fstab =&gt; &quot;xfs&quot;,
+    options =&gt; &quot;defaults&quot;,
+    dump =&gt; &quot;0&quot;,
+    pass =&gt; &quot;0&quot;
+  }</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>hiera data to enable bind mounting /tmp</p>
+        <p class="example_title"><div class='inline'><p>hiera data to enable bind mounting /tmp</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::mount::bind_mount_var_tmp: true</code></pre>
@@ -138,10 +162,8 @@ device =&gt; “/dev/mapper/centos-home”,  fstab =&gt; “xfs”,  options =&g
       
       
         &mdash;
-        <div class='inline'>
-<p><code>true</code> to bind mount <code>/var/tmp</code> onto
-<code>/tmp</code> if <code>/var/tmp</code> is not <em>already</em> a
-separately mounted partition</p>
+        <div class='inline'><p><code>true</code> to bind mount <code>/var/tmp</code> onto <code>/tmp</code> if
+<code>/var/tmp</code> is not <em>already</em> a separately mounted partition</p>
 </div>
       
     </li>

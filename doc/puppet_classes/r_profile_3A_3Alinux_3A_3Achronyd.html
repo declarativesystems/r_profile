@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::chronyd
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,30 +74,28 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Chronyd</p>
+    <p>R_profile::Linux::Chronyd</p>
 
-<p>Chronyd (formerly NTPd) support for Linux. No attempt is made to manage
-this service when running under docker since the shared kernel makes this
-uncessary.</p>
+<p>Chronyd (formerly NTPd) support for Linux. No attempt is made to manage this service when running under docker since
+the shared kernel makes this uncessary.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Setup cronyd with the default list of servers</p>
+        <p class="example_title"><div class='inline'><p>Setup cronyd with the default list of servers</p>
 </div></p>
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_r_profile'>r_profile</span><span class='op'>::</span><span class='id identifier rubyid_linux'>linux</span><span class='op'>::</span><span class='id identifier rubyid_chronyd'>chronyd</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to list of particular servers</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to list of particular servers</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::linux::chronyd::servers:
@@ -120,8 +118,7 @@ uncessary.</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>List of NTP servers to use</p>
+        <div class='inline'><p>List of NTP servers to use</p>
 </div>
       
     </li>

@@ -1,8 +1,10 @@
 # R_profile::Monitor::Nagios_monitored
 #
 # Configure nagios to monitor something
+#
+# @param nagios_server Hostname of nagios server
 class r_profile::monitor::nagios_monitored(
-  $nagios_server = hiera('r_profile::monitor::nagios_monitored::nagios_server', false),
+  Optional[String]  $nagios_server = undef,
 ) {
 
   # sometimes we might need to determine the incoming ethernet adaptor to use for
@@ -17,10 +19,10 @@ class r_profile::monitor::nagios_monitored(
     local_ip      => $local_ip,
   }
 
-  @@nagios_host { $fqdn:
+  @@nagios_host { $facts['fqdn']:
     ensure  => present,
     address => $local_ip,
-    use     => "${downcase($kernel)}-server",
+    use     => "${downcase($facts['kernel'])}-server",
   }
 
 }

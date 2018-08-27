@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::cloud::azure
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,13 +74,14 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Cloud::Azure</p>
+    <p>R_profile::Cloud::Azure</p>
 
 <p>Manage the azure VMs using the passed-in hash</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
@@ -93,8 +94,12 @@
         <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::azure_vm&#39;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Hash of azure VMs to create</p>
+</div>
       
     </li>
   
@@ -106,8 +111,12 @@
         <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::azure_vm_default&#39;, {})</tt>)</em>
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Hash of default settings for azure VMs</p>
+</div>
       
     </li>
   
@@ -119,8 +128,12 @@
         <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::install_puppet_windows_cmd&#39;, undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Command to run to install puppet on windows</p>
+</div>
       
     </li>
   
@@ -132,8 +145,12 @@
         <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::install_puppet_linux_cmd&#39;, undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Command to run to install puppet on linux</p>
+</div>
       
     </li>
   
@@ -145,8 +162,12 @@
         <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::puppet_master_fqdn&#39;, undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>FQDN of Puppet master</p>
+</div>
       
     </li>
   
@@ -158,8 +179,12 @@
         <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>hiera(&#39;r_profile::cloud::azure::challenge_password&#39;, undef)</tt>)</em>
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'><p>Challenge password to use for autosigning</p>
+</div>
       
     </li>
   
@@ -173,12 +198,6 @@
         <pre class="lines">
 
 
-5
-6
-7
-8
-9
-10
 11
 12
 13
@@ -266,18 +285,24 @@
 95
 96
 97
-98</pre>
+98
+99
+100
+101
+102
+103
+104</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 5</span>
+        <pre class="code"><span class="info file"># File 'manifests/cloud/azure.pp', line 11</span>
 
 class r_profile::cloud::azure(
-    Hash    $azure_vm                             = hiera(&#39;r_profile::cloud::azure::azure_vm&#39;, {}),
-    Hash    $azure_vm_default                     = hiera(&#39;r_profile::cloud::azure::azure_vm_default&#39;, {}),
-    Optional[String] $install_puppet_windows_cmd  = hiera(&#39;r_profile::cloud::azure::install_puppet_windows_cmd&#39;, undef),
-    Optional[String] $install_puppet_linux_cmd    = hiera(&#39;r_profile::cloud::azure::install_puppet_linux_cmd&#39;, undef),
-    Optional[String] $puppet_master_fqdn          = hiera(&#39;r_profile::cloud::azure::puppet_master_fqdn&#39;, undef),
-    Optional[String] $challenge_password          = hiera(&#39;r_profile::cloud::azure::challenge_password&#39;, undef),
+    Hash    $azure_vm                             = {},
+    Hash    $azure_vm_default                     = {},
+    Optional[String] $install_puppet_windows_cmd  = undef,
+    Optional[String] $install_puppet_linux_cmd    = undef,
+    Optional[String] $puppet_master_fqdn          = undef,
+    Optional[String] $challenge_password          = undef,
 ) {
 
   # pick the selected password from hiera or use an empty string

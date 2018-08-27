@@ -1,6 +1,15 @@
 # R_profile::Aws
 #
 # Configure AWS with puppet
+#
+# @param aws_access_key_id AWS credential (ID)
+# @param aws_secret_access_key AWS credential (Secret)
+# @param ec2_instance Hash of EC2 intances to manage
+# @param ec2_instance_default Hash of EC2 intance default settings
+# @param ec2_securitygroup Hash of EC2 securitygroups to manage
+# @param ec2_securitygroup_default Hash of EC2 securitygroups default settings
+# @param elb_loadbalancer Hash of ELB loadbalancer to manage
+# @param elb_loadbalancer_default Hash of ELB loadbalancer default settings
 class r_profile::aws(
   $aws_access_key_id          = hiera("r_profile::aws::aws_secret_key_id"),
   $aws_secret_access_key      = hiera("r_profile::aws::aws_secret_access_key"),

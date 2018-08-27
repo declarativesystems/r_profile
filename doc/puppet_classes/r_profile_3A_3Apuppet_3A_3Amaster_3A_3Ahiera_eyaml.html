@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::puppet::master::hiera_eyaml
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,54 +74,50 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Puppet::Master::Hiera_eyaml</p>
+    <p>R_profile::Puppet::Master::Hiera_eyaml</p>
 
-<p>Configure hiera-eyaml by generating the encryption keys. Current versions
-of Puppet Enterprise ~2018x ship a vendored eyaml gem so installation is
-not needed anymore.</p>
+<p>Configure hiera-eyaml by generating the encryption keys. Current versions of
+Puppet Enterprise ~2018x ship a vendored eyaml gem so installation is not
+needed anymore.</p>
 
 <p>Beware that if you are running Puppet Enterprise and install the
-<code>puppetlabs-puppetserver_gem</code> module, you will run into
-ENTERPRISE-1179. To fix this, you must remove
-<code>puppetlabs-puppetserver_gem</code> from your <code>Puppetfile</code>
-and re-deploy code.</p>
+<code>puppetlabs-puppetserver_gem</code> module, you will run into ENTERPRISE-1179. To
+fix this, you must remove <code>puppetlabs-puppetserver_gem</code> from your
+<code>Puppetfile</code> and re-deploy code.</p>
 
 <p>If you must install hiera-eyaml gem for some reason, then you will have to
-install <code>puppetlabs-puppetserver_gem</code> module and follow the
-example below to enable gem installation.</p>
+install <code>puppetlabs-puppetserver_gem</code> module and follow the example below to
+enable gem installation.</p>
 
-<p>If you want more then one keypair per server then you should not use this
-class.</p>
+<p>If you want more then one keypair per server then you should not use this class.</p>
 
-<p>The example below shows how to generate eyaml on the Puppet Master. By
-sharing the server&#39;s public key this process can be carried out
-anywhere and does not require root access to the Puppet Master.</p>
+<p>The example below shows how to generate eyaml on the Puppet Master. By sharing
+the server&#39;s public key this process can be carried out anywhere and does
+not require root access to the Puppet Master.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Install the hiera-eyaml gems (not needed for modern Puppet Enterprise)</p>
+        <p class="example_title"><div class='inline'><p>Install the hiera-eyaml gems (not needed for modern Puppet Enterprise)</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::puppet::master::hiera_eyaml::gem_install: true</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Prevent key creation</p>
+        <p class="example_title"><div class='inline'><p>Prevent key creation</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::puppet::master::hiera_eyaml::create_keys: false</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>encrypting data on the Puppet Master</p>
+        <p class="example_title"><div class='inline'><p>encrypting data on the Puppet Master</p>
 </div></p>
       
       <pre class="example code"><code>cd /etc/puppetlabs/puppet
@@ -130,6 +126,23 @@ anywhere and does not require root access to the Puppet Master.</p>
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
+  
+    <li>
+      
+        <span class='name'>create_keys</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>True to create a system-wide eyaml keypair</p>
+</div>
+      
+    </li>
   
     <li>
       
@@ -143,38 +156,8 @@ anywhere and does not require root access to the Puppet Master.</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>True to attempt to install and configure hiera-eyaml rubygem</p>
+        <div class='inline'><p>True to attempt to install and configure hiera-eyaml rubygem</p>
 </div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>create_keys,</span>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>True to create a system-wide eyaml keypair</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>create_keys</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
       
     </li>
   

@@ -15,9 +15,9 @@
 #       "verify mode":
 #         ensure: absent
 #
-# @param $config_file Location of nsclient.ini
-# @param $service Name of the windows service for nsclient
-# @param $settings Hash of settings (see example)
+# @param config_file Location of nsclient.ini
+# @param service Name of the windows service for nsclient
+# @param settings Hash of settings (see example)
 class r_profile::windows::nsclient(
     String                                            $config_file  = 'C:\Program Files\NSClient++\nsclient.ini',
     String                                            $service      = "nscp",
@@ -31,7 +31,7 @@ class r_profile::windows::nsclient(
     $data.each |$key, $opts| {
       ini_setting {
         default:
-          ensure => present,
+          ensure  => present,
           path    => $config_file,
           section => $section,
           setting => $key,

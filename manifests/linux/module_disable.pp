@@ -8,7 +8,7 @@
 # @see https://linux-audit.com/kernel-hardening-disable-and-blacklist-linux-modules/
 #
 # @param modules Disable these kernel modules from loading
-# @param blacklist_file File to store the module blacklist in
+# @param disable_file File to store the module blacklist in
 class r_profile::linux::module_disable(
     Array[String] $modules        = [],
     String        $disable_file = "/etc/modprobe.d/disabled.conf",

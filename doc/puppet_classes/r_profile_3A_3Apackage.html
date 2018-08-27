@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::package
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,21 +74,21 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Package</p>
+    <p>R_profile::Package</p>
 
 <p>Install software using Puppet&#39;s built-in <code>package</code> resource.</p>
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data for installing packages</p>
+        <p class="example_title"><div class='inline'><p>Hiera data for installing packages</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::package::packages:
@@ -96,8 +96,7 @@
   samba:</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to removing packages</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to removing packages</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::package::packages:
@@ -105,8 +104,7 @@
     ensure: absent</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to install a particular version of a package</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to install a particular version of a package</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::package::packages:
@@ -114,8 +112,7 @@
     ensure: &quot;1.8.0.171-8.b10.el7_5&quot;</code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Hiera data to install using a different package provider</p>
+        <p class="example_title"><div class='inline'><p>Hiera data to install using a different package provider</p>
 </div></p>
       
       <pre class="example code"><code>r_profile::package::packages:
@@ -138,9 +135,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of basic packages to install. Using a hash allows the provider options
-to be specified</p>
+        <div class='inline'><p>Hash of basic packages to install.  Using a hash allows the provider options to be specified</p>
 </div>
       
     </li>
@@ -157,9 +152,7 @@ to be specified</p>
       
       
         &mdash;
-        <div class='inline'>
-<p>Hash of additional packages to install. Using a hash allows the provider
-options to be specified</p>
+        <div class='inline'><p>Hash of additional packages to install.  Using a hash allows the provider options to be specified</p>
 </div>
       
     </li>

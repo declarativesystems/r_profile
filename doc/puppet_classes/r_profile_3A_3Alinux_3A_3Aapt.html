@@ -6,7 +6,7 @@
 <title>
   Puppet Class: r_profile::linux::apt
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.16
   
 </title>
 
@@ -74,97 +74,16 @@
 <h2>Overview</h2>
 <div class="docstring">
   <div class="discussion">
-    
-<p>R_profile::Linux::Apt</p>
+    <p>R_profile::Linux::Apt</p>
 
 <p>Setup of apt package manager</p>
 
   </div>
 </div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>auto_update</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>update_hour</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>fqdn_rand(23)</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>update_minute</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>fqdn_rand(59)</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>update_month</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>&quot;*&quot;</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>update_monthday</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>&quot;*&quot;</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>update_weekday</span>
-      
-      
-        <span class='type'>(<tt>Any</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>&quot;*&quot;</tt>)</em>
-      
-      
-    </li>
-  
-</ul>
 
+
+<div class="tags">
+  
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
@@ -180,7 +99,6 @@
         <pre class="lines">
 
 
-5
 6
 7
 8
@@ -247,38 +165,12 @@
 69
 70
 71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91</pre>
+72</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/linux/apt.pp', line 5</span>
+        <pre class="code"><span class="info file"># File 'manifests/linux/apt.pp', line 6</span>
 
-class r_profile::linux::apt(
-    $auto_update      = true,
-    $update_hour      = fqdn_rand(23),
-    $update_minute    = fqdn_rand(59),
-    $update_month     = &quot;*&quot;,
-    $update_monthday  = &quot;*&quot;,
-    $update_weekday   = &quot;*&quot;,
-) {
+class r_profile::linux::apt() {
   class { &quot;apt&quot;:
     purge  =&gt;  {
       &quot;sources.list&quot;  =&gt; true,
@@ -343,19 +235,6 @@ class r_profile::linux::apt(
     }
   }
 
-  if $auto_update {
-    cron { &quot;apt_auto_update&quot;:
-      ensure      =&gt; present,
-      command     =&gt; &quot;apt-get update &amp;&amp; apt-get upgrade -y&quot;,
-      user        =&gt; &quot;root&quot;,
-      environment =&gt; &quot;PATH=/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin&quot;,
-      hour        =&gt; $update_hour,
-      minute      =&gt; $update_minute,
-      month       =&gt; $update_month,
-      monthday    =&gt; $update_monthday,
-      weekday     =&gt; $update_weekday,
-    }
-  }
 
 }</pre>
       </td>

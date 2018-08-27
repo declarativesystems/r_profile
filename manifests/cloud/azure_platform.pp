@@ -11,7 +11,7 @@
 # for you.
 #
 # @see https://github.com/Azure/azure-xplat-cli
-
+#
 # puppet module install puppet-nodejs --version 2.3.0
 #
 # @param subscriptions Hash of subscriptions with the format:
@@ -50,13 +50,13 @@
 # @param azure_mgmt_gem_version Specify the version of the `azure-mgmt-*` gems to
 #   use to talk to the azure API - useful if you need to use a newer version of
 #   the `puppetlabs-azure` module
+# @param run_puppet_command How to run puppet agent (only this command will be allowed
+#   via SSH)
 class r_profile::cloud::azure_platform(
-    Hash    $subscriptions          = hiera('r_profile::cloud::azure_platform::subscriptions', {}),
-    String  $azure_gem_version      = hiera('r_profile::cloud::azure_platform::azure_gem_version',"0.7.9"),
-    String  $azure_mgmt_gem_version = hiera('r_profile::cloud::azure_platform::azure_mgmt_gem_version', "0.3.1"),
-    String  $run_puppet_command     = hiera('r_profile::cloud::azure_platform::run_puppet_command',
-      "/opt/puppetlabs/puppet/bin/puppet agent -t"
-    ),
+    Hash    $subscriptions          = {},
+    String  $azure_gem_version      = "0.7.9",
+    String  $azure_mgmt_gem_version = "0.3.1",
+    String  $run_puppet_command     = "/opt/puppetlabs/puppet/bin/puppet agent -t",
 ) {
 
   # only for root agents
