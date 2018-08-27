@@ -5,7 +5,7 @@
 
 1. [Overview](#overview)
 1. [Usage - Configuration options and additional functionality](#usage)
-1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+1. [Reference - An under-the-hood peek at what the module is doing and how](REFERENCE.md)
 1. [Limitations - OS compatibility, etc.](#limitations)
 1. [Development - Guide for contributing to the module](#development)
 
@@ -61,17 +61,6 @@ r_profile::timezone::zone: "America/Nassau"
 
 Each `r_profile` class parameter in classes intended for use are documented within the class it is defined in See [Reference section](#reference) for more information.
 
-
-## Reference
-Reference documentation is generated directly from source code using [puppet-strings](https://github.com/puppetlabs/puppet-strings).  You may regenerate the documentation by running:
-
-```shell
-bundle exec puppet strings
-```
-
-Or you may view the current [generated documentation](https://rawgit.com/GeoffWilliams/r_profile/master/doc/index.html).
-
-The documentation is no substitute for reading and understanding the module source code, and all users should ensure they are familiar and comfortable with the operations this module performs before using it.
 
 ## Limitations
 
