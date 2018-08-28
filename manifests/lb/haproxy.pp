@@ -1,6 +1,4 @@
-# R_profile::Lb::Haproxy
-#
-# A haproxy based load-balancer
+# @summary A haproxy based load-balancer
 #
 # https://tickets.puppetlabs.com/browse/MODULES-3932
 #

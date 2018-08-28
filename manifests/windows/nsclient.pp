@@ -1,6 +1,4 @@
-# R_profile::Windows::Nsclient
-#
-# Configure the NSClient++ software on Windows
+# @summary Configure the NSClient++ software on Windows
 #
 # @example Basic usage
 #   include r_profile::windows::nsclient

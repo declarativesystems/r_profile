@@ -1,7 +1,7 @@
-# R_profile::Windows::Ntp
+# @summary Setup NTP on windows
 #
-# Setup NTP on windows. If your planning on joining a domain you don't need this however
-# there are a few cases where windows boxes do not join domains (cloud, dmz, etc). In
+# If your planning on joining a domain you don't need this however there are a
+# few cases where windows boxes do not join domains (cloud, dmz, etc). In
 # these cases, this profile provides an easy way to set the correct time.
 #
 # @see https://forge.puppet.com/geoffwilliams/windows_ntp

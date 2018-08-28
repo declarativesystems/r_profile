@@ -1,7 +1,6 @@
-# R_profile::Windows::Domain_membership
+# @summary Join an Active Directory domain using Puppet
 #
-# Join an Active Directory domain using Puppet and the trlinkin/domain_membership
-# module using data from Hiera
+# @see https://forge.puppet.com/trlinkin/domain_membership
 #
 # @example Join a domain
 #   include r_profile::windows::domain_membership

@@ -1,6 +1,4 @@
-# R_profile::Linux::Wheel
-#
-# Configure the `wheel` group on Linux
+# @summary Configure the `wheel` group on Linux
 #
 # @param gid GID of the wheel group, normally 10
 # @param wheel_su `present` to ensure wheel group required for `su` access, `absent` to allow anyone

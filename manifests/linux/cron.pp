@@ -1,6 +1,6 @@
-# R_profile::Linux::Cron
+# @summary Restrict permissions on the `cron` scheduler
 #
-# Restrict permissions on the `cron` scheduler
+# Features:
 # * Remove `cron.deny` so that only allowed users can run `cron`
 # * Strict permissions on `at.allow`
 # * Allow `root` to use `cron`

@@ -1,6 +1,4 @@
-# R_profile::Web_service::Apache
-#
-# Install and configure Apache webserver
+# @summary Install and configure Apache webserver
 #
 # @param website_hash Hash of websites to create in a suitable for for create_resources
 #   and the apache::vhost resource

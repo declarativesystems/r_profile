@@ -1,4 +1,4 @@
-# Deploy web site(s) from git
+# @summary Deploy web site(s) from git
 #
 # @example Downloading site from git
 #   r_profile::webapp::git_site:

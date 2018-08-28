@@ -1,4 +1,4 @@
-# R_profile::Linux::Systemd
+# @summary Systemd settings and support for Puppet
 #
 # Provides:
 #   * `Exec['systemctl_daemon_reload']` to scan for changed units when puppet changes them (invoke via notify)

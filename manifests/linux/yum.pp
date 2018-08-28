@@ -1,6 +1,4 @@
-# Redhat_tidy::Permissions
-#
-# Common yum settings for RedHat
+# @summary Common yum settings for RedHat
 #
 # @param gpgcheck 1 to enable gpg checks otherwise false
 # @param protected_multilib 1 to protect against installing 'multilib' libraries

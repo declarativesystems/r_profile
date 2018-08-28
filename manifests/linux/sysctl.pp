@@ -1,8 +1,6 @@
-# Profile::Linux::Sysctl
+# @summary Control sysctl values (kernel tuning) on Linux.
 #
-# Control sysctl values (kernel tuning) on Linux.  Not to be confused with
-# systemctl (services).
-# @see https://forge.puppet.com/geoffwilliams/sysctl
+# @note Not to be confused with systemctl (services).
 #
 # Settings will take place immediately when puppet is run and will also be
 # persisted /etc/sysctl.d to survive across reboots.  There is no support in
@@ -18,7 +16,9 @@
 # 1.  Remove the setting from the passed in $settings list (hiera data)
 # 2.  Reboot...
 #
-# Settings to enforce should be passed as a hash via the settings parameter, eg
+# Settings to enforce should be passed as a hash via the settings parameter.
+#
+# @see https://forge.puppet.com/geoffwilliams/sysctl
 #
 # @example hiera data
 #   r_profile::linux::sysctl::settings:

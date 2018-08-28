@@ -1,6 +1,4 @@
-# R_profile::Database::Mysql_server
-#
-# Install the MySQL database server
+# @summary Install the MySQL database server
 #
 # @see https://forge.puppet.com/puppetlabs/mysql
 #

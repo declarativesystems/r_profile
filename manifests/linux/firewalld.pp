@@ -1,8 +1,7 @@
-# R_profile::Linux::Firewalld
+# @summary Manage firewalld using crayfishx-firewalld
 #
-# Manage firewalld using crayfishx-firewalld. Accepts base plus additional
-# options for each set of rule resources being managed for easy managment
-# using hiera.
+# Accepts base plus additional options for each set of rule resources being
+# managed for easy managment using hiera.
 #
 # @see https://forge.puppet.com/crayfishx/firewalld
 #

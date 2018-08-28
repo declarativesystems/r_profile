@@ -1,6 +1,4 @@
-# R_profile::Windows::Proxy
-#
-# Set the windows system proxy using netsh
+# @summary Set the windows system proxy using netsh
 #
 # @example hiera data enabling proxy
 #   r_profile::windows::proxy::proxy_server: 'http=proxy.example.com;https=proxy.example.org'

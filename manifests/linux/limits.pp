@@ -1,6 +1,4 @@
-# R_profile::Limits
-#
-# Manage Linux system limits using saz/limits
+# @summary Manage Linux system limits using saz/limits
 #
 # @see https://forge.puppet.com/saz/limits/
 #

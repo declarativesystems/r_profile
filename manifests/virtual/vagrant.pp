@@ -1,6 +1,4 @@
-# R_profile::Virtual::vagrant
-#
-# Support for managing VMs via Vagrant (experimental)
+# @summary Support for managing VMs via Vagrant (experimental)
 #
 # @param vms Hash of VMs to install in a suitable format for create_resources
 #   and `vagrant_vm`

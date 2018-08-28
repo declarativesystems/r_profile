@@ -1,6 +1,4 @@
-# R_profile::Environment_variable
-#
-# Manage enivronment variables on windows and linux
+# @summary Manage enivronment variables on windows and linux
 #
 # @see https://forge.puppet.com/geoffwilliams/environment_variable
 #

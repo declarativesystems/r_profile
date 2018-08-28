@@ -1,6 +1,4 @@
-# R_profile::Linux::Package_manager
-#
-# Configure a linux package manager
+# @summary Configure a linux package manager
 class r_profile::linux::package_manager {
   case $osfamily {
     "RedHat": {

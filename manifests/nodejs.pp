@@ -1,6 +1,4 @@
-# R_profile::Nodejs
-#
-# Install NodeJS using the puppet/nodejs module
+# @sumary Install NodeJS using the puppet/nodejs module
 #
 # @param repo_url_suffix Hints at what version of nodejs to install
 # @param repo_class Use a specific respository, eg `epel`

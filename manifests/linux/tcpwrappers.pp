@@ -1,4 +1,4 @@
-# R_profile::Tcpwrappers
+# @summary Setup tcpwrappers
 #
 # Setup tcpwrappers using geoffwilliams/tcpwrappers. We will merge
 # together a set of base level (SOE) rules and addtional/more

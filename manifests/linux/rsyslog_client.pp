@@ -1,6 +1,6 @@
-# R_profile::Linux::Rsyslog
+# @summary Setup `rsyslog` client
 #
-# Setup `rsyslog` client:
+# Features:
 #   * Install Package
 #   * General settings
 #   * Managed logfiles

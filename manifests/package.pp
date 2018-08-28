@@ -1,6 +1,4 @@
-# R_profile::Package
-#
-# Install software using Puppet's built-in `package` resource.
+# @summary Install software using Puppet's built-in `package` resource.
 #
 # @see https://puppet.com/docs/puppet/5.5/types/package.html
 #

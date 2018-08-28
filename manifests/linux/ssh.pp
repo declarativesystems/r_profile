@@ -1,6 +1,4 @@
-# R_profile::Linux::Ssh
-#
-# SSH support on linux using Augeas.
+# @summary SSH support on linux using Augeas.
 #
 # @see https://forge.puppet.com/geoffwilliams/ssh
 # @see https://forge.puppet.com/herculesteam/augeasproviders_ssh

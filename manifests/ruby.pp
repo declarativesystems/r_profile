@@ -1,10 +1,9 @@
-# R_profile::Ruby
+# @summary Install a system-level ruby for customer applications to use
 #
-# Install a system-level ruby for customer applications to use.  While its
-# possible to use Puppet's vendored ruby for everything, its safter to for
-# customer to install their own ruby for internal apps to use since otherwise
-# messing with the gems could break puppet in such a way that it is unable to
-# run, leaving the system unmanaged
+# While its possible to use Puppet's vendored ruby for everything, its safter
+# for customers to install their own ruby for internal apps to use since
+# otherwise messing with the gems could break puppet in such a way that it is
+# unable to run, leaving the system unmanaged
 #
 # @param version Array of Ruby versions to install (linux).  On windows, only
 #   a single version can be installed due to packaging so we will install the

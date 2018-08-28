@@ -1,6 +1,4 @@
-# R_profile::Cloud::Azure_platform
-#
-# Setup the dependencies for the puppetlabs/azure forge module
+# @summary Setup the dependencies for the puppetlabs/azure forge module
 #
 # The forge module uses a locally installed copy of the Azure library in order
 # to talk to the Azure Cloud.  There are presently two versions of this library:

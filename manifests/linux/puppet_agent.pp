@@ -1,4 +1,4 @@
-# R_profile::Linux::Puppet_agent
+# @summary Manage the Puppet agent
 #
 # Manages:
 #   * Puppet Agent service

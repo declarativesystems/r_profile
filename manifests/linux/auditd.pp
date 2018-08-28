@@ -1,12 +1,4 @@
-# R_profile::Linux::Auditd
-#
-# Ensure the auditd service is installed, running and has a fixed set of rules
-# loaded.
-#
-# kemra102/auditd module from https://github.com/kemra102/puppet-auditd is used
-# to provide auditd management. Pending a new forge release to address
-# https://github.com/kemra102/puppet-auditd/issues/44 (merged) a hotfix module
-# will be used instead
+# @summary Manage audit service and rules
 #
 # @see https://forge.puppet.com/geoffwilliams/auditd
 #

@@ -1,6 +1,6 @@
-# R_profile::Linux::Sendmail
+# @summary Configure (currently disable) the sendmail daemon
 #
-# Configure (currently disable) the sendmail daemon.
+# Features:
 # * Service configuable (default to stopped/disabled)
 # * Set daemon in /etc/sysconfig/sendmail
 # * Set queue in /etc/sysconfig/sendmail

@@ -1,6 +1,5 @@
-# R_profiles::mount
+# @summary Configure filesystem mounts using the puppet
 #
-# Configure filesystem mounts using the puppet built-in mount provider.
 # @see https://puppet.com/docs/puppet/5.5/types/mount.html
 #
 # @example mounting a partition on `/opt`

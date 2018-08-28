@@ -1,6 +1,4 @@
-# Redhat_tidy::Postfix
-#
-# Configure postfix for local mail delivery
+# @summary Configure postfix for local mail delivery
 #
 # @param inet_interfaces network interfaces to listen on, becomes inet_interfaces in
 #   the main.cf file

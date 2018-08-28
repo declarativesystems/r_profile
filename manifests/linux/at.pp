@@ -1,6 +1,6 @@
-# R_profile::Linux::At
+# @summary Setup the `at` scheduler
 #
-# Setup the `at` scheduler:
+# Features:
 # * Remove `at.deny` so that only allowed users can run `at`
 # * Strict permissions on `at.allow`
 # * Allow `root` to use `at`

@@ -1,6 +1,4 @@
-# R_profile::Web_service::Iis
-#
-# Install and configure IIS web server
+# @summary Install and configure IIS web server
 #
 # @param website_owner File ownership for webserver
 # @param website_group File ownership for webserver

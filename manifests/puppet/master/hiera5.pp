@@ -1,5 +1,4 @@
-# R_profile::Puppet::Master::Hiera5
-#
+# @summary Hiera v5 support
 #
 # Enable support for Hiera v5 system-wide by copying-in a golden `hiera.yaml`
 # file and restarting puppet.  Individual environments can then specify the

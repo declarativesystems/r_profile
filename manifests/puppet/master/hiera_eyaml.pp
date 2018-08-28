@@ -1,4 +1,4 @@
-# R_profile::Puppet::Master::Hiera_eyaml
+# @summary Configure hiera-eyaml package and/or encryption keys
 #
 # Configure hiera-eyaml by generating the encryption keys. Current versions of
 # Puppet Enterprise ~2018x ship a vendored eyaml gem so installation is not

@@ -1,6 +1,4 @@
-# R_profiles::Host
-#
-# Mange the static lookup table for hostnames.
+# @summary Mange the static lookup table for hostnames.
 #
 # We take both a `base` and override hash of services and merge them to form a final list. This allows for simpler
 # management through hiera.

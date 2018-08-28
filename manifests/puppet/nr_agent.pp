@@ -1,7 +1,7 @@
-# R_profile::Puppet::Nr_agent
+# @summary Install non-root puppet agent(s).
 #
-# Install non-root puppet agent(s).  Typically useful if you want to manage
-# cloud resources with puppet and reqiure multiple puppet agents to do so.
+# Typically useful if you want to manage cloud resources with puppet and reqiure
+# multiple puppet agents to do so.
 #
 # Rquires that your puppet master hostname is resolvable already, either via DNS
 # or `/etc/hosts`

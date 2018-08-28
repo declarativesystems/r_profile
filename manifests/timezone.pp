@@ -1,9 +1,9 @@
-# R_profile::Timezone
+# @summary Select the active system timezone (requires reboot)
 #
-# Select the active system timezone (requires reboot).  Currently supports Linux,
-# Solaris, AIX and Windows.  Timezone names for linux need to match the Olsen names
-# available on the current system.  On Linux, these are normally found under
-# `/usr/share/zoneinfo`. On Windows the timezone needs to match a name from `tzutil -l`
+# Currently supports Linux, Solaris, AIX and Windows.  Timezone names for linux
+# need to match the Olsen names available on the current system.  On Linux,
+# these are normally found under `/usr/share/zoneinfo`. On Windows the timezone
+# needs to match a name from `tzutil -l`
 #
 # @see https://forge.puppet.com/geoffwilliams/timezone
 # @see https://forge.puppet.com/geoffwilliams/windows_timezone

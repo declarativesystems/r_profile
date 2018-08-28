@@ -1,6 +1,6 @@
-# r_profile::linux::logrotate
+# @summary Setup log rotation on Linux:
 #
-# Setup log rotation on Linux:
+# Features:
 #   * installation/configuration of logrotate
 #   * rotation defaults
 #   * individual rules

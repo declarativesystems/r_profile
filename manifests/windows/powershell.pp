@@ -1,6 +1,4 @@
-# R_profile::Windows::Powershell
-#
-# Does nothing
+# @summary Does nothing
 class r_profile::windows::powershell {
 #  package { 'powershell':
 #    ensure => latest,

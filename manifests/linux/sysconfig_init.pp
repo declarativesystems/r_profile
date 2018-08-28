@@ -1,4 +1,4 @@
-# R_profile::Linux::Sysconfig_init
+# @summary Configure `/etc/sysconfig/init`
 #
 # Lockdown /etc/sysconfig/init settings (RHEL < 7)
 # * PROMPT=no

@@ -1,7 +1,6 @@
-# R_profile::Puppet::Master::Db_backup
+# @summary Install a cron job to backup the PE postgres server
 #
-# Install a cron job to backup the PE postgres server by taking a complete dump
-# of the database
+# @note Takescomplete dump of the database
 #
 # @param ensure `present` to create the cron job, `absent` to remove it
 # @param dir Directory to dump database to

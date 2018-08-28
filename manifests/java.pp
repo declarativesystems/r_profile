@@ -1,6 +1,4 @@
-# R_profile::Java
-#
-# Install Java (openjdk) using puppetlabs/java
+# @summary Install Java (openjdk) using puppetlabs/java
 #
 # @param version Version of OpenJDK to install or undef to install latest
 class r_profile::java(

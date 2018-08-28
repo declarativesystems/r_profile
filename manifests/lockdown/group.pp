@@ -1,6 +1,4 @@
-# R_profile::Lockdown::Group
-#
-# Lockdown groups by removing them.
+# @summary Lockdown groups by removing them.
 #
 # @param delete Array of groups to delete from the system
 class r_profile::lockdown::group(

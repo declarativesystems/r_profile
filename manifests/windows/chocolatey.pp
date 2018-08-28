@@ -1,6 +1,4 @@
-# R_profile::Windows::Chocolatey
-#
-# Setup chocolatey package manager on Windows
+# @summary Setup chocolatey package manager on Windows
 #
 # @see https://forge.puppet.com/puppetlabs/chocolatey
 # @see https://forge.puppet.com/puppet/windows_env

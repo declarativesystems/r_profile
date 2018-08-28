@@ -1,6 +1,4 @@
-# R_profile::User
-#
-# Support for creating users and groups in bulk.
+# @summary Support for creating users and groups
 #
 # Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
 # those in base.

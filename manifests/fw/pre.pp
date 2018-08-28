@@ -1,6 +1,4 @@
-# R_profile::Fw::Pre
-#
-# 'pre' rules for iptables
+# @summary 'pre' rules for iptables
 class r_profile::fw::pre {
 #  package { 'iptables':
 #    ensure => present,

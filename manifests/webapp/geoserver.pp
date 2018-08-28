@@ -1,6 +1,4 @@
-# R_profile::Webapp::Geoserver
-#
-# Support for install GeoServer - A server-side Java GIS
+# @summary Support for install GeoServer - A server-side Java GIS
 #
 # @see https://forge.puppet.com/puppetlabs/tomcat
 # @see https://forge.puppet.com/puppet/archive

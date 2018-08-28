@@ -1,4 +1,4 @@
-# WIP easy samba support
+# @summary WIP easy samba support
 class r_profile::linux::samba_server {
 
   package { ["samba", "samba-common-bin"]:

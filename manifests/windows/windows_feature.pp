@@ -1,6 +1,4 @@
-# R_profile::Windows::Windows_feature
-#
-# Install Windows Features using Puppet and reboot if required.
+# @summary Install Windows Features using Puppet and reboot if required.
 #
 # Rebooting is controlled adding an additional parameter `reboot_after` to the data fed
 # to this profile. _This_ class will act on this directive itself by subscribing its own

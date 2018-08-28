@@ -1,6 +1,4 @@
-# R_profile::Monitor::Nagios_monitored
-#
-# Configure nagios to monitor something
+# @summary Configure nagios to monitor something
 #
 # @param nagios_server Hostname of nagios server
 class r_profile::monitor::nagios_monitored(

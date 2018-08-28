@@ -1,6 +1,4 @@
-# R_profile::Linux::Vim
-#
-# Setup a nice version of vim
+# @summary Setup a nice version of vim
 class r_profile::linux::vim {
   class { 'vim': }
 

@@ -1,4 +1,4 @@
-# R_profile::Linux::Realmd
+# @summary manage realmd(SSSD)
 #
 # Support for setting up realmd (SSSD) for authentication against a directory server on
 # RHEL 7. You are advised to use hiera-eyaml to encrypt the `ad_password` parameter when

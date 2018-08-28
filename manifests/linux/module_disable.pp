@@ -1,8 +1,7 @@
-# R_Profile::Linux::Module_blacklist
+# @summary Disable kernel modules by breaking them in `/etc/modeprobe.d/disable.conf`
 #
-# Disable kernel modules by breaking them in `/etc/modeprobe.d/disable.conf`. Kernel modules will be disabled rather
-# than blacklisted by this process as `modprobe` will try to load the related file. Since we definie the module as
-# `/bin/true`, it won’t be loaded.
+# Kernel modules will be disabled rather than blacklisted by this process as `modprobe` will try to load the related
+# file. Since we definie the module as `/bin/true`, it won’t be loaded.
 #
 # @see https://forge.puppet.com/puppetlabs/stdlib
 # @see https://linux-audit.com/kernel-hardening-disable-and-blacklist-linux-modules/

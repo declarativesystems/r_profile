@@ -1,4 +1,4 @@
-# Redhat_tidy::Fix_sticky_permissions
+# @summary Scan the system for directories that should have the sticky bit set
 #
 # Perform a system-wide find across local filesystems for world-writable
 # directories and make sure that they all have the sticky bit set so that only

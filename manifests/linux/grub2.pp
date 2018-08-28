@@ -1,6 +1,6 @@
-# R_profile::Grub2
+# @summary Secure the grub2 bootloader for RHEL7+
 #
-# Secure the grub2 bootloader for RHEL7+
+# Features:
 #   * Permissions on main config file
 #   * Bootloader passwords set for physical nodes
 #

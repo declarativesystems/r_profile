@@ -1,6 +1,4 @@
-# R_profile::Virtual::Virtual_box
-#
-# Install Oracle VirtualBox using the voxpupuli virtualbox module.
+# @summary Install Oracle VirtualBox
 # @see https://forge.puppet.com/puppet/virtualbox
 #
 # @param version Version to install, installs latest if unspecified

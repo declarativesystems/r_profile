@@ -1,7 +1,6 @@
-# R_profile::Service
+# @summary Ensure services are managed by Puppet to a particular state
 #
-# Ensure services are managed by Puppet to a particular state. By default enable services to start on boot and be
-# running.
+# By default enable services to start on boot and be running.
 #
 # We take both a `base` and override hash of services and merge them to form a final list. This allows for simpler
 # management through hiera.

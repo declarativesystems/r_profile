@@ -1,6 +1,4 @@
-# R_profile::Aws
-#
-# Configure AWS with puppet
+# @summary Configure AWS with puppet
 #
 # @param aws_access_key_id AWS credential (ID)
 # @param aws_secret_access_key AWS credential (Secret)

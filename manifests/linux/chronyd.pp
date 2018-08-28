@@ -1,6 +1,6 @@
-# R_profile::Linux::Chronyd
+# @summary Chronyd (formerly NTPd) support for Linux.
 #
-# Chronyd (formerly NTPd) support for Linux. No attempt is made to manage this service when running under docker since
+# @note No attempt is made to manage this service when running under docker since
 # the shared kernel makes this uncessary.
 #
 # @example Setup cronyd with the default list of servers

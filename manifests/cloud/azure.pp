@@ -1,6 +1,4 @@
-# R_profile::Cloud::Azure
-#
-# Manage the azure VMs using the passed-in hash
+# @summary Manage the azure VMs using the passed-in hash
 #
 # @param azure_vm Hash of azure VMs to create
 # @param azure_vm_default Hash of default settings for azure VMs

@@ -1,6 +1,9 @@
-# R_profile::Linux::Selinux
+# @summary Manage SELinux
 #
-# Managment of SELinux and optional removal of the setroubleshoot debug package
+# Features:
+#   * Set SELinux enforcement mode
+#   * Remove the setroubleshoot debug package (optional)
+#   * Set selinux booleans (`setsebool`)
 #
 # @see https://forge.puppet.com/puppet/selinux/issues
 #

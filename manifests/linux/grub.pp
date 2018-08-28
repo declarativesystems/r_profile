@@ -1,6 +1,6 @@
-# R_profile::Grub
+# @summary Secure the Grub 1.x boot-loader (RHEL < 7)
 #
-# Secure the Grub 1.x boot-loader (RHEL < 7)
+# Features:
 # * Permisisons on /etc/grub.conf
 # * remove any kernel commandline disabling selinux
 # * force all kernels to boot with audit=1

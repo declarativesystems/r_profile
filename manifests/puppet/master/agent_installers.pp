@@ -1,4 +1,4 @@
-# R_profile::Puppet::Master::Agent_installers
+# @summary Install Puppet Enterprise agents for all supported platforms
 #
 # Puppet Enterprise doesn't ship with the installers needed for every platform included in the installation media.'Users
 # must instead follow the steps at https://puppet.com/docs/pe/2018.1/installing/installing_agents.html#ariaid-title2

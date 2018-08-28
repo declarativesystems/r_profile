@@ -1,6 +1,4 @@
-# R_profile::Linux::Resolv_conf
-#
-# Manage `/etc/resolv.conf`
+# @summary Manage `/etc/resolv.conf`
 #
 # @see https://forge.puppet.com/geoffwilliams/resolv_conf
 #

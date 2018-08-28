@@ -1,6 +1,4 @@
-# R_profile::Linux::Base
-#
-# A basic Linux 'baseline' class
+# @summary A basic Linux 'baseline' class
 class r_profile::linux::base {
   include r_profile::linux::iptables
   include r_profile::linux::vim

@@ -1,6 +1,6 @@
-# R_profile::Linux::System_users
+# @summary Lockdown and restrict users across the system:
 #
-# Lockdown and restrict users across the system:
+# Features:
 # * disable _system_ accounts (UID < 500/1000) by locking the shell
 # * ensure root group is 0
 # * lock inactive users

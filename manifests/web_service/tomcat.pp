@@ -1,6 +1,4 @@
-# R_profile::Web_service::Tomcat
-#
-# Install and configure tomcat application server
+# @summary Install and configure tomcat application server
 #
 # @see https://forge.puppet.com/puppetlabs/tomcat
 #

@@ -1,6 +1,4 @@
-# R_profile::Motd
-#
-# Simple MOTD support for POSIX and Windows.
+# @summary Simple MOTD support for POSIX and Windows.
 #
 # @see https://forge.puppet.com/geoffwilliams/motd/readme
 #

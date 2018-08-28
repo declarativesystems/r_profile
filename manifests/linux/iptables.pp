@@ -1,6 +1,4 @@
-# R_profile::Linux::Iptables
-#
-# Management of the IPtables Linux firewall
+# @summary Management of the IPtables Linux firewall
 #
 # @param ensure `managed` take control of the IPtables firewall, `disabled` turn
 #   IPtables off, `unmanaged` do not change firewall settings

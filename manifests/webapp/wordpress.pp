@@ -1,6 +1,4 @@
-# R_profile::Webapp::Wordpress
-#
-# Install wordpress CMS using `hunner-wordpress`
+# @summary Install wordpress CMS using `hunner-wordpress`
 class r_profile::webapp::wordpress() {
   apache::vhost { $facts['fqdn']:
     port     => '80',

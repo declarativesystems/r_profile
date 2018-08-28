@@ -1,8 +1,4 @@
-# R_Profile::Linux::Yumrepo
-#
-# Setup the system yum repos in a custom stage before the main puppet run. This lets
-# up setup all the repositories to be avaiable by the `main` stage.
-# @see https://puppet.com/docs/puppet/5.5/lang_run_stages.html
+# @summary Setup the system yum repos
 #
 # Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
 # those in base.

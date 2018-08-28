@@ -1,6 +1,6 @@
-# R_profile::Linux::Umask
+# @summary set the umask to be used inside various scripts
 #
-# Set the umask for each of the requested files. The files must already exist in order to add a line
+# Set the umask inside each of the requested files. The files must already exist in order to add a line
 # to them. r_profile::file can be used to do this if required.
 #
 # @see https://forge.puppet.com/geoffwilliams/filemagic/readme

@@ -1,6 +1,5 @@
-# R_profile::Windows::Registry
+# @summary Manage Windows registry entries with Puppet
 #
-# Manage Windows registry entries with Puppet using puppetlabs-registry
 # @see https://forge.puppet.com/puppetlabs/registry
 #
 # @example hiera data

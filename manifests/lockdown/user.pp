@@ -1,7 +1,6 @@
-# R_profile::Lockdown::User
+# @summary Lockdown users by disabling their passwords and or shells.
 #
-# Lockdown users by disabling their passwords and or shells.  Alternatively, we
-# will remove all users named in the delete parameter.  Note that it is an error
+# Alternatively, we will remove all users named in the delete parameter.  Note that it is an error
 # to attempt to both disable and remove a user, since disabling requires that
 # the user still be present to update /etc/shadow and /etc/password.  This will
 # manifest as a duplicate declaration error if encountered in the field.

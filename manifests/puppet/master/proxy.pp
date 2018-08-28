@@ -1,7 +1,7 @@
-# R_profile::Puppet::Proxy
+# @summary Enable a Puppet Enterprise Master to work with a proxy server
 #
-# Enable a Puppet Enterprise Master (not master's agent!) to work with a proxy server.
-# To configure the master's agent for proxy support, include `r_profile::linux::puppet_agent`
+# @note This does not configure the master's agent. Use `r_profile::linux::puppet_agent`
+# for this
 #
 # If using this class you must also declare `r_profile::puppet::master` in order
 # to manage and notify `Service['pe-puppetserver']`

@@ -1,7 +1,4 @@
-# R_profile::Cloud::Vsphere
-#
-# Setup the dependencies for the puppetlabs/vsphere forge module and manage the
-# passed-in hash of VMs.
+# @suummary Setup the dependencies for the puppetlabs/vsphere forge module and VMs
 #
 # The forge module uses some locally gems for Vsphere library in order
 # to talk to the Vsphere API

@@ -1,4 +1,4 @@
-# R_profile::Window::Puppet_agent
+# @summary Manage the Puppet agent on Windows
 #
 # Manages:
 #   * Puppet Agent service

@@ -1,7 +1,6 @@
-# R_profile::Puppet::Master::License
+# @summary Install a puppet license key onto the puppet Master.
 #
-# Install a puppet license key onto the puppet Master.  This works by symlinking
-# the license.key file from your control repository to the correct location on
+# This works by symlinking the license.key file from your control repository to the correct location on
 # the puppet master.  To upgrade or alter your license information, just update
 # the file in the control repository (production branch) and then deploy to the
 # master as usual.

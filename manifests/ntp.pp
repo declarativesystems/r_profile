@@ -1,7 +1,6 @@
-# R_profile::Ntp
+# @summary NTP for Linux/unix based servers.
 #
-# NTP for Linux/unix based servers. Newer Linux systems can use `r_profile::linux::chronyd` to gain a more modern NTP
-# implementation.
+# @note Newer Linux systems should use `r_profile::linux::chronyd`
 #
 # Windows users gain NTP by joining a domain. There is no support for standalone windows NTP yet
 #

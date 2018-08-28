@@ -1,6 +1,4 @@
-# R_profile::Windows::Firewall
-#
-# Manage the windows advanced firewall.
+# @summary Manage the windows advanced firewall.
 #
 # Features:
 #   * Global settings

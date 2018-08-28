@@ -1,8 +1,7 @@
-# R_profile::Linux::Sudo
+# @summary Configure sudo for linux using Puppet
 #
-# Configure sudo for linux using Puppet. We take a minimal approach to management by just
-# making sure that the package is installed and that the files we want to manage exist
-# at /etc/sudoers.d.
+# We take a minimal approach to management by just making sure that the package is installed and that the files we want
+# to manage exist at /etc/sudoers.d.
 #
 # This non-destructive approach lets us only manage the sections of configuration we want to
 #

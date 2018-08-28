@@ -1,6 +1,6 @@
-# r_profile::linux::Mounts
+# @summary Common mount good practices for RedHat
 #
-# Common mount good practices for RedHat:
+# Features:
 #   * `/tmp` mounted `nodev,nosuid,noexec` (if separate partition)
 #   * `/dev/shm` mounted `nodev,nosuid,noexec` (if separate partition)
 #   * Optionally bind mount `/var/tmp` to `/tmp`

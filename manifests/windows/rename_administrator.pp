@@ -1,6 +1,4 @@
-# R_profile::Windows::Rename_administrator
-#
-# Rename the `administrator` account.
+# @summary Rename the `administrator` account.
 #
 # @example basic usage
 #   include r_profile::windows::rename_administrator

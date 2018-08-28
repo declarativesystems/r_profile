@@ -1,6 +1,4 @@
-# R_profile::Fw::Post
-#
-# 'post' rules for iptables
+# @summary 'post' rules for iptables
 class r_profile::fw::post {
   Firewall {
     before => undef,

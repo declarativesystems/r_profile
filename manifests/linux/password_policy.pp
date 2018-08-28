@@ -1,8 +1,6 @@
-# R_profile::Linux::Password_policy
+# @summary Manage several settings related to password quality, privilege, aging and algorithm selection
 #
-# Manage several settings related to password quality, privilege, aging and algorithm selection. See below for details.
-#
-# Enforce aging/ settings (`/etc/login.defs`):
+# Enforce aging settings (`/etc/login.defs`):
 #   * password max days
 #   * password warn age
 #   * password algorithm

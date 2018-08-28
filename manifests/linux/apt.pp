@@ -1,6 +1,4 @@
-# R_profile::Linux::Apt
-#
-# Setup of apt package manager
+# @summary Setup of apt package manager
 #
 # @see https://forge.puppet.com/puppetlabs/apt
 class r_profile::linux::apt() {

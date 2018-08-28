@@ -1,6 +1,4 @@
-# R_profile::Webapp::Php_config
-#
-# write PHP configuration file settings
+# @summary Write PHP configuration file settings
 #
 # @param configs Hash of configuration filenames and values to write:
 # ```puppet

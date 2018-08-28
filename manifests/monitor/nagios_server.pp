@@ -1,6 +1,4 @@
-# R_profile::Monitor::Nagios_server
-#
-# Confifgure nagios server
+# @summary Confifgure nagios server
 #
 # @param password Password to use for nagios
 class r_profile::monitor::nagios_server(

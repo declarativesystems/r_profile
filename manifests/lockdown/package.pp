@@ -1,6 +1,4 @@
-# R_profile::Lockdown::Package
-#
-# Purge the passed-in packages from the system
+# @summary Purge the passed-in packages from the system
 #
 # @example Hiera data
 #   r_profile::lockdown::package::delete:

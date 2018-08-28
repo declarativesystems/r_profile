@@ -1,6 +1,4 @@
-# Redhat_tidy::Inittab
-#
-# Set the system supported runlevels
+# @summary Set the system supported runlevels
 #
 # @param runlevels String containing allowed runlevels
 class r_profile::linux::inittab(

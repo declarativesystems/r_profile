@@ -1,7 +1,6 @@
-# R_profile::Linux::Hostname
+# @summary Set the hostname using systemd and optionally the system IP address
 #
-# Set the hostname using systemd and optionally the system IP address.  By
-# default, set the hostname to match `certname` - the name of the signed
+# By default, set the hostname to match `certname` - the name of the signed
 # certificate that puppet knows about.  This is useful for cloud environments
 # such as azure that assign dnsdomains based on regions that cannot be changed
 # to a sensible default

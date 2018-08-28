@@ -5,111 +5,111 @@
 
 **Classes**
 
-* [`r_profile::aws`](#r_profileaws): R_profile::Aws  Configure AWS with puppet
-* [`r_profile::base`](#r_profilebase): R_profile::Base  A generic 'baseleve' style class
-* [`r_profile::cloud::azure`](#r_profilecloudazure): R_profile::Cloud::Azure  Manage the azure VMs using the passed-in hash
-* [`r_profile::cloud::azure_platform`](#r_profilecloudazure_platform): R_profile::Cloud::Azure_platform  Setup the dependencies for the puppetlabs/azure forge module  The forge module uses a locally installed cop
-* [`r_profile::cloud::vsphere`](#r_profilecloudvsphere): R_profile::Cloud::Vsphere  Setup the dependencies for the puppetlabs/vsphere forge module and manage the passed-in hash of VMs.  The forge mo
-* [`r_profile::database::mysql_server`](#r_profiledatabasemysql_server): R_profile::Database::Mysql_server  Install the MySQL database server
-* [`r_profile::dns_client`](#r_profiledns_client): R_profile::Dns_client  Support for configuring the DNS client (/etc/resolve.conf) and the Name Service Switch (/etc/nsswitch.conf and friends
-* [`r_profile::environment_variable`](#r_profileenvironment_variable): R_profile::Environment_variable  Manage enivronment variables on windows and linux
-* [`r_profile::file`](#r_profilefile): R_profile::File  Support for managing files and directories.  Items to create are grouped into base and non-base to allow easy management in 
-* [`r_profile::fw::post`](#r_profilefwpost): R_profile::Fw::Post  'post' rules for iptables
-* [`r_profile::fw::pre`](#r_profilefwpre): R_profile::Fw::Pre  'pre' rules for iptables
-* [`r_profile::host`](#r_profilehost): R_profiles::Host  Mange the static lookup table for hostnames.  We take both a `base` and override hash of services and merge them to form a 
-* [`r_profile::java`](#r_profilejava): R_profile::Java  Install Java (openjdk) using puppetlabs/java
-* [`r_profile::jenkins`](#r_profilejenkins): R_profile::Jenkins  Support for Jenkins CI
-* [`r_profile::lb::haproxy`](#r_profilelbhaproxy): R_profile::Lb::Haproxy  A haproxy based load-balancer  https://tickets.puppetlabs.com/browse/MODULES-3932
-* [`r_profile::linux::apt`](#r_profilelinuxapt): R_profile::Linux::Apt  Setup of apt package manager
-* [`r_profile::linux::at`](#r_profilelinuxat): R_profile::Linux::At  Setup the `at` scheduler: * Remove `at.deny` so that only allowed users can run `at` * Strict permissions on `at.allow`
-* [`r_profile::linux::auditd`](#r_profilelinuxauditd): R_profile::Linux::Auditd  Ensure the auditd service is installed, running and has a fixed set of rules loaded.  kemra102/auditd module from h
-* [`r_profile::linux::base`](#r_profilelinuxbase): R_profile::Linux::Base  A basic Linux 'baseline' class
-* [`r_profile::linux::chronyd`](#r_profilelinuxchronyd): R_profile::Linux::Chronyd  Chronyd (formerly NTPd) support for Linux. No attempt is made to manage this service when running under docker sin
-* [`r_profile::linux::cron`](#r_profilelinuxcron): R_profile::Linux::Cron  Restrict permissions on the `cron` scheduler * Remove `cron.deny` so that only allowed users can run `cron` * Strict 
-* [`r_profile::linux::cups`](#r_profilelinuxcups): R_profile::Linux::Cups  Manage cups printers with Puppet
-* [`r_profile::linux::firewalld`](#r_profilelinuxfirewalld): R_profile::Linux::Firewalld  Manage firewalld using crayfishx-firewalld. Accepts base plus additional options for each set of rule resources 
-* [`r_profile::linux::fix_sticky_permissions`](#r_profilelinuxfix_sticky_permissions): Redhat_tidy::Fix_sticky_permissions  Perform a system-wide find across local filesystems for world-writable directories and make sure that th
-* [`r_profile::linux::grub`](#r_profilelinuxgrub): R_profile::Grub  Secure the Grub 1.x boot-loader (RHEL < 7) * Permisisons on /etc/grub.conf * remove any kernel commandline disabling selinux
-* [`r_profile::linux::grub2`](#r_profilelinuxgrub2): R_profile::Grub2  Secure the grub2 bootloader for RHEL7+   * Permissions on main config file   * Bootloader passwords set for physical nodes
-* [`r_profile::linux::hostname`](#r_profilelinuxhostname): R_profile::Linux::Hostname  Set the hostname using systemd and optionally the system IP address.  By default, set the hostname to match `cert
-* [`r_profile::linux::inittab`](#r_profilelinuxinittab): Redhat_tidy::Inittab  Set the system supported runlevels
-* [`r_profile::linux::iptables`](#r_profilelinuxiptables): R_profile::Linux::Iptables  Management of the IPtables Linux firewall
-* [`r_profile::linux::kernel_devel`](#r_profilelinuxkernel_devel): R_profile::Linux::Kernel_devel  Configure a system for kernel compilation.  Currently suported: * RedHat
-* [`r_profile::linux::limits`](#r_profilelinuxlimits): R_profile::Limits  Manage Linux system limits using saz/limits
-* [`r_profile::linux::logrotate`](#r_profilelinuxlogrotate): r_profile::linux::logrotate  Setup log rotation on Linux:   * installation/configuration of logrotate   * rotation defaults   * individual ru
-* [`r_profile::linux::module_disable`](#r_profilelinuxmodule_disable): R_Profile::Linux::Module_blacklist  Disable kernel modules by breaking them in `/etc/modeprobe.d/disable.conf`. Kernel modules will be disabl
-* [`r_profile::linux::mount`](#r_profilelinuxmount): r_profile::linux::Mounts  Common mount good practices for RedHat:   * `/tmp` mounted `nodev,nosuid,noexec` (if separate partition)   * `/dev/
-* [`r_profile::linux::package_manager`](#r_profilelinuxpackage_manager): R_profile::Linux::Package_manager  Configure a linux package manager
-* [`r_profile::linux::password_policy`](#r_profilelinuxpassword_policy): R_profile::Linux::Password_policy  Manage several settings related to password quality, privilege, aging and algorithm selection. See below f
-* [`r_profile::linux::postfix`](#r_profilelinuxpostfix): Redhat_tidy::Postfix  Configure postfix for local mail delivery
-* [`r_profile::linux::puppet_agent`](#r_profilelinuxpuppet_agent): R_profile::Linux::Puppet_agent  Manages:   * Puppet Agent service   * Proxy server environment variable support  The Puppet Agent is not mana
-* [`r_profile::linux::realmd`](#r_profilelinuxrealmd): R_profile::Linux::Realmd  Support for setting up realmd (SSSD) for authentication against a directory server on RHEL 7. You are advised to us
-* [`r_profile::linux::resolv_conf`](#r_profilelinuxresolv_conf): R_profile::Linux::Resolv_conf  Manage `/etc/resolv.conf`
-* [`r_profile::linux::rsyslog_client`](#r_profilelinuxrsyslog_client): R_profile::Linux::Rsyslog  Setup `rsyslog` client:   * Install Package   * General settings   * Managed logfiles
+* [`r_profile::aws`](#r_profileaws): Configure AWS with puppet
+* [`r_profile::base`](#r_profilebase): A generic 'baseleve' style class
+* [`r_profile::cloud::azure`](#r_profilecloudazure): Manage the azure VMs using the passed-in hash
+* [`r_profile::cloud::azure_platform`](#r_profilecloudazure_platform): Setup the dependencies for the puppetlabs/azure forge module
+* [`r_profile::cloud::vsphere`](#r_profilecloudvsphere): The forge module uses some locally gems for Vsphere library in order to talk to the Vsphere API
+* [`r_profile::database::mysql_server`](#r_profiledatabasemysql_server): Install the MySQL database server
+* [`r_profile::dns_client`](#r_profiledns_client): Support for configuring the DNS client
+* [`r_profile::environment_variable`](#r_profileenvironment_variable): Manage enivronment variables on windows and linux
+* [`r_profile::file`](#r_profilefile): Support for managing files and directories.
+* [`r_profile::fw::post`](#r_profilefwpost): 'post' rules for iptables
+* [`r_profile::fw::pre`](#r_profilefwpre): 'pre' rules for iptables
+* [`r_profile::host`](#r_profilehost): Mange the static lookup table for hostnames.
+* [`r_profile::java`](#r_profilejava): Install Java (openjdk) using puppetlabs/java
+* [`r_profile::jenkins`](#r_profilejenkins): Support for Jenkins CI
+* [`r_profile::lb::haproxy`](#r_profilelbhaproxy): A haproxy based load-balancer
+* [`r_profile::linux::apt`](#r_profilelinuxapt): Setup of apt package manager
+* [`r_profile::linux::at`](#r_profilelinuxat): Setup the `at` scheduler
+* [`r_profile::linux::auditd`](#r_profilelinuxauditd): Manage audit service and rules
+* [`r_profile::linux::base`](#r_profilelinuxbase): A basic Linux 'baseline' class
+* [`r_profile::linux::chronyd`](#r_profilelinuxchronyd): Chronyd (formerly NTPd) support for Linux.
+* [`r_profile::linux::cron`](#r_profilelinuxcron): Restrict permissions on the `cron` scheduler
+* [`r_profile::linux::cups`](#r_profilelinuxcups): Manage cups printers with Puppet
+* [`r_profile::linux::firewalld`](#r_profilelinuxfirewalld): Manage firewalld using crayfishx-firewalld
+* [`r_profile::linux::fix_sticky_permissions`](#r_profilelinuxfix_sticky_permissions): Scan the system for directories that should have the sticky bit set
+* [`r_profile::linux::grub`](#r_profilelinuxgrub): Secure the Grub 1.x boot-loader (RHEL < 7)
+* [`r_profile::linux::grub2`](#r_profilelinuxgrub2): Secure the grub2 bootloader for RHEL7+
+* [`r_profile::linux::hostname`](#r_profilelinuxhostname): Set the hostname using systemd and optionally the system IP address
+* [`r_profile::linux::inittab`](#r_profilelinuxinittab): Set the system supported runlevels
+* [`r_profile::linux::iptables`](#r_profilelinuxiptables): Management of the IPtables Linux firewall
+* [`r_profile::linux::kernel_devel`](#r_profilelinuxkernel_devel): Configure a system for kernel compilation
+* [`r_profile::linux::limits`](#r_profilelinuxlimits): Manage Linux system limits using saz/limits
+* [`r_profile::linux::logrotate`](#r_profilelinuxlogrotate): Setup log rotation on Linux:
+* [`r_profile::linux::module_disable`](#r_profilelinuxmodule_disable): Disable kernel modules by breaking them in `/etc/modeprobe.d/disable.conf`
+* [`r_profile::linux::mount`](#r_profilelinuxmount): Common mount good practices for RedHat
+* [`r_profile::linux::package_manager`](#r_profilelinuxpackage_manager): Configure a linux package manager
+* [`r_profile::linux::password_policy`](#r_profilelinuxpassword_policy): Manage several settings related to password quality, privilege, aging and algorithm selection
+* [`r_profile::linux::postfix`](#r_profilelinuxpostfix): Configure postfix for local mail delivery
+* [`r_profile::linux::puppet_agent`](#r_profilelinuxpuppet_agent): Manage the Puppet agent
+* [`r_profile::linux::realmd`](#r_profilelinuxrealmd): manage realmd(SSSD)
+* [`r_profile::linux::resolv_conf`](#r_profilelinuxresolv_conf): Manage `/etc/resolv.conf`
+* [`r_profile::linux::rsyslog_client`](#r_profilelinuxrsyslog_client): Setup `rsyslog` client
 * [`r_profile::linux::samba_server`](#r_profilelinuxsamba_server): WIP easy samba support
-* [`r_profile::linux::selinux`](#r_profilelinuxselinux): R_profile::Linux::Selinux  Managment of SELinux and optional removal of the setroubleshoot debug package
-* [`r_profile::linux::sendmail`](#r_profilelinuxsendmail): R_profile::Linux::Sendmail  Configure (currently disable) the sendmail daemon. * Service configuable (default to stopped/disabled) * Set daem
-* [`r_profile::linux::ssh`](#r_profilelinuxssh): R_profile::Linux::Ssh  SSH support on linux using Augeas.
-* [`r_profile::linux::sudo`](#r_profilelinuxsudo): R_profile::Linux::Sudo  Configure sudo for linux using Puppet. We take a minimal approach to management by just making sure that the package 
-* [`r_profile::linux::sysconfig_init`](#r_profilelinuxsysconfig_init): R_profile::Linux::Sysconfig_init  Lockdown /etc/sysconfig/init settings (RHEL < 7) * PROMPT=no * SINGLE=/sbin/sulogin  Lockdown /etc/sysconfi
-* [`r_profile::linux::sysctl`](#r_profilelinuxsysctl): Profile::Linux::Sysctl  Control sysctl values (kernel tuning) on Linux.  Not to be confused with systemctl (services). Settings will take pla
-* [`r_profile::linux::system_users`](#r_profilelinuxsystem_users): R_profile::Linux::System_users  Lockdown and restrict users across the system: * disable _system_ accounts (UID < 500/1000) by locking the sh
-* [`r_profile::linux::systemd`](#r_profilelinuxsystemd): R_profile::Linux::Systemd  Provides:   * `Exec['systemctl_daemon_reload']` to scan for changed units when puppet changes them (invoke via not
-* [`r_profile::linux::tcpwrappers`](#r_profilelinuxtcpwrappers): R_profile::Tcpwrappers  Setup tcpwrappers using geoffwilliams/tcpwrappers. We will merge together a set of base level (SOE) rules and addtion
-* [`r_profile::linux::umask`](#r_profilelinuxumask): R_profile::Linux::Umask  Set the umask for each of the requested files. The files must already exist in order to add a line to them. r_profil
-* [`r_profile::linux::vim`](#r_profilelinuxvim): R_profile::Linux::Vim  Setup a nice version of vim
-* [`r_profile::linux::wheel`](#r_profilelinuxwheel): R_profile::Linux::Wheel  Configure the `wheel` group on Linux
-* [`r_profile::linux::yum`](#r_profilelinuxyum): Redhat_tidy::Permissions  Common yum settings for RedHat
-* [`r_profile::linux::yumrepo`](#r_profilelinuxyumrepo): R_Profile::Linux::Yumrepo  Setup the system yum repos in a custom stage before the main puppet run. This lets up setup all the repositories t
-* [`r_profile::lockdown::at`](#r_profilelockdownat): R_profile::Lockdown::At  Restrict access to the `at` daemon by managing the at.allow and at.deny files
-* [`r_profile::lockdown::group`](#r_profilelockdowngroup): R_profile::Lockdown::Group  Lockdown groups by removing them.
-* [`r_profile::lockdown::package`](#r_profilelockdownpackage): R_profile::Lockdown::Package  Purge the passed-in packages from the system
-* [`r_profile::lockdown::user`](#r_profilelockdownuser): R_profile::Lockdown::User  Lockdown users by disabling their passwords and or shells.  Alternatively, we will remove all users named in the d
-* [`r_profile::monitor::nagios_monitored`](#r_profilemonitornagios_monitored): R_profile::Monitor::Nagios_monitored  Configure nagios to monitor something
-* [`r_profile::monitor::nagios_server`](#r_profilemonitornagios_server): R_profile::Monitor::Nagios_server  Confifgure nagios server
-* [`r_profile::motd`](#r_profilemotd): R_profile::Motd  Simple MOTD support for POSIX and Windows.
-* [`r_profile::mount`](#r_profilemount): R_profiles::mount  Configure filesystem mounts using the puppet built-in mount provider.
-* [`r_profile::nginx`](#r_profilenginx): R_profile::Nginx  Support for Nginx webserver
-* [`r_profile::nodejs`](#r_profilenodejs): R_profile::Nodejs  Install NodeJS using the puppet/nodejs module
-* [`r_profile::ntp`](#r_profilentp): R_profile::Ntp  NTP for Linux/unix based servers. Newer Linux systems can use `r_profile::linux::chronyd` to gain a more modern NTP implement
-* [`r_profile::package`](#r_profilepackage): R_profile::Package  Install software using Puppet's built-in `package` resource.
-* [`r_profile::puppet::master`](#r_profilepuppetmaster): R_profile::Puppet::Master  Enable restarting the `pe-puppetserver` service if its systemd environment is changed
-* [`r_profile::puppet::master::agent_installers`](#r_profilepuppetmasteragent_installers): R_profile::Puppet::Master::Agent_installers  Puppet Enterprise doesn't ship with the installers needed for every platform included in the ins
-* [`r_profile::puppet::master::autosign`](#r_profilepuppetmasterautosign): R_profile::Puppet::Master::Autosign  Configure Puppet Enterprise to autosign client certificates:   * Policy based autosigning @https://puppe
-* [`r_profile::puppet::master::db_backup`](#r_profilepuppetmasterdb_backup): R_profile::Puppet::Master::Db_backup  Install a cron job to backup the PE postgres server by taking a complete dump of the database
-* [`r_profile::puppet::master::git_server`](#r_profilepuppetmastergit_server): R_profile::Puppet::Master::Git_server  Enable a simple built-in Git Server for puppet by creating a bare git repository accessed via SSH and 
-* [`r_profile::puppet::master::hiera5`](#r_profilepuppetmasterhiera5): R_profile::Puppet::Master::Hiera5   Enable support for Hiera v5 system-wide by copying-in a golden `hiera.yaml` file and restarting puppet.  
-* [`r_profile::puppet::master::hiera_eyaml`](#r_profilepuppetmasterhiera_eyaml): R_profile::Puppet::Master::Hiera_eyaml  Configure hiera-eyaml by generating the encryption keys. Current versions of Puppet Enterprise ~2018x
-* [`r_profile::puppet::master::license`](#r_profilepuppetmasterlicense): R_profile::Puppet::Master::License  Install a puppet license key onto the puppet Master.  This works by symlinking the license.key file from 
-* [`r_profile::puppet::master::proxy`](#r_profilepuppetmasterproxy): R_profile::Puppet::Proxy  Enable a Puppet Enterprise Master (not master's agent!) to work with a proxy server. To configure the master's agen
-* [`r_profile::puppet::nr_agent`](#r_profilepuppetnr_agent): R_profile::Puppet::Nr_agent  Install non-root puppet agent(s).  Typically useful if you want to manage cloud resources with puppet and reqiur
-* [`r_profile::repo`](#r_profilerepo): Profile::Repo  Declare (instantiate) the required profile classes in a stage before `main`: `repo`. The reason for this class to exist is bec
-* [`r_profile::ruby`](#r_profileruby): R_profile::Ruby  Install a system-level ruby for customer applications to use.  While its possible to use Puppet's vendored ruby for everythi
-* [`r_profile::service`](#r_profileservice): R_profile::Service  Ensure services are managed by Puppet to a particular state. By default enable services to start on boot and be running. 
-* [`r_profile::timezone`](#r_profiletimezone): R_profile::Timezone  Select the active system timezone (requires reboot).  Currently supports Linux, Solaris, AIX and Windows.  Timezone name
-* [`r_profile::user`](#r_profileuser): R_profile::User  Support for creating users and groups in bulk.  Items to create are grouped into base and non-base to allow easy management 
-* [`r_profile::virtual::vagrant`](#r_profilevirtualvagrant): R_profile::Virtual::vagrant  Support for managing VMs via Vagrant (experimental)
-* [`r_profile::virtual::virtual_box`](#r_profilevirtualvirtual_box): R_profile::Virtual::Virtual_box  Install Oracle VirtualBox using the voxpupuli virtualbox module.
-* [`r_profile::web_service::apache`](#r_profileweb_serviceapache): R_profile::Web_service::Apache  Install and configure Apache webserver
-* [`r_profile::web_service::iis`](#r_profileweb_serviceiis): R_profile::Web_service::Iis  Install and configure IIS web server
-* [`r_profile::web_service::tomcat`](#r_profileweb_servicetomcat): R_profile::Web_service::Tomcat  Install and configure tomcat application server
-* [`r_profile::webapp::geoserver`](#r_profilewebappgeoserver): R_profile::Webapp::Geoserver  Support for install GeoServer - A server-side Java GIS
+* [`r_profile::linux::selinux`](#r_profilelinuxselinux): Manage SELinux
+* [`r_profile::linux::sendmail`](#r_profilelinuxsendmail): Configure (currently disable) the sendmail daemon
+* [`r_profile::linux::ssh`](#r_profilelinuxssh): SSH support on linux using Augeas.
+* [`r_profile::linux::sudo`](#r_profilelinuxsudo): Configure sudo for linux using Puppet
+* [`r_profile::linux::sysconfig_init`](#r_profilelinuxsysconfig_init): Configure `/etc/sysconfig/init`
+* [`r_profile::linux::sysctl`](#r_profilelinuxsysctl): Control sysctl values (kernel tuning) on Linux.
+* [`r_profile::linux::system_users`](#r_profilelinuxsystem_users): Lockdown and restrict users across the system:
+* [`r_profile::linux::systemd`](#r_profilelinuxsystemd): Systemd settings and support for Puppet
+* [`r_profile::linux::tcpwrappers`](#r_profilelinuxtcpwrappers): Setup tcpwrappers
+* [`r_profile::linux::umask`](#r_profilelinuxumask): set the umask to be used inside various scripts
+* [`r_profile::linux::vim`](#r_profilelinuxvim): Setup a nice version of vim
+* [`r_profile::linux::wheel`](#r_profilelinuxwheel): Configure the `wheel` group on Linux
+* [`r_profile::linux::yum`](#r_profilelinuxyum): Common yum settings for RedHat
+* [`r_profile::linux::yumrepo`](#r_profilelinuxyumrepo): Setup the system yum repos
+* [`r_profile::lockdown::at`](#r_profilelockdownat): Restrict access to the `at` daemon
+* [`r_profile::lockdown::group`](#r_profilelockdowngroup): Lockdown groups by removing them.
+* [`r_profile::lockdown::package`](#r_profilelockdownpackage): Purge the passed-in packages from the system
+* [`r_profile::lockdown::user`](#r_profilelockdownuser): Lockdown users by disabling their passwords and or shells.
+* [`r_profile::monitor::nagios_monitored`](#r_profilemonitornagios_monitored): Configure nagios to monitor something
+* [`r_profile::monitor::nagios_server`](#r_profilemonitornagios_server): Confifgure nagios server
+* [`r_profile::motd`](#r_profilemotd): Simple MOTD support for POSIX and Windows.
+* [`r_profile::mount`](#r_profilemount): Configure filesystem mounts using the puppet
+* [`r_profile::nginx`](#r_profilenginx): Support for Nginx webserver
+* [`r_profile::nodejs`](#r_profilenodejs): 
+* [`r_profile::ntp`](#r_profilentp): NTP for Linux/unix based servers.
+* [`r_profile::package`](#r_profilepackage): Install software using Puppet's built-in `package` resource.
+* [`r_profile::puppet::master`](#r_profilepuppetmaster): Enable restarting the `pe-puppetserver` service if its systemd environment is changed
+* [`r_profile::puppet::master::agent_installers`](#r_profilepuppetmasteragent_installers): Install Puppet Enterprise agents for all supported platforms
+* [`r_profile::puppet::master::autosign`](#r_profilepuppetmasterautosign): Configure Puppet Enterprise to autosign client certificates
+* [`r_profile::puppet::master::db_backup`](#r_profilepuppetmasterdb_backup): Install a cron job to backup the PE postgres server
+* [`r_profile::puppet::master::git_server`](#r_profilepuppetmastergit_server): Enable a simple built-in Git Server for puppet
+* [`r_profile::puppet::master::hiera5`](#r_profilepuppetmasterhiera5): Hiera v5 support
+* [`r_profile::puppet::master::hiera_eyaml`](#r_profilepuppetmasterhiera_eyaml): Configure hiera-eyaml package and/or encryption keys
+* [`r_profile::puppet::master::license`](#r_profilepuppetmasterlicense): Install a puppet license key onto the puppet Master.
+* [`r_profile::puppet::master::proxy`](#r_profilepuppetmasterproxy): Enable a Puppet Enterprise Master to work with a proxy server
+* [`r_profile::puppet::nr_agent`](#r_profilepuppetnr_agent): Install non-root puppet agent(s).
+* [`r_profile::repo`](#r_profilerepo): Declare (instantiate) the required profile classes in a stage before `main`: `repo`. The reason for this class to exist is because it is not 
+* [`r_profile::ruby`](#r_profileruby): Install a system-level ruby for customer applications to use
+* [`r_profile::service`](#r_profileservice): Ensure services are managed by Puppet to a particular state
+* [`r_profile::timezone`](#r_profiletimezone): Select the active system timezone (requires reboot)
+* [`r_profile::user`](#r_profileuser): Support for creating users and groups
+* [`r_profile::virtual::vagrant`](#r_profilevirtualvagrant): Support for managing VMs via Vagrant (experimental)
+* [`r_profile::virtual::virtual_box`](#r_profilevirtualvirtual_box): Install Oracle VirtualBox
+* [`r_profile::web_service::apache`](#r_profileweb_serviceapache): Install and configure Apache webserver
+* [`r_profile::web_service::iis`](#r_profileweb_serviceiis): Install and configure IIS web server
+* [`r_profile::web_service::tomcat`](#r_profileweb_servicetomcat): Install and configure tomcat application server
+* [`r_profile::webapp::geoserver`](#r_profilewebappgeoserver): Support for install GeoServer - A server-side Java GIS
 * [`r_profile::webapp::git_site`](#r_profilewebappgit_site): Deploy web site(s) from git
-* [`r_profile::webapp::php_config`](#r_profilewebappphp_config): R_profile::Webapp::Php_config  write PHP configuration file settings  ```puppet config_filename => {   owner => 'user',  # config file owner 
-* [`r_profile::webapp::wordpress`](#r_profilewebappwordpress): R_profile::Webapp::Wordpress  Install wordpress CMS using `hunner-wordpress`
-* [`r_profile::windows::base`](#r_profilewindowsbase): R_profile::Windows::Base  Basic 'baselevel' class for Windows
-* [`r_profile::windows::chocolatey`](#r_profilewindowschocolatey): R_profile::Windows::Chocolatey  Setup chocolatey package manager on Windows
-* [`r_profile::windows::domain_membership`](#r_profilewindowsdomain_membership): R_profile::Windows::Domain_membership  Join an Active Directory domain using Puppet and the trlinkin/domain_membership module using data from
-* [`r_profile::windows::firewall`](#r_profilewindowsfirewall): R_profile::Windows::Firewall  Manage the windows advanced firewall.  Features:   * Global settings   * Per-profile settings   * Enable/disabl
-* [`r_profile::windows::notepad_plus_plus`](#r_profilewindowsnotepad_plus_plus): R_profile::Windows::Notepad_plus_plus  Install notepad++ on windows
-* [`r_profile::windows::nsclient`](#r_profilewindowsnsclient): R_profile::Windows::Nsclient  Configure the NSClient++ software on Windows
-* [`r_profile::windows::ntp`](#r_profilewindowsntp): R_profile::Windows::Ntp  Setup NTP on windows. If your planning on joining a domain you don't need this however there are a few cases where w
-* [`r_profile::windows::powershell`](#r_profilewindowspowershell): R_profile::Windows::Powershell  Does nothing
-* [`r_profile::windows::proxy`](#r_profilewindowsproxy): R_profile::Windows::Proxy  Set the windows system proxy using netsh
-* [`r_profile::windows::puppet_agent`](#r_profilewindowspuppet_agent): R_profile::Window::Puppet_agent  Manages:   * Puppet Agent service   * Puppet binaries in `$PATH`   * Proxy server environment variables (rub
-* [`r_profile::windows::registry`](#r_profilewindowsregistry): R_profile::Windows::Registry  Manage Windows registry entries with Puppet using puppetlabs-registry
-* [`r_profile::windows::rename_administrator`](#r_profilewindowsrename_administrator): R_profile::Windows::Rename_administrator  Rename the `administrator` account.
-* [`r_profile::windows::windows_feature`](#r_profilewindowswindows_feature): R_profile::Windows::Windows_feature  Install Windows Features using Puppet and reboot if required.  Rebooting is controlled adding an additio
+* [`r_profile::webapp::php_config`](#r_profilewebappphp_config): Write PHP configuration file settings
+* [`r_profile::webapp::wordpress`](#r_profilewebappwordpress): Install wordpress CMS using `hunner-wordpress`
+* [`r_profile::windows::base`](#r_profilewindowsbase): Basic 'baselevel' class for Windows
+* [`r_profile::windows::chocolatey`](#r_profilewindowschocolatey): Setup chocolatey package manager on Windows
+* [`r_profile::windows::domain_membership`](#r_profilewindowsdomain_membership): Join an Active Directory domain using Puppet
+* [`r_profile::windows::firewall`](#r_profilewindowsfirewall): Manage the windows advanced firewall.
+* [`r_profile::windows::notepad_plus_plus`](#r_profilewindowsnotepad_plus_plus): Install notepad++ on windows
+* [`r_profile::windows::nsclient`](#r_profilewindowsnsclient): Configure the NSClient++ software on Windows
+* [`r_profile::windows::ntp`](#r_profilewindowsntp): Setup NTP on windows
+* [`r_profile::windows::powershell`](#r_profilewindowspowershell): Does nothing
+* [`r_profile::windows::proxy`](#r_profilewindowsproxy): Set the windows system proxy using netsh
+* [`r_profile::windows::puppet_agent`](#r_profilewindowspuppet_agent): Manage the Puppet agent on Windows
+* [`r_profile::windows::registry`](#r_profilewindowsregistry): Manage Windows registry entries with Puppet
+* [`r_profile::windows::rename_administrator`](#r_profilewindowsrename_administrator): Rename the `administrator` account.
+* [`r_profile::windows::windows_feature`](#r_profilewindowswindows_feature): Install Windows Features using Puppet and reboot if required.
 
 **Functions**
 
@@ -118,8 +118,6 @@
 ## Classes
 
 ### r_profile::aws
-
-R_profile::Aws
 
 Configure AWS with puppet
 
@@ -193,13 +191,9 @@ Default value: hiera("r_profile::aws::elb_loadbalancer_default", {})
 
 ### r_profile::base
 
-R_profile::Base
-
 A generic 'baseleve' style class
 
 ### r_profile::cloud::azure
-
-R_profile::Cloud::Azure
 
 Manage the azure VMs using the passed-in hash
 
@@ -256,10 +250,6 @@ Challenge password to use for autosigning
 Default value: `undef`
 
 ### r_profile::cloud::azure_platform
-
-R_profile::Cloud::Azure_platform
-
-Setup the dependencies for the puppetlabs/azure forge module
 
 The forge module uses a locally installed copy of the Azure library in order
 to talk to the Azure Cloud.  There are presently two versions of this library:
@@ -346,11 +336,6 @@ Default value: "/opt/puppetlabs/puppet/bin/puppet agent -t"
 
 ### r_profile::cloud::vsphere
 
-R_profile::Cloud::Vsphere
-
-Setup the dependencies for the puppetlabs/vsphere forge module and manage the
-passed-in hash of VMs.
-
 The forge module uses some locally gems for Vsphere library in order
 to talk to the Vsphere API
 
@@ -399,8 +384,6 @@ Hash of default settings for creating VMs
 Default value: {}
 
 ### r_profile::database::mysql_server
-
-R_profile::Database::Mysql_server
 
 Install the MySQL database server
 
@@ -458,9 +441,7 @@ Default value: {}
 
 ### r_profile::dns_client
 
-R_profile::Dns_client
-
-Support for configuring the DNS client (/etc/resolve.conf) and the Name
+Manges (/etc/resolve.conf) and the Name
 Service Switch (/etc/nsswitch.conf and friends)
 
 * **See also**
@@ -514,8 +495,6 @@ Default value: hiera("r_profile::dns_client::install_defaults", false)
 
 ### r_profile::environment_variable
 
-R_profile::Environment_variable
-
 Manage enivronment variables on windows and linux
 
 * **See also**
@@ -551,10 +530,6 @@ Default value: []
 
 ### r_profile::file
 
-R_profile::File
-
-Support for managing files and directories.
-
 Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
 those in base.
 
@@ -580,21 +555,13 @@ Default value: {}
 
 ### r_profile::fw::post
 
-R_profile::Fw::Post
-
 'post' rules for iptables
 
 ### r_profile::fw::pre
 
-R_profile::Fw::Pre
-
 'pre' rules for iptables
 
 ### r_profile::host
-
-R_profiles::Host
-
-Mange the static lookup table for hostnames.
 
 We take both a `base` and override hash of services and merge them to form a final list. This allows for simpler
 management through hiera.
@@ -652,8 +619,6 @@ Default value: `false`
 
 ### r_profile::java
 
-R_profile::Java
-
 Install Java (openjdk) using puppetlabs/java
 
 #### Parameters
@@ -670,15 +635,9 @@ Default value: hiera('r_profile::java::version', undef)
 
 ### r_profile::jenkins
 
-R_profile::Jenkins
-
 Support for Jenkins CI
 
 ### r_profile::lb::haproxy
-
-R_profile::Lb::Haproxy
-
-A haproxy based load-balancer
 
 https://tickets.puppetlabs.com/browse/MODULES-3932
 
@@ -744,8 +703,6 @@ Default value: "puppet"
 
 ### r_profile::linux::apt
 
-R_profile::Linux::Apt
-
 Setup of apt package manager
 
 * **See also**
@@ -753,9 +710,7 @@ https://forge.puppet.com/puppetlabs/apt
 
 ### r_profile::linux::at
 
-R_profile::Linux::At
-
-Setup the `at` scheduler:
+Features:
 * Remove `at.deny` so that only allowed users can run `at`
 * Strict permissions on `at.allow`
 * Allow `root` to use `at`
@@ -765,15 +720,7 @@ https://forge.puppet.com/puppetlabs/stdlib
 
 ### r_profile::linux::auditd
 
-R_profile::Linux::Auditd
-
-Ensure the auditd service is installed, running and has a fixed set of rules
-loaded.
-
-kemra102/auditd module from https://github.com/kemra102/puppet-auditd is used
-to provide auditd management. Pending a new forge release to address
-https://github.com/kemra102/puppet-auditd/issues/44 (merged) a hotfix module
-will be used instead
+Manage audit service and rules
 
 * **See also**
 https://forge.puppet.com/geoffwilliams/auditd
@@ -832,16 +779,13 @@ Default value: {}
 
 ### r_profile::linux::base
 
-R_profile::Linux::Base
-
 A basic Linux 'baseline' class
 
 ### r_profile::linux::chronyd
 
-R_profile::Linux::Chronyd
-
-Chronyd (formerly NTPd) support for Linux. No attempt is made to manage this service when running under docker since
 the shared kernel makes this uncessary.
+
+* **Note** No attempt is made to manage this service when running under docker since
 
 #### Examples
 
@@ -873,9 +817,7 @@ Default value: ["pool.ntp.org"]
 
 ### r_profile::linux::cron
 
-R_profile::Linux::Cron
-
-Restrict permissions on the `cron` scheduler
+Features:
 * Remove `cron.deny` so that only allowed users can run `cron`
 * Strict permissions on `at.allow`
 * Allow `root` to use `cron`
@@ -887,8 +829,6 @@ https://forge.puppet.com/geoffwilliams/chmod_r
 https://forge.puppet.com/puppetlabs/stdlib
 
 ### r_profile::linux::cups
-
-R_profile::Linux::Cups
 
 Manage cups printers with Puppet
 
@@ -906,11 +846,8 @@ Default value: hiera('r_profile::linux::cups::printer', {})
 
 ### r_profile::linux::firewalld
 
-R_profile::Linux::Firewalld
-
-Manage firewalld using crayfishx-firewalld. Accepts base plus additional
-options for each set of rule resources being managed for easy managment
-using hiera.
+Accepts base plus additional options for each set of rule resources being
+managed for easy managment using hiera.
 
 * **See also**
 https://forge.puppet.com/crayfishx/firewalld
@@ -1043,8 +980,6 @@ Default value: {}
 
 ### r_profile::linux::fix_sticky_permissions
 
-Redhat_tidy::Fix_sticky_permissions
-
 Perform a system-wide find across local filesystems for world-writable
 directories and make sure that they all have the sticky bit set so that only
 the owning UID can delete them
@@ -1056,9 +991,7 @@ available
 
 ### r_profile::linux::grub
 
-R_profile::Grub
-
-Secure the Grub 1.x boot-loader (RHEL < 7)
+Features:
 * Permisisons on /etc/grub.conf
 * remove any kernel commandline disabling selinux
 * force all kernels to boot with audit=1
@@ -1086,9 +1019,7 @@ Default value: "0600"
 
 ### r_profile::linux::grub2
 
-R_profile::Grub2
-
-Secure the grub2 bootloader for RHEL7+
+Features:
   * Permissions on main config file
   * Bootloader passwords set for physical nodes
 
@@ -1120,10 +1051,7 @@ Default value: {}
 
 ### r_profile::linux::hostname
 
-R_profile::Linux::Hostname
-
-Set the hostname using systemd and optionally the system IP address.  By
-default, set the hostname to match `certname` - the name of the signed
+By default, set the hostname to match `certname` - the name of the signed
 certificate that puppet knows about.  This is useful for cloud environments
 such as azure that assign dnsdomains based on regions that cannot be changed
 to a sensible default
@@ -1158,8 +1086,6 @@ Default value: hiera("r_profile::linux::hostname::ip", undef)
 
 ### r_profile::linux::inittab
 
-Redhat_tidy::Inittab
-
 Set the system supported runlevels
 
 #### Parameters
@@ -1175,8 +1101,6 @@ String containing allowed runlevels
 Default value: "3"
 
 ### r_profile::linux::iptables
-
-R_profile::Linux::Iptables
 
 Management of the IPtables Linux firewall
 
@@ -1195,14 +1119,10 @@ Default value: 'unmanaged'
 
 ### r_profile::linux::kernel_devel
 
-R_profile::Linux::Kernel_devel
-
-Configure a system for kernel compilation.  Currently suported:
+Currently suported:
 * RedHat
 
 ### r_profile::linux::limits
-
-R_profile::Limits
 
 Manage Linux system limits using saz/limits
 
@@ -1250,9 +1170,7 @@ Default value: {}
 
 ### r_profile::linux::logrotate
 
-r_profile::linux::logrotate
-
-Setup log rotation on Linux:
+Features:
   * installation/configuration of logrotate
   * rotation defaults
   * individual rules
@@ -1313,11 +1231,8 @@ Default value: {}
 
 ### r_profile::linux::module_disable
 
-R_Profile::Linux::Module_blacklist
-
-Disable kernel modules by breaking them in `/etc/modeprobe.d/disable.conf`. Kernel modules will be disabled rather
-than blacklisted by this process as `modprobe` will try to load the related file. Since we definie the module as
-`/bin/true`, it won’t be loaded.
+Kernel modules will be disabled rather than blacklisted by this process as `modprobe` will try to load the related
+file. Since we definie the module as `/bin/true`, it won’t be loaded.
 
 * **See also**
 https://forge.puppet.com/puppetlabs/stdlib
@@ -1345,9 +1260,7 @@ Default value: "/etc/modprobe.d/disabled.conf"
 
 ### r_profile::linux::mount
 
-r_profile::linux::Mounts
-
-Common mount good practices for RedHat:
+Features:
   * `/tmp` mounted `nodev,nosuid,noexec` (if separate partition)
   * `/dev/shm` mounted `nodev,nosuid,noexec` (if separate partition)
   * Optionally bind mount `/var/tmp` to `/tmp`
@@ -1425,17 +1338,11 @@ Default value: `false`
 
 ### r_profile::linux::package_manager
 
-R_profile::Linux::Package_manager
-
 Configure a linux package manager
 
 ### r_profile::linux::password_policy
 
-R_profile::Linux::Password_policy
-
-Manage several settings related to password quality, privilege, aging and algorithm selection. See below for details.
-
-Enforce aging/ settings (`/etc/login.defs`):
+Enforce aging settings (`/etc/login.defs`):
   * password max days
   * password warn age
   * password algorithm
@@ -1532,8 +1439,6 @@ Default value: {}
 
 ### r_profile::linux::postfix
 
-Redhat_tidy::Postfix
-
 Configure postfix for local mail delivery
 
 #### Parameters
@@ -1550,8 +1455,6 @@ the main.cf file
 Default value: "localhost"
 
 ### r_profile::linux::puppet_agent
-
-R_profile::Linux::Puppet_agent
 
 Manages:
   * Puppet Agent service
@@ -1631,8 +1534,6 @@ Name of the PXP Agent service to manage
 Default value: "pxp-agent"
 
 ### r_profile::linux::realmd
-
-R_profile::Linux::Realmd
 
 Support for setting up realmd (SSSD) for authentication against a directory server on
 RHEL 7. You are advised to use hiera-eyaml to encrypt the `ad_password` parameter when
@@ -1728,8 +1629,6 @@ Default value: `undef`
 
 ### r_profile::linux::resolv_conf
 
-R_profile::Linux::Resolv_conf
-
 Manage `/etc/resolv.conf`
 
 * **See also**
@@ -1775,9 +1674,7 @@ Default value: {}
 
 ### r_profile::linux::rsyslog_client
 
-R_profile::Linux::Rsyslog
-
-Setup `rsyslog` client:
+Features:
   * Install Package
   * General settings
   * Managed logfiles
@@ -1858,9 +1755,10 @@ WIP easy samba support
 
 ### r_profile::linux::selinux
 
-R_profile::Linux::Selinux
-
-Managment of SELinux and optional removal of the setroubleshoot debug package
+Features:
+  * Set SELinux enforcement mode
+  * Remove the setroubleshoot debug package (optional)
+  * Set selinux booleans (`setsebool`)
 
 * **See also**
 https://forge.puppet.com/puppet/selinux/issues
@@ -1927,9 +1825,7 @@ Default value: {}
 
 ### r_profile::linux::sendmail
 
-R_profile::Linux::Sendmail
-
-Configure (currently disable) the sendmail daemon.
+Features:
 * Service configuable (default to stopped/disabled)
 * Set daemon in /etc/sysconfig/sendmail
 * Set queue in /etc/sysconfig/sendmail
@@ -1991,8 +1887,6 @@ Default value: "sendmail"
 
 ### r_profile::linux::ssh
 
-R_profile::Linux::Ssh
-
 SSH support on linux using Augeas.
 
 * **See also**
@@ -2030,11 +1924,8 @@ Default value: {}
 
 ### r_profile::linux::sudo
 
-R_profile::Linux::Sudo
-
-Configure sudo for linux using Puppet. We take a minimal approach to management by just
-making sure that the package is installed and that the files we want to manage exist
-at /etc/sudoers.d.
+We take a minimal approach to management by just making sure that the package is installed and that the files we want
+to manage exist at /etc/sudoers.d.
 
 This non-destructive approach lets us only manage the sections of configuration we want to
 
@@ -2104,8 +1995,6 @@ Default value: "# This file is managed by Puppet; changes may be overwritten"
 
 ### r_profile::linux::sysconfig_init
 
-R_profile::Linux::Sysconfig_init
-
 Lockdown /etc/sysconfig/init settings (RHEL < 7)
 * PROMPT=no
 * SINGLE=/sbin/sulogin
@@ -2168,10 +2057,6 @@ Default value: "0027"
 
 ### r_profile::linux::sysctl
 
-Profile::Linux::Sysctl
-
-Control sysctl values (kernel tuning) on Linux.  Not to be confused with
-systemctl (services).
 Settings will take place immediately when puppet is run and will also be
 persisted /etc/sysctl.d to survive across reboots.  There is no support in
 this class for removing entries that have previously been set since the
@@ -2186,13 +2071,15 @@ unmanaged files under /etc/sysctl.d for us.  The process now looks like this:
 1.  Remove the setting from the passed in $settings list (hiera data)
 2.  Reboot...
 
-Settings to enforce should be passed as a hash via the settings parameter, eg
+Settings to enforce should be passed as a hash via the settings parameter.
 
 Puppet code:
   {
     'net.ipv4.conf.all.accept_redirects' => 0,
     'net.ipv4.tcp_syncookies'            => 1
   }
+
+* **Note** Not to be confused with systemctl (services).
 
 * **See also**
 https://forge.puppet.com/geoffwilliams/sysctl
@@ -2237,9 +2124,7 @@ Default value: {}
 
 ### r_profile::linux::system_users
 
-R_profile::Linux::System_users
-
-Lockdown and restrict users across the system:
+Features:
 * disable _system_ accounts (UID < 500/1000) by locking the shell
 * ensure root group is 0
 * lock inactive users
@@ -2282,8 +2167,6 @@ Range of UIDs to lockdown (see above)
 Default value: 'system_uids'
 
 ### r_profile::linux::systemd
-
-R_profile::Linux::Systemd
 
 Provides:
   * `Exec['systemctl_daemon_reload']` to scan for changed units when puppet changes them (invoke via notify)
@@ -2328,8 +2211,6 @@ Data type: `Boolean`
 Default value: `false`
 
 ### r_profile::linux::tcpwrappers
-
-R_profile::Tcpwrappers
 
 Setup tcpwrappers using geoffwilliams/tcpwrappers. We will merge
 together a set of base level (SOE) rules and addtional/more
@@ -2390,9 +2271,7 @@ Default value: `false`
 
 ### r_profile::linux::umask
 
-R_profile::Linux::Umask
-
-Set the umask for each of the requested files. The files must already exist in order to add a line
+Set the umask inside each of the requested files. The files must already exist in order to add a line
 to them. r_profile::file can be used to do this if required.
 
 * **See also**
@@ -2444,13 +2323,9 @@ Default value: {}
 
 ### r_profile::linux::vim
 
-R_profile::Linux::Vim
-
 Setup a nice version of vim
 
 ### r_profile::linux::wheel
-
-R_profile::Linux::Wheel
 
 Configure the `wheel` group on Linux
 
@@ -2475,8 +2350,6 @@ Data type: `Enum['present', 'absent']`
 Default value: 'present'
 
 ### r_profile::linux::yum
-
-Redhat_tidy::Permissions
 
 Common yum settings for RedHat
 
@@ -2503,15 +2376,10 @@ Default value: '1'
 
 ### r_profile::linux::yumrepo
 
-R_Profile::Linux::Yumrepo
-
-Setup the system yum repos in a custom stage before the main puppet run. This lets
-up setup all the repositories to be avaiable by the `main` stage.
 Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
 those in base.
 
 * **See also**
-https://puppet.com/docs/puppet/5.5/lang_run_stages.html
 https://puppet.com/docs/puppet/5.5/types/yumrepo.html
 
 #### Examples
@@ -2566,9 +2434,8 @@ Default value: {}
 
 ### r_profile::lockdown::at
 
-R_profile::Lockdown::At
-
-Restrict access to the `at` daemon by managing the at.allow and at.deny files
+Features:
+  *Manage `at.allow` and `at.deny` files
 
 #### Parameters
 
@@ -2583,8 +2450,6 @@ true to enable lockdown of `at` otherwise false
 Default value: hiera('r_profile::lockdown::at::ensure', false)
 
 ### r_profile::lockdown::group
-
-R_profile::Lockdown::Group
 
 Lockdown groups by removing them.
 
@@ -2601,8 +2466,6 @@ Array of groups to delete from the system
 Default value: hiera("r_profile::lockdown::group::delete", [])
 
 ### r_profile::lockdown::package
-
-R_profile::Lockdown::Package
 
 Purge the passed-in packages from the system
 
@@ -2638,10 +2501,7 @@ Default value: hiera("r_profile::lockdown::package::delete", [])
 
 ### r_profile::lockdown::user
 
-R_profile::Lockdown::User
-
-Lockdown users by disabling their passwords and or shells.  Alternatively, we
-will remove all users named in the delete parameter.  Note that it is an error
+Alternatively, we will remove all users named in the delete parameter.  Note that it is an error
 to attempt to both disable and remove a user, since disabling requires that
 the user still be present to update /etc/shadow and /etc/password.  This will
 manifest as a duplicate declaration error if encountered in the field.
@@ -2676,8 +2536,6 @@ Default value: hiera("r_profile::lockdown::user::delete", [])
 
 ### r_profile::monitor::nagios_monitored
 
-R_profile::Monitor::Nagios_monitored
-
 Configure nagios to monitor something
 
 #### Parameters
@@ -2694,8 +2552,6 @@ Default value: `undef`
 
 ### r_profile::monitor::nagios_server
 
-R_profile::Monitor::Nagios_server
-
 Confifgure nagios server
 
 #### Parameters
@@ -2711,8 +2567,6 @@ Password to use for nagios
 Default value: `undef`
 
 ### r_profile::motd
-
-R_profile::Motd
 
 Simple MOTD support for POSIX and Windows.
 
@@ -2808,9 +2662,7 @@ Default value: `true`
 
 ### r_profile::mount
 
-R_profiles::mount
-
-Configure filesystem mounts using the puppet built-in mount provider.
+Configure filesystem mounts using the puppet
 
 * **See also**
 https://puppet.com/docs/puppet/5.5/types/mount.html
@@ -2851,15 +2703,11 @@ Default value: {}
 
 ### r_profile::nginx
 
-R_profile::Nginx
-
 Support for Nginx webserver
 
 ### r_profile::nodejs
 
-R_profile::Nodejs
-
-Install NodeJS using the puppet/nodejs module
+The r_profile::nodejs class.
 
 #### Parameters
 
@@ -2883,17 +2731,14 @@ Default value: hiera("r_profile::nodejs::repo_class", undef)
 
 ### r_profile::ntp
 
-R_profile::Ntp
-
-NTP for Linux/unix based servers. Newer Linux systems can use `r_profile::linux::chronyd` to gain a more modern NTP
-implementation.
-
 Windows users gain NTP by joining a domain. There is no support for standalone windows NTP yet
 
 Supports:
 * AIX
 * Solaris
 * Linux
+
+* **Note** Newer Linux systems should use `r_profile::linux::chronyd`
 
 * **See also**
 https://forge.puppet.com/puppetlabs/ntp
@@ -2956,8 +2801,6 @@ Default value: `undef`
 
 ### r_profile::package
 
-R_profile::Package
-
 Install software using Puppet's built-in `package` resource.
 
 * **See also**
@@ -3019,8 +2862,6 @@ Default value: {}
 
 ### r_profile::puppet::master
 
-R_profile::Puppet::Master
-
 Enable restarting the `pe-puppetserver` service if its systemd environment is changed
 
 #### Parameters
@@ -3036,8 +2877,6 @@ Path to sysconfig settings for pe-puppetserver
 Default value: "${facts['sysconf_dir']}/pe-puppetserver"
 
 ### r_profile::puppet::master::agent_installers
-
-R_profile::Puppet::Master::Agent_installers
 
 Puppet Enterprise doesn't ship with the installers needed for every platform included in the installation media.'Users
 must instead follow the steps at https://puppet.com/docs/pe/2018.1/installing/installing_agents.html#ariaid-title2
@@ -3077,9 +2916,7 @@ Default value: `true`
 
 ### r_profile::puppet::master::autosign
 
-R_profile::Puppet::Master::Autosign
-
-Configure Puppet Enterprise to autosign client certificates:
+Features:
   * Policy based autosigning @https://puppet.com/docs/puppet/5.5/ssl_autosign.html#policy-based-autosigning
   * Naive autosigning @see https://puppet.com/docs/puppet/5.5/ssl_autosign.html#nave-autosigning
   * No autosigning @see https://puppet.com/docs/puppet/5.5/ssl_autosign.html#disabling-autosigning
@@ -3164,10 +3001,9 @@ Default value: "/usr/local/bin/puppet_enterprise_autosign.sh"
 
 ### r_profile::puppet::master::db_backup
 
-R_profile::Puppet::Master::Db_backup
+Install a cron job to backup the PE postgres server
 
-Install a cron job to backup the PE postgres server by taking a complete dump
-of the database
+* **Note** Takescomplete dump of the database
 
 #### Parameters
 
@@ -3231,10 +3067,7 @@ Default value: hiera("r_profile::puppet::master::db_backup::weekday",  "*")
 
 ### r_profile::puppet::master::git_server
 
-R_profile::Puppet::Master::Git_server
-
-Enable a simple built-in Git Server for puppet by creating a bare git
-repository accessed via SSH and configuring Code Manager to use it
+Works by creating a bare git grepository accessed via SSH and configuring Code Manager to use it
 
 #### Parameters
 
@@ -3250,9 +3083,6 @@ Default value: hiera('r_profile::puppet::master::git_server::enable', true)
 
 ### r_profile::puppet::master::hiera5
 
-R_profile::Puppet::Master::Hiera5
-
-
 Enable support for Hiera v5 system-wide by copying-in a golden `hiera.yaml`
 file and restarting puppet.  Individual environments can then specify the
 hiera hierarchy they want to use as required.
@@ -3265,8 +3095,6 @@ to enable the initial `puppet code deploy` to succeed when using a private
 forge
 
 ### r_profile::puppet::master::hiera_eyaml
-
-R_profile::Puppet::Master::Hiera_eyaml
 
 Configure hiera-eyaml by generating the encryption keys. Current versions of
 Puppet Enterprise ~2018x ship a vendored eyaml gem so installation is not
@@ -3334,10 +3162,7 @@ Default value: `false`
 
 ### r_profile::puppet::master::license
 
-R_profile::Puppet::Master::License
-
-Install a puppet license key onto the puppet Master.  This works by symlinking
-the license.key file from your control repository to the correct location on
+This works by symlinking the license.key file from your control repository to the correct location on
 the puppet master.  To upgrade or alter your license information, just update
 the file in the control repository (production branch) and then deploy to the
 master as usual.
@@ -3352,13 +3177,12 @@ include r_pofile::puppet::master::license
 
 ### r_profile::puppet::master::proxy
 
-R_profile::Puppet::Proxy
-
-Enable a Puppet Enterprise Master (not master's agent!) to work with a proxy server.
-To configure the master's agent for proxy support, include `r_profile::linux::puppet_agent`
+for this
 
 If using this class you must also declare `r_profile::puppet::master` in order
 to manage and notify `Service['pe-puppetserver']`
+
+* **Note** This does not configure the master's agent. Use `r_profile::linux::puppet_agent`
 
 * **See also**
 https://forge.puppet.com/puppetlabs/inifile
@@ -3411,10 +3235,8 @@ Default value: `false`
 
 ### r_profile::puppet::nr_agent
 
-R_profile::Puppet::Nr_agent
-
-Install non-root puppet agent(s).  Typically useful if you want to manage
-cloud resources with puppet and reqiure multiple puppet agents to do so.
+Typically useful if you want to manage cloud resources with puppet and reqiure
+multiple puppet agents to do so.
 
 Rquires that your puppet master hostname is resolvable already, either via DNS
 or `/etc/hosts`
@@ -3464,8 +3286,6 @@ Default value: hiera("r_profile::puppet::nr_agent::agents")
 
 ### r_profile::repo
 
-Profile::Repo
-
 Declare (instantiate) the required profile classes in a stage before `main`: `repo`.
 The reason for this class to exist is because it is not possible for classes to
 self-define their own runstage. It _must_ be passed using resource style class
@@ -3511,13 +3331,10 @@ Default value: "repo"
 
 ### r_profile::ruby
 
-R_profile::Ruby
-
-Install a system-level ruby for customer applications to use.  While its
-possible to use Puppet's vendored ruby for everything, its safter to for
-customer to install their own ruby for internal apps to use since otherwise
-messing with the gems could break puppet in such a way that it is unable to
-run, leaving the system unmanaged
+While its possible to use Puppet's vendored ruby for everything, its safter
+for customers to install their own ruby for internal apps to use since
+otherwise messing with the gems could break puppet in such a way that it is
+unable to run, leaving the system unmanaged
 
 #### Parameters
 
@@ -3557,10 +3374,7 @@ Default value: `undef`
 
 ### r_profile::service
 
-R_profile::Service
-
-Ensure services are managed by Puppet to a particular state. By default enable services to start on boot and be
-running.
+By default enable services to start on boot and be running.
 
 We take both a `base` and override hash of services and merge them to form a final list. This allows for simpler
 management through hiera.
@@ -3606,12 +3420,10 @@ Default value: {}
 
 ### r_profile::timezone
 
-R_profile::Timezone
-
-Select the active system timezone (requires reboot).  Currently supports Linux,
-Solaris, AIX and Windows.  Timezone names for linux need to match the Olsen names
-available on the current system.  On Linux, these are normally found under
-`/usr/share/zoneinfo`. On Windows the timezone needs to match a name from `tzutil -l`
+Currently supports Linux, Solaris, AIX and Windows.  Timezone names for linux
+need to match the Olsen names available on the current system.  On Linux,
+these are normally found under `/usr/share/zoneinfo`. On Windows the timezone
+needs to match a name from `tzutil -l`
 
 * **See also**
 https://forge.puppet.com/geoffwilliams/timezone
@@ -3652,10 +3464,6 @@ Timezone to set this node to, eg 'Asia/Hong_Kong'
 Default value: `undef`
 
 ### r_profile::user
-
-R_profile::User
-
-Support for creating users and groups in bulk.
 
 Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
 those in base.
@@ -3723,8 +3531,6 @@ Default value: {}
 
 ### r_profile::virtual::vagrant
 
-R_profile::Virtual::vagrant
-
 Support for managing VMs via Vagrant (experimental)
 
 #### Parameters
@@ -3750,9 +3556,7 @@ Default value: {}
 
 ### r_profile::virtual::virtual_box
 
-R_profile::Virtual::Virtual_box
-
-Install Oracle VirtualBox using the voxpupuli virtualbox module.
+Install Oracle VirtualBox
 
 * **See also**
 https://forge.puppet.com/puppet/virtualbox
@@ -3770,8 +3574,6 @@ Version to install, installs latest if unspecified
 Default value: `undef`
 
 ### r_profile::web_service::apache
-
-R_profile::Web_service::Apache
 
 Install and configure Apache webserver
 
@@ -3815,8 +3617,6 @@ Default value: `undef`
 
 ### r_profile::web_service::iis
 
-R_profile::Web_service::Iis
-
 Install and configure IIS web server
 
 #### Parameters
@@ -3856,8 +3656,6 @@ How to ensure the default website (`absent` or `present`)
 Default value: present
 
 ### r_profile::web_service::tomcat
-
-R_profile::Web_service::Tomcat
 
 Install and configure tomcat application server
 
@@ -3918,8 +3716,6 @@ Default value: 8080
 
 ### r_profile::webapp::geoserver
 
-R_profile::Webapp::Geoserver
-
 Support for install GeoServer - A server-side Java GIS
 
 * **See also**
@@ -3976,10 +3772,6 @@ Default value: {}
 
 ### r_profile::webapp::php_config
 
-R_profile::Webapp::Php_config
-
-write PHP configuration file settings
-
 ```puppet
 config_filename => {
   owner => 'user',  # config file owner
@@ -4005,19 +3797,13 @@ Default value: hiera('r_profile::webapp::php_config', {})
 
 ### r_profile::webapp::wordpress
 
-R_profile::Webapp::Wordpress
-
 Install wordpress CMS using `hunner-wordpress`
 
 ### r_profile::windows::base
 
-R_profile::Windows::Base
-
 Basic 'baselevel' class for Windows
 
 ### r_profile::windows::chocolatey
-
-R_profile::Windows::Chocolatey
 
 Setup chocolatey package manager on Windows
 
@@ -4065,10 +3851,10 @@ Default value: {}
 
 ### r_profile::windows::domain_membership
 
-R_profile::Windows::Domain_membership
+Join an Active Directory domain using Puppet
 
-Join an Active Directory domain using Puppet and the trlinkin/domain_membership
-module using data from Hiera
+* **See also**
+https://forge.puppet.com/trlinkin/domain_membership
 
 #### Examples
 
@@ -4152,10 +3938,6 @@ the domain parameter will be used.
 Default value: hiera("r_profile::windows::domain_membership::user_domain", undef)
 
 ### r_profile::windows::firewall
-
-R_profile::Windows::Firewall
-
-Manage the windows advanced firewall.
 
 Features:
   * Global settings
@@ -4333,13 +4115,9 @@ Default value: `false`
 
 ### r_profile::windows::notepad_plus_plus
 
-R_profile::Windows::Notepad_plus_plus
-
 Install notepad++ on windows
 
 ### r_profile::windows::nsclient
-
-R_profile::Windows::Nsclient
 
 Configure the NSClient++ software on Windows
 
@@ -4394,10 +4172,8 @@ Default value: {}
 
 ### r_profile::windows::ntp
 
-R_profile::Windows::Ntp
-
-Setup NTP on windows. If your planning on joining a domain you don't need this however
-there are a few cases where windows boxes do not join domains (cloud, dmz, etc). In
+If your planning on joining a domain you don't need this however there are a
+few cases where windows boxes do not join domains (cloud, dmz, etc). In
 these cases, this profile provides an easy way to set the correct time.
 
 * **See also**
@@ -4432,13 +4208,9 @@ Default value: `undef`
 
 ### r_profile::windows::powershell
 
-R_profile::Windows::Powershell
-
 Does nothing
 
 ### r_profile::windows::proxy
-
-R_profile::Windows::Proxy
 
 Set the windows system proxy using netsh
 
@@ -4489,8 +4261,6 @@ Proxy exclusions in format for `netsh` see example
 Default value: `undef`
 
 ### r_profile::windows::puppet_agent
-
-R_profile::Window::Puppet_agent
 
 Manages:
   * Puppet Agent service
@@ -4553,9 +4323,7 @@ Default value: "pxp-agent"
 
 ### r_profile::windows::registry
 
-R_profile::Windows::Registry
-
-Manage Windows registry entries with Puppet using puppetlabs-registry
+Manage Windows registry entries with Puppet
 
 * **See also**
 https://forge.puppet.com/puppetlabs/registry
@@ -4617,8 +4385,6 @@ Default value: {}
 
 ### r_profile::windows::rename_administrator
 
-R_profile::Windows::Rename_administrator
-
 Rename the `administrator` account.
 
 #### Examples
@@ -4649,10 +4415,6 @@ or no action will be taken
 Default value: `undef`
 
 ### r_profile::windows::windows_feature
-
-R_profile::Windows::Windows_feature
-
-Install Windows Features using Puppet and reboot if required.
 
 Rebooting is controlled adding an additional parameter `reboot_after` to the data fed
 to this profile. _This_ class will act on this directive itself by subscribing its own

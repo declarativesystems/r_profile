@@ -1,6 +1,7 @@
-# R_profile::Lockdown::At
+# @summary Restrict access to the `at` daemon
 #
-# Restrict access to the `at` daemon by managing the at.allow and at.deny files
+# Features:
+#   *Manage `at.allow` and `at.deny` files
 #
 # @param ensure true to enable lockdown of `at` otherwise false
 class r_profile::lockdown::at(

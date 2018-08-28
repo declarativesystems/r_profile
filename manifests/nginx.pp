@@ -1,6 +1,4 @@
-# R_profile::Nginx
-#
-# Support for Nginx webserver
+# @summary Support for Nginx webserver
 class r_profile::nginx {
   class { "::nginx": }
 

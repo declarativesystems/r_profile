@@ -1,6 +1,6 @@
-# R_profile::Puppet::Master::Autosign
+# @summary Configure Puppet Enterprise to autosign client certificates
 #
-# Configure Puppet Enterprise to autosign client certificates:
+# Features:
 #   * Policy based autosigning @https://puppet.com/docs/puppet/5.5/ssl_autosign.html#policy-based-autosigning
 #   * Naive autosigning @see https://puppet.com/docs/puppet/5.5/ssl_autosign.html#nave-autosigning
 #   * No autosigning @see https://puppet.com/docs/puppet/5.5/ssl_autosign.html#disabling-autosigning
