@@ -83,7 +83,7 @@
 * [`r_profile::puppet::master::license`](#r_profilepuppetmasterlicense): Install a puppet license key onto the puppet Master.
 * [`r_profile::puppet::master::proxy`](#r_profilepuppetmasterproxy): Enable a Puppet Enterprise Master to work with a proxy server
 * [`r_profile::puppet::nr_agent`](#r_profilepuppetnr_agent): Install non-root puppet agent(s).
-* [`r_profile::repo`](#r_profilerepo): Declare (instantiate) the required profile classes in a stage before `main`: `repo`. The reason for this class to exist is because it is not 
+* [`r_profile::repo`](#r_profilerepo): Setup the system package repositories
 * [`r_profile::ruby`](#r_profileruby): Install a system-level ruby for customer applications to use
 * [`r_profile::service`](#r_profileservice): Ensure services are managed by Puppet to a particular state
 * [`r_profile::timezone`](#r_profiletimezone): Select the active system timezone (requires reboot)

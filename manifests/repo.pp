@@ -1,4 +1,4 @@
-# @sumarry Setup the system package repositories
+# @summary Setup the system package repositories
 #
 # Declare (instantiate) the required profile classes in a stage before `main`: `repo`.
 # The reason for this class to exist is because it is not possible for classes to
