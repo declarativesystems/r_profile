@@ -17,6 +17,10 @@
 #
 # If you want more then one keypair per server then you should not use this class.
 #
+# Files created:
+# * `/etc/puppetlabs/puppet/keys/private_key.pkcs7.pem` (private key)
+# * `/etc/puppetlabs/puppet/keys/public_key.pkcs7.pem` (public key)
+#
 # The example below shows how to generate eyaml on the Puppet Master. By sharing
 # the server's public key this process can be carried out anywhere and does
 # not require root access to the Puppet Master.
