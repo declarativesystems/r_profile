@@ -105,7 +105,7 @@ class r_profile::linux::iptables(
 
     # Insist on `pre` rules to prevent lockout
     if $pre_rules.size == 0 {
-      warn("${name}::pre_rules not found - skip firewall rules to prevent lockout")
+      warning("${name}::pre_rules not found - skip firewall rules to prevent lockout")
     } elsif $ensure == "running" {
       resources { 'firewall':
         purge => $purge,
@@ -118,7 +118,7 @@ class r_profile::linux::iptables(
       }
 
       (
-        $pre_rules + deep_merge($pre_rules, $base_main_rules) + $post_rules
+        $pre_rules + deep_merge($base_main_rules, $main_rules) + $post_rules
       ).each |$title, $opts| {
         firewall {
           default:
