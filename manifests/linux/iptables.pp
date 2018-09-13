@@ -55,20 +55,42 @@
 #       proto: 'all'
 #       action: 'drop'
 #
+# @example Setting default chain policies
+#   r_profile::linux::iptables::chains:
+#     'INPUT:filter:IPv4':
+#       policy: drop
+#
+# @example Don't try to manage IPTables v6 (`ip6tables`)
+#   r_profile::linux::iptables::ensure_v6: stopped
+#
 # @param ensure `running` start the the IPtables firewall, `stopped` turn
 #   IPtables off, `unmanaged` do not change firewall settings
 # @param pre_rules Set of _system_ rules to setup _first_ (see example)
 # @param base_main_rules Base set of _user_ rules (see example)
 # @param main_rules Override set of _user_ rules (see example)
 # @param post_rules Set of _system_ rules to apply _last_ (see example)
+# @param chains Hash of chains to manage. Use this to set default policies for
+#   built-in rules (see example). Inbuilt chains must be in the form
+#   `chain`:`table`:`protocol` where `table` is one of `FILTER`, `NAT`,
+#   `MANGLE`, `RAW`, `RAWPOST`, `BROUTE`, `SECURITY` or `` (alias for `FILTER`)
+#   `chain` can be anything without colons' or one of `PREROUTING`,
+#   `POSTROUTING`, `BROUTING`, `INPUT`, `FORWARD`, `OUTPUT` for the inbuilt
+#   chains, and `protocol` being' `IPv4`, `IPv6`, `ethernet` (ethernet bridging)
+# @param ensure_v6  How to manage the `ip6tables` service (defaults to same
+#   value as `ensure`. It is an error to try to manage the `ip6tables` service
+#   without the ipv6 kernel modules loaded and this will result in puppet
+#   continually trying (and failing) to restart the service. In this case you
+#   can disable the service with this parameter (see example)
 # @param purge `true` to purge existing rules from system, otherwise `false`
 class r_profile::linux::iptables(
-    Enum['stopped', 'running', 'unmanaged']   $ensure          = 'unmanaged',
-    Hash[String, Hash]                        $pre_rules       = {},
-    Hash[String, Hash]                        $base_main_rules = {},
-    Hash[String, Hash]                        $main_rules      = {},
-    Hash[String, Hash]                        $post_rules      = {},
-    Boolean                                   $purge           = true,
+    Optional[Enum['stopped', 'running']]  $ensure          = undef,
+    Hash[String, Hash]                    $pre_rules       = {},
+    Hash[String, Hash]                    $base_main_rules = {},
+    Hash[String, Hash]                    $main_rules      = {},
+    Hash[String, Hash]                    $post_rules      = {},
+    Hash[String, Hash]                    $chains          = {},
+    Optional[Enum['stopped', 'running']]  $ensure_v6       = undef,
+    Boolean                               $purge           = true,
 ) {
 
 
@@ -77,7 +99,8 @@ class r_profile::linux::iptables(
   } else {
 
     class { "firewall":
-      ensure => $ensure,
+      ensure    => $ensure,
+      ensure_v6 => $ensure_v6,
     }
 
     # Insist on `pre` rules to prevent lockout
@@ -86,6 +109,12 @@ class r_profile::linux::iptables(
     } elsif $ensure == "running" {
       resources { 'firewall':
         purge => $purge,
+      }
+
+      $chains.each |$title, $opts| {
+        firewallchain { $title:
+          * => $opts,
+        }
       }
 
       (
