@@ -1,4 +1,4 @@
-# @suummary Setup the dependencies for the puppetlabs/vsphere forge module and VMs
+# @summary Setup the dependencies for the puppetlabs/vsphere forge module and VMs
 #
 # The forge module uses some locally gems for Vsphere library in order
 # to talk to the Vsphere API

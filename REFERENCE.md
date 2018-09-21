@@ -9,13 +9,11 @@
 * [`r_profile::base`](#r_profilebase): A generic 'baseleve' style class
 * [`r_profile::cloud::azure`](#r_profilecloudazure): Manage the azure VMs using the passed-in hash
 * [`r_profile::cloud::azure_platform`](#r_profilecloudazure_platform): Setup the dependencies for the puppetlabs/azure forge module
-* [`r_profile::cloud::vsphere`](#r_profilecloudvsphere): The forge module uses some locally gems for Vsphere library in order to talk to the Vsphere API
+* [`r_profile::cloud::vsphere`](#r_profilecloudvsphere): Setup the dependencies for the puppetlabs/vsphere forge module and VMs
 * [`r_profile::database::mysql_server`](#r_profiledatabasemysql_server): Install the MySQL database server
 * [`r_profile::dns_client`](#r_profiledns_client): Support for configuring the DNS client
 * [`r_profile::environment_variable`](#r_profileenvironment_variable): Manage enivronment variables on windows and linux
 * [`r_profile::file`](#r_profilefile): Support for managing files and directories.
-* [`r_profile::fw::post`](#r_profilefwpost): 'post' rules for iptables
-* [`r_profile::fw::pre`](#r_profilefwpre): 'pre' rules for iptables
 * [`r_profile::host`](#r_profilehost): Mange the static lookup table for hostnames.
 * [`r_profile::java`](#r_profilejava): Install Java (openjdk) using puppetlabs/java
 * [`r_profile::jenkins`](#r_profilejenkins): Support for Jenkins CI
@@ -70,7 +68,7 @@
 * [`r_profile::motd`](#r_profilemotd): Simple MOTD support for POSIX and Windows.
 * [`r_profile::mount`](#r_profilemount): Configure filesystem mounts using the puppet
 * [`r_profile::nginx`](#r_profilenginx): Support for Nginx webserver
-* [`r_profile::nodejs`](#r_profilenodejs): 
+* [`r_profile::nodejs`](#r_profilenodejs): Install NodeJS using the puppet/nodejs module
 * [`r_profile::ntp`](#r_profilentp): NTP for Linux/unix based servers.
 * [`r_profile::package`](#r_profilepackage): Install software using Puppet's built-in `package` resource.
 * [`r_profile::puppet::master`](#r_profilepuppetmaster): Enable restarting the `pe-puppetserver` service if its systemd environment is changed
@@ -553,14 +551,6 @@ Hash of files to create (suitable for `file` resource)
 
 Default value: {}
 
-### r_profile::fw::post
-
-'post' rules for iptables
-
-### r_profile::fw::pre
-
-'pre' rules for iptables
-
 ### r_profile::host
 
 We take both a `base` and override hash of services and merge them to form a final list. This allows for simpler
@@ -746,7 +736,22 @@ r_profile::linux::auditd::settings:
 ##### Hiera data to manage rules
 
 ```puppet
-
+r_profile::linux::auditd::rules:
+  10_date_and_time:
+    content: |
+      # data and time
+      -a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change
+      -a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change
+      -a always,exit -F arch=b64 -S clock_settime -k time-change
+      -a always,exit -F arch=b32 -S clock_settime -k time-change
+      -w /etc/localtime -p wa -k time-change
+  20_user_and_groups:
+    content: |
+      # users and groups
+      -w /etc/group -p wa -k identity
+      -w /etc/passwd -p wa -k identity
+      -w /etc/gshadow -p wa -k identity
+      -w /etc/shadow -p wa -k identity
 ```
 
 #### Parameters
@@ -1104,18 +1109,168 @@ Default value: "3"
 
 Management of the IPtables Linux firewall
 
+* **See also**
+https://forge.puppet.com/puppetlabs/firewall
+
+#### Examples
+
+##### Disable the firewall
+
+```puppet
+r_profile::linux::iptables::ensure: disabled
+```
+
+##### Don't purge unmanaged rules
+
+```puppet
+r_profile::linux::iptables::purge: false
+```
+
+##### Enable Management of IPTables
+
+```puppet
+r_profile::linux::iptables::ensure: running
+```
+
+##### Set some rules
+
+```puppet
+# rules are grouped into `pre`, `main` and `post - suggest `pre` and `post
+# rules are used to ensure access at all times and correct default rules
+# then use the `base_main` and `main` rules to setup the rules you want for
+# your site
+r_profile::linux::iptables::pre_rules:
+  '000 accept all icmp':
+    proto: 'icmp'
+    action: 'accept'
+  '001 accept all to lo interface':
+    proto: 'all'
+    iniface: 'lo'
+    action: 'accept'
+  '002 reject local traffic not on loopback interface':
+    iniface: '! lo'
+    proto: 'all'
+    destination: '127.0.0.1/8'
+    action: 'reject'
+  '003 accept related established rules':
+    proto: 'all'
+    state:
+      - 'RELATED'
+      - 'ESTABLISHED'
+    action: 'accept'
+  '004 Allow SSH':
+    chain: 'INPUT'
+    state: 'NEW'
+    action: 'accept'
+    proto: 'tcp'
+    dport: 22
+
+r_profile::linux::iptables::main_rules:
+  '200 Allow oracle':
+    chain: 'INPUT'
+    state: 'NEW'
+    action: 'accept'
+    proto: 'tcp'
+    dport: 1521-1524
+
+r_profile::linux::iptables::post_rules:
+  '999 drop all':
+    proto: 'all'
+    action: 'drop'
+```
+
+##### Setting default chain policies
+
+```puppet
+r_profile::linux::iptables::chains:
+  'INPUT:filter:IPv4':
+    policy: drop
+```
+
+##### Don't try to manage IPTables v6 (`ip6tables`)
+
+```puppet
+r_profile::linux::iptables::ensure_v6: stopped
+```
+
 #### Parameters
 
 The following parameters are available in the `r_profile::linux::iptables` class.
 
 ##### `ensure`
 
-Data type: `Enum['managed', 'disabled', 'unmanaged']`
+Data type: `Optional[Enum['stopped', 'running']]`
 
-`managed` take control of the IPtables firewall, `disabled` turn
+`running` start the the IPtables firewall, `stopped` turn
 IPtables off, `unmanaged` do not change firewall settings
 
-Default value: 'unmanaged'
+Default value: `undef`
+
+##### `pre_rules`
+
+Data type: `Hash[String, Hash]`
+
+Set of _system_ rules to setup _first_ (see example)
+
+Default value: {}
+
+##### `base_main_rules`
+
+Data type: `Hash[String, Hash]`
+
+Base set of _user_ rules (see example)
+
+Default value: {}
+
+##### `main_rules`
+
+Data type: `Hash[String, Hash]`
+
+Override set of _user_ rules (see example)
+
+Default value: {}
+
+##### `post_rules`
+
+Data type: `Hash[String, Hash]`
+
+Set of _system_ rules to apply _last_ (see example)
+
+Default value: {}
+
+##### `chains`
+
+Data type: `Hash[String, Hash]`
+
+Hash of chains to manage. Use this to set default policies for
+built-in rules (see example). Inbuilt chains must be in the form
+`chain`:`table`:`protocol` where `table` is one of `FILTER`, `NAT`,
+`MANGLE`, `RAW`, `RAWPOST`, `BROUTE`, `SECURITY` or `` (alias for `FILTER`)
+`chain` can be anything without colons' or one of `PREROUTING`,
+`POSTROUTING`, `BROUTING`, `INPUT`, `FORWARD`, `OUTPUT` for the inbuilt
+chains, and `protocol` being' `IPv4`, `IPv6`, `ethernet` (ethernet bridging)
+
+Default value: {}
+
+##### `ensure_v6`
+
+Data type: `Optional[Enum['stopped', 'running']]`
+
+How to manage the `ip6tables` service (defaults to same
+value as `ensure`. It is an error to try to manage the `ip6tables` service
+without the ipv6 kernel modules loaded and this will result in puppet
+continually trying (and failing) to restart the service. In this case you
+can disable the service with this parameter (see example)
+
+Default value: `undef`
+
+##### `purge`
+
+Data type: `Boolean`
+
+`true` to purge existing rules from system, otherwise `false`
+
+Default value: `true`
 
 ### r_profile::linux::kernel_devel
 
@@ -2707,7 +2862,7 @@ Support for Nginx webserver
 
 ### r_profile::nodejs
 
-The r_profile::nodejs class.
+Install NodeJS using the puppet/nodejs module
 
 #### Parameters
 
@@ -3110,6 +3265,10 @@ install `puppetlabs-puppetserver_gem` module and follow the example below to
 enable gem installation.
 
 If you want more then one keypair per server then you should not use this class.
+
+Files created:
+* `/etc/puppetlabs/puppet/keys/private_key.pkcs7.pem` (private key)
+* `/etc/puppetlabs/puppet/keys/public_key.pkcs7.pem` (public key)
 
 The example below shows how to generate eyaml on the Puppet Master. By sharing
 the server's public key this process can be carried out anywhere and does
@@ -3829,25 +3988,64 @@ r_profile::windows::chocolatey:
     choco_install_timeout_seconds: 2700
 ```
 
+##### Purge unmanaged package sources
+
+```puppet
+r_profile:windows::chocolatey::purge_sources: true
+```
+
+##### Setting up package sources
+
+```puppet
+r_profile::windows::chocolatey::sources
+  megacorp_chocolatey:
+    location => 'https://repo.megacorp.com/artifactory/chocolatey'
+    user     => 'deploy'
+    password => 'tops3cret'
+```
+
+##### Disable configuring chocolatey as default package provider
+
+```puppet
+r_profile::windows::chocolatey::default_provider: false
+```
+
 #### Parameters
 
 The following parameters are available in the `r_profile::windows::chocolatey` class.
-
-##### `chocolatey_path`
-
-Data type: `String`
-
-Add this directory to the `PATH` variable for easy access to the `choco` command
-
-Default value: "c:/ProgramData/chocolatey"
 
 ##### `settings`
 
 Data type: `Hash[String,Any]`
 
-Hash of settings to pass to main chocolatey installer module
+Hash of settings to pass to main chocolatey installer module (see example)
 
 Default value: {}
+
+##### `purge_sources`
+
+Data type: `Boolean`
+
+`true` to purge any unmanaged package sources from chocolatey, otherwise
+`false` to allow end-user management of non-puppet managed sources
+
+Default value: `false`
+
+##### `sources`
+
+Data type: `Hash[String, Any]`
+
+Chocolatey package sources installed by Puppet (see example)
+
+Default value: {}
+
+##### `default_provider`
+
+Data type: `Boolean`
+
+
+
+Default value: `true`
 
 ### r_profile::windows::domain_membership
 
