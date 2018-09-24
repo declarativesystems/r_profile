@@ -1,7 +1,6 @@
 # @summary Setup chocolatey package manager on Windows
 #
 # @see https://forge.puppet.com/puppetlabs/chocolatey
-# @see https://forge.puppet.com/puppet/windows_env
 #
 # @example Basic usage
 #   include r_profile::windows::chocolatey
@@ -19,9 +18,9 @@
 # @example Setting up package sources
 #   r_profile::windows::chocolatey::sources
 #     megacorp_chocolatey:
-#       location => 'https://repo.megacorp.com/artifactory/chocolatey'
-#       user     => 'deploy'
-#       password => 'tops3cret'
+#       location: 'https://repo.megacorp.com/artifactory/chocolatey'
+#       user: 'deploy'
+#       password: 'tops3cret'
 #
 # @example Disable configuring chocolatey as default package provider
 #   r_profile::windows::chocolatey::default_provider: false
@@ -38,35 +37,43 @@ class r_profile::windows::chocolatey(
     Boolean           $purge_sources    = false,
     Hash[String, Any] $sources          = {},
     Boolean           $default_provider = true,
+    Boolean           $enable           = true,
 ) {
 
-  resources { "chocolateysource":
-    purge => $purge_sources,
-  }
+  if $enable {
 
-  $sources.each |$key, $opts| {
-    chocolateysource {
-      default:
-        ensure => enabled,
-      ;
-      $key:
-        * => $opts,
-    }
-  }
-
-  class {'chocolatey':
-    * => $settings,
-  }
-
-  # Chocolatey is not the default package provider on windows so set it here
-  # https://tickets.puppetlabs.com/browse/MODULES-3597
-  if $default_provider {
-    # Rely on autotagging behaviour to select the commands that chocolatey
-    # class would have run since we can't collect classes
-    Exec <| tag == "chocolatey::install" or tag == "chocolately::config"|>
-    -> Package <| provider == undef |> {
-      provider => chocolatey
+    # call is protected to prevent failing rspec tests where we are unable to
+    # load the `chocolateysource` type and provider while testing under linux
+    # probably https://github.com/rodjek/rspec-puppet/issues/691
+    if $purge_sources {
+      resources { "chocolateysource":
+        purge => true,
+      }
     }
 
+    $sources.each |$key, $opts| {
+      chocolateysource {
+        default:
+          ensure => enabled,
+        ;
+        $key:
+          * => $opts,
+      }
+    }
+
+    class { 'chocolatey':
+      * => $settings,
+    }
+
+    # Chocolatey is not the default package provider on windows so set it here
+    # https://tickets.puppetlabs.com/browse/MODULES-3597
+    if $default_provider {
+      # Rely on autotagging behaviour to select the commands that chocolatey
+      # class would have run since we can't collect classes
+      Exec <| tag == "chocolatey::install" or tag == "chocolately::config"|>
+      -> Package <| provider == undef |> {
+        provider => chocolatey
+      }
+    }
   }
 }
