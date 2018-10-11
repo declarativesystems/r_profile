@@ -3,7 +3,7 @@
 # Features:
 # * Remove `cron.deny` so that only allowed users can run `cron`
 # * Strict permissions on `at.allow`
-# * Allow `root` to use `cron`
+# * Allow only named users to run to use `cron`
 # * All files under `/var/spool/cron` owned by `root` with `0600` permissions
 #   (`crontab -e` will relax these)
 # * Install cron jobs using `cron` resource
@@ -29,13 +29,20 @@
 #   # Note: Only applies to _user_ cron jobs (eg those that would be visible
 #   # with `puppet resource cron`
 #
+# @param Granting access to cron
+#   r_profile::linux::cron:allowed_users:
+#     - root
+#     - alice
+#
 # @param base_jobs Cron jobs to install (base)
 # @param jobs Cron jobs to install (override)
 # @param purge Purge unmanaged user cronjobs
+# @param allowed_users Add these users to `cron.allow`
 class r_profile::linux::cron(
-  Hash[String, Hash]  $base_jobs  = {},
-  Hash[String, Hash]  $jobs       = {},
-  Boolean             $purge      = false,
+  Hash[String, Hash]  $base_jobs      = {},
+  Hash[String, Hash]  $jobs           = {},
+  Boolean             $purge          = false,
+  Array[String]       $allowed_users  = [],
 ) {
 
   file { "/etc/cron.deny":
@@ -65,10 +72,12 @@ class r_profile::linux::cron(
     want_group => "root",
   }
 
-  file_line { "/etc/cron.allow root":
-    ensure => present,
-    line   => "root",
-    path   => "/etc/cron.allow"
+  $allowed_users.each |$allowed_user| {
+    file_line { "/etc/cron.allow ${allowed_user}":
+      ensure => present,
+      line   => $allowed_user,
+      path   => "/etc/cron.allow",
+    }
   }
 
   resources { "cron":

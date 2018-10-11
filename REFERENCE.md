@@ -5,6 +5,7 @@
 
 **Classes**
 
+* [`profile::os_patching`](#profileos_patching): Enable OS patching via Puppet Tasks for Windows and Linux
 * [`r_profile::aws`](#r_profileaws): Configure AWS with puppet
 * [`r_profile::base`](#r_profilebase): A generic 'baseleve' style class
 * [`r_profile::cloud::azure`](#r_profilecloudazure): Manage the azure VMs using the passed-in hash
@@ -23,7 +24,7 @@
 * [`r_profile::linux::auditd`](#r_profilelinuxauditd): Manage audit service and rules
 * [`r_profile::linux::base`](#r_profilelinuxbase): A basic Linux 'baseline' class
 * [`r_profile::linux::chronyd`](#r_profilelinuxchronyd): Chronyd (formerly NTPd) support for Linux.
-* [`r_profile::linux::cron`](#r_profilelinuxcron): Restrict permissions on the `cron` scheduler
+* [`r_profile::linux::cron`](#r_profilelinuxcron): Restrict permissions on the `cron` scheduler and setup jobs
 * [`r_profile::linux::cups`](#r_profilelinuxcups): Manage cups printers with Puppet
 * [`r_profile::linux::firewalld`](#r_profilelinuxfirewalld): Manage firewalld using crayfishx-firewalld
 * [`r_profile::linux::fix_sticky_permissions`](#r_profilelinuxfix_sticky_permissions): Scan the system for directories that should have the sticky bit set
@@ -114,6 +115,44 @@
 * [`r_profile::list_agent_platforms`](#r_profilelist_agent_platforms): 
 
 ## Classes
+
+### profile::os_patching
+
+Enable OS patching via Puppet Tasks for Windows and Linux
+
+* **See also**
+https://forge.puppet.com/albatrossflavour/os_patching
+
+#### Examples
+
+##### Basic usage
+
+```puppet
+include profile::os_patching
+```
+
+#### Parameters
+
+The following parameters are available in the `profile::os_patching` class.
+
+##### `enable`
+
+Data type: `Boolean`
+
+`true` to prepare system to run os_patching _task_, otherwise
+`false` to do nothing. Note that settings `false` does not remove the changes
+this module would have made to an existing system
+
+Default value: `true`
+
+##### `settings`
+
+Data type: `Hash[String,Any]`
+
+Hash of settings to send through to `os_patching` module (see
+example)
+
+Default value: {}
 
 ### r_profile::aws
 
@@ -826,12 +865,70 @@ Features:
 * Remove `cron.deny` so that only allowed users can run `cron`
 * Strict permissions on `at.allow`
 * Allow `root` to use `cron`
-* All files under `/var/spool/cron` owned by `root` with `0600` permissions (`crontab -e` will relax these)
+* All files under `/var/spool/cron` owned by `root` with `0600` permissions
+  (`crontab -e` will relax these)
+* Install cron jobs using `cron` resource
 
 * **See also**
 https://forge.puppet.com/geoffwilliams/chown_r
 https://forge.puppet.com/geoffwilliams/chmod_r
 https://forge.puppet.com/puppetlabs/stdlib
+https://puppet.com/docs/puppet/5.5/types/cron.html
+
+#### Examples
+
+##### Ensuring correct permissions on the cron sub-system
+
+```puppet
+include r_profile::linux::cron
+```
+
+##### Installing cron jobs with Puppet
+
+```puppet
+r_profile::linux::cron::jobs:
+  'logrotate':
+    command: '/usr/sbin/logrotate'
+    user: 'root'
+    hour: 2
+    minute: 0
+```
+
+##### Purge unmanaged cron jobs
+
+```puppet
+r_profile::linux::cron::purge: false
+# Note: Only applies to _user_ cron jobs (eg those that would be visible
+# with `puppet resource cron`
+```
+
+#### Parameters
+
+The following parameters are available in the `r_profile::linux::cron` class.
+
+##### `base_jobs`
+
+Data type: `Hash[String, Hash]`
+
+Cron jobs to install (base)
+
+Default value: {}
+
+##### `jobs`
+
+Data type: `Hash[String, Hash]`
+
+Cron jobs to install (override)
+
+Default value: {}
+
+##### `purge`
+
+Data type: `Boolean`
+
+Purge unmanaged user cronjobs
+
+Default value: `false`
 
 ### r_profile::linux::cups
 
@@ -3968,7 +4065,6 @@ Setup chocolatey package manager on Windows
 
 * **See also**
 https://forge.puppet.com/puppetlabs/chocolatey
-https://forge.puppet.com/puppet/windows_env
 
 #### Examples
 
@@ -3999,9 +4095,9 @@ r_profile:windows::chocolatey::purge_sources: true
 ```puppet
 r_profile::windows::chocolatey::sources
   megacorp_chocolatey:
-    location => 'https://repo.megacorp.com/artifactory/chocolatey'
-    user     => 'deploy'
-    password => 'tops3cret'
+    location: 'https://repo.megacorp.com/artifactory/chocolatey'
+    user: 'deploy'
+    password: 'tops3cret'
 ```
 
 ##### Disable configuring chocolatey as default package provider
@@ -4040,6 +4136,14 @@ Chocolatey package sources installed by Puppet (see example)
 Default value: {}
 
 ##### `default_provider`
+
+Data type: `Boolean`
+
+
+
+Default value: `true`
+
+##### `enable`
 
 Data type: `Boolean`
 

@@ -6,26 +6,28 @@
 #   * Enable/disable rulegroups by name
 #   * Mange firewall rules
 #
-# Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
-# those in base.
+# Items to create are grouped into base and non-base to allow easy management in
+# Hiera. Items in non-base can override those in base.
 #
 # @see https://forge.puppet.com/geoffwilliams/windows_firewall
 #
 # @example turning off all firewalls
+#   # you must quote values to avoid type coercion
+#   # https://github.com/GeoffWilliams/puppet-windows_firewall/issues/1
 #   r_profile::windows::firewall::profiles:
 #     private:
-#       state: off
+#       state: 'off'
 #     public:
-#       state: off
+#       state: 'off'
 #     domain:
-#       state: off
+#       state: 'off'
 #
 # @example Ensuring firewall rules
 #   r_profile::windows::firewall::rules:
 #     'Windows Remote Management HTTP-In':
 #       direction: 'in'
 #       action: 'allow'
-#       enabled: 'yes'
+#       enable: 'yes'
 #       protocol: 'TCP'
 #       localport: 5985
 #       remoteport: 'any'
@@ -33,7 +35,7 @@
 #     'IIS Web Server':
 #       direction: 'in'
 #       action: 'allow'
-#       enabled: 'yes'
+#       enable: 'yes'
 #       protocol: 'TCP'
 #       localport: 80
 #       remoteport: 'any'
