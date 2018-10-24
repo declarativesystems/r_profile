@@ -6,17 +6,16 @@
 #   include r_profile::windows::chocolatey
 #
 # @example Chocolatey settings
-#   r_profile::windows::chocolatey:
-#     settings:
-#       chocolatey_download_url: 'https://internalurl/to/chocolatey.nupkg'
-#       use_7zip: false
-#       choco_install_timeout_seconds: 2700
+#   r_profile::windows::chocolatey::settings:
+#     chocolatey_download_url: 'https://internalurl/to/chocolatey.nupkg'
+#     use_7zip: false
+#     choco_install_timeout_seconds: 2700
 #
 # @example Purge unmanaged package sources
 #   r_profile:windows::chocolatey::purge_sources: true
 #
 # @example Setting up package sources
-#   r_profile::windows::chocolatey::sources
+#   r_profile::windows::chocolatey::sources:
 #     megacorp_chocolatey:
 #       location: 'https://repo.megacorp.com/artifactory/chocolatey'
 #       user: 'deploy'
@@ -54,7 +53,7 @@ class r_profile::windows::chocolatey(
     $sources.each |$key, $opts| {
       chocolateysource {
         default:
-          ensure => enabled,
+          ensure => present,
         ;
         $key:
           * => $opts,
