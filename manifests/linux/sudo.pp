@@ -15,6 +15,13 @@
 #   r_profile::linux::sudo::sudoers_d:
 #     30_admin: "%admins ALL=(ALL) NOPASSWD: ALL"
 #
+# @example Managing a fragment in /etc/sudoers.d with multiple lines
+#   r_profile::linux::sudo::sudoers_d:
+#     40_foobar: |
+#       # this is very important to manage foobars
+#       %foobar	locahost = (root) NOPASSWD: tail  /var/log/messages
+#       %foobar ALL = (root) NOPASSWD:NOEXEC: /usr/bin/vim
+#
 # @param package Name of the sudo package
 # @param sudoers_d_dir Directory where sudoers fragments can be kept
 # @param base_sudoers_d Base hash of file content for for files to manage inside the `/etc/sudoers.d`
