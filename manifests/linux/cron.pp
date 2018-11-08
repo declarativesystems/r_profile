@@ -29,7 +29,7 @@
 #   # Note: Only applies to _user_ cron jobs (eg those that would be visible
 #   # with `puppet resource cron`
 #
-# @param Granting access to cron
+# @example Granting access to cron
 #   r_profile::linux::cron:allowed_users:
 #     - root
 #     - alice

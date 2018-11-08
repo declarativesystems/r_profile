@@ -25,20 +25,19 @@
 # @example Ensuring firewall rules
 #   r_profile::windows::firewall::rules:
 #     'Windows Remote Management HTTP-In':
-#       direction: 'in'
+#       direction: 'inbound'
 #       action: 'allow'
-#       enable: 'yes'
+#       enable: true
 #       protocol: 'TCP'
-#       localport: 5985
-#       remoteport: 'any'
+#       local_port: 5985
+#       # remote_port: 'any' Any is the default (at windows level)
 #       description: 'Inbound rule for Windows Remote Management via WS-Management. [TCP 5985]'
 #     'IIS Web Server':
-#       direction: 'in'
+#       direction: 'inbound'
 #       action: 'allow'
-#       enable: 'yes'
+#       enable: true
 #       protocol: 'TCP'
 #       localport: 80
-#       remoteport: 'any'
 #       description: 'Inbound rule for IIS Web Server. [TCP 80]'
 #
 # @example Configuring per-profile settings
@@ -73,7 +72,7 @@
 # @example Enabling a group of rules
 #   r_profile::windows::firewall::group:
 #     "file and printer sharing":
-#       enabled: "yes"
+#       enabled: true
 #
 # @example Purging unmanaged rules (use with caution!)
 #   r_profile::windows::firewall::purge_rules: true
