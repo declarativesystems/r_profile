@@ -1,5 +1,11 @@
 # @summary Rename the `administrator` account.
 #
+# After renaming the `administrator` account, we should immediately reboot the
+# system since the account we're currently running from (if interactive) will
+# lose its 'magic' until restarted.
+#
+# @see https://forge.puppet.com/puppetlabs/reboot
+#
 # @example basic usage
 #   include r_profile::windows::rename_administrator
 #
@@ -21,5 +27,7 @@ class r_profile::windows::rename_administrator(
       command  => "wmic useraccount where name=`\"administrator`\" rename `\"${account}`\"",
       path     => ['c:/windows/system32', 'c:/windows/system32/wbem']
     }
+
+    ~> reboot { "administrator account renamed": }
   }
 }
