@@ -6,6 +6,7 @@
 **Classes**
 
 * [`profile::os_patching`](#profileos_patching): Enable OS patching via Puppet Tasks for Windows and Linux
+* [`profile::puppet_bootstrap`](#profilepuppet_bootstrap): Cleanup any initial bootstrap configuration
 * [`r_profile::aws`](#r_profileaws): Configure AWS with puppet
 * [`r_profile::base`](#r_profilebase): A generic 'baseleve' style class
 * [`r_profile::cloud::azure`](#r_profilecloudazure): Manage the azure VMs using the passed-in hash
@@ -104,6 +105,7 @@
 * [`r_profile::windows::nsclient`](#r_profilewindowsnsclient): Configure the NSClient++ software on Windows
 * [`r_profile::windows::ntp`](#r_profilewindowsntp): Setup NTP on windows
 * [`r_profile::windows::powershell`](#r_profilewindowspowershell): Does nothing
+* [`r_profile::windows::pre_stage`](#r_profilewindowspre_stage): Support for ordering operations before the main puppet run
 * [`r_profile::windows::proxy`](#r_profilewindowsproxy): Set the windows system proxy using netsh
 * [`r_profile::windows::puppet_agent`](#r_profilewindowspuppet_agent): Manage the Puppet agent on Windows
 * [`r_profile::windows::registry`](#r_profilewindowsregistry): Manage Windows registry entries with Puppet
@@ -151,6 +153,57 @@ Data type: `Hash[String,Any]`
 
 Hash of settings to send through to `os_patching` module (see
 example)
+
+Default value: {}
+
+### profile::puppet_bootstrap
+
+`puppet_bootstrap` can be used to join new nodes to Puppet but it requires
+plaintext credentials be stored on the system until the new node is joined to
+puppet. This class ensures that all stray credentials are removed and also
+ensures a consistent bootstrap menu is in-place, should a node require a new
+certificate be generated.
+
+* **See also**
+https://forge.puppet.com/puppetlabs/inifile
+https://github.com/GeoffWilliams/puppet_bootstrap
+
+#### Examples
+
+##### Configuring a standard menu
+
+```puppet
+profile::puppet_bootstrap::menu:
+  "pp_environment": "dev,test,prod"
+  "pp_zone": "nothing,dmz"
+  "pp_role": "role::base,role::webserver,role::appserver"
+```
+
+##### Don't manage the `puppet_bootstrap.cfg` file
+
+```puppet
+profile::puppet_bootstrap::manage: false
+```
+
+#### Parameters
+
+The following parameters are available in the `profile::puppet_bootstrap` class.
+
+##### `manage`
+
+Data type: `Boolean`
+
+`true` to remove credentials and manage menu items, otherwise
+`false`
+
+Default value: `true`
+
+##### `menu`
+
+Data type: `Hash[String,String]`
+
+Hash of menu items to manage. By managing all allowed fields a
+fleet-wide consistent menu can be built (see example)
 
 Default value: {}
 
@@ -567,8 +620,67 @@ Default value: []
 
 ### r_profile::file
 
-Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
-those in base.
+Items to create are grouped into base and non-base to allow easy management in
+Hiera. Items in non-base can override those in base.
+
+#### Examples
+
+##### Hiera data to create a directory tree
+
+```puppet
+r_profile::file::base_files:
+  "/usr/local":
+    ensure: directory
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  "/usr/local/etc":
+    ensure: directory
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  "/usr/local/bin":
+    ensure: directory
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  "/usr/local/sbin":
+    ensure: directory
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  "/usr/local/share":
+    ensure: directory
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  "/etc/telnet.conf":
+    ensure: absent
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  "/etc/myapp.conf":
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    content: "foo=bar"
+```
+
+##### Hiera data to override/add files
+
+```puppet
+r_profile::file::base_files:
+  "/etc/myapp.conf":
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    content: "foo=baz"
+  "/etc/myapp2.conf":
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    content: "foo2=baz2"
+```
 
 #### Parameters
 
@@ -864,7 +976,7 @@ Default value: ["pool.ntp.org"]
 Features:
 * Remove `cron.deny` so that only allowed users can run `cron`
 * Strict permissions on `at.allow`
-* Allow `root` to use `cron`
+* Allow only named users to run to use `cron`
 * All files under `/var/spool/cron` owned by `root` with `0600` permissions
   (`crontab -e` will relax these)
 * Install cron jobs using `cron` resource
@@ -902,6 +1014,14 @@ r_profile::linux::cron::purge: false
 # with `puppet resource cron`
 ```
 
+##### Granting access to cron
+
+```puppet
+r_profile::linux::cron:allowed_users:
+  - root
+  - alice
+```
+
 #### Parameters
 
 The following parameters are available in the `r_profile::linux::cron` class.
@@ -929,6 +1049,14 @@ Data type: `Boolean`
 Purge unmanaged user cronjobs
 
 Default value: `false`
+
+##### `allowed_users`
+
+Data type: `Array[String]`
+
+Add these users to `cron.allow`
+
+Default value: []
 
 ### r_profile::linux::cups
 
@@ -2197,6 +2325,16 @@ include r_profile::linux::sudo
 ```puppet
 r_profile::linux::sudo::sudoers_d:
   30_admin: "%admins ALL=(ALL) NOPASSWD: ALL"
+```
+
+##### Managing a fragment in /etc/sudoers.d with multiple lines
+
+```puppet
+r_profile::linux::sudo::sudoers_d:
+  40_foobar: |
+    # this is very important to manage foobars
+    %foobar	locahost = (root) NOPASSWD: tail  /var/log/messages
+    %foobar ALL = (root) NOPASSWD:NOEXEC: /usr/bin/vim
 ```
 
 #### Parameters
@@ -4077,11 +4215,10 @@ include r_profile::windows::chocolatey
 ##### Chocolatey settings
 
 ```puppet
-r_profile::windows::chocolatey:
-  settings:
-    chocolatey_download_url: 'https://internalurl/to/chocolatey.nupkg'
-    use_7zip: false
-    choco_install_timeout_seconds: 2700
+r_profile::windows::chocolatey::settings:
+  chocolatey_download_url: 'https://internalurl/to/chocolatey.nupkg'
+  use_7zip: false
+  choco_install_timeout_seconds: 2700
 ```
 
 ##### Purge unmanaged package sources
@@ -4093,7 +4230,7 @@ r_profile:windows::chocolatey::purge_sources: true
 ##### Setting up package sources
 
 ```puppet
-r_profile::windows::chocolatey::sources
+r_profile::windows::chocolatey::sources:
   megacorp_chocolatey:
     location: 'https://repo.megacorp.com/artifactory/chocolatey'
     user: 'deploy'
@@ -4247,8 +4384,8 @@ Features:
   * Enable/disable rulegroups by name
   * Mange firewall rules
 
-Items to create are grouped into base and non-base to allow easy management in Hiera. Items in non-base can override
-those in base.
+Items to create are grouped into base and non-base to allow easy management in
+Hiera. Items in non-base can override those in base.
 
 * **See also**
 https://forge.puppet.com/geoffwilliams/windows_firewall
@@ -4258,13 +4395,15 @@ https://forge.puppet.com/geoffwilliams/windows_firewall
 ##### turning off all firewalls
 
 ```puppet
+# you must quote values to avoid type coercion
+# https://github.com/GeoffWilliams/puppet-windows_firewall/issues/1
 r_profile::windows::firewall::profiles:
   private:
-    state: off
+    state: 'off'
   public:
-    state: off
+    state: 'off'
   domain:
-    state: off
+    state: 'off'
 ```
 
 ##### Ensuring firewall rules
@@ -4272,20 +4411,19 @@ r_profile::windows::firewall::profiles:
 ```puppet
 r_profile::windows::firewall::rules:
   'Windows Remote Management HTTP-In':
-    direction: 'in'
+    direction: 'inbound'
     action: 'allow'
-    enabled: 'yes'
+    enable: true
     protocol: 'TCP'
-    localport: 5985
-    remoteport: 'any'
+    local_port: 5985
+    # remote_port: 'any' Any is the default (at windows level)
     description: 'Inbound rule for Windows Remote Management via WS-Management. [TCP 5985]'
   'IIS Web Server':
-    direction: 'in'
+    direction: 'inbound'
     action: 'allow'
-    enabled: 'yes'
+    enable: true
     protocol: 'TCP'
     localport: 80
-    remoteport: 'any'
     description: 'Inbound rule for IIS Web Server. [TCP 80]'
 ```
 
@@ -4329,7 +4467,7 @@ r_profile::windows::firewall::global:
 ```puppet
 r_profile::windows::firewall::group:
   "file and printer sharing":
-    enabled: "yes"
+    enabled: true
 ```
 
 ##### Purging unmanaged rules (use with caution!)
@@ -4512,6 +4650,51 @@ Default value: `undef`
 
 Does nothing
 
+### r_profile::windows::pre_stage
+
+Some operations need to be caried out before the main puppet run in order to
+avoid errors from later on in the run where a breaking change requiring an
+immediate reboot is required.
+
+The main culpret today is the renaming of the Windows `Administrator` account
+which causes interactive puppet runs to immediately _break_. Since this is a
+one-off independent change, run stages are used rather then attempting to
+enumerate and collect every other resource on the platform
+
+* **See also**
+https://puppet.com/docs/puppet/5.5/lang_run_stages.html
+
+#### Examples
+
+##### Selecting the classes to run before stage `main`
+
+```puppet
+profile::windows::pre_stage::classes:
+  - "profile::windows::rename_administrator"
+```
+
+#### Parameters
+
+The following parameters are available in the `r_profile::windows::pre_stage` class.
+
+##### `stage_name`
+
+Data type: `String`
+
+Name of the stage to create
+
+Default value: "pre"
+
+##### `classes`
+
+Data type: `Array[String]`
+
+List of classes to run in the `pre` stage. Puppet will still
+honour automatic parameter lookup from hiera, despite the resource style
+class instantiation
+
+Default value: []
+
 ### r_profile::windows::proxy
 
 Set the windows system proxy using netsh
@@ -4687,7 +4870,12 @@ Default value: {}
 
 ### r_profile::windows::rename_administrator
 
-Rename the `administrator` account.
+After renaming the `administrator` account, we should immediately reboot the
+system since the account we're currently running from (if interactive) will
+lose its 'magic' until restarted.
+
+* **See also**
+https://forge.puppet.com/puppetlabs/reboot
 
 #### Examples
 

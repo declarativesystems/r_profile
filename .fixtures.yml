@@ -1,0 +1,204 @@
+---
+fixtures:
+  forge_modules:
+    stdlib:
+      repo: puppetlabs-stdlib
+      ref: 5.2.0
+    node_manager:
+      repo: WhatsARanjit-node_manager
+      ref: 0.7.1
+    motd:
+      repo: geoffwilliams-motd
+      ref: 2.2.0
+    sysctl:
+      repo: geoffwilliams-sysctl
+      ref: 1.0.0
+    inifile:
+      repo: puppetlabs-inifile
+      ref: 2.2.2
+    firewall:
+      repo: puppetlabs-firewall
+      ref: 1.13.0
+    nagios:
+      repo: geoffwilliams-nagios
+      ref: 0.1.1
+    psquared:
+      repo: geoffwilliams-psquared
+      ref: 0.3.1
+    vcsrepo:
+      repo: puppetlabs-vcsrepo
+      ref: 2.3.0
+    selinux:
+      repo: puppet-selinux
+      ref: 1.5.2
+    resolv_conf:
+      repo: geoffwilliams-resolv_conf
+      ref: 0.3.0
+    name_service_switch:
+      repo: geoffwilliams-name_service_switch
+      ref: 0.2.0
+    limits:
+      repo: saz-limits
+      ref: 3.0.2
+    timezone:
+      repo: geoffwilliams-timezone
+      ref: 0.1.1
+    puppet_vagrant:
+      repo: declarativesystems-puppet_vagrant
+      ref: 0.5.0
+    sudo:
+      repo: saz-sudo
+      ref: 5.0.0
+    mysql:
+      repo: puppetlabs-mysql
+      ref: 5.3.0
+    haproxy:
+      repo: puppetlabs-haproxy
+      ref: 2.1.0
+    jenkins:
+      repo: rtyler-jenkins
+      ref: 1.7.0
+    java:
+      repo: puppetlabs-java
+      ref: 2.4.0
+    virtualbox:
+      repo: puppet-virtualbox
+      ref: 2.1.0
+    reboot:
+      repo: puppetlabs-reboot
+      ref: 2.0.0
+    wordpress:
+      repo: hunner-wordpress
+      ref: 1.0.0
+    puppetdbquery:
+      repo: dalen-puppetdbquery
+      ref: 3.0.1
+    chocolatey:
+      repo: chocolatey-chocolatey
+      ref: 1.2.6
+    aws:
+      repo: puppetlabs-aws
+      ref: 2.1.0
+    httpauth:
+      repo: jamtur01-httpauth
+      ref: 0.0.3
+    nginx:
+      repo: puppet-nginx
+      ref: 0.12.0
+    apache:
+      repo: puppetlabs-apache
+      ref: 1.11.0
+    rbenv:
+      repo: jdowning-rbenv
+      ref: 2.4.0
+    cups:
+      repo: mosen-cups
+      ref: 1.5.0
+    environment_variable:
+      repo: geoffwilliams-environment_variable
+      ref: 0.2.2
+    azure:
+      repo: puppetlabs-azure
+      ref: 1.3.1
+    nodejs:
+      repo: puppet-nodejs
+      ref: 5.0.0
+    tomcat:
+      repo: puppetlabs-tomcat
+      ref: 2.3.0
+    puppet_nonroot:
+      repo: geoffwilliams-puppet_nonroot
+      ref: 0.2.1
+    domain_membership:
+      repo: trlinkin-domain_membership
+      ref: 1.1.2
+    package_yum_group:
+      repo: geoffwilliams-package_yum_group
+      ref: 0.1.0
+    sshkeys:
+      repo: geoffwilliams-sshkeys
+      ref: 0.3.2
+    vim:
+      repo: saz-vim
+      ref: 2.7.0
+    tcpwrappers:
+      repo: geoffwilliams-tcpwrappers
+      ref: 0.1.0
+    registry:
+      repo: puppetlabs-registry
+      ref: 2.0.1
+    winhttp_proxy:
+      repo: sathieu-winhttp_proxy
+      ref: 0.2.0
+    windows_firewall:
+      repo: geoffwilliams-windows_firewall
+      ref: 0.1.0
+    windows_env:
+      repo: puppet-windows_env
+      ref: 3.1.0
+    concat:
+      repo: puppetlabs-concat
+      ref: 4.2.1
+    archive:
+      repo: puppet-archive
+      ref: 3.0.0
+    apt:
+      repo: puppetlabs-apt
+      ref: 4.5.1
+    firewalld:
+      repo: crayfishx-firewalld
+      ref: 3.4.0
+    augeasproviders_shellvar:
+      repo: herculesteam-augeasproviders_shellvar
+      ref: 3.0.0
+    powershell:
+      repo: puppetlabs-powershell
+      ref: 2.1.5
+    augeasproviders_pam:
+      repo: herculesteam-augeasproviders_pam
+      ref: 2.1.1
+    ssh:
+      repo: geoffwilliams-ssh
+      ref: 2.0.0
+    filemagic:
+      repo: geoffwilliams-filemagic
+      ref: 0.6.0
+    augeasproviders_core:
+      repo: herculesteam-augeasproviders_core
+      ref: 2.1.4
+    win_facts:
+      repo: liamjbennett-win_facts
+      ref: 0.0.2
+    augeasproviders_ssh:
+      repo: herculesteam-augeasproviders_ssh
+      ref: 2.5.3
+    epel:
+      repo: stahnma-epel
+      ref: 1.3.0
+    chronyd:
+      repo: beergeek-chronyd
+      ref: 0.1.2
+    ntp:
+      repo: puppetlabs-ntp
+      ref: 7.1.1
+    rsyslog_client:
+      repo: geoffwilliams-rsyslog_client
+      ref: 0.1.0
+    logrotate:
+      repo: geoffwilliams-logrotate
+      ref: 0.1.0
+    auditd:
+      repo: geoffwilliams-auditd
+      ref: 3.0.0
+    chmod_r:
+      repo: geoffwilliams-chmod_r
+      ref: 0.1.2
+    chown_r:
+      repo: geoffwilliams-chown_r
+      ref: 0.2.0
+    system_users:
+      repo: geoffwilliams-system_users
+      ref: 0.5.1
+    realmd:
+      repo: geoffwilliams-realmd
+      ref: 0.1.1
