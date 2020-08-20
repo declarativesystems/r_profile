@@ -11,7 +11,7 @@ GEM
       multi_json
     escort (0.4.0)
       nesty
-    excon (0.62.0)
+    excon (0.76.0)
     facter (2.5.1)
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
