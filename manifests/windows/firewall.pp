@@ -27,17 +27,17 @@
 #     'Windows Remote Management HTTP-In':
 #       direction: 'inbound'
 #       action: 'allow'
-#       enable: true
-#       protocol: 'TCP'
+#       enabled: true
+#       protocol: 'tcp'
 #       local_port: 5985
 #       # remote_port: 'any' Any is the default (at windows level)
 #       description: 'Inbound rule for Windows Remote Management via WS-Management. [TCP 5985]'
 #     'IIS Web Server':
 #       direction: 'inbound'
 #       action: 'allow'
-#       enable: true
-#       protocol: 'TCP'
-#       localport: 80
+#       enabled: true
+#       protocol: 'tcp'
+#       local_port: 80
 #       description: 'Inbound rule for IIS Web Server. [TCP 80]'
 #
 # @example Configuring per-profile settings
